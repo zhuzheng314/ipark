@@ -3,7 +3,7 @@
   <h5>logo</h5>
   <div class="g-side-menu">
     <el-menu
-      :router="false"
+      :router="true"
       :collapse="false"
       class="el-menu-vertical-demo"
       @open="handleOpen"
@@ -14,12 +14,12 @@
     >
       <el-submenu :index="'menu' + index" v-for="(item, index) in list" :key="'menu' + index">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i :class="item.icon"></i>
           <span>{{item.name}}</span>
         </template>
         <el-menu-item-group>
           <el-menu-item
-            :index="index + '-' + subIndex"
+            :index="subItem.path"
             :route="subItem.path"
             v-for="(subItem, subIndex) in item.children"
             :key="'subMenu' + subIndex"
@@ -44,66 +44,80 @@ export default class SideMenu extends Vue {
       list: [
         {
           name: '资产管理',
+          icon: 'el-icon-location',
           children: [
             {
               name: '园区管理',
-              path: '/home'
+              icon: '',
+              path: '/asset-management/assetInfo'
             },
             {
               name: '资产检索',
-              path: '/a'
+              icon: '',
+              path: '/asset-management/retrieval'
             }
           ]
         }, {
           name: '招商管理',
+          icon: 'el-icon-location',
           children: [
             {
               name: '客户管理',
-              path: '/a'
+              icon: '',
+              path: '/attract-investment/intention'
             },
             {
               name: '招商任务',
-              path: '/a'
+              icon: '',
+              path: '/attract-investment/task'
             }
           ]
         }, {
           name: '合同管理',
+          icon: 'el-icon-location',
           children: [
             {
               name: '合同模板',
-              path: '/a'
+              path: '/contract/template'
             },
             {
               name: '合同检索',
-              path: '/a'
+              path: '/contract/retrieval'
             }
           ]
         }, {
           name: '企业进驻',
+          icon: 'el-icon-location',
           children: [
             {
               name: '进驻申请',
-              path: '/a'
+              path: '/entry/apply'
             },
             {
               name: '进驻审批',
-              path: '/a'
+              path: '/entry/approval'
             }
           ]
         }, {
           name: '物业服务',
+          icon: 'el-icon-location',
           children: [
             {
-              name: '园区管理',
-              path: '/a'
+              name: '车位服务',
+              path: '/property/parking'
             },
             {
-              name: '资产检索',
-              path: '/a'
+              name: '报事报修',
+              path: '/property/repair'
+            },
+            {
+              name: '工单处理',
+              path: '/property/processing'
             }
           ]
         }, {
           name: 'xxxx',
+          icon: 'el-icon-location',
           children: [
             {
               name: '园区管理',
