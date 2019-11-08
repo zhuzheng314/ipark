@@ -1,8 +1,9 @@
 <template>
   <el-container style="height: 100%;">
-    <el-aside :width="width + 'px'">
-       <SideMenu></SideMenu>
+    <el-aside width="60px">
+<!--       <SideMenu></SideMenu>-->
     </el-aside>
+    <SideMenu></SideMenu>
     <el-container>
       <el-header height="56px">
         <GlobalHeader></GlobalHeader>

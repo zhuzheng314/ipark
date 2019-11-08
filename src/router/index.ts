@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import BasicLayout from '@/layouts/BasicLayout/index.vue'
 
 import Home from '@/pages/Home/index.vue' // 首页
+import Contract from '@/pages/Contract/index.vue' // 合同首页
 
 Vue.use(VueRouter)
 
@@ -62,12 +63,12 @@ const routes = [
       {
         path: 'template',
         name: 'template',
-        component: Home
+        component: Contract
       },
       {
         path: 'retrieval',
         name: 'retrieval',
-        component: Home
+        component: Contract
       }
     ]
   },

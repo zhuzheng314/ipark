@@ -25,8 +25,8 @@ export default class GlobalHeader extends Vue {
   justify-content: flex-end;
   &-handle{
     margin-top: 21px;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 22px;
     margin-left: 25px;
   }
   &-handle:last-child{
