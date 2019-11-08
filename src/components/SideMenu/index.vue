@@ -1,11 +1,13 @@
 <template>
 <div class="g-side">
-  <h5>logo</h5>
+  <h5></h5>
+  <div style="color: white" @click="() => this.collapse = !this.collapse"> 展开 </div>
   <div class="g-side-menu">
     <el-menu
       :router="true"
-      :collapse="false"
+      :collapse="collapse"
       class="el-menu-vertical-demo"
+      :collapse-transition="true"
       @open="handleOpen"
       @close="handleClose"
       background-color="#293C55"
@@ -39,7 +41,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class SideMenu extends Vue {
-  data ():{list: any} {
+  data ():{list: any, collapse: boolean} {
     return {
       list: [
         {
@@ -129,7 +131,8 @@ export default class SideMenu extends Vue {
             }
           ]
         }
-      ]
+      ],
+      collapse: false
     }
   }
   handleOpen (key:any, keyPath:any) {
@@ -145,15 +148,15 @@ export default class SideMenu extends Vue {
 <style lang="less" scoped>
 .g-side{
   background-color: #293C55;
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
+  z-index: 1000;
   h5{
-    font-size: 56px;
+    font-size: 50px;
     color: white;
   }
-}
-/deep/ .el-menu--collapse{
-  width: 40px;
-  text-align: left;
 }
 /deep/  .el-menu{
   border-right: none;
@@ -162,23 +165,18 @@ export default class SideMenu extends Vue {
   padding: 0 0;
 }
 /deep/ .el-submenu__title{
-  height: 38px;
-  line-height: 38px;
-}
-/deep/ .el-submenu__title:hover{
-  background-color: red;
+  line-height: 40px;
 }
 /deep/ .el-submenu__title{
-  height: 38px;
-  line-height: 38px;
+  height: 40px;
+  line-height: 40px;
 }
 /deep/ .el-menu-item {
-  height: 38px;
-  line-height: 38px;
+  height: 40px;
+  line-height: 40px;
   padding: 0 45px;
-  min-width: 200px;
 }
-/deep/ .el-submenu .el-menu-item .active{
-  background-color: red;
+/deep/ .el-menu--collapse{
+  width: 60px;
 }
 </style>
