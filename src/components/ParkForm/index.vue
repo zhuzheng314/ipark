@@ -54,6 +54,9 @@
           >
           </el-option>
         </el-select>
+
+        <!-- switch -->
+        <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -121,6 +124,9 @@ export default {
           type: 'select',
           label: 'select',
           key: 'select',
+          rule: [
+            { required: true, message: '请输入', trigger: 'change' }
+          ],
           options: [
             {
               label: '美食',
@@ -130,6 +136,10 @@ export default {
               value: 's2'
             }
           ]
+        }, {
+          type: 'switch',
+          label: 'switch',
+          key: 'switch'
         }
       ]
     }

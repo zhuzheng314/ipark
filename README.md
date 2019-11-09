@@ -1,24 +1,6 @@
-# park
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 页面在pages
+### 请求在services
+### 公共数据和请求放store
+### 路由在router
+### components 是全局组件
+### layout是全局布局
