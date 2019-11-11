@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import BasicLayout from '@/layouts/BasicLayout/index.vue'
 
 import Home from '@/pages/Home/index.vue' // 首页
-import Contract from '@/pages/Contract/index.vue' // 合同首页
+import Overview from '@/pages/Overview/index.vue' // 概览页
+import ContractTemplate from '@/pages/Contract/tamplate.vue' // 合同首页
+import ContractList from '@/pages/Contract/list.vue' // 合同列表
 
 Vue.use(VueRouter)
 
@@ -18,6 +20,11 @@ const routes = [
         path: '/home',
         name: 'home',
         component: Home
+      },
+      {
+        path: '/overview',
+        name: 'overview',
+        component: Overview
       }
     ]
   },
@@ -63,12 +70,12 @@ const routes = [
       {
         path: 'template',
         name: 'template',
-        component: Contract
+        component: ContractTemplate
       },
       {
-        path: 'retrieval',
-        name: 'retrieval',
-        component: Contract
+        path: 'list',
+        name: 'list',
+        component: ContractList
       }
     ]
   },
@@ -117,9 +124,9 @@ const routes = [
     component: BasicLayout,
     children: [
       {
-        path: 'xxxx1',
+        path: '/Overview',
         name: 'xxxx1',
-        component: Home
+        component: Overview
       },
       {
         path: 'xxxx2',

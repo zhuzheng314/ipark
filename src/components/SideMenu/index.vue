@@ -16,7 +16,8 @@
     >
       <el-submenu :index="'menu' + index" v-for="(item, index) in list" :key="'menu' + index">
         <template slot="title">
-          <i :class="item.icon"></i>
+<!--          <i :class="item.icon"></i>-->
+          <i class="iconfont icon">&#xe60b;</i>
           <span>{{item.name}}</span>
         </template>
         <el-menu-item-group>
@@ -92,20 +93,16 @@ export default class SideMenu extends Vue {
             },
             {
               name: '合同检索',
-              path: '/contract/retrieval'
+              path: '/contract/list'
             }
           ]
         }, {
-          name: '企业进驻',
+          name: '租客管理',
           icon: 'el-icon-location',
           children: [
             {
-              name: '进驻申请',
+              name: '租客列表',
               path: '/entry/apply'
-            },
-            {
-              name: '进驻审批',
-              path: '/entry/approval'
             }
           ]
         }, {
@@ -131,7 +128,7 @@ export default class SideMenu extends Vue {
           children: [
             {
               name: '园区管理',
-              path: '/a'
+              path: '/overview'
             },
             {
               name: '资产检索',
@@ -175,6 +172,10 @@ export default class SideMenu extends Vue {
     font-size: 25px;
     text-align: center;
     color: white;
+  }
+  .icon{
+    color: white;
+    padding-right: 10px;
   }
   .menuIcon{
     position: absolute;
