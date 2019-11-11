@@ -105,7 +105,7 @@ export default {
     /*height: 56px;*/
   }
   .g-handle:hover{
-    color: red;
+    color: #3FB1E3;
     cursor: pointer;
   }
   .g-handle:last-child{
