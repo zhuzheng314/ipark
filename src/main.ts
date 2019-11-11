@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui'
 import '../public/style/theme/index.css'
+import './assets/style/index.less'
+
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
