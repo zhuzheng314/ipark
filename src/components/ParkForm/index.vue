@@ -1,64 +1,136 @@
 <template>
   <div>
-    <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-      <el-form-item
-        v-for="(item, index) in formList"
-        :key="'form' + index"
-        :label="item.label"
-        :prop="item.key"
-      >
-        <!-- input -->
-        <el-input
-          v-if="item.type === 'input'"
-          v-model="form[item.key]"
-          :placeholder="item.placeholder"
+    <el-form size="small" ref="form" :rules="rules" :model="form" label-width="80px">
+      <el-card style="margin-bottom: 20px"  v-for="(card, index) in formList" :key="'formcard' + index">
+        <div slot="header" class="clearfix">
+          <span>{{card.title}}</span>
+        </div>
+        <el-form-item
+          v-for="(item, index) in card.children"
+          :key="'form' + index"
+          :label="item.label"
+          :prop="item.key"
         >
-        </el-input>
-
-        <!-- textarea -->
-        <el-input
-          v-if="item.type === 'textarea'"
-          type="textarea"
-          v-model="form[item.key]"
-          :placeholder="item.placeholder"
-        >
-        </el-input>
-
-        <!-- radio -->
-        <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
-          <el-radio
-            v-for="(subItem, subIndex) in item.options"
-            :key="subItem.label + subIndex"
-            :label="subItem.label"
+          <!-- input -->
+          <el-input
+            v-if="item.type === 'input'"
+            v-model="form[item.key]"
+            :placeholder="item.placeholder"
           >
-          </el-radio>
-        </el-radio-group>
+          </el-input>
 
-        <!-- checkbox -->
-        <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
-          <el-checkbox
-            v-for="(subItem, subIndex) in item.options"
-            :key="subItem.label + subIndex"
-            :label="subItem.label"
+          <!-- textarea -->
+          <el-input
+            v-if="item.type === 'textarea'"
+            type="textarea"
+            v-model="form[item.key]"
+            :placeholder="item.placeholder"
           >
-          </el-checkbox>
-        </el-checkbox-group>
+          </el-input>
 
-        <!-- select -->
-        <el-select v-if="item.type === 'select'" v-model="form[item.key]" placeholder="请选择活动区域">
-          <el-option
-            v-for="(subItem) in item.options"
-            :label="subItem.label"
-            :value="subItem.value"
-            :key="subItem.label"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
-      </el-form-item>
+          <!-- radio -->
+          <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
+            <el-radio
+              v-for="(subItem, subIndex) in item.options"
+              :key="subItem.label + subIndex"
+              :label="subItem.label"
+            >
+            </el-radio>
+          </el-radio-group>
+
+          <!--          日期-->
+          <el-date-picker v-if="item.type === 'date-picker'" :placeholder="placeholder" v-model="form[item.key]" style="width: 100%;"></el-date-picker>
+          <!-- checkbox -->
+          <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
+            <el-checkbox
+              v-for="(subItem, subIndex) in item.options"
+              :key="subItem.label + subIndex"
+              :label="subItem.label"
+            >
+            </el-checkbox>
+          </el-checkbox-group>
+
+          <!-- select -->
+          <el-select v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
+            <el-option
+              v-for="(subItem) in item.options"
+              :label="subItem.label"
+              :value="subItem.value"
+              :key="subItem.label"
+            >
+            </el-option>
+          </el-select>
+
+          <!-- switch -->
+          <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>
+
+          <!--          cascader-->
+          <el-cascader
+            v-model="form[item.key]"
+            v-if="item.type === 'cascader'"
+            :options="item.options"
+          ></el-cascader>
+        </el-form-item>
+      </el-card>
+<!--      <el-card>-->
+<!--        <el-form-item-->
+<!--          v-for="(item, index) in formList"-->
+<!--          :key="'form' + index"-->
+<!--          :label="item.label"-->
+<!--          :prop="item.key"-->
+<!--        >-->
+<!--          &lt;!&ndash; input &ndash;&gt;-->
+<!--          <el-input-->
+<!--            v-if="item.type === 'input'"-->
+<!--            v-model="form[item.key]"-->
+<!--            :placeholder="item.placeholder"-->
+<!--          >-->
+<!--          </el-input>-->
+
+<!--          &lt;!&ndash; textarea &ndash;&gt;-->
+<!--          <el-input-->
+<!--            v-if="item.type === 'textarea'"-->
+<!--            type="textarea"-->
+<!--            v-model="form[item.key]"-->
+<!--            :placeholder="item.placeholder"-->
+<!--          >-->
+<!--          </el-input>-->
+
+<!--          &lt;!&ndash; radio &ndash;&gt;-->
+<!--          <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">-->
+<!--            <el-radio-->
+<!--              v-for="(subItem, subIndex) in item.options"-->
+<!--              :key="subItem.label + subIndex"-->
+<!--              :label="subItem.label"-->
+<!--            >-->
+<!--            </el-radio>-->
+<!--          </el-radio-group>-->
+
+<!--          &lt;!&ndash; checkbox &ndash;&gt;-->
+<!--          <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">-->
+<!--            <el-checkbox-->
+<!--              v-for="(subItem, subIndex) in item.options"-->
+<!--              :key="subItem.label + subIndex"-->
+<!--              :label="subItem.label"-->
+<!--            >-->
+<!--            </el-checkbox>-->
+<!--          </el-checkbox-group>-->
+
+<!--          &lt;!&ndash; select &ndash;&gt;-->
+<!--          <el-select v-if="item.type === 'select'" v-model="form[item.key]" placeholder="请选择活动区域">-->
+<!--            <el-option-->
+<!--              v-for="(subItem) in item.options"-->
+<!--              :label="subItem.label"-->
+<!--              :value="subItem.value"-->
+<!--              :key="subItem.label"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+
+<!--          &lt;!&ndash; switch &ndash;&gt;-->
+<!--          <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>-->
+<!--        </el-form-item>-->
+<!--      </el-card>-->
     </el-form>
   </div>
 </template>
@@ -66,13 +138,14 @@
 <script>
 export default {
   name: 'parkForm',
+  props: ['formList'],
   data () {
     return {
       form: {
       },
       rules: {
       },
-      formList: [
+      formList1: [
         {
           type: 'input',
           label: 'input',
@@ -121,6 +194,9 @@ export default {
           type: 'select',
           label: 'select',
           key: 'select',
+          rule: [
+            { required: true, message: '请输入', trigger: 'change' }
+          ],
           options: [
             {
               label: '美食',
@@ -130,6 +206,10 @@ export default {
               value: 's2'
             }
           ]
+        }, {
+          type: 'switch',
+          label: 'switch',
+          key: 'switch'
         }
       ]
     }
@@ -144,7 +224,14 @@ export default {
     init (formList) { // 将form 和rules根据传入的值初始化掉
       let rules = {}
       let form = {}
+      let itemList = []
       formList.forEach(item => {
+        itemList.push(...item.children)
+      })
+
+      console.log(itemList, 'sadfasdfasdf')
+
+      itemList.forEach(item => {
         rules[item.key] = item.rule // rules 初始化
         let formInitValue = ''
         if (item.type === 'checkbox') { // checkbox 初始值为空数组

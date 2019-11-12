@@ -1,7 +1,7 @@
 <template>
 <div class="g-side">
-  <h5></h5>
-  <div style="color: white" @click="() => this.collapse = !this.collapse"> 展开 </div>
+  <h5> logo</h5>
+<!--  <div style="color: white" @click="() => this.collapse = !this.collapse"> 展开 </div>-->
   <div class="g-side-menu">
     <el-menu
       :router="true"
@@ -16,7 +16,8 @@
     >
       <el-submenu :index="'menu' + index" v-for="(item, index) in list" :key="'menu' + index">
         <template slot="title">
-          <i :class="item.icon"></i>
+<!--          <i :class="item.icon"></i>-->
+          <i class="iconfont icon">&#xe60b;</i>
           <span>{{item.name}}</span>
         </template>
         <el-menu-item-group>
@@ -25,12 +26,20 @@
             :route="subItem.path"
             v-for="(subItem, subIndex) in item.children"
             :key="'subMenu' + subIndex"
+            @click="handleClick(subItem)"
           >
             {{subItem.name}}
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
+
+<!--    <div>-->
+<!--      <i class="el-icon-s-fold menuIcon"></i>-->
+<!--      <i class="el-icon-s-unfold menuIcon"></i>-->
+<!--    </div>-->
+    <i v-if="!collapse" class="el-icon-s-fold menuIcon" @click="() => this.collapse = true"></i>
+    <i v-if="collapse" class="el-icon-s-unfold menuIcon"  @click="() => this.collapse = false"></i>
   </div>
 
 </div>
@@ -84,20 +93,16 @@ export default class SideMenu extends Vue {
             },
             {
               name: '合同检索',
-              path: '/contract/retrieval'
+              path: '/contract/list'
             }
           ]
         }, {
-          name: '企业进驻',
+          name: '租客管理',
           icon: 'el-icon-location',
           children: [
             {
-              name: '进驻申请',
+              name: '租客列表',
               path: '/entry/apply'
-            },
-            {
-              name: '进驻审批',
-              path: '/entry/approval'
             }
           ]
         }, {
@@ -123,7 +128,7 @@ export default class SideMenu extends Vue {
           children: [
             {
               name: '园区管理',
-              path: '/a'
+              path: '/overview'
             },
             {
               name: '资产检索',
@@ -132,7 +137,7 @@ export default class SideMenu extends Vue {
           ]
         }
       ],
-      collapse: false
+      collapse: true
     }
   }
   handleOpen (key:any, keyPath:any) {
@@ -140,7 +145,12 @@ export default class SideMenu extends Vue {
   }
 
   handleClose (key:any, keyPath:any) {
-    console.log(key, keyPath)
+    console.log(11111)
+  }
+
+  handleClick (data: any) {
+    console.log(data)
+    // this.collapse = true
   }
 }
 </script>
@@ -148,15 +158,37 @@ export default class SideMenu extends Vue {
 <style lang="less" scoped>
 .g-side{
   background-color: #293C55;
+  /*width: 200px;*/
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0px;
+  top: -2px;
   height: 100%;
-  z-index: 1000;
+  z-index: 5000;
+  box-shadow:3px 0px 5px rgba(0,0,0,0.1);
   h5{
-    font-size: 50px;
+    height: 50px;
+    line-height: 50px;
+    width: 50%;
+    font-size: 25px;
+    text-align: center;
     color: white;
   }
+  .icon{
+    color: white;
+    padding-right: 10px;
+  }
+  .menuIcon{
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: 23px;
+    left: 21px;
+    bottom: 25px;
+  }
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 /deep/  .el-menu{
   border-right: none;
@@ -164,19 +196,19 @@ export default class SideMenu extends Vue {
 /deep/ .el-menu-item-group__title{
   padding: 0 0;
 }
-/deep/ .el-submenu__title{
-  line-height: 40px;
-}
-/deep/ .el-submenu__title{
-  height: 40px;
-  line-height: 40px;
-}
-/deep/ .el-menu-item {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 45px;
-}
-/deep/ .el-menu--collapse{
-  width: 60px;
-}
+/*/deep/ .el-submenu__title{*/
+/*  line-height: 40px;*/
+/*}*/
+/*/deep/ .el-submenu__title{*/
+/*  height: 40px;*/
+/*  line-height: 40px;*/
+/*}*/
+/*/deep/ .el-menu-item {*/
+/*  height: 40px;*/
+/*  line-height: 40px;*/
+/*  padding: 0 45px;*/
+/*}*/
+/*/deep/ .el-menu--collapse{*/
+/*  width: 60px;*/
+/*}*/
 </style>
