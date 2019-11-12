@@ -42,6 +42,6 @@ export default {
   height: 100%;
 }
 .el-main{
-  background:rgba(232,229,229,0.5);
+  background: #eee;
 }
 </style>
