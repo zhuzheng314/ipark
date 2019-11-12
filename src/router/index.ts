@@ -4,8 +4,10 @@ import BasicLayout from '@/layouts/BasicLayout/index.vue'
 
 import Home from '@/pages/Home/index.vue' // 首页
 import Overview from '@/pages/Overview/index.vue' // 概览页
-import ContractTemplate from '@/pages/Contract/tamplate.vue' // 合同首页
+import ContractTemplate from '@/pages/Contract/tamplate.vue' // 合同模板
 import ContractList from '@/pages/Contract/list.vue' // 合同列表
+import TenantList from '@/pages/Tenants/index.vue' // 租客列表
+import WorkOrders from '@/pages/Property/workOrders.vue' // 工单
 
 import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 
@@ -82,19 +84,14 @@ const routes = [
     ]
   },
   {
-    path: '/entry', // 企业进驻
+    path: '/tenants', // 租客管理
     redirect: '',
     component: BasicLayout,
     children: [
       {
-        path: 'apply',
+        path: 'list',
         name: 'apply',
-        component: Home
-      },
-      {
-        path: 'approval',
-        name: 'approval',
-        component: Home
+        component: TenantList
       }
     ]
   },
@@ -109,9 +106,9 @@ const routes = [
         component: Home
       },
       {
-        path: 'repair',
+        path: 'ordes',
         name: 'repair',
-        component: Home
+        component: WorkOrders
       },
       {
         path: 'processing',
