@@ -5,7 +5,7 @@
       <!--        <span>条件筛选</span>-->
       <!--      </div>-->
       <el-select  size="small"
-                  v-model="value" placeholder="合同类型">
+                  v-model="value" placeholder="合同模板类型">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -15,7 +15,7 @@
       </el-select>
 
       <el-input
-        placeholder="搜索租客"
+        placeholder="搜索合同模板"
         size="small"
         style="width: 220px; margin-left: 15px"
         prefix-icon="el-icon-search"
@@ -28,18 +28,7 @@
         icon="el-icon-plus"
         size="small"
         @click="handleAddContract"
-      >新建合同</el-button>
-    </el-card>
-    <el-card style="margin-bottom: 20px">
-      <div slot="header" class="clearfix">
-        <span>到期监控图</span>
-      </div>
-      <g2-column :is-bar="false"
-                 :data="yearList"
-                 style="width: 100%"
-                 :height="300"
-                 :axis-name="{name:'月份', value:'到期合同数（份）'}">
-      </g2-column>
+      >新建合同模板</el-button>
     </el-card>
     <el-card>
       <el-table
@@ -47,54 +36,43 @@
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="合同序号">
+          label="模板编号">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="楼宇名称">
+          label="模板名称">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="合同编号">
+          label="模板类型">
         </el-table-column>
         <el-table-column
           prop="d"
-          label="签订日">
+          label="状态">
         </el-table-column>
         <el-table-column
           prop="e"
-          label="开始日期">
+          label="模板描述">
         </el-table-column>
         <el-table-column
           prop="f"
-          label="合同状态">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="租赁数目">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="跟进人">
-        </el-table-column>
-        <el-table-column
-          prop="i"
-          label="是否续签">
-        </el-table-column>
-        <el-table-column
-          prop="j"
-          label="合同金额">
+          label="操作">
+          <template>
+            <el-button type="text" size="small">查看</el-button>
+            <el-button type="text" size="small">启用</el-button>
+            <el-button type="text" size="small">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </el-card>
 
     <el-dialog
-      title="新建合同"
+      title="新建合同模板"
       :visible.sync="addContractVisible"
       width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="addContractFormList"></ParkForm>
+        <ParkForm :formList="[]" :itemList="tamplateFormList"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -115,18 +93,7 @@ export default {
   },
   data () {
     return {
-      tableData: [{
-        a: 'xxx-1',
-        b: '协力大厦',
-        c: 'number',
-        d: '2015-10-10',
-        e: '2016-01-01',
-        f: '到期未处理',
-        g: '100',
-        h: '刘某人',
-        i: '否',
-        j: 200000
-      }],
+      tableData: [],
       activeName: 'first',
       yearList: [
       ],
@@ -148,207 +115,50 @@ export default {
       }],
       value: '',
       addContractVisible: false,
-      addContractFormList: [
+      tamplateFormList: [
         {
-          title: '合同信息',
-          children: [
+          type: 'select',
+          label: '模板类型',
+          key: 'tamplate',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '请选择', trigger: 'change' }
+          ],
+          options: [
             {
-              type: 'select',
-              label: '模版选择',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '合同编号',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
+              label: '美食',
+              value: 's1'
             }, {
-              type: 'select',
-              label: '跟进人',
-              key: 'followPerson',
-              placeholder: '请选择',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            }, {
-              type: 'date-picker',
-              label: '签订时间',
-              key: 'date',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            }, {
-              type: 'date-picker',
-              label: '计租时间',
-              key: 'date2',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            }, {
-              type: 'date-picker',
-              label: '失效时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
+              label: '美食美食',
+              value: 's2'
             }
           ]
         }, {
-          title: '租客信息',
-          children: [
-            {
-              type: 'input',
-              label: '租客',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '行业',
-              key: 'tenantIndustry',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '法人',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }, {
-              type: 'input',
-              label: '签订人',
-              key: 'qdr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }, {
-              type: 'input',
-              label: '联系方式',
-              key: 'zklxr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
+          type: 'input',
+          label: '模板名称',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '请输入模板名称', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }, {
-          title: '房源信息',
-          children: [
-            {
-              type: 'cascader',
-              label: '房源信息',
-              key: 'fangyxx',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '1',
-                  value: '1',
-                  children: [
-                    {
-                      label: '1-1',
-                      value: '1-1',
-                      children: [
-                        {
-                          label: '1-1-1',
-                          value: '1-1-1',
-                          children: [
-                            {
-                              label: '1-1-1-1',
-                              value: '1-1-1-1'
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }, {
-                  label: '2',
-                  value: '2'
-                },
-                {
-                  label: '3',
-                  value: '3',
-                  children: [
-                    {
-                      label: '3-1',
-                      value: '3-1'
-                    }
-                  ]
-                },
-                {
-                  label: '4',
-                  value: '4',
-                  children: [
-                    {
-                      label: '4-1',
-                      value: '4-1',
-                      children: [
-                        {
-                          label: '4-1-1',
-                          value: '4-1-1'
-                        },
-                        {
-                          label: '4-1-2',
-                          value: '4-1-2'
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+          type: 'textarea',
+          label: '模板描述',
+          key: 'i11',
+          placeholder: '请输入模板描述',
+          rule: [
+            { required: true, message: '请输入模板描述', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        }, {
+          type: 'upload',
+          label: '模板描述',
+          key: 'i11',
+          placeholder: '请输入模板描述',
+          rule: [
+            { required: true, message: '请输入模板描述', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }
       ]
@@ -363,25 +173,14 @@ export default {
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
       this.tableData.push(
         {
-          a: 'xxx' + item,
-          b: '协力大厦' + item,
-          c: 'number' + item,
-          d: '2015-10-10',
-          e: '2016-01-01',
-          f: '到期未处理',
-          g: '100',
-          h: '刘某人',
-          i: '否',
-          j: 200000 + item
+          a: 'xxx-xx-' + item,
+          b: '出租合同模板' + item,
+          c: '销售类' + item,
+          d: item % 2 === 0 ? '启用' : '停用',
+          e: '这是销售类合同的描述xxx'
         }
       )
     })
-    for (let i = 0; i < 24; i++) {
-      this.yearList.push({
-        name: 'yue' + i,
-        value: (Math.random() * 100)
-      })
-    }
     // console.log(this.yearList)
   }
 }

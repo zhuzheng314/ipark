@@ -17,7 +17,8 @@
       <el-submenu :index="'menu' + index" v-for="(item, index) in list" :key="'menu' + index">
         <template slot="title">
 <!--          <i :class="item.icon"></i>-->
-          <i class="iconfont icon">&#xe60b;</i>
+<!--          <i class="iconfont icon">{{item.icon}}</i>-->
+          <i class='iconfont icon'>{{item.icon}}</i>
           <span>{{item.name}}</span>
         </template>
         <el-menu-item-group>
@@ -33,11 +34,6 @@
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
-
-<!--    <div>-->
-<!--      <i class="el-icon-s-fold menuIcon"></i>-->
-<!--      <i class="el-icon-s-unfold menuIcon"></i>-->
-<!--    </div>-->
     <i v-if="!collapse" class="el-icon-s-fold menuIcon" @click="() => this.collapse = true"></i>
     <i v-if="collapse" class="el-icon-s-unfold menuIcon"  @click="() => this.collapse = false"></i>
   </div>
@@ -45,17 +41,16 @@
 </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script>
 
-@Component
-export default class SideMenu extends Vue {
-  data ():{list: any, collapse: boolean} {
+export default {
+  data () {
     return {
       list: [
         {
           name: '资产管理',
-          icon: 'el-icon-location',
+          // icon: '&#xe605',
+          icon: '\ue605',
           children: [
             {
               name: '园区管理',
@@ -70,7 +65,7 @@ export default class SideMenu extends Vue {
           ]
         }, {
           name: '招商管理',
-          icon: 'el-icon-location',
+          icon: '\ue605',
           children: [
             {
               name: '客户管理',
@@ -85,7 +80,7 @@ export default class SideMenu extends Vue {
           ]
         }, {
           name: '合同管理',
-          icon: 'el-icon-location',
+          icon: '\ue60e',
           children: [
             {
               name: '合同模板',
@@ -98,33 +93,29 @@ export default class SideMenu extends Vue {
           ]
         }, {
           name: '租客管理',
-          icon: 'el-icon-location',
+          icon: '\ue607',
           children: [
             {
               name: '租客列表',
-              path: '/entry/apply'
+              path: '/tenants/list'
             }
           ]
         }, {
           name: '物业服务',
-          icon: 'el-icon-location',
+          icon: '\ue60b',
           children: [
             {
-              name: '车位服务',
+              name: '设备管理',
               path: '/property/parking'
             },
             {
-              name: '报事报修',
-              path: '/property/repair'
-            },
-            {
-              name: '工单处理',
-              path: '/property/processing'
+              name: '工单管理',
+              path: '/property/ordes'
             }
           ]
         }, {
           name: 'xxxx',
-          icon: 'el-icon-location',
+          icon: '\ue60b',
           children: [
             {
               name: '园区管理',
@@ -139,18 +130,24 @@ export default class SideMenu extends Vue {
       ],
       collapse: false
     }
-  }
-  handleOpen (key:any, keyPath:any) {
-    console.log(key, keyPath)
-  }
+  },
+  methods: {
+    handleOpen () {
+      console.log(key, keyPath)
+    },
 
-  handleClose (key:any, keyPath:any) {
-    console.log(11111)
-  }
+    filterIcon (icon) {
+      console.log()
+    },
 
-  handleClick (data: any) {
-    console.log(data)
-    this.collapse = true
+    handleClose () {
+      console.log(11111)
+    },
+
+    handleClick () {
+      console.log(data)
+      this.collapse = true
+    }
   }
 }
 </script>
@@ -175,6 +172,7 @@ export default class SideMenu extends Vue {
   }
   .icon{
     color: white;
+    font-size: 20px;
     padding-right: 10px;
   }
   .menuIcon{
