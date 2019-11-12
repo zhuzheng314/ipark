@@ -134,13 +134,12 @@ export default {
   },
   methods: {
     handleOpen () {
-      console.log(key, keyPath)
     },
 
     filterIcon (icon) {
       console.log()
     },
-    handleClick (data: any) {
+    handleClick () {
       console.log(data)
       this.collapse = false
     }
