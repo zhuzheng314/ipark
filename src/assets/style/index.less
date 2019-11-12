@@ -1,0 +1,60 @@
+@import 'base.less';
+
+.light;
+
+/*滚动条样式*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: @light-gray2;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-button:start {
+  background-color: transparent;
+  background-size: 6px 6px;
+}
+::-webkit-scrollbar-button:end {
+  background-color: transparent;
+  background-size: 6px 6px;
+}
+
+.ml-10{
+  margin-left: 10px;
+}
+.mr-10{
+  margin-right: 10px;
+}
+.mt-10{
+  margin-top: 10px;
+}
+.mb-10{
+  margin-bottom: 10px;
+}
+
+// 小标题竖线
+.title-style(){
+	width: 100%;
+	height: 48px;
+	padding-left: 36px;
+	position: relative;
+	color: @text-color;
+	font-size: 16px;
+	line-height: 48px;
+	&:before{
+		content: "";
+		display: block;
+		width: 4px;
+		height: 32px;
+		position: absolute;
+		top: 50%;
+    left: 16px;
+		transform: translateY(-50%);
+		background: @blue;
+	}
+}

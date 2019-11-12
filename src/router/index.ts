@@ -9,6 +9,8 @@ import ContractList from '@/pages/Contract/list.vue' // 合同列表
 import TenantList from '@/pages/Tenants/index.vue' // 租客列表
 import WorkOrders from '@/pages/Property/workOrders.vue' // 工单
 
+import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,7 +40,7 @@ const routes = [
       {
         path: 'assetInfo',
         name: 'assetInfo',
-        component: Home
+        component: AssetInfo
       },
       {
         path: 'retrieval',
