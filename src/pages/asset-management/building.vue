@@ -9,6 +9,13 @@
         <p class="park-building">西港发展中心  /  B栋</p>
         <p class="details">查看详情</p>
       </div>
+      <div class="building-infoBox">
+        <InfoBox type=0 :data="infoBox.area"></InfoBox>
+        <InfoBox type=1 :data="infoBox.area"></InfoBox>
+        <InfoBox type=2 :data="infoBox.area"></InfoBox>
+        <InfoBox type=3 :data="infoBox.area"></InfoBox>
+
+      </div>
     </el-card>
     <el-card class="box-card-content" :body-style="{height:'100%',boxSizing:'border-box'}">
       <div class="requirement">
@@ -88,10 +95,11 @@
 
 <script>
 import RoomBox from '@/pages/asset-management/roomBox.vue'
+import InfoBox from '@/components/InfoBox/index.vue'
 export default {
   name: 'building',
   components: {
-    RoomBox
+    RoomBox, InfoBox
   },
   props: ['state'],
   data () {
@@ -233,6 +241,25 @@ export default {
       parkList: [],
       // 楼宇列表
       buildingList: [],
+      // 楼宇信息
+      infoBox: {
+        area: {
+          title: {
+            name: '可招商面积',
+            note: '测试文本'
+          },
+          value: {
+            value: 20311400.3,
+            unit: '㎡',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '可招商房间',
+            value: 22,
+            unit: '间'
+          }
+        }
+      },
       // 楼层列表
       floorList: [
         { name: '一楼', area: '1534m³', roomList: [] },
@@ -308,6 +335,15 @@ export default {
         cursor: pointer;
         color: @blue;
       }
+    }
+    .building-infoBox{
+      width: ~"calc(100% - 310px)";
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: flex;
+      justify-content: space-evenly;
     }
 
     .requirement{
