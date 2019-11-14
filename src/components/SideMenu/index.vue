@@ -1,6 +1,6 @@
 <template>
   <div class="g-side">
-    <h5>logo</h5>
+    <h5 class="logo">logo</h5>
     <!--  <div style="color: white" @click="() => this.collapse = !this.collapse"> 展开 </div>-->
     <div class="g-side-menu">
       <el-menu
@@ -45,8 +45,7 @@ export default {
       list: [
         {
           name: '资产管理',
-          // icon: '&#xe605',
-          icon: '\ue605',
+          icon: '\ue604',
           children: [
             {
               name: '园区管理',
@@ -67,12 +66,12 @@ export default {
             {
               name: '客户管理',
               icon: '',
-              path: '/attract-investment/intention'
+              path: '/business/customer'
             },
             {
               name: '招商任务',
               icon: '',
-              path: '/attract-investment/task'
+              path: '/business/task'
             }
           ]
         },
@@ -106,25 +105,21 @@ export default {
           children: [
             {
               name: '设备管理',
-              path: '/property/parking'
+              path: '/property/equipment'
             },
             {
               name: '工单管理',
-              path: '/property/ordes'
+              path: '/property/orders'
             }
           ]
         },
         {
-          name: 'xxxx',
-          icon: '\ue60b',
+          name: '财务管理',
+          icon: '\ue60a',
           children: [
             {
-              name: '园区管理',
-              path: '/overview'
-            },
-            {
-              name: '资产检索',
-              path: '/a'
+              name: '费用列表',
+              path: '/financial/list'
             }
           ]
         }
@@ -150,33 +145,40 @@ export default {
 <style lang="less" scoped>
 .g-side {
   background-color: #293c55;
-  /*width: 200px;*/
-  position: absolute;
-  left: 0px;
-  top: -2px;
   height: 100%;
-  z-index: 5000;
   box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.1);
-  h5 {
+  .logo{
+    animation: logo 10s infinite;
     height: 50px;
     line-height: 50px;
-    width: 50%;
-    font-size: 25px;
-    text-align: center;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
     color: white;
   }
-  .icon {
-    color: white;
-    font-size: 20px;
-    padding-right: 10px;
-  }
-  .menuIcon {
-    position: absolute;
-    text-align: center;
-    color: white;
-    font-size: 23px;
-    left: 21px;
-    bottom: 25px;
+  @keyframes logo
+   {
+    0% {color: #3FB1E3; font-size: 24px;}
+    50% {color: #3FB1E3; font-size: 22px;}
+    51% {color: #3FB1E3; font-size: 22px;}
+    100% {color: #FE5B6B; font-size: 24px;}
+   }
+  &-menu{
+    height: calc(100% - 125px);
+    overflow-y: scroll;
+    .icon {
+      color: white;
+      font-size: 20px;
+      padding-right: 10px;
+    }
+    .menuIcon {
+      position: absolute;
+      text-align: center;
+      color: white;
+      font-size: 23px;
+      left: 21px;
+      bottom: 25px;
+    }
   }
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
@@ -189,19 +191,25 @@ export default {
 /deep/ .el-menu-item-group__title {
   padding: 0 0;
 }
-/*/deep/ .el-submenu__title{*/
-/*  line-height: 40px;*/
-/*}*/
-/*/deep/ .el-submenu__title{*/
-/*  height: 40px;*/
-/*  line-height: 40px;*/
-/*}*/
-/*/deep/ .el-menu-item {*/
-/*  height: 40px;*/
-/*  line-height: 40px;*/
-/*  padding: 0 45px;*/
-/*}*/
-/*/deep/ .el-menu--collapse{*/
-/*  width: 60px;*/
-/*}*/
+/*滚动条样式*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #252525;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-button:start {
+  background-color: transparent;
+  background-size: 6px 6px;
+}
+::-webkit-scrollbar-button:end {
+  background-color: transparent;
+  background-size: 6px 6px;
+}
 </style>
