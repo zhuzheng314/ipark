@@ -3,7 +3,17 @@ import VueRouter from 'vue-router'
 import BasicLayout from '@/layouts/BasicLayout/index.vue'
 
 import Home from '@/pages/Home/index.vue' // 首页
-import Contract from '@/pages/Contract/index.vue' // 合同首页
+import Overview from '@/pages/Overview/index.vue' // 概览页
+import ContractTemplate from '@/pages/Contract/tamplate.vue' // 合同模板
+import BusinessCustomer from '@/pages/Business/customer.vue' // 招商客户管理
+import BusinessTask from '@/pages/Business/task.vue' // 招商任务管理
+import ContractList from '@/pages/Contract/list.vue' // 合同列表
+import TenantList from '@/pages/Tenants/index.vue' // 租客列表
+import WorkOrders from '@/pages/Property/workOrders.vue' // 工单
+import Equipment from '@/pages/Property/equipment.vue' // 工单
+import FinancialList from '@/pages/Financial/list.vue' // 财务列表
+
+import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 
 Vue.use(VueRouter)
 
@@ -17,7 +27,12 @@ const routes = [
       {
         path: '/home',
         name: 'home',
-        component: Home
+        component: ContractList
+      },
+      {
+        path: '/overview',
+        name: 'overview',
+        component: Overview
       }
     ]
   },
@@ -29,29 +44,29 @@ const routes = [
       {
         path: 'assetInfo',
         name: 'assetInfo',
-        component: Home
+        component: AssetInfo
       },
       {
         path: 'retrieval',
         name: 'retrieval',
-        component: Home
+        component: ContractList
       }
     ]
   },
   {
-    path: '/attract-investment', // 招商管理
+    path: '/business', // 招商管理
     redirect: '',
     component: BasicLayout,
     children: [
       {
-        path: 'intention',
-        name: 'intention',
-        component: Home
+        path: 'customer',
+        name: 'customer',
+        component: BusinessCustomer
       },
       {
         path: 'task',
         name: 'task',
-        component: Home
+        component: BusinessTask
       }
     ]
   },
@@ -63,29 +78,24 @@ const routes = [
       {
         path: 'template',
         name: 'template',
-        component: Contract
+        component: ContractTemplate
       },
       {
-        path: 'retrieval',
-        name: 'retrieval',
-        component: Contract
+        path: 'list',
+        name: 'list',
+        component: ContractList
       }
     ]
   },
   {
-    path: '/entry', // 企业进驻
+    path: '/tenants', // 租客管理
     redirect: '',
     component: BasicLayout,
     children: [
       {
-        path: 'apply',
+        path: 'list',
         name: 'apply',
-        component: Home
-      },
-      {
-        path: 'approval',
-        name: 'approval',
-        component: Home
+        component: TenantList
       }
     ]
   },
@@ -95,36 +105,31 @@ const routes = [
     component: BasicLayout,
     children: [
       {
-        path: 'parking',
-        name: 'parking',
-        component: Home
+        path: 'equipment',
+        name: 'equipment',
+        component: Equipment
       },
       {
-        path: 'repair',
-        name: 'repair',
-        component: Home
+        path: 'orders',
+        name: 'orders',
+        component: WorkOrders
       },
       {
         path: 'processing',
         name: 'processing',
-        component: Home
+        component: ContractList
       }
     ]
   },
   {
-    path: '/xxxx', // xxxx
+    path: '/financial', // 财务管理
     redirect: '',
     component: BasicLayout,
     children: [
       {
-        path: 'xxxx1',
-        name: 'xxxx1',
-        component: Home
-      },
-      {
-        path: 'xxxx2',
-        name: 'task',
-        component: Home
+        path: 'list',
+        name: 'financialList',
+        component: FinancialList
       }
     ]
   }

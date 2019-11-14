@@ -1,9 +1,8 @@
 <template>
   <el-container style="height: 100%;">
-    <el-aside width="60px">
-<!--       <SideMenu></SideMenu>-->
+    <el-aside width="auto">
+       <SideMenu></SideMenu>
     </el-aside>
-    <SideMenu></SideMenu>
     <el-container>
       <el-header height="56px">
         <GlobalHeader></GlobalHeader>
@@ -29,6 +28,11 @@ export default {
     return {
       width: 200
     }
+  },
+  mounted () {
+    setTimeout(() => {
+      this.width = 300
+    }, 2000)
   }
 }
 </script>
@@ -42,6 +46,6 @@ export default {
   height: 100%;
 }
 .el-main{
-  background:rgba(232,229,229,1);
+  background: #eee;
 }
 </style>

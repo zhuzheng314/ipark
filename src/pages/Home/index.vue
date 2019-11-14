@@ -1,77 +1,74 @@
 <template>
-  <div>
-    <el-card class="box-card">
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="date"
-          label="日期"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="姓名"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址">
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <el-card class="box-card">
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="date"
-          label="日期"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="姓名"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址">
-        </el-table-column>
-      </el-table>
-    </el-card>
-
+<div class="home">
+  <div class="quick">
+    <div class="quick-item" v-for="(item,i) in quickList" :key="(item,i)">
+      <router-link :to="item.src">
+        <img :src="item.img" alt="">
+      </router-link>
+      <p>{{item.name}}</p>
+    </div>
   </div>
+</div>
 </template>
 
 <script>
+
 export default {
+  components: {
+  },
   data () {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      quickList: [
+        { name: '楼宇资产', img: require('@/assets/img/ipark/buildings.png'), src: '' },
+        { name: '招商管理', img: require('@/assets/img/ipark/attract-investment.png'), src: '' },
+        { name: '企业合同', img: require('@/assets/img/ipark/contract.png'), src: '' },
+        { name: '入驻管理', img: require('@/assets/img/ipark/enter.png'), src: '' },
+        { name: '退驻管理', img: require('@/assets/img/ipark/retreat.png'), src: '' }
+      ]
     }
+  },
+  mounted () {
+
+  },
+  watch: {
+
+  },
+  methods: {
+
   }
 }
 </script>
 
-<style scoped>
+<style lang="less">
+@import '../../assets/style/index.less';
 
+.home{
+  width: 100%;
+  height: 100%;
+  .quick{
+    width: 100%;
+    height: 150px;
+    background: @white;
+    .quick-item{
+      float: left;
+      width: 100px;
+      height: ~"calc(100% - 44px)";
+      margin: 22px 62px;
+      position: relative;
+      img{
+        display: block;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto;
+        cursor: pointer;
+      }
+      p{
+        color: @text-color;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 15px;
+      }
+    }
+  }
+}
 </style>
