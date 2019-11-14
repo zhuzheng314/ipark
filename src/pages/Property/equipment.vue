@@ -6,7 +6,7 @@
       <!--      </div>-->
       <el-select  size="small"
                   multiple
-                  v-model="value" placeholder="工单类型">
+                  v-model="value" placeholder="设备类型">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -15,19 +15,8 @@
         </el-option>
       </el-select>
 
-      <el-select  size="small"
-                  style="margin-left: 15px"
-                  v-model="value2" placeholder="工单状态">
-        <el-option
-          v-for="item in options2"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-
       <el-input
-        placeholder="搜索工单"
+        placeholder="搜索房号或设备类型"
         size="small"
         style="width: 220px; margin-left: 15px"
         prefix-icon="el-icon-search"
@@ -40,7 +29,7 @@
         icon="el-icon-plus"
         size="small"
         @click="handleAddContract"
-      >新建工单模板</el-button>
+      >设备</el-button>
     </el-card>
     <el-card>
       <el-table
@@ -48,38 +37,53 @@
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="模板编号">
+          label="楼宇名称">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="模板名称">
+          label="楼层">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="模板类型">
+          label="房号">
         </el-table-column>
         <el-table-column
           prop="d"
-          label="状态">
+          label="设备名称">
         </el-table-column>
         <el-table-column
           prop="e"
-          label="模板描述">
+          label="设备类型">
         </el-table-column>
         <el-table-column
           prop="f"
-          label="操作">
-          <template>
-            <el-button type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">启用</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
+          label="设备状态">
+        </el-table-column>
+        <el-table-column
+          prop="g"
+          label="设备单价">
+        </el-table-column>
+        <el-table-column
+          prop="n"
+          label="本期读书">
+        </el-table-column>
+        <el-table-column
+          prop="t"
+          label="本期录入时间">
+        </el-table-column>
+        <el-table-column
+          prop="n"
+          label="上期读书">
+        </el-table-column>
+        <el-table-column
+          prop="t"
+          label="上期录入时间">
         </el-table-column>
       </el-table>
     </el-card>
 
     <el-dialog
-      title="新建工单模板"
+      title="新建设备"
       :visible.sync="addContractVisible"
       width="600px"
       :before-close="handleClose">
@@ -110,75 +114,27 @@ export default {
       yearList: [
       ],
       options: [{
-        value: '选项1',
-        label: '全部'
-      }, {
         value: '选项2',
-        label: '维修'
+        label: '水表'
       }, {
         value: '选项3',
-        label: '保洁'
+        label: '电表'
       }, {
         value: '选项4',
-        label: '报事'
+        label: '煤气'
       }, {
         value: '选项5',
-        label: '投诉'
-      }],
-      options2: [{
-        value: '选项1',
-        label: '全部'
-      }, {
-        value: '选项2',
-        label: '已解决'
-      }, {
-        value: '选项3',
-        label: '待解决'
+        label: '其他'
       }],
       value: '',
-      value2: '',
       addContractVisible: false,
       addContractFormList: [
         {
-          title: '租客信息',
+          title: '设备信息',
           children: [
-            {
-              type: 'input',
-              label: '租客名称',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        }, {
-          title: '工单信息',
-          children: [
-            {
-              type: 'input',
-              label: '服务地点',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '发起人',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
             {
               type: 'select',
-              label: '工单类型',
+              label: '设备类型',
               key: 'tamplate',
               placeholder: '请输入',
               rule: [
@@ -196,7 +152,37 @@ export default {
             },
             {
               type: 'input',
-              label: '联系电话',
+              label: '设备名称',
+              key: 'tenantName',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '设备单价',
+              key: 'tenantName',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '设备读数',
+              key: 'tenantName',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '设备读数',
               key: 'tenantName',
               placeholder: '请输入',
               rule: [
@@ -206,22 +192,7 @@ export default {
             },
             {
               type: 'date-picker',
-              label: '预约服务时间',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '工单摘要',
-          children: [
-            {
-              type: 'textarea',
-              label: '摘要内容',
+              label: '抄录时间',
               key: 'fr',
               placeholder: '请输入',
               rule: [
@@ -230,9 +201,9 @@ export default {
               ]
             },
             {
-              type: 'upload',
-              label: '封面图片',
-              key: 'ccc',
+              type: 'textarea',
+              label: '备注',
+              key: 'tenantName',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -371,10 +342,14 @@ export default {
       this.tableData.push(
         {
           a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '这是销售类合同的描述xxx'
+          b: '楼' + item,
+          c: item + '01',
+          d: item % 2 === 0 ? 'xxx型号' : 'yyy型号',
+          e: '水表',
+          f: item % 2 === 0 ? '启用' : '停用',
+          g: '20000/度',
+          n: 20000,
+          t: '2017-01-02'
         }
       )
     })

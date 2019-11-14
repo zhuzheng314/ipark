@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-form size="small" ref="form" :rules="rules" :model="form" label-width="80px">
+    <el-form
+      size="small"
+      ref="form"
+      :rules="rules"
+      :model="form"
+      label-width="auto">
       <div v-if="formList.length" >
         <el-card style="margin-bottom: 20px"  v-for="(card, index) in formList" :key="'formcard' + index">
           <div slot="header" class="clearfix">
@@ -41,6 +46,16 @@
 
             <!--          日期-->
             <el-date-picker v-if="item.type === 'date-picker'" :placeholder="placeholder" v-model="form[item.key]" style="width: 100%;"></el-date-picker>
+
+            <el-date-picker
+              v-if="item.type === 'date-picker-range'"
+              v-model="form[item.key]"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+
             <!-- checkbox -->
             <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
               <el-checkbox
@@ -141,6 +156,7 @@
             <el-button size="small">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+
         </el-form-item>
       </div>
     </el-form>
