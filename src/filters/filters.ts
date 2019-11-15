@@ -1,5 +1,5 @@
 // 数字格式
-function NumFormat (value, n = 0) {
+let NumFormat:any = (value:any, n:number = 0) => {
   if (value === '' || value == null) { return 0 }
   if (isNaN(value)) {
     return 0
@@ -23,12 +23,24 @@ function NumFormat (value, n = 0) {
 }
 
 // 百分百
-function Percent (value) {
+let Percent:any = (value: any) => {
   value = Number(value * 100).toFixed(2)
   return value + '%'
 }
 
-export {
-  NumFormat,
-  Percent
-}
+let filters:any = [
+  { name: 'NumFormat', fun: NumFormat },
+  { name: 'Percent', fun: Percent }
+
+]
+
+export { filters }
+
+// a.forEach( (key: any) =>{
+//   console.log(key)
+// })
+
+// export {
+//   NumFormat,
+//   Percent
+// }

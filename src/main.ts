@@ -11,9 +11,24 @@ import 'vue-g2'
 
 import * as filters from './filters/filters'
 
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
+Object.keys(filters.filters).forEach((key:any) => {
+  Vue.filter(filters.filters[key].name, filters.filters[key].fun)
 })
+
+// localStorage.setItem('token','1');
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/home') {
+//     let token = localStorage.getItem('token');
+//     if (token===null||token===''){
+//       next('/test/test');
+//     }
+//     else{
+//       next();
+//     }
+//   }else{
+//     next();
+//   }
+// })
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

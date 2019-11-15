@@ -15,6 +15,8 @@ import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 
 import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 
+import Test from '@/pages/test/index.vue' // 测试
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,6 +25,9 @@ const routes = [
     redirect: 'home',
     name: 'overview',
     component: BasicLayout,
+    meta: {
+      requireAuth: true
+    },
     children: [
       {
         path: '/home',
@@ -130,6 +135,18 @@ const routes = [
         path: 'list',
         name: 'financialList',
         component: FinancialList
+      }
+    ]
+  },
+  {
+    path: '/test', // 测试
+    redirect: '',
+    component: BasicLayout,
+    children: [
+      {
+        path: 'test',
+        name: 'test',
+        component: Test
       }
     ]
   }
