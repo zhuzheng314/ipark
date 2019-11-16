@@ -1,7 +1,8 @@
 <template>
   <div class="park">
     <div class="left">
-      <div class="left-btn">
+      <div class="left-btn" @click="handleAdd">
+        <i class="el-icon-plus"></i> 添加园区
       </div>
       <div class="left-list">
         <div class="item" :key="index + 'leftcard'" v-for="(item, index) in fakerList">
@@ -101,6 +102,19 @@
         </el-table>
       </el-card>
     </div>
+    <el-dialog
+      title="添加园区"
+      :visible.sync="addShow"
+      width="600px"
+      :before-close="handleClose">
+      <div>
+        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -111,6 +125,7 @@ export default {
   },
   data () {
     return {
+      addShow: false,
       fakerList: [],
       tableData: [],
       detail: [
@@ -123,6 +138,63 @@ export default {
         { name: '使用率 %', value: '50', imgUrl: require('@/assets/img/park/area2.png') },
         { name: '出租率 %', value: '50', imgUrl: require('@/assets/img/park/area3.png') },
         { name: '实际租赁面积 ㎡', value: '12456', imgUrl: require('@/assets/img/park/area4.png') }
+      ],
+      addContractFormList: [
+        {
+          title: '园区信息',
+          children: [
+            {
+              type: 'input',
+              label: '园区名称',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区总面积',
+              key: 'i',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区可出租面积',
+              key: 'i',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区可出租面积',
+              key: 'i',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'textarea',
+              label: '园区描述',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            }
+          ]
+        }
       ]
     }
   },
@@ -152,6 +224,9 @@ export default {
     handleRowClick (row, column, event) {
       console.log(row, column, event)
       this.$router.push('/asset-management/assetInfo')
+    },
+    handleAdd () {
+      this.addShow = true
     }
   }
 }
@@ -178,9 +253,17 @@ export default {
       border:1px solid rgba(63,177,227,1);
       box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
       margin-bottom: 10px;
+      line-height: 66px;
+      color: rgba(63,177,227,1);
+      text-align: center;
+      font-size: 16px;
       opacity:1;
     }
+    &-btn:hover{
+      cursor: pointer;
+    }
     &-list{
+      cursor: pointer;
       width: 100%;
       background-color: white;
       height: calc(~"100% - 20px");
