@@ -3,7 +3,7 @@
   <el-card class="box-card" shadow="never">
     <div class="headerCard-title">
       <i v-if="headerCard_icon!==false" class="iconfont" v-html="headerCard_icon"></i>
-      <span>{{headerCard_title}}</span>
+      <span>{{data.title}}</span>
     </div>
     <div class="headerCard-btns">
       <div class="btnBox" v-for="(item,i) in headerCard_button" :key="(item,i)" @click="childMethod(item.function)">
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     childMethod (fun) {
-      this.$parent.$parent[fun]({ ...other })
+      this.$parent.$parent.$parent[fun]()
     }
   }
 }

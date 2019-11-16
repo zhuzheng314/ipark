@@ -85,6 +85,7 @@ export default {
       color: @text-color;
     }
     .bodyCard-infoBox-value{
+      margin-left: 5px;
       font-size: 14px;
       color: @text-color-light;
     }
