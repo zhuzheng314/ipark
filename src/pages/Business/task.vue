@@ -5,7 +5,7 @@
         <el-select  size="small"
                     multiple
                     v-model="value"
-                    placeholder="账单类型">
+                    placeholder="客户类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -27,14 +27,14 @@
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >添加账单</el-button>
+        >客户</el-button>
       </div>
     </el-card>
     <el-card>
-      <el-radio-group v-model="radio" size="mini">
-        <el-radio-button label="收款"></el-radio-button>
-        <el-radio-button label="付款"></el-radio-button>
-      </el-radio-group>
+      <!--      <el-radio-group v-model="radio" size="mini">-->
+      <!--        <el-radio-button label="收款"></el-radio-button>-->
+      <!--        <el-radio-button label="付款"></el-radio-button>-->
+      <!--      </el-radio-group>-->
       <div>
         <div :key="item.name" v-for="item in finData" class="simple-item">
           <div class="title">{{item.name}}</div>
@@ -49,23 +49,23 @@
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="楼宇名称">
+          label="客户状态">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="房间号">
+          label="渠道">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="对房名称">
+          label="需求面积段">
         </el-table-column>
         <el-table-column
           prop="d"
-          label="费用类型">
+          label="行业">
         </el-table-column>
         <el-table-column
           prop="e"
-          label="账单金额">
+          label="预计签约时间">
         </el-table-column>
         <el-table-column
           prop="e"
@@ -73,29 +73,13 @@
         </el-table-column>
         <el-table-column
           prop="e"
-          label="实收/付金额">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="需收/退金额">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="开票金额">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          label="操作">
-          <template>
-            <el-button type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
+          label="跟进人">
         </el-table-column>
       </el-table>
     </el-card>
 
     <el-dialog
-      title="新建收付款账单"
+      title="新建客户"
       :visible.sync="addContractVisible"
       width="600px"
       :before-close="handleClose">
@@ -127,12 +111,12 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '应收（0笔）', value: 10000 },
-        { name: '滞纳金', value: 10000 },
-        { name: '实收', value: 10000 },
-        { name: '调整', value: 10000 },
-        { name: '转入', value: 10000 },
-        { name: '需收（0笔）', value: 10000 }
+        { name: '初次接触', value: 10000 },
+        { name: '潜在客户', value: 10000 },
+        { name: '意向客户', value: 10000 },
+        { name: '成交客户', value: 10000 },
+        { name: '流失客户', value: 10000 },
+        { name: '总计', value: 10000 }
       ],
       options: [{
         value: '选项1',
@@ -154,29 +138,11 @@ export default {
       addContractVisible: false,
       addContractFormList: [
         {
-          title: '账单',
+          title: '客户信息',
           children: [
             {
-              type: 'select',
-              label: '关联合同',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
               type: 'input',
-              label: '付款方',
+              label: '客户',
               key: 'i',
               placeholder: '请输入租客名称',
               rule: [
@@ -186,7 +152,7 @@ export default {
             },
             {
               type: 'input',
-              label: '联系人',
+              label: '跟进人',
               key: 'i',
               placeholder: '请输入租客名称',
               rule: [
@@ -196,7 +162,7 @@ export default {
             },
             {
               type: 'select',
-              label: '费用类型',
+              label: '行业',
               key: 'tamplate',
               placeholder: '请输入',
               rule: [
@@ -210,11 +176,31 @@ export default {
                   label: '美食美食',
                   value: 's2'
                 }
+              ]
+            },
+            {
+              type: 'input',
+              label: '客户需求',
+              key: 'i',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '来访时间',
+              key: 'i',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'select',
-              label: '币种',
+              label: '来访渠道',
               key: 'tamplate',
               placeholder: '请输入',
               rule: [
@@ -222,42 +208,12 @@ export default {
               ],
               options: [
                 {
-                  label: '美食',
+                  label: '上门',
                   value: 's1'
                 }, {
                   label: '美食美食',
-                  value: 's2'
+                  value: '官网'
                 }
-              ]
-            },
-            {
-              type: 'date-picker-range',
-              label: '计费周期',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金比例（%）',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金上限（%）',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
@@ -267,68 +223,6 @@ export default {
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        }, {
-          title: '工单信息',
-          children: [
-            {
-              type: 'input',
-              label: '服务地点',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '发起人',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '工单类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系电话',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '预约服务时间',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
                 { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             }
@@ -482,7 +376,7 @@ export default {
   }
   .simple-item{
     min-width: 140px;
-    border-left: 2px solid rgb(230, 232, 238);
+    border-right: 2px solid rgb(230, 232, 238);
     padding-left: 20px;
     float: left;
     margin: 20px 30px 20px 0;
