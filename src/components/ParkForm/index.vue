@@ -86,6 +86,24 @@
               v-if="item.type === 'cascader'"
               :options="item.options"
             ></el-cascader>
+
+            <div v-if="item.type === 'addGroup'">
+              <el-input
+                style="width: 25%"
+                type="input"
+              >
+              </el-input>
+              <el-input
+                style="width: 25%"
+                type="input"
+              >
+              </el-input>
+              <el-input
+                style="width: 25%"
+                type="input"
+              >
+              </el-input>
+            </div>
           </el-form-item>
         </el-card>
       </div>
