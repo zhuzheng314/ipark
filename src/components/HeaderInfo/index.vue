@@ -59,6 +59,7 @@ export default {
       }
     }
     .el-table__body-wrapper{
+      overflow: hidden;
       td{
         border-bottom: none;
         color: @blue;

@@ -102,6 +102,7 @@
             <div
               v-if="!showType"
               class="list-item"
+              @click="roomInfo({index,subIndex})"
               :style="{ width: 'calc(' + 100 / item.length + '% - 5px)' , background: subItem.bgColor }">
               <div class="text">阿里巴巴</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
@@ -111,6 +112,7 @@
             <div
               v-if="showType"
               class="list-item"
+              @click="roomInfo({index,subIndex})"
               :style="{ width: 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)' , background: subItem.bgColor }">
               <div class="text">阿里巴巴</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
@@ -122,6 +124,23 @@
         </div>
         <div class="clear"></div>
       </div>
+
+<!--      房间信息-->
+       <el-drawer
+      title="房间详情"
+      custom-class="drawer-r"
+      :visible.sync="roomInfoState"
+      size="1186px"
+      direction="rtl">
+        <HeaderCard :data="roomInfo_header"></HeaderCard>
+        <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
+        <div class="drawer-body" style="height: 720px;">
+          <BodyCard type=1 :data="roomInfo_body"></BodyCard>
+          <BodyCard type=2 :data="roomInfo_body_table1"></BodyCard>
+          <BodyCard type=2 :data="roomInfo_body_table2"></BodyCard>
+          <!-- <BodyCard type=2 :data="drawer_body_table"></BodyCard> -->
+        </div>
+      </el-drawer>
     </el-card>
   </div>
 </template>
@@ -138,22 +157,24 @@ export default {
   data () {
     return {
       showType: true,
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }
+      ],
       value: '',
       fakerList: [
       ],
@@ -364,6 +385,95 @@ export default {
           ],
           value: ''
         }
+      },
+      roomInfoState: false, // 房间信息弹窗
+      roomInfo_header: {
+        title: '',
+        button: [
+          {
+            name: '编辑',
+            icon: '&#xe62a;',
+            function: 'click1'
+          },
+          {
+            name: '附件',
+            icon: '&#xe62a;',
+            function: 'click1'
+          },
+          {
+            name: '备注',
+            icon: '&#xe62a;',
+            function: 'click1'
+          },
+          {
+            name: '更多',
+            icon: '&#xe62a;',
+            function: 'click1'
+          }
+        ]
+      },
+      roomInfo_info: {
+        label: [
+          { prop: 'area', label: '面积(㎡)' },
+          { prop: 'state', label: '招商状态' },
+          { prop: 'price', label: '预租单价(元/㎡·天)' },
+          { prop: 'decorate', label: '装修' },
+          { prop: 'tag', label: '表签' }
+        ],
+        tableData: [{
+          area: '360.00',
+          state: '可招商',
+          price: '3.00',
+          decorate: '简装',
+          tag: '自带办公家居，随时入住'
+        }]
+      },
+      roomInfo_body: {
+        title: '租赁效益',
+        info: [
+          { name: '计租率(%)', value: '-' },
+          { name: '计租天数', value: '-' },
+          { name: '空置天数', value: '316' },
+          { name: '实时单价', value: '-' }
+
+        ]
+      },
+      roomInfo_body_table1: {
+        title: '合同',
+        info: {
+          label: [
+            { prop: 'tenant', label: '租客' },
+            { prop: 'total', label: '租赁数' },
+            { prop: 'start', label: '计租日' },
+            { prop: 'end', label: '结束日' },
+            { prop: 'price', label: '合同单价' },
+            { prop: 'state', label: '状态' }
+          ],
+          tableData: [
+            {
+              tenant: '拓源科技',
+              total: '360',
+              start: '2019/11/11',
+              end: '2020/11/10',
+              price: '3.00元/㎡·天',
+              state: '新建待审核'
+            }
+          ]
+        }
+      },
+      roomInfo_body_table2: {
+        title: '客户',
+        info: {
+          label: [
+            { prop: 'tenant', label: '租客' },
+            { prop: 'state', label: '客户状态' },
+            { prop: 'date', label: '来访时间' },
+            { prop: 'channel', label: '渠道' },
+            { prop: 'area', label: '需求面积' }
+          ],
+          tableData: [
+          ]
+        }
       }
     }
   },
@@ -385,6 +495,7 @@ export default {
       fakerList.push(arr)
     }
     this.fakerList = fakerList
+    console.log(this.fakerList)
   },
   methods: {
     getState (value) {
@@ -392,6 +503,14 @@ export default {
     },
     random (min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min)
+    },
+    roomInfo (id) {
+      this.roomInfoState = true
+      // console.log(id.index,id.subIndex);
+      this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
+    },
+    click1 () {
+      alert('ok')
     },
     goBack () {
       this.$router.go(-1) // 后退

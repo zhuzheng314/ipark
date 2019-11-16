@@ -9,7 +9,7 @@
   direction="rtl">
     <HeaderCard :data="drawer_header"></HeaderCard>
     <HeaderInfo type=1 :data="drawer_info"></HeaderInfo>
-    <div class="drawer-body" style="height: 800px;">
+    <div class="drawer-body" style="height:720px;">
       <BodyCard type=1 :data="drawer_body"></BodyCard>
       <BodyCard type=2 :data="drawer_body_table"></BodyCard>
       <BodyCard type=2 :data="drawer_body_table"></BodyCard>
@@ -136,5 +136,4 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
-
 </style>
