@@ -1,23 +1,23 @@
 <template>
   <div class="building">
-    <el-card class="box-card-title">
-      <div class="back" @click="setState">
-        <i class="el-icon-arrow-left"></i>
-      </div>
-      <div class="parkName">
-        <i class="iconfont">&#xe60c;</i>
-        <p class="park-building">西港发展中心  /  B栋</p>
-        <p class="details">查看详情</p>
-      </div>
-      <div class="building-infoBox">
-        <InfoBox type=0 :data="infoBox.area"></InfoBox>
-        <InfoBox type=1 :data="infoBox.area"></InfoBox>
-        <InfoBox type=2 :data="infoBox.area"></InfoBox>
-        <InfoBox type=3 :data="infoBox.area"></InfoBox>
+<!--    <el-card class="box-card-title">-->
+<!--      <div class="back" @click="setState">-->
+<!--        <i class="el-icon-arrow-left"></i>-->
+<!--      </div>-->
+<!--      <div class="parkName">-->
+<!--        <i class="iconfont">&#xe60c;</i>-->
+<!--        <p class="park-building">西港发展中心  /  B栋</p>-->
+<!--        <p class="details">查看详情</p>-->
+<!--      </div>-->
+<!--      <div class="building-infoBox">-->
+<!--        <InfoBox type=0 :data="infoBox.area"></InfoBox>-->
+<!--        <InfoBox type=1 :data="infoBox.area"></InfoBox>-->
+<!--        <InfoBox type=2 :data="infoBox.area"></InfoBox>-->
+<!--        <InfoBox type=3 :data="infoBox.area"></InfoBox>-->
 
-      </div>
-    </el-card>
-    <el-card class="box-card-content" :body-style="{height:'100%',boxSizing:'border-box'}">
+<!--      </div>-->
+<!--    </el-card>-->
+    <el-card class="box-card-content" style="margin-bottom: 10px" :body-style="{height:'100%',boxSizing:'border-box'}">
       <div class="requirement">
         <el-select class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
           <el-option
@@ -70,25 +70,57 @@
         <el-button type="success">查询</el-button>
         <el-button type="info">重置</el-button>
       </div>
-      <div class="noFloor" v-if="floorList.length==0">暂无楼层</div>
-      <div class="floors" v-if="floorList.length>0">
-        <div class="floor" v-for="(item,i) in floorList" :key="(item,i)">
-          <div class="floor-title">
-            <p>{{item.name}}</p>
-            <p>{{item.area}}</p>
-          </div>
-          <div v-if="item.roomList.length==0" class="noRroom">暂无房间</div>
-          <div v-if="item.roomList.length>0" class="rooms">
-            <RoomBox
-            v-for="(room,j) in item.roomList"
-            :key="(room,j)"
-            :total="item.count"
-            :count="room.count"
-            ></RoomBox>
-          </div>
-        </div>
-      </div>
+      <div>
 
+      </div>
+    </el-card>
+
+    <el-card>
+      <el-table
+        ref="filterTable"
+        :data="tableData"
+        @row-click="handleRowClick"
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          width="300"
+          label="名称">
+          <template  slot-scope="scope">
+            <div class="tablecard">
+              <img class="img" :src="scope.row.img">
+              <div class="right">
+                <div class="name">{{scope.row.name}}</div>
+                <div class="value">{{scope.row.area}}</div>
+              </div>
+            </div>
+
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="can"
+          label="可招租面积">
+        </el-table-column>
+        <el-table-column
+          prop="price"
+          label="在租均价">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          width="200"
+          label="出租率">
+          <template>
+            <el-progress :percentage="50"></el-progress>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="num"
+          label="总房源数量">
+        </el-table-column>
+        <el-table-column
+          prop="num"
+          label="可招租房源数量">
+        </el-table-column>
+      </el-table>
     </el-card>
   </div>
 </template>
@@ -99,7 +131,7 @@ import InfoBox from '@/components/InfoBox/index.vue'
 export default {
   name: 'building',
   components: {
-    RoomBox, InfoBox
+    // RoomBox, InfoBox
   },
   props: ['state'],
   data () {
@@ -266,11 +298,25 @@ export default {
         { name: '二楼', area: '1534m³', count: 3, roomList: [{ name: '', area: 0, state: 0, count: 3 }] },
         { name: '三楼', area: '1534m³', count: 3, roomList: [{ name: '', area: 0, state: 0, count: 2 }, { name: '', area: 0, state: 0, count: 1 }] },
         { name: '四楼', area: '1534m³', count: 3, roomList: [{ name: '', area: 0, state: 0, count: 1 }, { name: '', area: 0, state: 0, count: 1 }, { name: '', area: 0, state: 0, count: 1 }] }
-      ]
+      ],
+      tableData: []
     }
   },
   mounted () {
-
+    [1, 1, 1, 1, 1].forEach((a, i) => {
+      this.tableData.push({
+        img: require('@/assets/img/park/build.png'),
+        date: '2016-05-02',
+        name: '协力大厦' + i,
+        can: '10000 ㎡',
+        price: '2.22元/㎡·天',
+        percent: '10%',
+        area: '建筑面积：12344 ㎡',
+        num: 10,
+        address: '上海市普陀区金沙江路 1518 弄',
+        tag: '家'
+      })
+    })
   },
   watch: {
 
@@ -279,6 +325,10 @@ export default {
     setState () {
       this.stateValue = 0
       this.$emit('getState', this.stateValue)
+    },
+    handleRowClick (row, column, event) {
+      console.log(row, column, event)
+      this.$router.push('/asset-management/assetInfo')
     }
   }
 }
@@ -408,7 +458,27 @@ export default {
       width: ~"calc(100% - 120px)";
       border: 1px solid #f0f;
     }
-
+    .tablecard{
+      .img{
+        width: 96px;
+        height: 62px;
+        float: left;
+        margin-right: 10px;
+      }
+      .right{
+        .name{
+          font-size: 16px;
+          padding: 9px 0 14px;
+          line-height: 16px;
+          color: #666;
+        }
+        .value{
+          font-size: 14px;
+          line-height: 14px;
+          color: #8D8D8D;
+        }
+      }
+    }
   }
 
 </style>

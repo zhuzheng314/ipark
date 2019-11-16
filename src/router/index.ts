@@ -14,6 +14,9 @@ import Equipment from '@/pages/Property/equipment.vue' // 工单
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 
 import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
+import Park from '@/pages/asset-management/park.vue' // 园区
+import Build from '@/pages/asset-management/building.vue' // 楼宇
+import Room from '@/pages/asset-management/room.vue' // 房间
 
 import Test from '@/pages/test/index.vue' // 测试
 
@@ -52,9 +55,19 @@ const routes = [
         component: AssetInfo
       },
       {
-        path: 'retrieval',
-        name: 'retrieval',
-        component: ContractList
+        path: 'park',
+        name: 'park',
+        component: Park
+      },
+      {
+        path: 'build',
+        name: 'build',
+        component: Build
+      },
+      {
+        path: 'room',
+        name: 'room',
+        component: AssetInfo
       }
     ]
   },
