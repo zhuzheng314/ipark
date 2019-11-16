@@ -36,21 +36,6 @@ filterFun.funs.forEach((v, k) => {
   Vue.filter(k, v)
 })
 
-// localStorage.setItem('token','1');
-// router.beforeEach((to, from, next) => {
-//   if (to.path === '/home') {
-//     let token = localStorage.getItem('token');
-//     if (token===null||token===''){
-//       next('/test/test');
-//     }
-//     else{
-//       next();
-//     }
-//   }else{
-//     next();
-//   }
-// })
-
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

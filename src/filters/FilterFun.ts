@@ -3,10 +3,18 @@ export class FilterFun {
   constructor () {
     this.funs.set('NumFormat', this.NumFormat)
     this.funs.set('Percent', this.Percent)
+    this.funs.set('NumOrFalse', this.NumOrFalse)
   }
   // 数字格式
   NumFormat (value: any, n = 0): any {
     if (value === '' || value == null) { return 0 }
+    if (!value) {
+      if (value === 0) {
+        return 0
+      } else {
+        return '-'
+      }
+    }
     if (isNaN(value)) {
       return 0
     } else {
@@ -31,5 +39,17 @@ export class FilterFun {
   Percent (value: any): string {
     value = Number(value * 100).toFixed(2)
     return value + '%'
+  }
+
+  NumOrFalse (value: any): any {
+    if (!value) {
+      if (value === 0) {
+        return 0
+      } else {
+        return '-'
+      }
+    } else {
+      return value
+    }
   }
 }

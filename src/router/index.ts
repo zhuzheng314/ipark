@@ -67,7 +67,7 @@ const routes = [
       {
         path: 'room',
         name: 'room',
-        component: AssetInfo
+        component: Room
       }
     ]
   },
