@@ -47,15 +47,25 @@ export default {
           name: '资产管理',
           icon: '\ue604',
           children: [
+            // {
+            //   name: '园区管理',
+            //   icon: '',
+            //   path: '/asset-management/assetInfo'
+            // },
             {
-              name: '园区管理',
+              name: '园区',
               icon: '',
-              path: '/asset-management/assetInfo'
+              path: '/asset-management/park'
             },
             {
-              name: '资产检索',
+              name: '楼宇',
               icon: '',
-              path: '/asset-management/retrieval'
+              path: '/asset-management/build'
+            },
+            {
+              name: '房间',
+              icon: '',
+              path: '/asset-management/room'
             }
           ]
         },
@@ -67,11 +77,6 @@ export default {
               name: '客户管理',
               icon: '',
               path: '/business/customer'
-            },
-            {
-              name: '招商任务',
-              icon: '',
-              path: '/business/task'
             }
           ]
         },
@@ -151,7 +156,7 @@ export default {
     animation: logo 10s infinite;
     height: 50px;
     line-height: 50px;
-    width: 100%;
+    width: 30%;
     text-align: left;
     padding-left: 10px;
     color: white;
