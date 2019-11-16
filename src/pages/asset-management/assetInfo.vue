@@ -1,8 +1,12 @@
 <template>
   <div class="assetInfo">
-    <el-card style="margin-bottom: 10px">
-      <CardList v-for="item in 5"  :key="item + 'cardl'" style="width: 18%; margin: 0 10px 0 0; float: left"></CardList>
-      <div class="clear"></div>
+    <!-- <el-card style="margin-bottom: 10px;d"> -->
+      <!-- <CardList v-for="item in 5"  :key="item + 'cardl'" style="width: 18%; margin: 0 10px 0 0; float: left"></CardList>
+      <div class="clear"></div> -->
+    <!-- </el-card> -->
+    <el-card style="margin-bottom:10px">
+      <InfoBox style="with:250px;margin:0 15px 0 10px;float: left" v-for="item in 5" :type='item % 4' :key="'info' + item" :data="infoBoxData"></InfoBox>
+      <div style="clear:both"></div>
     </el-card>
 
     <el-card>
@@ -64,13 +68,13 @@
 </template>
 
 <script>
-import CardList from '@/components/CardList/index.vue'
 import ElDivider from 'element-ui/packages/divider/src/main'
+import InfoBox from '@/components/InfoBox/index.vue'
 export default {
   name: 'assetInfo',
   components: {
     ElDivider,
-    CardList
+    InfoBox
   },
   data () {
     return {
@@ -94,7 +98,23 @@ export default {
       value: '',
       fakerList: [
       ],
-      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91']
+      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91'],
+      infoBoxData: {
+        title: {
+          name: '可招商面积',
+          note: '可招商面积'
+        },
+        value: {
+          value: 203400,
+          unit: '㎡',
+          chart: 0.42
+        },
+        subtitle: {
+          name: '可招商房间',
+          value: 22,
+          unit: '间'
+        }
+      }
     }
   },
   mounted () {

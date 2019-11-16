@@ -1,15 +1,15 @@
 <template>
 <div class="headerInfo">
   <el-card class="box-card" shadow="never">
-    <!-- <el-table v-if="type==1" :data="tableData" style="width: 100%">
+    <el-table v-if="type==1" :data="tableData" style="width: 100%">
       <el-table-column
-        v-for="item in label"
-        :key="item"
+        v-for="(item,i) in label"
+        :key="(item,i)"
         :prop="item.prop"
         :label="item.label"
-        width="180">
+        :width="1186/data.label.length">
       </el-table-column>
-    </el-table> -->
+    </el-table>
   </el-card>
 </div>
 </template>
@@ -35,6 +35,7 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
+
 .headerInfo{
   /deep/ .box-card{
     height: 99px;
@@ -44,7 +45,30 @@ export default {
       position: relative;
     }
   }
-  /deep/ .el-table__header-wrapper{
+  /deep/ .el-table{
+    &::before{
+      height: 0;
+    }
+    .el-table__header-wrapper{
+      th{
+
+        border-bottom: none;
+        color: @text-color;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+    .el-table__body-wrapper{
+      td{
+        border-bottom: none;
+        color: @blue;
+        font-size: 18px;
+        text-align: center;
+      }
+    }
+    .cell{
+      .ellipsis;
+    }
   }
 }
 </style>

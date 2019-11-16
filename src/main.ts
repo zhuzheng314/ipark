@@ -9,10 +9,11 @@ import router from './router'
 import store from './store'
 import 'vue-g2'
 
-import * as filters from './filters/filters'
+import { FilterFun } from './filters/FilterFun'
+const filterFun: FilterFun = new FilterFun()
 
-Object.keys(filters.filters).forEach((key:any) => {
-  Vue.filter(filters.filters[key].name, filters.filters[key].fun)
+filterFun.funs.forEach((v, k) => {
+  Vue.filter(k, v)
 })
 
 // localStorage.setItem('token','1');

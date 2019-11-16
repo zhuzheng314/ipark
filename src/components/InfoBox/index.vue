@@ -55,7 +55,7 @@ export default {
       value: {
         value: number,//必填
         unit: "",//可无
-        chart: this.data.value.chart
+        chart: number//0.89(输入) -> 89%(展示)
       },
       subtitle: {//可无,赋值{}
         name: "",//可无
@@ -92,7 +92,7 @@ export default {
 .infoBox{
   height: 80px;
   width: 198px;
-  padding: 24px 0 18px 0;
+  height: 100px;
   position: relative;
   .infoBox-title,.infoBox-value,.infoBox-subtitle{
     width: 100%;

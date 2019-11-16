@@ -6,9 +6,9 @@
       <span>{{headerCard_title}}</span>
     </div>
     <div class="headerCard-btns">
-      <div class="btnBox" v-for="item in headerCard_button" :key="item">
+      <div class="btnBox" v-for="(item,i) in headerCard_button" :key="(item,i)" @click="childMethod(item.function)">
         <i class="iconfont" v-html="item.icon"></i>
-        <span class="headerCard-btn-name" @click="childMethod(item.function)">{{item.name}}</span>
+        <span class="headerCard-btn-name">{{item.name}}</span>
       </div>
     </div>
   </el-card>
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     childMethod (fun) {
-      this.$parent.$parent[fun]()
+      this.$parent.$parent[fun]({ ...other })
     }
   }
 }
