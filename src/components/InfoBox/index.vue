@@ -10,12 +10,12 @@
     </div>
     <div class="infoBox-value">
       <span>{{infoData.value.value | NumFormat }}{{infoData.value.unit}}</span>
-      <div v-if="type==1" class="infoBox-chart" :class="infoData.value.chart<0 ? 'down' : 'up'">
+      <div v-if="type==='num'" class="infoBox-chart" :class="infoData.value.chart<0 ? 'down' : 'up'">
         <span>{{infoData.value.chart | Percent}}</span>
         <i v-if="infoData.value.chart<0" class="el-icon-bottom"></i>
         <i v-if="infoData.value.chart>0" class="el-icon-top"></i>
       </div>
-      <div v-if="type==2" class="infoBox-chart">
+      <div v-if="type==='chart'" class="infoBox-chart">
         <el-progress
         type="circle"
         :width="28"
@@ -24,14 +24,14 @@
         :show-text=false
         ></el-progress>
       </div>
-      <div v-if="type==3" class="infoBox-chart">
+      <div v-if="type==='text'" class="infoBox-chart">
         <span>{{infoData.value.chart}}</span>
       </div>
     </div>
     <div class="infoBox-subtitle">
-      <span v-if="infoData.subtitle.name!==false" >{{data.subtitle.name}}</span>
-      <span v-if="infoData.subtitle.value!==false" >:{{data.subtitle.value}}</span>
-      <span v-if="infoData.subtitle.unit!==false" >{{data.subtitle.unit}}</span>
+      <span>{{data.subtitle.name}}</span>
+      <span>:{{data.subtitle.value | NumOrFalse}}</span>
+      <span>{{data.subtitle.unit}}</span>
 
     </div>
   </div>
@@ -90,9 +90,8 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .infoBox{
-  height: 80px;
   width: 198px;
-  height: 100px;
+  height: 87px;
   position: relative;
   .infoBox-title,.infoBox-value,.infoBox-subtitle{
     width: 100%;
