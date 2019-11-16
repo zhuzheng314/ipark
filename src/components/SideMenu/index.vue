@@ -61,11 +61,6 @@ export default {
               name: '楼宇',
               icon: '',
               path: '/asset-management/build'
-            },
-            {
-              name: '房间',
-              icon: '',
-              path: '/asset-management/room'
             }
           ]
         },
