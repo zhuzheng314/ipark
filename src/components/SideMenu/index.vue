@@ -127,6 +127,16 @@ export default {
               path: '/financial/list'
             }
           ]
+        },
+        {
+          name: '测试',
+          icon: '\ue60a',
+          children: [
+            {
+              name: '弹窗',
+              path: '/test/test'
+            }
+          ]
         }
       ],
       collapse: true

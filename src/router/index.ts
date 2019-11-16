@@ -18,6 +18,8 @@ import Park from '@/pages/asset-management/park.vue' // 园区
 import Build from '@/pages/asset-management/building.vue' // 楼宇
 import Room from '@/pages/asset-management/room.vue' // 房间
 
+import Test from '@/pages/test/index.vue' // 测试
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,6 +28,9 @@ const routes = [
     redirect: 'home',
     name: 'overview',
     component: BasicLayout,
+    meta: {
+      requireAuth: true
+    },
     children: [
       {
         path: '/home',
@@ -145,6 +150,18 @@ const routes = [
         component: FinancialList
       }
     ]
+  },
+  {
+    path: '/test', // 测试
+    redirect: '',
+    component: BasicLayout,
+    children: [
+      {
+        path: 'test',
+        name: 'test',
+        component: Test
+      }
+    ]
   }
   // {
   //   path: '/about',
@@ -157,7 +174,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })

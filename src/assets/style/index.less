@@ -37,24 +37,55 @@
   margin-bottom: 10px;
 }
 
+// 溢出显示...
+.ellipsis{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 // 小标题竖线
 .title-style(){
 	width: 100%;
 	height: 48px;
-	padding-left: 36px;
+	padding-left: 30px;
 	position: relative;
 	color: @text-color;
 	font-size: 16px;
 	line-height: 48px;
+	box-sizing: border-box;
 	&:before{
 		content: "";
 		display: block;
 		width: 4px;
-		height: 32px;
+		height: 24px;
 		position: absolute;
 		top: 50%;
     left: 16px;
 		transform: translateY(-50%);
 		background: @blue;
 	}
+}
+
+// 右侧弹窗
+/deep/ .drawer-r{
+	.el-drawer__header{
+		padding: 0;
+		text-align: center;
+		height: 44px;
+		line-height: 44px;
+		font-size: 18px;
+		color: @text-color;
+		border-bottom: 1px solid #C0C4D3;
+		margin-bottom: 0px;
+	}
+	.el-drawer__body{
+		background: #eee;
+	}
+}
+
+// 弹窗body
+.drawer-body{
+	overflow: auto;
+	padding-bottom: 60px;
 }
