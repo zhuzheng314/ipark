@@ -1,6 +1,6 @@
 <template>
   <div class="g-side">
-    <h5 class="logo">logo</h5>
+    <h5 class="logo"></h5>
     <!--  <div style="color: white" @click="() => this.collapse = !this.collapse"> 展开 </div>-->
     <div class="g-side-menu">
       <el-menu
