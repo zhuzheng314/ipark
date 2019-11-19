@@ -1,9 +1,11 @@
 <template>
   <div>
-    <el-card style="width: 100%">
+    <el-card>
       <div>
+
         <el-select  size="small"
                     multiple
+                    style="width: 180px; margin-right: 15px"
                     v-model="value"
                     placeholder="所属园区">
           <el-option
@@ -15,6 +17,7 @@
         </el-select>
         <el-select  size="small"
                     multiple
+                    style="width: 180px; margin-right: 15px"
                     v-model="value"
                     placeholder="审批状态">
           <el-option
@@ -24,9 +27,12 @@
             :value="item.value">
           </el-option>
         </el-select>
+
         <el-date-picker
+          size="small"
           v-model="date"
           type="daterange"
+          style="width: 220px; margin-right: 15px"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
@@ -34,17 +40,18 @@
         <el-input
           placeholder="搜索企业"
           size="small"
-          style="width: 220px; margin-left: 15px"
+          style="width: 180px; margin-right: 15px"
           prefix-icon="el-icon-search"
           v-model="value">
         </el-input>
+
         <el-button
           style="float: right;"
           type="primary"
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >申请</el-button>
+        >新增</el-button>
       </div>
     </el-card>
     <el-card>
@@ -87,10 +94,9 @@
           prop="h"
           sortable
           label="审批状态">
-        </el-table-column>
-        <el-table-column
-          prop="i"
-          label="操作">
+          <template slot-scope="scope">
+            <el-tag size="mini">{{scope.row.h}}</el-tag>
+          </template>
         </el-table-column>
       </el-table>
       <div style="width: 100%; text-align: right; padding-top: 20px">
@@ -102,10 +108,9 @@
     </el-card>
 
     <el-dialog
-      title="新建申请"
+      title="新建合同"
       :visible.sync="addContractVisible"
-      width="600px"
-      :before-close="handleClose">
+      width="800px">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>
@@ -177,6 +182,8 @@ export default {
       addContractFormList: [
         {
           title: '客户信息',
+          span: 12,
+          minHeight: 450,
           children: [
             {
               type: 'input',
@@ -259,6 +266,8 @@ export default {
           ]
         }, {
           title: '开票信息',
+          span: 12,
+          minHeight: 450,
           children: [
             {
               type: 'input',
@@ -328,6 +337,8 @@ export default {
         },
         {
           title: '工商信息',
+          span: 24,
+          itemSpan: 12,
           children: [
             {
               type: 'input',
@@ -614,9 +625,7 @@ export default {
     tenantsState () {
       this.tenantsInfoState = true
     },
-    handleClose () {
-      this.addContractVisible = false
-    },
+    handleClose () { },
     open (i) {
       this.$message('这里是' + i)
     }

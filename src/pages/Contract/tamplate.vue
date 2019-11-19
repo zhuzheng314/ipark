@@ -54,15 +54,6 @@
           prop="e"
           label="模板描述">
         </el-table-column>
-        <el-table-column
-          prop="f"
-          label="操作">
-          <template>
-            <el-button type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">启用</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
-        </el-table-column>
       </el-table>
     </el-card>
 

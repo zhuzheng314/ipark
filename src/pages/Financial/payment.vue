@@ -5,7 +5,7 @@
         <el-select  size="small"
                     multiple
                     v-model="value"
-                    placeholder="客户类型">
+                    placeholder="费用类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -27,14 +27,10 @@
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >客户</el-button>
+        >新增催缴</el-button>
       </div>
     </el-card>
     <el-card>
-<!--      <el-radio-group v-model="radio" size="mini">-->
-<!--        <el-radio-button label="收款"></el-radio-button>-->
-<!--        <el-radio-button label="付款"></el-radio-button>-->
-<!--      </el-radio-group>-->
       <div>
         <div :key="item.name" v-for="item in finData" class="simple-item">
           <div class="title">{{item.name}}</div>
@@ -46,43 +42,47 @@
     <el-card>
       <el-table
         :data="tableData"
-        @row-click="customerState"
+        @row-click="financialState"
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="客户状态">
+          label="楼宇名称">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="渠道">
+          label="房间号">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="需求面积段">
+          label="客户名称">
         </el-table-column>
         <el-table-column
           prop="d"
-          label="行业">
+          label="费用类型">
         </el-table-column>
         <el-table-column
           prop="e"
-          label="预计签约时间">
+          label="催缴金额">
         </el-table-column>
         <el-table-column
-          prop="e"
-          label="币种（单位）">
+          prop="num"
+          label="逾期天数">
         </el-table-column>
         <el-table-column
-          prop="e"
+          prop="person"
           label="跟进人">
+        </el-table-column>
+        <el-table-column
+          prop="day"
+          label="最近一次催缴时间">
         </el-table-column>
       </el-table>
     </el-card>
 
     <el-dialog
-      title="新建客户"
+      title="新建收付款账单"
       :visible.sync="addContractVisible"
-      width="800px">
+      width="600px">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>
@@ -91,25 +91,30 @@
         <el-button type="primary" @click="addContractVisible = false">确 定</el-button>
       </span>
     </el-dialog>
-<!--  客户详情-->
+    <!--  账单详情-->
     <el-drawer
-      title="客户详情"
+      title="账单详情"
       custom-class="drawer-r"
-      :visible.sync="customerInfoState"
+      :visible.sync="financialInfoState"
       size="1186px"
       direction="rtl">
-      <HeaderCard :data="customerInfo_header">
+      <HeaderCard :data="financialInfo_header">
         <template #headerCardBtns>
-          <div class="btnBox" v-for="(item,i) in customerInfo_header.button" :key="(item,i)" @click="open(item.name)">
+          <div class="btnBox" v-for="(item,i) in financialInfo_header.button" :key="(item,i)" @click="open(item.name)">
             <i class="iconfont" v-html="item.icon"></i>
             <span class="headerCard-btn-name">{{item.name}}</span>
           </div>
         </template>
       </HeaderCard>
+      <HeaderInfo type=1 :data="financialInfo_info"></HeaderInfo>
       <div class="drawer-body" style="height: 660px;">
-        <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
-        <!-- <BodyCard type=1 :data="customerInfo_body_room"></BodyCard> -->
-        <!-- <BodyCard type=2 :data="customerInfo_body_table1"></BodyCard> -->
+        <BodyCard type=1 :data="financialInfo_body_financial"></BodyCard>
+        <BodyCard type=1 :data="financialInfo_body_room"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table1"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table2"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table3"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table4"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table5"></BodyCard>
 
       </div>
     </el-drawer>
@@ -133,62 +138,29 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '初次接触', value: 10000 },
-        { name: '潜在客户', value: 10000 },
-        { name: '意向客户', value: 10000 },
-        { name: '成交客户', value: 10000 },
-        { name: '流失客户', value: 10000 },
-        { name: '总计', value: 10000 }
+        { name: '应收(3笔)', value: '10000' },
+        { name: '滞纳金', value: 10000 },
+        { name: '已收', value: 10000 },
+        { name: '未缴(3笔)', value: '10000' }
       ],
       options: [
         {
-          value: '选项1',
-          label: '全部'
-        }, {
           value: '选项2',
-          label: '水费'
+          label: '租金'
         }, {
           value: '选项3',
-          label: '电费'
-        }, {
-          value: '选项4',
-          label: '燃气'
-        }, {
-          value: '选项5',
-          label: '房租'
+          label: '物业费用'
         }
       ],
       value: '',
       addContractVisible: false,
       addContractFormList: [
         {
-          title: '客户信息',
-          span: 12,
-          minHeight: 500,
+          title: '账单',
           children: [
             {
-              type: 'input',
-              label: '客户',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '跟进人',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
               type: 'select',
-              label: '行业',
+              label: '关联合同',
               key: 'tamplate',
               placeholder: '请输入',
               rule: [
@@ -206,7 +178,7 @@ export default {
             },
             {
               type: 'input',
-              label: '客户需求',
+              label: '付款方',
               key: 'i',
               placeholder: '请输入租客名称',
               rule: [
@@ -215,8 +187,8 @@ export default {
               ]
             },
             {
-              type: 'date-picker',
-              label: '来访时间',
+              type: 'input',
+              label: '联系人',
               key: 'i',
               placeholder: '请输入租客名称',
               rule: [
@@ -226,7 +198,7 @@ export default {
             },
             {
               type: 'select',
-              label: '来访渠道',
+              label: '费用类型',
               key: 'tamplate',
               placeholder: '请输入',
               rule: [
@@ -234,12 +206,60 @@ export default {
               ],
               options: [
                 {
-                  label: '上门',
+                  label: '美食',
                   value: 's1'
                 }, {
                   label: '美食美食',
-                  value: '官网'
+                  value: 's2'
                 }
+              ]
+            },
+            {
+              type: 'select',
+              label: '币种',
+              key: 'tamplate',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ],
+              options: [
+                {
+                  label: '美食',
+                  value: 's1'
+                }, {
+                  label: '美食美食',
+                  value: 's2'
+                }
+              ]
+            },
+            {
+              type: 'date-picker-range',
+              label: '计费周期',
+              key: 'fr',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '滞纳金比例（%）',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '滞纳金上限（%）',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
@@ -253,11 +273,71 @@ export default {
               ]
             }
           ]
+        }, {
+          title: '工单信息',
+          children: [
+            {
+              type: 'input',
+              label: '服务地点',
+              key: 'tenantName',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '发起人',
+              key: 'tenantName',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'select',
+              label: '工单类型',
+              key: 'tamplate',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ],
+              options: [
+                {
+                  label: '美食',
+                  value: 's1'
+                }, {
+                  label: '美食美食',
+                  value: 's2'
+                }
+              ]
+            },
+            {
+              type: 'input',
+              label: '联系电话',
+              key: 'tenantName',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '预约服务时间',
+              key: 'fr',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入合同编号', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            }
+          ]
         },
         {
           title: '房源信息',
-          span: 12,
-          minHeight: 500,
           children: [
             {
               type: 'cascader',
@@ -374,35 +454,140 @@ export default {
           ]
         }
       ],
-      customerInfoState: false,
-      customerInfo_header: {
-        title: '杨晓明',
+      financialInfoState: false,
+      financialInfo_header: {
+        title: '收款方：杨',
         button: [
+          {
+            name: '王晓丹',
+            icon: '&#xe607;',
+            function: 'click1'
+          },
           {
             name: '附件',
             icon: '&#xe655;',
-            function: 'open'
+            function: 'click1'
+          },
+          {
+            name: '打印',
+            icon: '&#xe617;',
+            function: 'click1'
           },
           {
             name: '备注',
             icon: '&#xe7d1;',
-            function: 'open'
+            function: 'click1'
           }
         ]
       },
-      customerInfo_body_1: {
-        title: '客户信息',
+      financialInfo_info: {
+        label: [
+          { prop: 'a', label: '账单状态' },
+          { prop: 'b', label: '应退金额' },
+          { prop: 'c', label: '需退金额' },
+          { prop: 'd', label: '应退时间' }
+        ],
+        tableData: [{
+          a: '未付款',
+          b: '1,495.89元',
+          c: '1,495.89元',
+          d: '2020-01-07'
+        }]
+      },
+      financialInfo_body_financial: {
+        title: '账单信息',
         info: [
-          { name: '名称', value: '杨晓明' },
-          { name: '来访时间', value: '2019-10-28' },
-          { name: '客户状态', value: '未签约' },
-          { name: '渠道', value: '中介' },
-          { name: '需求面积段', value: '300-400' },
-          { name: '需求工位段', value: '50-100' },
-          { name: '行业', value: '互联网' },
-          { name: '预计签约时间', value: '2019-12-06' },
-          { name: '跟进人', value: '杨晓明' }
+          { name: '费用类型', value: '租金' },
+          { name: '计费周期', value: '2020-01-28-2020-04-27' },
+          { name: '账单金额', value: '1,495.89元' },
+          { name: '创建时间', value: '2019-10-28' },
+          { name: '收款方', value: '杨' },
+          { name: '收款方联系方式', value: '-' },
+          { name: '合同编号', value: '1003' },
+          { name: '账单编号', value: 'zj-20191028-016558624' },
+          { name: '备注', value: '-' }
         ]
+      },
+      financialInfo_body_room: {
+        title: '房源信息',
+        info: [
+          { name: '园区', value: '西港发展中心' },
+          { name: '楼宇', value: '协力大厦' },
+          { name: '房号', value: '10层302室' }
+        ]
+      },
+      financialInfo_body_table1: {
+        title: '收款',
+        info: {
+          label: [
+            { prop: 'a', label: '对方单位名称' },
+            { prop: 'b', label: '入账日' },
+            { prop: 'c', label: '借贷标' },
+            { prop: 'd', label: '发生额' },
+            { prop: 'e', label: '匹配金额' },
+            { prop: 'f', label: '匹配时间' },
+            { prop: 'g', label: '取消匹配时间' },
+            { prop: 'h', label: '操作' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table2: {
+        title: '付款',
+        info: {
+          label: [
+            { prop: 'a', label: '对方单位名称' },
+            { prop: 'b', label: '入账日' },
+            { prop: 'c', label: '借贷标' },
+            { prop: 'd', label: '发生额' },
+            { prop: 'e', label: '匹配金额' },
+            { prop: 'f', label: '匹配时间' },
+            { prop: 'g', label: '取消匹配时间' },
+            { prop: 'h', label: '操作' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table3: {
+        title: '结转',
+        info: {
+          label: [
+            { prop: 'a', label: '对方单位' },
+            { prop: 'b', label: '转入金额' },
+            { prop: 'c', label: '转出金额' },
+            { prop: 'd', label: '结转时间' },
+            { prop: 'e', label: '作废时间' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table4: {
+        title: '开票记录',
+        info: {
+          label: [
+            { prop: 'a', label: '购买方名称' },
+            { prop: 'b', label: '发票号码' },
+            { prop: 'c', label: '开票金额' },
+            { prop: 'd', label: '备注' },
+            { prop: 'e', label: '开票时间' },
+            { prop: 'f', label: '状态' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table5: {
+        title: '调整',
+        info: {
+          label: [
+            { prop: 'a', label: '调整金额' },
+            { prop: 'b', label: '调整时间' },
+            { prop: 'c', label: '调整类型' },
+            { prop: 'd', label: '备注' },
+            { prop: 'e', label: '作废调整时间' },
+            { prop: 'f', label: '操作' }
+          ],
+          tableData: []
+        }
       }
 
     }
@@ -411,8 +596,8 @@ export default {
     handleAddContract () {
       this.addContractVisible = true
     },
-    customerState () {
-      this.customerInfoState = true
+    financialState () {
+      this.financialInfoState = true
     },
     handleClose () { },
     open (i) {
@@ -424,10 +609,13 @@ export default {
       this.tableData.push(
         {
           a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '$20000'
+          b: '50' + item,
+          c: item % 2 === 0 ? '马云' : '马化腾',
+          d: item % 2 === 0 ? '物业收入' : '租金收入',
+          e: '$20000',
+          num: item * 3,
+          person: '刘涛',
+          day: '2011-11-11'
         }
       )
     })
@@ -437,7 +625,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/style/index.less';
+  @import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }

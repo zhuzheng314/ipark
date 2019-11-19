@@ -9,7 +9,6 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import registerGlobalComponents from './components/index.js'
-import request from './utils/request.js'
 import 'vue-g2'
 
 // 过滤器

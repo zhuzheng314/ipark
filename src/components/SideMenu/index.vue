@@ -106,10 +106,6 @@ export default {
             {
               name: '进驻申请',
               path: '/entry/apply'
-            },
-            {
-              name: '进驻审批',
-              path: '/entry/approval'
             }
           ]
         },
@@ -134,6 +130,14 @@ export default {
             {
               name: '费用列表',
               path: '/financial/list'
+            },
+            {
+              name: '财务收入',
+              path: '/financial/income'
+            },
+            {
+              name: '费用催缴',
+              path: '/financial/payment'
             }
           ]
         }

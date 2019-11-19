@@ -9,11 +9,13 @@ import ContractTemplate from '@/pages/Contract/tamplate.vue' // 合同模板
 import BusinessCustomer from '@/pages/Business/customer.vue' // 招商客户管理
 import BusinessTask from '@/pages/Business/task.vue' // 招商任务管理
 import ContractList from '@/pages/Contract/list.vue' // 合同列表
+import ContractAdd from '@/pages/Contract/add.vue' // 合同新增
 import TenantList from '@/pages/Tenants/index.vue' // 租客列表
 import WorkOrders from '@/pages/Property/workOrders.vue' // 工单
 import Equipment from '@/pages/Property/equipment.vue' // 工单
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
-
+import FinancialIncome from '@/pages/Financial/income.vue' // 财务收入
+import FinancialPayment from '@/pages/Financial/payment.vue' // 费用催缴
 import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 import Park from '@/pages/asset-management/park.vue' // 园区
 import Build from '@/pages/asset-management/building.vue' // 楼宇
@@ -110,6 +112,11 @@ const routes = [
         path: 'list',
         name: 'list',
         component: ContractList
+      },
+      {
+        path: 'add',
+        name: 'add',
+        component: ContractAdd
       }
     ]
   },
@@ -173,6 +180,16 @@ const routes = [
         path: 'list',
         name: 'financialList',
         component: FinancialList
+      },
+      {
+        path: 'income', // 财务收入
+        name: 'FinancialIncome',
+        component: FinancialIncome
+      },
+      {
+        path: 'payment', // 费用催缴
+        name: 'FinancialPayment',
+        component: FinancialPayment
       }
     ]
   },

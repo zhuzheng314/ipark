@@ -84,14 +84,6 @@
           prop="e"
           label="开票金额">
         </el-table-column>
-        <el-table-column
-          prop="f"
-          label="操作">
-          <template>
-            <el-button type="text" size="small" @click="financialState">查看</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
-        </el-table-column>
       </el-table>
     </el-card>
 
@@ -155,12 +147,10 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '应收（0笔）', value: 10000 },
+        { name: '应收(3笔)', value: '10000' },
         { name: '滞纳金', value: 10000 },
-        { name: '实收', value: 10000 },
-        { name: '调整', value: 10000 },
-        { name: '转入', value: 10000 },
-        { name: '需收（0笔）', value: 10000 }
+        { name: '已收', value: 10000 },
+        { name: '未缴(3笔)', value: '10000' }
       ],
       options: [
         {
@@ -656,7 +646,7 @@ export default {
   }
   .simple-item{
     min-width: 140px;
-    border-left: 2px solid rgb(230, 232, 238);
+    border-right: 2px solid rgb(230, 232, 238);
     padding-left: 20px;
     float: left;
     margin: 20px 30px 20px 0;

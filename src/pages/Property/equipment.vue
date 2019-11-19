@@ -86,14 +86,13 @@
     <el-dialog
       title="新建设备"
       :visible.sync="addContractVisible"
-      width="600px"
-      :before-close="handleClose">
+      width="600px">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="addContractVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addContractVisible = false">确 定</el-button>
       </span>
     </el-dialog>
 
