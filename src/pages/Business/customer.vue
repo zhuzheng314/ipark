@@ -46,6 +46,7 @@
     <el-card>
       <el-table
         :data="tableData"
+        @row-click="customerState"
         style="width: 100%">
         <el-table-column
           prop="a"
@@ -91,6 +92,28 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+<!--  客户详情-->
+    <el-drawer
+      title="客户详情"
+      custom-class="drawer-r"
+      :visible.sync="customerInfoState"
+      size="1186px"
+      direction="rtl">
+      <HeaderCard :data="customerInfo_header">
+        <template #headerCardBtns>
+          <div class="btnBox" v-for="(item,i) in customerInfo_header.button" :key="(item,i)" @click="open(item.name)">
+            <i class="iconfont" v-html="item.icon"></i>
+            <span class="headerCard-btn-name">{{item.name}}</span>
+          </div>
+        </template>
+      </HeaderCard>
+      <div class="drawer-body" style="height: 660px;">
+        <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
+        <!-- <BodyCard type=1 :data="customerInfo_body_room"></BodyCard> -->
+        <!-- <BodyCard type=2 :data="customerInfo_body_table1"></BodyCard> -->
+
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -118,22 +141,24 @@ export default {
         { name: '流失客户', value: 10000 },
         { name: '总计', value: 10000 }
       ],
-      options: [{
-        value: '选项1',
-        label: '全部'
-      }, {
-        value: '选项2',
-        label: '水费'
-      }, {
-        value: '选项3',
-        label: '电费'
-      }, {
-        value: '选项4',
-        label: '燃气'
-      }, {
-        value: '选项5',
-        label: '房租'
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '水费'
+        }, {
+          value: '选项3',
+          label: '电费'
+        }, {
+          value: '选项4',
+          label: '燃气'
+        }, {
+          value: '选项5',
+          label: '房租'
+        }
+      ],
       value: '',
       addContractVisible: false,
       addContractFormList: [
@@ -345,12 +370,50 @@ export default {
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }
-      ]
+      ],
+      customerInfoState: false,
+      customerInfo_header: {
+        title: '杨晓明',
+        button: [
+          {
+            name: '附件',
+            icon: '&#xe655;',
+            function: 'open'
+          },
+          {
+            name: '备注',
+            icon: '&#xe7d1;',
+            function: 'open'
+          }
+        ]
+      },
+      customerInfo_body_1: {
+        title: '客户信息',
+        info: [
+          { name: '名称', value: '杨晓明' },
+          { name: '来访时间', value: '2019-10-28' },
+          { name: '客户状态', value: '未签约' },
+          { name: '渠道', value: '中介' },
+          { name: '需求面积段', value: '300-400' },
+          { name: '需求工位段', value: '50-100' },
+          { name: '行业', value: '互联网' },
+          { name: '预计签约时间', value: '2019-12-06' },
+          { name: '跟进人', value: '杨晓明' }
+        ]
+      }
+
     }
   },
   methods: {
     handleAddContract () {
       this.addContractVisible = true
+    },
+    customerState () {
+      this.customerInfoState = true
+    },
+    handleClose () { },
+    open (i) {
+      this.$message('这里是' + i)
     }
   },
   created () {
@@ -371,6 +434,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }

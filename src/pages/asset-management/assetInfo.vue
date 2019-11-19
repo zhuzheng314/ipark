@@ -127,18 +127,40 @@
 
 <!--      房间信息-->
        <el-drawer
-      title="房间详情"
-      custom-class="drawer-r"
-      :visible.sync="roomInfoState"
-      size="1186px"
-      direction="rtl">
-        <HeaderCard :data="roomInfo_header"></HeaderCard>
+        title="房间详情"
+        custom-class="drawer-r"
+        :visible.sync="roomInfoState"
+        size="1186px"
+        direction="rtl">
+        <HeaderCard :data="roomInfo_header">
+          <template #headerCardBtns>
+          <div class="btnBox" v-for="(item,i) in roomInfo_header.button" :key="(item,i)" @click="open(item.name)">
+            <i class="iconfont" v-html="item.icon"></i>
+            <span class="headerCard-btn-name">{{item.name}}</span>
+          </div>
+        </template>
+        </HeaderCard>
         <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
-        <div class="drawer-body" style="height: 720px;">
+        <div class="drawer-body" style="height: 500px;">
           <BodyCard type=1 :data="roomInfo_body"></BodyCard>
-          <BodyCard type=2 :data="roomInfo_body_table1"></BodyCard>
-          <BodyCard type=2 :data="roomInfo_body_table2"></BodyCard>
-          <!-- <BodyCard type=2 :data="drawer_body_table"></BodyCard> -->
+          <BodyCard type=2 :data="roomInfo_body_table1">
+            <template #btn>
+              <el-button
+                :style="{height: '80%',margin: 'auto 8px'}"
+                icon="el-icon-plus"
+                size="mini"
+              >合同</el-button>
+            </template>
+          </BodyCard>
+          <BodyCard type=2 :data="roomInfo_body_table2">
+            <template #btn>
+              <el-button
+                :style="{height: '80%',margin: 'auto 8px'}"
+                icon="el-icon-plus"
+                size="mini"
+              >客户 </el-button>
+            </template>
+          </BodyCard>
         </div>
       </el-drawer>
     </el-card>
@@ -397,17 +419,17 @@ export default {
           },
           {
             name: '附件',
-            icon: '&#xe62a;',
+            icon: '&#xe655;',
             function: 'click1'
           },
           {
             name: '备注',
-            icon: '&#xe62a;',
+            icon: '&#xe7d1;',
             function: 'click1'
           },
           {
             name: '更多',
-            icon: '&#xe62a;',
+            icon: '&#xe86d;',
             function: 'click1'
           }
         ]
@@ -509,8 +531,8 @@ export default {
       // console.log(id.index,id.subIndex);
       this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
     },
-    click1 () {
-      alert('ok')
+    open (i) {
+      this.$message('这里是' + i)
     },
     goBack () {
       this.$router.go(-1) // 后退

@@ -2,24 +2,44 @@
   <div>
     <el-card style="width: 100%">
       <div>
+        <el-select  size="small"
+                    multiple
+                    v-model="value"
+                    placeholder="账单类型">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select  size="small"
+                    multiple
+                    v-model="value"
+                    placeholder="账单类型">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-date-picker
+          v-model="value"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
         <el-input
-          placeholder="搜索租客"
+          placeholder="搜索企业"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
           v-model="value">
         </el-input>
 
-        <el-button
-          style="float: right;"
-          type="primary"
-          icon="el-icon-plus"
-          size="small"
-          @click="handleAddContract"
-        >新建租客</el-button>
       </div>
-      合同数： 100
-      租客数： 100
     </el-card>
     <el-card>
       <el-table
@@ -28,52 +48,43 @@
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="租客名">
+          label="所属园区">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="证件号码">
+          label="企业名称">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="行业分类">
+          label="企业类型">
         </el-table-column>
         <el-table-column
           prop="d"
-          label="法人">
+          label="注册资本">
         </el-table-column>
         <el-table-column
           prop="e"
           sortable
-          label="注册资本/万">
+          label="入驻性质">
         </el-table-column>
         <el-table-column
           prop="f"
           sortable
-          label="成立日期">
+          label="入驻面积">
         </el-table-column>
         <el-table-column
           prop="g"
           sortable
-          label="营业期限">
+          label="房间号">
         </el-table-column>
         <el-table-column
           prop="h"
           sortable
-          label="核准日期">
+          label="审批状态">
         </el-table-column>
         <el-table-column
           prop="i"
-          label="标签"
-          width="100"
-          filter-placement="bottom-end">
-          <template slot-scope="scope">
-            <el-tag size="mini" :type="scope.row.i.type">{{scope.row.i.label}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="j"
-          label="联系人">
+          label="操作">
         </el-table-column>
       </el-table>
       <div style="width: 100%; text-align: right; padding-top: 20px">
@@ -610,17 +621,12 @@ export default {
           a: '阿里巴巴' + item,
           b: 'xxxxxxxx' + item,
           c: '互联网' + item,
-          d: '马云',
-          e: '1000',
-          f: '2011-01-02',
-          g: '2011-01-02',
-          h: '2011-01-02',
-          i: [ { type: '', label: '标签一' },
-            { type: 'success', label: '标签二' },
-            { type: 'info', label: '标签三' },
-            { type: 'danger', label: '标签四' },
-            { type: 'warning', label: '标签五' }][index % 5],
-          j: '马云'
+          d: '1000',
+          e: '入驻企业',
+          f: '400',
+          g: '302',
+          h: '审批中',
+          i: ''
         }
       )
     })

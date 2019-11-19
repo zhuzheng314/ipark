@@ -89,13 +89,27 @@ export default {
             }
           ]
         },
+        // {
+        //   name: '租客管理',
+        //   icon: '\ue607',
+        //   children: [
+        //     {
+        //       name: '租客列表',
+        //       path: '/tenants/list'
+        //     }
+        //   ]
+        // },
         {
-          name: '租客管理',
-          icon: '\ue607',
+          name: '企业进驻',
+          icon: '\ue606',
           children: [
             {
-              name: '租客列表',
-              path: '/tenants/list'
+              name: '进驻申请',
+              path: '/entry/apply'
+            },
+            {
+              name: '进驻审批',
+              path: '/entry/approval'
             }
           ]
         },
@@ -120,16 +134,6 @@ export default {
             {
               name: '费用列表',
               path: '/financial/list'
-            }
-          ]
-        },
-        {
-          name: '测试',
-          icon: '\ue60a',
-          children: [
-            {
-              name: '弹窗',
-              path: '/test/test'
             }
           ]
         }

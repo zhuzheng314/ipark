@@ -46,6 +46,7 @@
     <el-card>
       <el-table
         :data="tableData"
+        @row-click="financialState"
         style="width: 100%">
         <el-table-column
           prop="a"
@@ -87,7 +88,7 @@
           prop="f"
           label="操作">
           <template>
-            <el-button type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" @click="financialState">查看</el-button>
             <el-button type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -107,6 +108,33 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+<!--  账单详情-->
+    <el-drawer
+      title="账单详情"
+      custom-class="drawer-r"
+      :visible.sync="financialInfoState"
+      size="1186px"
+      direction="rtl">
+      <HeaderCard :data="financialInfo_header">
+        <template #headerCardBtns>
+          <div class="btnBox" v-for="(item,i) in financialInfo_header.button" :key="(item,i)" @click="open(item.name)">
+            <i class="iconfont" v-html="item.icon"></i>
+            <span class="headerCard-btn-name">{{item.name}}</span>
+          </div>
+        </template>
+      </HeaderCard>
+      <HeaderInfo type=1 :data="financialInfo_info"></HeaderInfo>
+      <div class="drawer-body" style="height: 660px;">
+        <BodyCard type=1 :data="financialInfo_body_financial"></BodyCard>
+        <BodyCard type=1 :data="financialInfo_body_room"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table1"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table2"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table3"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table4"></BodyCard>
+        <BodyCard type=2 :data="financialInfo_body_table5"></BodyCard>
+
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -134,22 +162,24 @@ export default {
         { name: '转入', value: 10000 },
         { name: '需收（0笔）', value: 10000 }
       ],
-      options: [{
-        value: '选项1',
-        label: '全部'
-      }, {
-        value: '选项2',
-        label: '水费'
-      }, {
-        value: '选项3',
-        label: '电费'
-      }, {
-        value: '选项4',
-        label: '燃气'
-      }, {
-        value: '选项5',
-        label: '房租'
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '水费'
+        }, {
+          value: '选项3',
+          label: '电费'
+        }, {
+          value: '选项4',
+          label: '燃气'
+        }, {
+          value: '选项5',
+          label: '房租'
+        }
+      ],
       value: '',
       addContractVisible: false,
       addContractFormList: [
@@ -451,12 +481,155 @@ export default {
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }
-      ]
+      ],
+      financialInfoState: false,
+      financialInfo_header: {
+        title: '收款方：杨',
+        button: [
+          {
+            name: '王晓丹',
+            icon: '&#xe607;',
+            function: 'click1'
+          },
+          {
+            name: '附件',
+            icon: '&#xe655;',
+            function: 'click1'
+          },
+          {
+            name: '打印',
+            icon: '&#xe617;',
+            function: 'click1'
+          },
+          {
+            name: '备注',
+            icon: '&#xe7d1;',
+            function: 'click1'
+          }
+        ]
+      },
+      financialInfo_info: {
+        label: [
+          { prop: 'a', label: '账单状态' },
+          { prop: 'b', label: '应退金额' },
+          { prop: 'c', label: '需退金额' },
+          { prop: 'd', label: '应退时间' }
+        ],
+        tableData: [{
+          a: '未付款',
+          b: '1,495.89元',
+          c: '1,495.89元',
+          d: '2020-01-07'
+        }]
+      },
+      financialInfo_body_financial: {
+        title: '账单信息',
+        info: [
+          { name: '费用类型', value: '租金' },
+          { name: '计费周期', value: '2020-01-28-2020-04-27' },
+          { name: '账单金额', value: '1,495.89元' },
+          { name: '创建时间', value: '2019-10-28' },
+          { name: '收款方', value: '杨' },
+          { name: '收款方联系方式', value: '-' },
+          { name: '合同编号', value: '1003' },
+          { name: '账单编号', value: 'zj-20191028-016558624' },
+          { name: '备注', value: '-' }
+        ]
+      },
+      financialInfo_body_room: {
+        title: '房源信息',
+        info: [
+          { name: '园区', value: '西港发展中心' },
+          { name: '楼宇', value: '协力大厦' },
+          { name: '房号', value: '10层302室' }
+        ]
+      },
+      financialInfo_body_table1: {
+        title: '收款',
+        info: {
+          label: [
+            { prop: 'a', label: '对方单位名称' },
+            { prop: 'b', label: '入账日' },
+            { prop: 'c', label: '借贷标' },
+            { prop: 'd', label: '发生额' },
+            { prop: 'e', label: '匹配金额' },
+            { prop: 'f', label: '匹配时间' },
+            { prop: 'g', label: '取消匹配时间' },
+            { prop: 'h', label: '操作' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table2: {
+        title: '付款',
+        info: {
+          label: [
+            { prop: 'a', label: '对方单位名称' },
+            { prop: 'b', label: '入账日' },
+            { prop: 'c', label: '借贷标' },
+            { prop: 'd', label: '发生额' },
+            { prop: 'e', label: '匹配金额' },
+            { prop: 'f', label: '匹配时间' },
+            { prop: 'g', label: '取消匹配时间' },
+            { prop: 'h', label: '操作' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table3: {
+        title: '结转',
+        info: {
+          label: [
+            { prop: 'a', label: '对方单位' },
+            { prop: 'b', label: '转入金额' },
+            { prop: 'c', label: '转出金额' },
+            { prop: 'd', label: '结转时间' },
+            { prop: 'e', label: '作废时间' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table4: {
+        title: '开票记录',
+        info: {
+          label: [
+            { prop: 'a', label: '购买方名称' },
+            { prop: 'b', label: '发票号码' },
+            { prop: 'c', label: '开票金额' },
+            { prop: 'd', label: '备注' },
+            { prop: 'e', label: '开票时间' },
+            { prop: 'f', label: '状态' }
+          ],
+          tableData: []
+        }
+      },
+      financialInfo_body_table5: {
+        title: '调整',
+        info: {
+          label: [
+            { prop: 'a', label: '调整金额' },
+            { prop: 'b', label: '调整时间' },
+            { prop: 'c', label: '调整类型' },
+            { prop: 'd', label: '备注' },
+            { prop: 'e', label: '作废调整时间' },
+            { prop: 'f', label: '操作' }
+          ],
+          tableData: []
+        }
+      }
+
     }
   },
   methods: {
     handleAddContract () {
       this.addContractVisible = true
+    },
+    financialState () {
+      this.financialInfoState = true
+    },
+    handleClose () { },
+    open (i) {
+      this.$message('这里是' + i)
     }
   },
   created () {
@@ -477,6 +650,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }
