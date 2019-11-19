@@ -610,7 +610,7 @@ export default {
       this.tableData.push(
         {
           a: item % 2 === 0 ? '物业收入' : '租金收入',
-          b: item % 2 === 0 ? '马云' : '马化腾',
+          b: item % 2 === 0 ? '裴仕颉' : '赵阳',
           c: 10000 + item,
           d: item % 2 === 0 ? '美元' : '人民币',
           e: 'xxxx-xxxx'
