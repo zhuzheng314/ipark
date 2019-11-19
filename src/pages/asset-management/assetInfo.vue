@@ -30,7 +30,7 @@
 
     <el-card>
       <div>
-        <el-select class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
+        <el-select size="small" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
           <el-option
             v-for="item in requirement.area.areaList"
             :key="item.value"
@@ -38,7 +38,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select class="mr-10" v-model="requirement.state.value" placeholder="审核状态">
+        <el-select size="small" class="mr-10" v-model="requirement.state.value" placeholder="审核状态">
           <el-option
             v-for="item in requirement.state.stateList"
             :key="item.value"
@@ -46,7 +46,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
+        <el-select size="small" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
           <el-option
             v-for="item in requirement.timeLimit.timeLimitList"
             :key="item.value"
@@ -54,7 +54,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select class="mr-10" v-model="requirement.industry.value" placeholder="行业筛选">
+        <el-select size="small" class="mr-10" v-model="requirement.industry.value" placeholder="行业筛选">
           <el-option
             v-for="item in requirement.industry.industryList"
             :key="item.value"
@@ -62,7 +62,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select class="mr-10" v-model="requirement.source.value" placeholder="招商筛选">
+        <el-select size="small" class="mr-10" v-model="requirement.source.value" placeholder="招商筛选">
           <el-option
             v-for="item in requirement.source.sourceList"
             :key="item.value"
@@ -70,7 +70,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select class="mr-10" v-model="requirement.empty.value" placeholder="空置筛选">
+        <el-select size="small" class="mr-10" v-model="requirement.empty.value" placeholder="空置筛选">
           <el-option
             v-for="item in requirement.empty.emptyList"
             :key="item.value"
@@ -517,7 +517,6 @@ export default {
       fakerList.push(arr)
     }
     this.fakerList = fakerList
-    console.log(this.fakerList)
   },
   methods: {
     getState (value) {

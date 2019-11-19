@@ -18,8 +18,6 @@
           @click="handleAddContract"
         >新建租客</el-button>
       </div>
-      合同数： 100
-      租客数： 100
     </el-card>
     <el-card>
       <el-table
@@ -87,8 +85,7 @@
     <el-dialog
       title="新建合同"
       :visible.sync="addContractVisible"
-      width="900px"
-      :before-close="handleClose">
+      width="900px">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>
@@ -161,6 +158,8 @@ export default {
       addContractFormList: [
         {
           title: '客户信息',
+          span: 12,
+          minHeight: 450,
           children: [
             {
               type: 'input',
@@ -243,6 +242,8 @@ export default {
           ]
         }, {
           title: '开票信息',
+          span: 12,
+          minHeight: 450,
           children: [
             {
               type: 'input',
@@ -312,6 +313,8 @@ export default {
         },
         {
           title: '工商信息',
+          span: 24,
+          itemSpan: 12,
           children: [
             {
               type: 'input',

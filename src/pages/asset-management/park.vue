@@ -14,7 +14,6 @@
           <div class="devide"></div>
         </div>
       </div>
-
     </div>
     <div class="right">
       <el-card style="margin-bottom: 10px">
@@ -193,7 +192,7 @@ export default {
             },
             {
               type: 'textarea',
-              label: '园区描述',
+              label: '园区图片',
               key: 'i5',
               placeholder: '请输入',
               rule: [

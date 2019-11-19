@@ -5,130 +5,140 @@
       ref="form"
       :rules="rules"
       :model="form"
-      label-width="auto">
-      <div v-if="formList.length">
-        <el-card style="margin:0 20px 20px 0;"  v-for="(card, index) in formList" :key="'formcard' + index">
-          <div slot="header" class="clearfix">
-            <span>{{card.title}}</span>
-          </div>
-          <el-form-item
-            v-for="(item, index) in card.children"
-            :key="item.key + index"
-            :label="item.label"
-            :prop="item.key"
-          >
-            <!-- input -->
-            <el-input
-              v-if="item.type === 'input'"
-              v-model="form[item.key]"
-              :placeholder="item.placeholder"
-            >
-            </el-input>
+      label-width="auto"
+    >
+      <div v-if="formList.length" type="flex" justify="left">
+        <el-row>
+          <el-col v-for="(card, index) in formList" :key="'formcard' + index" :span="card.span || 24">
+            <el-card style="margin: 10px;" :style="{minHeight: card.minHeight + 'px'}"  >
+              <div slot="header" class="clearfix">
+                <span>{{card.title}}</span>
+              </div>
+              <el-row>
+                <el-col
+                  :span="card.itemSpan || 24"
+                  v-for="(item, index) in card.children"
+                  :key="item.key + index">
+                  <el-form-item
+                    :label="item.label"
+                    :prop="item.key"
+                  >
+                    <!-- input -->
+                    <el-input
+                      v-if="item.type === 'input'"
+                      v-model="form[item.key]"
+                      :placeholder="item.placeholder"
+                    >
+                    </el-input>
 
-            <!-- textarea -->
-            <el-input
-              v-if="item.type === 'textarea'"
-              type="textarea"
-              v-model="form[item.key]"
-              :placeholder="item.placeholder"
-            >
-            </el-input>
+                    <!-- textarea -->
+                    <el-input
+                      v-if="item.type === 'textarea'"
+                      type="textarea"
+                      v-model="form[item.key]"
+                      :placeholder="item.placeholder"
+                    >
+                    </el-input>
 
-            <!-- radio -->
-            <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
-              <el-radio
-                v-for="(subItem, subIndex) in item.options"
-                :key="subItem.label + subIndex"
-                :label="subItem.label"
-              >
-              </el-radio>
-            </el-radio-group>
+                    <!-- radio -->
+                    <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
+                      <el-radio
+                        v-for="(subItem, subIndex) in item.options"
+                        :key="subItem.label + subIndex"
+                        :label="subItem.label"
+                      >
+                      </el-radio>
+                    </el-radio-group>
 
-            <!--          日期-->
-            <el-date-picker v-if="item.type === 'date-picker'" :placeholder="placeholder" v-model="form[item.key]" style="width: 100%;"></el-date-picker>
+                    <!--          日期-->
+                    <el-date-picker v-if="item.type === 'date-picker'" :placeholder="placeholder" v-model="form[item.key]" style="width: 100%;"></el-date-picker>
 
-            <el-date-picker
-              v-if="item.type === 'date-picker-range'"
-              v-model="form[item.key]"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
-            </el-date-picker>
+                    <el-date-picker
+                      v-if="item.type === 'date-picker-range'"
+                      v-model="form[item.key]"
+                      type="daterange"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+                    </el-date-picker>
 
-            <!-- checkbox -->
-            <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
-              <el-checkbox
-                v-for="(subItem, subIndex) in item.options"
-                :key="subItem.label + subIndex"
-                :label="subItem.label"
-              >
-              </el-checkbox>
-            </el-checkbox-group>
+                    <!-- checkbox -->
+                    <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
+                      <el-checkbox
+                        v-for="(subItem, subIndex) in item.options"
+                        :key="subItem.label + subIndex"
+                        :label="subItem.label"
+                      >
+                      </el-checkbox>
+                    </el-checkbox-group>
 
-            <!-- select -->
-            <el-select v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
-              <el-option
-                v-for="(subItem) in item.options"
-                :label="subItem.label"
-                :value="subItem.value"
-                :key="subItem.label"
-              >
-              </el-option>
-            </el-select>
+                    <!-- select -->
+                    <el-select v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
+                      <el-option
+                        v-for="(subItem) in item.options"
+                        :label="subItem.label"
+                        :value="subItem.value"
+                        :key="subItem.label"
+                      >
+                      </el-option>
+                    </el-select>
 
-            <!-- switch -->
-            <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>
+                    <!-- switch -->
+                    <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>
 
-            <!--          cascader-->
-            <el-cascader
-              v-model="form[item.key]"
-              v-if="item.type === 'cascader'"
-              :options="item.options"
-            ></el-cascader>
+                    <!--          cascader-->
+                    <el-cascader
+                      v-model="form[item.key]"
+                      v-if="item.type === 'cascader'"
+                      :options="item.options"
+                    ></el-cascader>
 
-<!--            upload-->
-            <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
-              list-type="picture-card"
-              :ref="item.key"
-              :before-upload="beforeUpload"
-              v-model="form[item.key]"
-              v-if="item.type === 'upload-img'"
-              multiple
-              :limit="3">
-              <i class="el-icon-plus"></i>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
+                    <!--            upload-->
+                    <el-upload
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      list-type="picture-card"
+                      :ref="item.key"
+                      :before-upload="beforeUpload"
+                      v-model="form[item.key]"
+                      v-if="item.type === 'upload-img'"
+                      multiple
+                      :limit="3">
+                      <i class="el-icon-plus"></i>
+                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
 
-            <el-upload
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              v-if="item.type === 'upload-file'"
-              multiple>
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
+                    <el-upload
+                      class="upload-demo"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      v-if="item.type === 'upload-file'"
+                      multiple>
+                      <el-button size="small" type="primary">点击上传</el-button>
+                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
 
-            <div v-if="item.type === 'addGroup'">
-              <el-input
-                style="width: 25%"
-                type="input"
-              >
-              </el-input>
-              <el-input
-                style="width: 25%"
-                type="input"
-              >
-              </el-input>
-              <el-input
-                style="width: 25%"
-                type="input"
-              >
-              </el-input>
-            </div>
-          </el-form-item>
-        </el-card>
+                    <div v-if="item.type === 'addGroup'">
+                      <el-input
+                        style="width: 25%"
+                        type="input"
+                      >
+                      </el-input>
+                      <el-input
+                        style="width: 25%"
+                        type="input"
+                      >
+                      </el-input>
+                      <el-input
+                        style="width: 25%"
+                        type="input"
+                      >
+                      </el-input>
+                    </div>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
       </div>
       <div v-if="itemList.length">
         <el-form-item
