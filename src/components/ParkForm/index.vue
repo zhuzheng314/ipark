@@ -90,6 +90,8 @@
                     <el-cascader
                       v-model="form[item.key]"
                       v-if="item.type === 'cascader'"
+                      :props="{ multiple: true }"
+                      collapse-tags
                       :options="item.options"
                     ></el-cascader>
 

@@ -170,9 +170,28 @@ export default {
               type: 'input',
               label: '客户',
               key: 'i',
-              placeholder: '请输入租客名称',
+              placeholder: '请输入',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { required: true, message: '该项为必填', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '联系人',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' },
+                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '联系方式',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' },
                 { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
@@ -205,16 +224,6 @@ export default {
               ]
             },
             {
-              type: 'input',
-              label: '客户需求',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
               type: 'date-picker',
               label: '来访时间',
               key: 'i',
@@ -226,7 +235,7 @@ export default {
             },
             {
               type: 'select',
-              label: '来访渠道',
+              label: '客户来源',
               key: 'tamplate',
               placeholder: '请输入',
               rule: [
@@ -237,7 +246,7 @@ export default {
                   label: '上门',
                   value: 's1'
                 }, {
-                  label: '美食美食',
+                  label: '官网',
                   value: '官网'
                 }
               ]
@@ -266,63 +275,53 @@ export default {
               rule: [
                 { required: true, message: '请选择', trigger: 'change' }
               ],
-              options: [
-                {
-                  label: '1',
-                  value: '1',
+              options: [{
+                value: 1,
+                label: '梦想小镇',
+                children: [{
+                  value: 2,
+                  label: '1幢',
                   children: [
-                    {
-                      label: '1-1',
-                      value: '1-1',
-                      children: [
-                        {
-                          label: '1-1-1',
-                          value: '1-1-1',
-                          children: [
-                            {
-                              label: '1-1-1-1',
-                              value: '1-1-1-1'
-                            }
-                          ]
-                        }
-                      ]
-                    }
+                    { value: 3, label: '101' },
+                    { value: 4, label: '201' },
+                    { value: 5, label: '205' }
                   ]
                 }, {
-                  label: '2',
-                  value: '2'
-                },
-                {
-                  label: '3',
-                  value: '3',
+                  value: 7,
+                  label: '3幢',
                   children: [
-                    {
-                      label: '3-1',
-                      value: '3-1'
-                    }
+                    { value: 8, label: '101' },
+                    { value: 9, label: '103' },
+                    { value: 10, label: '503' }
                   ]
-                },
-                {
-                  label: '4',
-                  value: '4',
+                }, {
+                  value: 12,
+                  label: '8幢',
                   children: [
-                    {
-                      label: '4-1',
-                      value: '4-1',
-                      children: [
-                        {
-                          label: '4-1-1',
-                          value: '4-1-1'
-                        },
-                        {
-                          label: '4-1-2',
-                          value: '4-1-2'
-                        }
-                      ]
-                    }
+                    { value: 13, label: '202' },
+                    { value: 14, label: '503' },
+                    { value: 15, label: '603' }
                   ]
-                }
-              ]
+                }]
+              }, {
+                value: 17,
+                label: '人工智能小镇',
+                children: [{
+                  value: 18,
+                  label: '16幢',
+                  children: [
+                    { value: 19, label: '501' },
+                    { value: 20, label: '505' }
+                  ]
+                }, {
+                  value: 21,
+                  label: '19幢',
+                  children: [
+                    { value: 22, label: '103' },
+                    { value: 23, label: '105' }
+                  ]
+                }]
+              }]
             }
           ]
         }
