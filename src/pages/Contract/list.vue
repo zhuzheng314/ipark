@@ -44,6 +44,7 @@
     <el-card>
       <el-table
         :data="tableData"
+        @row-click="contractState"
         style="width: 100%">
         <el-table-column
           prop="a"
@@ -105,6 +106,45 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+
+<!--  合同详情-->
+    <el-drawer
+      title="合同详情"
+      custom-class="drawer-r"
+      :visible.sync="contractInfoState"
+      size="1186px"
+      direction="rtl">
+      <HeaderCard :data="contractInfo_header">
+        <template #headerCardBtns>
+          <div class="btnBox" v-for="(item,i) in contractInfo_header.button" :key="(item,i)" @click="open(item.name)">
+            <i class="iconfont" v-html="item.icon"></i>
+            <span class="headerCard-btn-name">{{item.name}}</span>
+          </div>
+        </template>
+        <template #headerCardSlot="data">
+          <div style="color: #999;padding: 0 48px;">
+            <p>
+              <span>合同摘要</span>
+              【起租日{{data.slotName.d}}。租赁数{{data.slotName.g}}㎡。首期租赁3月一付。租金单价4元/㎡·天。】
+            </p>
+            <p>
+              <span>最新备注</span>
+            </p>
+          </div>
+        </template>
+      </HeaderCard>
+      <div class="drawer-body" style="height: 700px;">
+        <BodyCard type=1 :data="contractInfo_body_contract"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body_room"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body2"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body3"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body4"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body5"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body6"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body7"></BodyCard>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -134,22 +174,24 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }
+      ],
       value: '',
       addContractVisible: false,
       addContractFormList: [
@@ -355,12 +397,128 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      contractInfoState: false,
+      contractInfo_header: {
+        title: '正常执行',
+        button: [
+          {
+            name: '王晓丹',
+            icon: '&#xe607;',
+            function: 'click1'
+          },
+          {
+            name: '附件',
+            icon: '&#xe655;',
+            function: 'click1'
+          },
+          {
+            name: '打印',
+            icon: '&#xe617;',
+            function: 'click1'
+          },
+          {
+            name: '备注',
+            icon: '&#xe7d1;',
+            function: 'click1'
+          }
+        ],
+        data: {}
+      },
+      contractInfo_body_contract: { },
+      contractInfo_body_room: {
+        title: '房源信息',
+        info: [
+          { name: '园区', value: '西港发展中心' },
+          { name: '楼宇', value: '协力大厦' },
+          { name: '房号', value: '10层302室' }
+        ]
+      },
+      contractInfo_body1: {
+        title: '租客信息',
+        info: [
+          { name: '租客', value: '拓源网络' },
+          { name: '行业', value: '-' },
+          { name: '租客联系人', value: '-' },
+          { name: '法人', value: '-' },
+          { name: '签订人', value: '-' }
+        ]
+      },
+      contractInfo_body2: {
+        title: '其他关键信息',
+        info: [ ]
+      },
+      contractInfo_body3: {
+        title: '滞纳金',
+        info: [
+          { name: '滞纳金比例', value: '0.5%/天' },
+          { name: '滞纳金上限', value: '1%' }
+        ]
+      },
+      contractInfo_body4: {
+        title: '滞纳金',
+        info: [
+          { name: '滞纳金比例', value: '0.5%/天' },
+          { name: '滞纳金上限', value: '1%' }
+        ]
+      },
+      contractInfo_body5: {
+        title: '基本条款',
+        info: [
+          { name: '房源信息', value: '9001' },
+          { name: '租赁数', value: '360' }
+        ]
+      },
+      contractInfo_body6: {
+        title: '保证金条款',
+        info: [
+          { name: '保证金类型', value: '租金保证金' },
+          { name: '保证金额', value: '10000元' }
+        ]
+      },
+      contractInfo_body7: {
+        title: '租期条款',
+        info: [
+          { name: '开始时间', value: '2019-11-11' },
+          { name: '结束时间', value: '2022-11-10' },
+          { name: '付款时间', value: '(工作日)15天' },
+          { name: '基础单价', value: '3元/㎡·天' },
+          { name: '计费类型', value: '按月计费' },
+          { name: '租期划分方式', value: '按起始日划分' },
+          { name: '天单价换算规则', value: '-' },
+          { name: '年天数', value: '365天' },
+          { name: '支付类型', value: '3月一付' }
+        ]
+      }
     }
   },
   methods: {
     handleAddContract () {
       this.addContractVisible = true
+    },
+    contractState (row) {
+      this.contractInfoState = true
+      this.contractInfo_header.data = row
+      this.contractInfo_body_contract = {
+        title: '合同信息',
+        info: [
+          { name: '合同编号', value: row.c },
+          { name: '跟进人', value: '-' },
+          { name: '合同租赁数', value: row.g + '㎡' },
+          { name: '合同签订日', value: row.d },
+          { name: '合同起租日', value: row.e },
+          { name: '合同失效日', value: '2017-01-01' },
+          { name: '单位保留小数', value: '2' },
+          { name: '计算精度', value: '精确计算结果保留两位小数' },
+          { name: '原合同失效日', value: '-' },
+          { name: '合同标签', value: '-' }
+
+        ]
+      }
+    },
+    handleClose () { },
+    open (i) {
+      this.$message('这里是' + i)
     }
   },
   created () {
@@ -392,6 +550,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }

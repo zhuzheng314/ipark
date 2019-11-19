@@ -9,7 +9,7 @@
   direction="rtl">
     <HeaderCard :data="drawer_header"></HeaderCard>
     <HeaderInfo type=1 :data="drawer_info"></HeaderInfo>
-    <div class="drawer-body" style="height:720px;">
+    <div class="drawer-body" style="height:500px;">
       <BodyCard type=1 :data="drawer_body"></BodyCard>
       <BodyCard type=2 :data="drawer_body_table"></BodyCard>
       <BodyCard type=2 :data="drawer_body_table"></BodyCard>

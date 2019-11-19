@@ -17,6 +17,8 @@ import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 import Park from '@/pages/asset-management/park.vue' // 园区
 import Build from '@/pages/asset-management/building.vue' // 楼宇
 import Room from '@/pages/asset-management/room.vue' // 房间
+import Apply from '@/pages/entry/apply.vue' // 进驻申请
+import Approval from '@/pages/entry/approval.vue' // 进驻申请
 
 import Test from '@/pages/test/index.vue' // 测试
 
@@ -102,6 +104,23 @@ const routes = [
         path: 'list',
         name: 'list',
         component: ContractList
+      }
+    ]
+  },
+  {
+    path: '/entry', // 企业进驻
+    redirect: '',
+    component: BasicLayout,
+    children: [
+      {
+        path: 'apply',
+        name: 'apply',
+        component: Apply
+      },
+      {
+        path: 'approval',
+        name: 'approval',
+        component: Approval
       }
     ]
   },

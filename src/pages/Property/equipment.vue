@@ -34,6 +34,7 @@
     <el-card>
       <el-table
         :data="tableData"
+        @row-click="equipmentState"
         style="width: 100%">
         <el-table-column
           prop="a"
@@ -95,6 +96,22 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+
+<!--      设备详情-->
+      <el-drawer
+      title="设备详情"
+      custom-class="drawer-r"
+      :visible.sync="equipmentInfoState"
+      size="1186px"
+      direction="rtl">
+      <HeaderCard :data="equipmentInfo_header"></HeaderCard>
+      <HeaderInfo type=1 :data="equipmentInfo_info"></HeaderInfo>
+      <div class="drawer-body" style="height: 700px;">
+        <BodyCard type=1 :data="equipmentInfo_body1"></BodyCard>
+        <BodyCard type=1 :data="equipmentInfo_body2"></BodyCard>
+        <BodyCard type=1 :data="equipmentInfo_body3"></BodyCard>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -113,19 +130,21 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options: [{
-        value: '选项2',
-        label: '水表'
-      }, {
-        value: '选项3',
-        label: '电表'
-      }, {
-        value: '选项4',
-        label: '煤气'
-      }, {
-        value: '选项5',
-        label: '其他'
-      }],
+      options: [
+        {
+          value: '选项2',
+          label: '水表'
+        }, {
+          value: '选项3',
+          label: '电表'
+        }, {
+          value: '选项4',
+          label: '煤气'
+        }, {
+          value: '选项5',
+          label: '其他'
+        }
+      ],
       value: '',
       addContractVisible: false,
       addContractFormList: [
@@ -329,13 +348,86 @@ export default {
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }
-      ]
+      ],
+      equipmentInfoState: false,
+      equipmentInfo_header: {
+        title: '',
+        button: [
+          {
+            name: '编辑',
+            icon: '&#xe62a;',
+            function: 'click1'
+          },
+          {
+            name: '附件',
+            icon: '&#xe655;',
+            function: 'click1'
+          },
+          {
+            name: '备注',
+            icon: '&#xe7d1;',
+            function: 'click1'
+          },
+          {
+            name: '删除',
+            icon: '&#xe64a;',
+            function: 'click1'
+          }
+        ],
+        data: {}
+      },
+      equipmentInfo_info: {},
+      equipmentInfo_body1: {},
+      equipmentInfo_body2: {},
+      equipmentInfo_body3: {}
+
     }
   },
   methods: {
     handleAddContract () {
       this.addContractVisible = true
-    }
+    },
+    equipmentState (row) {
+      console.log(row)
+      this.equipmentInfo_header.title = row.d
+      this.equipmentInfo_info = {
+        label: [
+          { prop: 'a', label: '设备类型' },
+          { prop: 'b', label: '设备状态' },
+          { prop: 'c', label: '设备单价' }
+        ],
+        tableData: [{
+          a: row.e,
+          b: row.f,
+          c: row.g
+        }]
+      }
+      this.equipmentInfo_body1 = {
+        title: '所属资产',
+        info: [
+          { name: '楼宇名称', value: row.a },
+          { name: '楼层', value: row.b },
+          { name: '房号', value: row.c }
+        ]
+      }
+      this.equipmentInfo_body2 = {
+        title: '本期读数',
+        info: [
+          { name: '本期读数', value: row.n },
+          { name: '本期录入时间', value: row.t }
+        ]
+      }
+      this.equipmentInfo_body3 = {
+        title: '上期读数',
+        info: [
+          { name: '上期读数', value: row.n },
+          { name: '上期录入时间', value: row.t }
+        ]
+      }
+
+      this.equipmentInfoState = true
+    },
+    handleClose () {}
   },
   created () {
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
@@ -359,6 +451,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }
