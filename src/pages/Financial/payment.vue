@@ -610,12 +610,12 @@ export default {
         {
           a: 'xxx-xx-' + item,
           b: '50' + item,
-          c: item % 2 === 0 ? '马云' : '马化腾',
+          c: item % 2 === 0 ? '裴仕颉' : '赵阳',
           d: item % 2 === 0 ? '物业收入' : '租金收入',
           e: '$20000',
           num: item * 3,
           person: '刘涛',
-          day: '2011-11-11'
+          day: '2019-11-1' + item
         }
       )
     })
