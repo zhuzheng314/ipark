@@ -93,7 +93,7 @@
     </el-card>
 
     <el-dialog
-      title="新建合同"
+      title="新建租客"
       :visible.sync="addContractVisible"
       width="600px"
       :before-close="handleClose">

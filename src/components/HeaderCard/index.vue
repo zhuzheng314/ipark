@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'headerCard',
+  name: 'HeaderCard',
   components: {
   },
   props: [

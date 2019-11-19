@@ -6,14 +6,14 @@
       :rules="rules"
       :model="form"
       label-width="auto">
-      <div v-if="formList.length" >
-        <el-card style="margin-bottom: 20px"  v-for="(card, index) in formList" :key="'formcard' + index">
+      <div v-if="formList.length">
+        <el-card style="margin:0 20px 20px 0;"  v-for="(card, index) in formList" :key="'formcard' + index">
           <div slot="header" class="clearfix">
             <span>{{card.title}}</span>
           </div>
           <el-form-item
             v-for="(item, index) in card.children"
-            :key="'form' + index"
+            :key="item.key + index"
             :label="item.label"
             :prop="item.key"
           >
@@ -86,6 +86,29 @@
               v-if="item.type === 'cascader'"
               :options="item.options"
             ></el-cascader>
+
+<!--            upload-->
+            <el-upload
+              action="https://jsonplaceholder.typicode.com/posts/"
+              list-type="picture-card"
+              :ref="item.key"
+              :before-upload="beforeUpload"
+              v-model="form[item.key]"
+              v-if="item.type === 'upload-img'"
+              multiple
+              :limit="3">
+              <i class="el-icon-plus"></i>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+
+            <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              v-if="item.type === 'upload-file'"
+              multiple>
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
 
             <div v-if="item.type === 'addGroup'">
               <el-input
@@ -177,16 +200,19 @@
 
         </el-form-item>
       </div>
+
+      <slot name="footer"></slot>
     </el-form>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'parkForm',
+  name: 'ParkForm',
   props: ['formList', 'itemList'],
   data () {
     return {
+      fileList: [],
       form: {
       },
       rules: {
@@ -261,11 +287,33 @@ export default {
     }
   },
   methods: {
-    handleValidate (a) {
-      console.log(a)
+    beforeUpload (file) {
+      console.log(file, this.$refs)
+      this.form.u2 = 456456465
+    },
+    handleValidate () {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm (formName) {
+      this.$refs['form'].resetFields()
     },
     onSubmit () {
-      console.log(this.form)
+      this.$refs['form'].validate((valid, value) => {
+        if (valid) {
+          console.log(this.$refs['form'].model)
+          console.log(this.$refs['u1'])
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     initItemList (itemList) {
       let rules = {}
@@ -303,6 +351,15 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+/*/deep/ .el-upload--picture-card{*/
+/*    width: 90px;*/
+/*    height: 90px;*/
+/*    line-height: 90px;*/
+/*  }*/
+/*  /deep/ .el-upload-list__item-actions{*/
+/*    width: 90px;*/
+/*    height: 90px;*/
+/*    line-height: 90px;*/
+/*  }*/
 </style>

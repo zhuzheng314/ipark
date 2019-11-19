@@ -9,7 +9,6 @@
         class="el-menu-vertical-demo"
         :collapse-transition="true"
         @open="handleOpen"
-        @close="handleClose"
         background-color="#293C55"
         text-color="#fff"
         active-text-color="#3FB1E3"
@@ -40,6 +39,7 @@
 
 <script>
 export default {
+  name: 'SideMenu',
   data () {
     return {
       list: [

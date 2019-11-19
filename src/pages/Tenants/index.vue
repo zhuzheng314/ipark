@@ -86,7 +86,7 @@
     <el-dialog
       title="新建合同"
       :visible.sync="addContractVisible"
-      width="600px"
+      width="900px"
       :before-close="handleClose">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>

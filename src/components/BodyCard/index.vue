@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'bodyCard',
+  name: 'BodyCard',
   components: {
   },
   props: [
