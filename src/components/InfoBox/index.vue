@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  name: 'infoBox',
+  name: 'InfoBox',
   components: {
   },
   props: [

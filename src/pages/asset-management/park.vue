@@ -109,14 +109,19 @@
       title="添加园区"
       :visible.sync="addShow"
       width="600px"
-      :before-close="handleClose">
+    >
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <ParkForm
+          ref="tt"
+          :formList="addContractFormList"
+          :itemList="[]">
+        </ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="dialogVisible = false">ccc</el-button>
+        <el-button type="primary" @click="test(222)">222</el-button>
       </span>
+
     </el-dialog>
   </div>
 </template>
@@ -152,53 +157,87 @@ export default {
               key: 'i',
               placeholder: '请输入',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
               label: '园区总面积',
-              key: 'i',
+              key: 'i2',
               placeholder: '请输入租客名称',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
               label: '园区可出租面积',
-              key: 'i',
+              key: 'i3',
               placeholder: '请输入租客名称',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
               label: '园区可出租面积',
-              key: 'i',
+              key: 'i4',
               placeholder: '请输入租客名称',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'textarea',
               label: '园区描述',
-              key: 'i',
+              key: 'i5',
               placeholder: '请输入',
               rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                // { required: true, message: '请输入', trigger: 'blur' },
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
+            },
+            {
+              type: 'upload-img',
+              label: '园区描述',
+              key: 'u1',
+              placeholder: '请输入'
+              // rule: [
+              //   { required: true, message: '请输入', trigger: 'blur' },
+              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              // ]
+            },
+            {
+              type: 'upload-file',
+              label: '园区描述',
+              key: 'u2',
+              placeholder: '请输入'
+              // rule: [
+              //   { required: true, message: '请输入', trigger: 'blur' },
+              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              // ]
             }
           ]
         }
       ]
+    }
+  },
+  methods: {
+    handleRowClick (row, column, event) {
+      console.log(row, column, event)
+      this.$router.push('/asset-management/assetInfo')
+    },
+    handleAdd () {
+      this.addShow = true
+    },
+    test (a) {
+      console.log(this.$refs.tt)
+      // this.$refs.tt.handleValidate()
+      this.$refs.tt.onSubmit()
     }
   },
   mounted () {
@@ -219,18 +258,9 @@ export default {
     for (let i = 0; i < 10; i++) {
       this.fakerList.push({ name: '新港.新界', img: require('@/assets/img/park/listhead.png'), value: 1000 })
     }
-  },
-  watch: {
-
-  },
-  methods: {
-    handleRowClick (row, column, event) {
-      console.log(row, column, event)
-      this.$router.push('/asset-management/assetInfo')
-    },
-    handleAdd () {
-      this.addShow = true
-    }
+    this.$https.post('https://service.iot1234.com:2443/api/assets.park.get_list', {}).then((res) => {
+      console.log(res)
+    })
   }
 }
 </script>

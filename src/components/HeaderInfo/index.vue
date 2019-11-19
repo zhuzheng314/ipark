@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'headerInfo',
+  name: 'HeaderInfo',
   components: {
   },
   props: [
