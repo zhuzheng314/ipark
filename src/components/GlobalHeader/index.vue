@@ -1,5 +1,8 @@
 <template>
   <div class="g-header">
+    <div class="desk">
+      <i class="iconfont" @click="$router.push({path:'/desk'})">&#xe60f;</i>
+    </div>
 
     <div class="right">
       <div class="item">
@@ -74,6 +77,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/index.less';
 .g-header{
   width: 100%;
   height: 56px;
@@ -83,6 +87,22 @@ export default {
   z-index: 500;
   box-shadow:0px 3px 8px rgba(0,0,0,0.1);
   overflow-x: hidden;
+  .desk{
+    width: 32px;
+    height: 100%;
+    float: left;
+    margin-left: 20px;
+    i{
+      font-size: 24px;
+      cursor: pointer;
+    }
+    i:hover{
+      color: @light-blue;
+    }
+    i:active{
+      color: @blue;
+    }
+  }
   .right{
     /*position: absolute;*/
     /*right: 0;*/

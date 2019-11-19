@@ -5,9 +5,9 @@
         <el-select  size="small"
                     multiple
                     v-model="value"
-                    placeholder="账单类型">
+                    placeholder="所属园区">
           <el-option
-            v-for="item in options"
+            v-for="item in options1"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -16,16 +16,16 @@
         <el-select  size="small"
                     multiple
                     v-model="value"
-                    placeholder="账单类型">
+                    placeholder="审批状态">
           <el-option
-            v-for="item in options"
+            v-for="item in options2"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
         <el-date-picker
-          v-model="value"
+          v-model="date"
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
@@ -38,7 +38,13 @@
           prefix-icon="el-icon-search"
           v-model="value">
         </el-input>
-
+        <el-button
+          style="float: right;"
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="handleAddContract"
+        >申请</el-button>
       </div>
     </el-card>
     <el-card>
@@ -96,7 +102,7 @@
     </el-card>
 
     <el-dialog
-      title="新建合同"
+      title="新建申请"
       :visible.sync="addContractVisible"
       width="600px"
       :before-close="handleClose">
@@ -149,24 +155,23 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options: [
+      options1: [ ],
+      options2: [
         {
           value: '选项1',
-          label: '黄金糕'
+          label: '未审批'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: '审批中'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '已通过'
         }, {
           value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          label: '未通过'
         }
       ],
+      date: [],
       value: '',
       addContractVisible: false,
       addContractFormList: [
@@ -609,7 +614,9 @@ export default {
     tenantsState () {
       this.tenantsInfoState = true
     },
-    handleClose () { },
+    handleClose () {
+      this.addContractVisible = false
+    },
     open (i) {
       this.$message('这里是' + i)
     }
