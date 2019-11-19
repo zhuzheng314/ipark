@@ -1,7 +1,12 @@
 <template>
 <div class="bodyCard">
   <el-card class="box-card">
-    <div class="bodyCard-title">{{title}}</div>
+    <div class="bodyCard-title">
+      {{title}}
+      <div class="bodyCard-btns">
+        <slot name="btn"></slot>
+      </div>
+    </div>
     <div v-if="type==1">
       <div class="bodyCard-infoBox" v-for="(item,i) of data.info" :key="(item,i)">
         <span class="bodyCard-infoBox-name">{{item.name}}</span>
@@ -29,8 +34,11 @@
         :prop="item.prop"
         :label="item.label"
         :width="144">
-      </el-table-column>
-    </el-table>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div v-if="type==3">
+      <div class="bodyCard-text">{{data.info}}</div>
     </div>
   </el-card>
 </div>
@@ -68,9 +76,20 @@ export default {
   background: #fff;
   /deep/ .el-card__body{
     padding: 0;
+    min-height: 88px;
   }
   .bodyCard-title{
     .title-style;
+    position: relative;
+    .bodyCard-btns{
+      width: 80%;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
   .bodyCard-infoBox{
     width: 376px;
@@ -90,6 +109,11 @@ export default {
       color: @text-color-light;
     }
   }
+  .bodyCard-text{
+    width: 100%;
+    padding: 0 36px;
+  }
+
   &:after{
     content: "";
     display: block;

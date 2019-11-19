@@ -37,6 +37,8 @@ export default {
 @import '../../assets/style/index.less';
 
 .headerInfo{
+
+    border-top: 2px solid #B2E0F4;
   /deep/ .box-card{
     height: 99px;
     border-bottom: none;

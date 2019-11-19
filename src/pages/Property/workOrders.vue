@@ -45,6 +45,7 @@
     <el-card>
       <el-table
         :data="tableData"
+        @row-click="workOrderState"
         style="width: 100%">
         <el-table-column
           prop="a"
@@ -91,6 +92,21 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+<!--      工单详情-->
+      <el-drawer
+      title="工单详情"
+      custom-class="drawer-r"
+      :visible.sync="workOrderInfoState"
+      size="1186px"
+      direction="rtl">
+      <HeaderCard :data="workOrderInfo_header"></HeaderCard>
+      <!-- <HeaderInfo type=1 :data="workOrderInfo_info"></HeaderInfo> -->
+      <div class="drawer-body" style="height: 700px;">
+        <BodyCard type=1 :data="workOrderInfo_body1"></BodyCard>
+        <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard>
+        <BodyCard type=3 :data="workOrderInfo_body3"></BodyCard>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -109,22 +125,23 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options: [{
-        value: '选项1',
-        label: '全部'
-      }, {
-        value: '选项2',
-        label: '维修'
-      }, {
-        value: '选项3',
-        label: '保洁'
-      }, {
-        value: '选项4',
-        label: '报事'
-      }, {
-        value: '选项5',
-        label: '投诉'
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '维修'
+        }, {
+          value: '选项3',
+          label: '保洁'
+        }, {
+          value: '选项4',
+          label: '报事'
+        }, {
+          value: '选项5',
+          label: '投诉'
+        }],
       options2: [{
         value: '选项1',
         label: '全部'
@@ -134,7 +151,8 @@ export default {
       }, {
         value: '选项3',
         label: '待解决'
-      }],
+      }
+      ],
       value: '',
       value2: '',
       addContractVisible: false,
@@ -358,12 +376,66 @@ export default {
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }
-      ]
+      ],
+      workOrderInfoState: false,
+      workOrderInfo_header: {
+        title: '维修工单',
+        button: [
+          {
+            name: '编辑',
+            icon: '&#xe62a;',
+            function: 'click1'
+          },
+          {
+            name: '附件',
+            icon: '&#xe655;',
+            function: 'click1'
+          },
+          {
+            name: '备注',
+            icon: '&#xe7d1;',
+            function: 'click1'
+          },
+          {
+            name: '删除',
+            icon: '&#xe64a;',
+            function: 'click1'
+          }
+        ],
+        data: {}
+      },
+      workOrderInfo_body1: {
+        title: '工单信息',
+        info: [
+          { name: '工单类型', value: '维修工单' },
+          { name: '发起人', value: '王丽华' },
+          { name: '工单号', value: '5465489518XX' },
+          { name: '工单摘要', value: '门窗维修' },
+          { name: '工单状态', value: '已维修' },
+          { name: '预约时间', value: '2019-10-20' }
+        ]
+      },
+      workOrderInfo_body2: {
+        title: '所属资产',
+        info: [
+          { name: '楼宇名称', value: 'XXX1' },
+          { name: '楼层', value: '三楼' },
+          { name: '房间号', value: 'A304' }
+        ]
+      },
+      workOrderInfo_body3: {
+        title: '工单评价',
+        info: '无'
+      }
+
     }
   },
   methods: {
     handleAddContract () {
       this.addContractVisible = true
+    },
+    workOrderState () {
+      this.workOrderInfoState = true
     }
   },
   created () {
@@ -384,6 +456,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }

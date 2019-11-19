@@ -20,7 +20,10 @@
       <el-card style="margin-bottom: 10px">
         <div style="color: #666; font-size: 16px; margin-bottom: 20px">西港发展中心</div>
         <div>
-          <div v-for="(item, index) in cardImgList" :key="index + 'imgcard'" class="imgCard" :style="{backgroundImage: `url(${item.imgUrl})`}">
+          <div v-for="(item, index) in cardImgList" :key="index + 'imgcard'" class="imgCard" :style="{background: item.background}">
+            <div class="imgCard-icon">
+              <img :src="item.icon" alt="">
+            </div>
             <div class="value">{{item.value}}</div>
             <div class="name">{{item.name}}</div>
           </div>
@@ -139,10 +142,10 @@ export default {
         { name: '介绍', value: '发展中心发展中心发展中心发展中心发展中心发展中心' }
       ],
       cardImgList: [
-        { name: '体量 ㎡', value: '11111', imgUrl: require('@/assets/img/park/area.png') },
-        { name: '使用率 %', value: '50', imgUrl: require('@/assets/img/park/area2.png') },
-        { name: '出租率 %', value: '50', imgUrl: require('@/assets/img/park/area3.png') },
-        { name: '实际租赁面积 ㎡', value: '12456', imgUrl: require('@/assets/img/park/area4.png') }
+        { name: '体量 ㎡', value: '11111', imgUrl: require('@/assets/img/park/area.png'), icon: require('@/assets/img/park/icon1.png'), background: '#838CC7' },
+        { name: '使用率 %', value: '50', imgUrl: require('@/assets/img/park/area2.png'), icon: require('@/assets/img/park/icon2.png'), background: '#55B9B7' },
+        { name: '出租率 %', value: '50', imgUrl: require('@/assets/img/park/area3.png'), icon: require('@/assets/img/park/icon3.png'), background: '#37ABCC' },
+        { name: '实际租赁面积 ㎡', value: '12456', imgUrl: require('@/assets/img/park/area4.png'), icon: require('@/assets/img/park/icon4.png'), background: '#B76FB9' }
       ],
       addContractFormList: [
         {
@@ -339,7 +342,7 @@ export default {
     }
   }
   .right{
-    width: calc(~"100%-260px");
+    // width: calc(~"100%-260px");
     flex: 1;
     .tablecard{
       .img{
@@ -390,6 +393,9 @@ export default {
       float: left;
       padding-left: 100px;
       padding-top: 36px;
+      position: relative;
+      border-radius: 4px;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.16);
       .name{
         color: white;
         font-size: 18px;
@@ -397,6 +403,21 @@ export default {
       .value{
         color: white;
         font-size: 32px;
+      }
+      .imgCard-icon{
+        position: absolute;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        left: 18px;
+        top: 38px;
+        img{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+        }
       }
     }
   }

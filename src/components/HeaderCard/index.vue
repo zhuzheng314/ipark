@@ -6,11 +6,9 @@
       <span>{{data.title}}</span>
     </div>
     <div class="headerCard-btns">
-      <div class="btnBox" v-for="(item,i) in headerCard_button" :key="(item,i)" @click="childMethod(item.function)">
-        <i class="iconfont" v-html="item.icon"></i>
-        <span class="headerCard-btn-name">{{item.name}}</span>
-      </div>
+      <slot name="headerCardBtns"></slot>
     </div>
+    <slot name="headerCardSlot" :slotName="data.data"></slot>
   </el-card>
 
 </div>
@@ -32,9 +30,7 @@ export default {
     }
   },
   methods: {
-    childMethod (fun) {
-      this.$parent.$parent.$parent[fun]()
-    }
+
   }
 }
 </script>
@@ -43,13 +39,13 @@ export default {
 @import '../../assets/style/index.less';
 .headerCard{
   /deep/ .box-card{
-    height: 56px;
-    border-bottom: 2px solid #B2E0F4;
+    min-height: 56px;
     .el-card__body{
       padding: 0;
       position: relative;
     }
     .headerCard-title{
+      font-size: 24px;
       height: 56px;
       line-height: 56px;
       padding-left: 25px;
@@ -83,6 +79,7 @@ export default {
 
       }
     }
+
   }
 }
 </style>
