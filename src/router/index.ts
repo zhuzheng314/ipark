@@ -121,7 +121,7 @@ const routes = [
     ]
   },
   {
-    path: '/entry', // 企业进驻
+    path: '/Entry', // 企业进驻
     redirect: '',
     component: BasicLayout,
     children: [

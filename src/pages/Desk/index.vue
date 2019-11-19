@@ -172,7 +172,7 @@ export default {
     return {
       statistic: [
         { color: '#A0A7E6', icon: '&#xe656;', title: '园区总览', chart: [{ name: '建筑面积(㎡)', value: 3256 }, { name: '总投资(万元)', value: 3245 }], router: '/overview' },
-        { color: '#358DD7', icon: '&#xe620;', title: '入驻企业数量', chart: [{ name: '租赁费(元)', value: 45896 }, { name: '物业费(元)', value: 86542 }], router: '/entry/apply' },
+        { color: '#358DD7', icon: '&#xe620;', title: '入驻企业数量', chart: [{ name: '租赁费(元)', value: 45896 }, { name: '物业费(元)', value: 86542 }], router: '/Entry/apply' },
         { color: '#54bab8', icon: '&#xe67e;', title: '园区产值', chart: [{ name: '税收(元)', value: 654821 }, { name: '坪效(元)', value: 56214 }], router: '/asset-management/park' },
         { color: '#33add0', icon: '&#xe63c;', title: '合同管理', chart: [{ name: '进程', value: 26 }, { name: '入住率', value: '78%' }], router: '/contract/list' },
         { color: '#b671bb', icon: '&#xe625;', title: '物业服务', chart: [{ name: '服务数量', value: 15 }, { name: '平均解决时间(分钟)', value: 48 }], router: '/property/orders' }

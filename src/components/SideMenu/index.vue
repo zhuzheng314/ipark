@@ -105,7 +105,7 @@ export default {
           children: [
             {
               name: '进驻申请',
-              path: '/entry/apply'
+              path: '/Entry/apply'
             }
           ]
         },
