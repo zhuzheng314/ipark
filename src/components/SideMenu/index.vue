@@ -80,12 +80,12 @@ export default {
           icon: '\ue60e',
           children: [
             {
-              name: '合同模板',
-              path: '/contract/template'
+              name: '合同管理',
+              path: '/contract/list'
             },
             {
-              name: '合同检索',
-              path: '/contract/list'
+              name: '模板管理',
+              path: '/contract/template'
             }
           ]
         },
@@ -104,7 +104,7 @@ export default {
           icon: '\ue606',
           children: [
             {
-              name: '进驻申请',
+              name: '进退驻管理',
               path: '/Entry/apply'
             }
           ]
@@ -114,7 +114,7 @@ export default {
           icon: '\ue60b',
           children: [
             {
-              name: '设备管理',
+              name: '四表联抄',
               path: '/property/equipment'
             },
             {
@@ -128,7 +128,7 @@ export default {
           icon: '\ue60a',
           children: [
             {
-              name: '费用列表',
+              name: '费用列资',
               path: '/financial/list'
             },
             {

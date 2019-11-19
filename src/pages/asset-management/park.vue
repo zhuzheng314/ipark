@@ -56,6 +56,38 @@
         </el-row>
 
       </el-card>
+
+      <el-card style="margin-bottom: 10px">
+
+        <el-input
+          placeholder="搜索楼宇"
+          style="width: 180px; margin-right: 15px"
+          prefix-icon="el-icon-search"
+          v-model="value">
+        </el-input>
+
+        <el-select
+            multiple
+            style="width: 180px; margin-right: 15px"
+            v-model="value"
+            placeholder="出租率">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+
+        <el-button
+          style="float: right;"
+          type="primary"
+          icon="el-icon-plus"
+          @click="handleAdd"
+        >新增楼宇</el-button>
+        <div class="clearfix"></div>
+      </el-card>
+
       <el-card>
         <el-table
           ref="filterTable"
@@ -145,6 +177,22 @@ export default {
         { name: '使用率 %', value: '50', imgUrl: require('@/assets/img/park/area2.png'), icon: require('@/assets/img/park/icon2.png'), background: '#55B9B7' },
         { name: '出租率 %', value: '50', imgUrl: require('@/assets/img/park/area3.png'), icon: require('@/assets/img/park/icon3.png'), background: '#37ABCC' },
         { name: '实际租赁面积 ㎡', value: '12456', imgUrl: require('@/assets/img/park/area4.png'), icon: require('@/assets/img/park/icon4.png'), background: '#B76FB9' }
+      ],
+      value: '',
+      options: [
+        {
+          value: '选项1',
+          label: '0-30%'
+        }, {
+          value: '选项2',
+          label: '30-60%'
+        }, {
+          value: '选项3',
+          label: '60%-90%'
+        }, {
+          value: '选项4',
+          label: '90%以上'
+        }
       ],
       addContractFormList: [
         {
