@@ -9,7 +9,7 @@
                     v-model="value"
                     placeholder="所属园区">
           <el-option
-            v-for="item in options"
+            v-for="item in options1"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -21,7 +21,7 @@
                     v-model="value"
                     placeholder="审批状态">
           <el-option
-            v-for="item in options"
+            v-for="item in options2"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -30,6 +30,7 @@
 
         <el-date-picker
           size="small"
+          v-model="date"
           type="daterange"
           style="width: 220px; margin-right: 15px"
           range-separator="至"
@@ -107,7 +108,7 @@
     </el-card>
 
     <el-dialog
-      title="新建客户"
+      title="新建合同"
       :visible.sync="addContractVisible"
       width="800px">
       <div>
@@ -159,24 +160,23 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options: [
+      options1: [ ],
+      options2: [
         {
           value: '选项1',
-          label: '黄金糕'
+          label: '未审批'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: '审批中'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '已通过'
         }, {
           value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          label: '未通过'
         }
       ],
+      date: [],
       value: '',
       addContractVisible: false,
       addContractFormList: [

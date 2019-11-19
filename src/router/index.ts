@@ -4,6 +4,7 @@ import BasicLayout from '@/layouts/BasicLayout/index.vue'
 
 import Home from '@/pages/Home/index.vue' // 首页
 import Overview from '@/pages/Overview/index.vue' // 概览页
+import Desk from '@/pages/Desk/index.vue' // 工作台
 import ContractTemplate from '@/pages/Contract/tamplate.vue' // 合同模板
 import BusinessCustomer from '@/pages/Business/customer.vue' // 招商客户管理
 import BusinessTask from '@/pages/Business/task.vue' // 招商任务管理
@@ -19,8 +20,8 @@ import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 import Park from '@/pages/asset-management/park.vue' // 园区
 import Build from '@/pages/asset-management/building.vue' // 楼宇
 import Room from '@/pages/asset-management/room.vue' // 房间
-import Apply from '@/pages/entry/apply.vue' // 进驻申请
-import Approval from '@/pages/entry/approval.vue' // 进驻申请
+import Apply from '@/pages/Entry/apply.vue' // 进驻申请
+import Approval from '@/pages/Entry/approval.vue' // 进驻审批
 
 import Test from '@/pages/test/index.vue' // 测试
 
@@ -45,6 +46,11 @@ const routes = [
         path: '/overview',
         name: 'overview',
         component: Overview
+      },
+      {
+        path: '/desk',
+        name: 'desk',
+        component: Desk
       }
     ]
   },
