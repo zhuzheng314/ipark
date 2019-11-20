@@ -73,7 +73,7 @@
                     </el-checkbox-group>
 
                     <!-- select -->
-                    <el-select v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
+                    <el-select style="width: 100%" v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
                       <el-option
                         v-for="(subItem) in item.options"
                         :label="subItem.label"
