@@ -147,9 +147,8 @@
             <template #btn>
               <el-button
                 :style="{height: '80%',margin: 'auto 8px'}"
-                icon="el-icon-plus"
                 size="mini"
-              >合同</el-button>
+              >查看合同</el-button>
             </template>
           </BodyCard>
           <BodyCard type=2 :data="roomInfo_body_table2">
@@ -437,35 +436,38 @@ export default {
       roomInfo_info: {
         label: [
           { prop: 'area', label: '面积(㎡)' },
+          { prop: 'roomState', label: '房源状态' },
           { prop: 'state', label: '招商状态' },
           { prop: 'price', label: '预租单价(元/㎡·天)' },
+          { prop: 'type', label: '房源类型' },
           { prop: 'decorate', label: '装修' },
           { prop: 'tag', label: '表签' }
         ],
         tableData: [{
           area: '360.00',
-          state: '可招商',
+          roomState: '在租中',
+          state: '不可招商',
           price: '3.00',
+          type: '办公',
           decorate: '简装',
           tag: '自带办公家居，随时入住'
         }]
       },
       roomInfo_body: {
-        title: '租赁效益',
+        title: '租赁合同信息',
         info: [
-          { name: '计租率(%)', value: '-' },
-          { name: '计租天数', value: '-' },
-          { name: '空置天数', value: '316' },
-          { name: '实时单价', value: '-' }
+          { name: '租户', value: 'XXX有限公司' },
+          { name: '计租日', value: '2019/11/21' },
+          { name: '结束日', value: '2020/11/10' },
+          { name: '状态', value: '未进驻' }
 
         ]
       },
       roomInfo_body_table1: {
-        title: '合同',
+        title: '物业合同信息',
         info: {
           label: [
-            { prop: 'tenant', label: '租客' },
-            { prop: 'total', label: '租赁数' },
+            { prop: 'tenant', label: '租户' },
             { prop: 'start', label: '计租日' },
             { prop: 'end', label: '结束日' },
             { prop: 'price', label: '合同单价' },
@@ -474,7 +476,6 @@ export default {
           tableData: [
             {
               tenant: '拓源科技',
-              total: '360',
               start: '2019/11/11',
               end: '2020/11/10',
               price: '3.00元/㎡·天',
@@ -484,14 +485,14 @@ export default {
         }
       },
       roomInfo_body_table2: {
-        title: '客户',
+        title: '招商信息',
         info: {
           label: [
             { prop: 'tenant', label: '租客' },
             { prop: 'state', label: '客户状态' },
-            { prop: 'date', label: '来访时间' },
-            { prop: 'channel', label: '渠道' },
-            { prop: 'area', label: '需求面积' }
+            { prop: 'date', label: '跟进人员' },
+            { prop: 'channel', label: '招商渠道' },
+            { prop: 'remarks', label: '备注' }
           ],
           tableData: [
           ]
