@@ -66,16 +66,22 @@ export default {
     }
   }
   .transverse{
-    width: 600px;
     height: 300px;
+    width: 100%;
+    position: relative;
     .data{
-      float: left;
+      position: absolute;
+      top: 30px;
+      left: 0;
       width: 30%;
       padding: 18px;
       box-sizing: border-box;
     }
     .chart{
-      float: left;
+      position: absolute;
+      padding: 18px;
+      top: 30px;
+      right: 0;
       width: 70%;
     }
   }
