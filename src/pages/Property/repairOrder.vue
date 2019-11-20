@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-card style="width: 100%;">
+    <el-card style="width: 100%">
+      <span style="font-size: 16px;color: #303133;border-left: 3px solid #358dd8;padding-left: 10px">报修工单</span>
+
       <el-select  size="small"
                   style="margin-left: 15px"
                   v-model="value2" placeholder="工单状态">

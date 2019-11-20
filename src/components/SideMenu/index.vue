@@ -100,11 +100,15 @@ export default {
         //   ]
         // },
         {
-          name: '企业进驻',
+          name: '企业进退驻',
           icon: '\ue606',
           children: [
             {
-              name: '进退驻管理',
+              name: '进驻管理',
+              path: '/Entry/apply'
+            },
+            {
+              name: '退驻管理',
               path: '/Entry/apply'
             }
           ]
@@ -118,8 +122,20 @@ export default {
               path: '/property/equipment'
             },
             {
-              name: '工单管理',
-              path: '/property/orders'
+              name: '报修管理',
+              path: '/property/repair'
+            },
+            {
+              name: '投诉管理',
+              path: '/property/complaint'
+            },
+            {
+              name: '报事管理',
+              path: '/property/report'
+            },
+            {
+              name: '保洁管理',
+              path: '/property/clean'
             }
           ]
         },
