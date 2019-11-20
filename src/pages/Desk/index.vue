@@ -171,6 +171,7 @@
             :data="[{ name: '5万以下', value: 10 },{ name: '5-10万', value: 21 },{ name: '10-20万', value: 13 },{ name: '20万以上', value: 8 }]"
             :inner-radius="0.2"
             :option="customOption5"
+            :background="red"
             >
             </g2-pie>
           </template>
@@ -214,9 +215,7 @@ export default {
         title: '税收/坪效'
       },
       customOption5: {
-        legends: {
-          position: 'right'
-        }
+        background: 'red'
       }
 
     }
