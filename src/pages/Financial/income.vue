@@ -103,10 +103,10 @@
         <BodyCard type=1 :data="financialInfo_body_financial"></BodyCard>
         <BodyCard type=1 :data="financialInfo_body_room"></BodyCard>
         <BodyCard type=2 :data="financialInfo_body_table1"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table2"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table3"></BodyCard>
+        <!-- <BodyCard type=2 :data="financialInfo_body_table2"></BodyCard> -->
+        <!-- <BodyCard type=2 :data="financialInfo_body_table3"></BodyCard> -->
         <BodyCard type=2 :data="financialInfo_body_table4"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table5"></BodyCard>
+        <!-- <BodyCard type=2 :data="financialInfo_body_table5"></BodyCard> -->
 
       </div>
     </el-drawer>
@@ -385,26 +385,16 @@ export default {
       ],
       financialInfoState: false,
       financialInfo_header: {
-        title: '收款方：杨',
+        title: '付款方：张三丰',
         button: [
           {
-            name: '王晓丹',
+            name: '张三丰',
             icon: '&#xe607;',
-            function: 'click1'
-          },
-          {
-            name: '附件',
-            icon: '&#xe655;',
             function: 'click1'
           },
           {
             name: '打印',
             icon: '&#xe617;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
-            icon: '&#xe7d1;',
             function: 'click1'
           }
         ]
@@ -412,9 +402,9 @@ export default {
       financialInfo_info: {
         label: [
           { prop: 'a', label: '账单状态' },
-          { prop: 'b', label: '应退金额' },
-          { prop: 'c', label: '需退金额' },
-          { prop: 'd', label: '应退时间' }
+          { prop: 'b', label: '付款金额' },
+          { prop: 'c', label: '已付金额' },
+          { prop: 'd', label: '应付时间' }
         ],
         tableData: [{
           a: '未付款',
@@ -451,50 +441,47 @@ export default {
           label: [
             { prop: 'a', label: '对方单位名称' },
             { prop: 'b', label: '入账日' },
-            { prop: 'c', label: '借贷标' },
             { prop: 'd', label: '发生额' },
-            { prop: 'e', label: '匹配金额' },
-            { prop: 'f', label: '匹配时间' },
-            { prop: 'g', label: '取消匹配时间' },
+            { prop: 'e', label: '我方确认人' },
             { prop: 'h', label: '操作' }
           ],
           tableData: []
         }
       },
-      financialInfo_body_table2: {
-        title: '付款',
-        info: {
-          label: [
-            { prop: 'a', label: '对方单位名称' },
-            { prop: 'b', label: '入账日' },
-            { prop: 'c', label: '借贷标' },
-            { prop: 'd', label: '发生额' },
-            { prop: 'e', label: '匹配金额' },
-            { prop: 'f', label: '匹配时间' },
-            { prop: 'g', label: '取消匹配时间' },
-            { prop: 'h', label: '操作' }
-          ],
-          tableData: []
-        }
-      },
-      financialInfo_body_table3: {
-        title: '结转',
-        info: {
-          label: [
-            { prop: 'a', label: '对方单位' },
-            { prop: 'b', label: '转入金额' },
-            { prop: 'c', label: '转出金额' },
-            { prop: 'd', label: '结转时间' },
-            { prop: 'e', label: '作废时间' }
-          ],
-          tableData: []
-        }
-      },
+      // financialInfo_body_table2: {
+      //   title: '付款',
+      //   info: {
+      //     label: [
+      //       { prop: 'a', label: '对方单位名称' },
+      //       { prop: 'b', label: '入账日' },
+      //       { prop: 'c', label: '借贷标' },
+      //       { prop: 'd', label: '发生额' },
+      //       { prop: 'e', label: '匹配金额' },
+      //       { prop: 'f', label: '匹配时间' },
+      //       { prop: 'g', label: '取消匹配时间' },
+      //       { prop: 'h', label: '操作' }
+      //     ],
+      //     tableData: []
+      //   }
+      // },
+      // financialInfo_body_table3: {
+      //   title: '结转',
+      //   info: {
+      //     label: [
+      //       { prop: 'a', label: '对方单位' },
+      //       { prop: 'b', label: '转入金额' },
+      //       { prop: 'c', label: '转出金额' },
+      //       { prop: 'd', label: '结转时间' },
+      //       { prop: 'e', label: '作废时间' }
+      //     ],
+      //     tableData: []
+      //   }
+      // },
       financialInfo_body_table4: {
         title: '开票记录',
         info: {
           label: [
-            { prop: 'a', label: '购买方名称' },
+            { prop: 'a', label: '发票抬头' },
             { prop: 'b', label: '发票号码' },
             { prop: 'c', label: '开票金额' },
             { prop: 'd', label: '备注' },
@@ -503,21 +490,21 @@ export default {
           ],
           tableData: []
         }
-      },
-      financialInfo_body_table5: {
-        title: '调整',
-        info: {
-          label: [
-            { prop: 'a', label: '调整金额' },
-            { prop: 'b', label: '调整时间' },
-            { prop: 'c', label: '调整类型' },
-            { prop: 'd', label: '备注' },
-            { prop: 'e', label: '作废调整时间' },
-            { prop: 'f', label: '操作' }
-          ],
-          tableData: []
-        }
       }
+      // financialInfo_body_table5: {
+      //   title: '调整',
+      //   info: {
+      //     label: [
+      //       { prop: 'a', label: '调整金额' },
+      //       { prop: 'b', label: '调整时间' },
+      //       { prop: 'c', label: '调整类型' },
+      //       { prop: 'd', label: '备注' },
+      //       { prop: 'e', label: '作废调整时间' },
+      //       { prop: 'f', label: '操作' }
+      //     ],
+      //     tableData: []
+      //   }
+      // }
 
     }
   },
