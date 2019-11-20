@@ -169,7 +169,9 @@
             :height="250"
             :axis-name="{name:'坪效', value:'个数'}"
             :data="[{ name: '5万以下', value: 10 },{ name: '5-10万', value: 21 },{ name: '10-20万', value: 13 },{ name: '20万以上', value: 8 }]"
-            :inner-radius="0">
+            :inner-radius="0.2"
+            :option="customOption5"
+            >
             </g2-pie>
           </template>
         </ChartBox>
@@ -210,9 +212,31 @@ export default {
       },
       chartBox5: {
         title: '税收/坪效'
+      },
+      customOption5: {
+        legends: {
+          position: 'right'
+        }
       }
 
     }
+  },
+  mounted () {
+    this.customOption5()
+  },
+  methods: {
+    // customOption5 (chart, dataset, data) {
+    //   chart = new G2.Chart({
+    //   width: 1000,
+    //   height: 500,
+    //   data: data,
+    //   padding: [ 20, 80, 60, 80 ],
+    //   options: {
+    //     // 在这里声明所有的配置属性
+    //   }
+    // });
+    // chart.render();
+    // }
   }
 }
 </script>
