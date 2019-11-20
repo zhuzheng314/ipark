@@ -12,7 +12,11 @@ import ContractList from '@/pages/Contract/list.vue' // 合同列表
 import ContractAdd from '@/pages/Contract/add.vue' // 合同新增
 import TenantList from '@/pages/Tenants/index.vue' // 租客列表
 import WorkOrders from '@/pages/Property/workOrders.vue' // 工单
-import Equipment from '@/pages/Property/equipment.vue' // 工单
+import Equipment from '@/pages/Property/equipment.vue' // 设备管理
+import CleanOrder from '@/pages/Property/cleanOrder.vue' // 保洁
+import RepairOrder from '@/pages/Property/repairOrder.vue' // 报修
+import ReportOrder from '@/pages/Property/reportOrder.vue' // 报事
+import ComplaintOrder from '@/pages/Property/complaintOrder.vue' // 投诉
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 import FinancialIncome from '@/pages/Financial/income.vue' // 财务收入
 import FinancialPayment from '@/pages/Financial/payment.vue' // 费用催缴
@@ -168,6 +172,26 @@ const routes = [
         path: 'processing',
         name: 'processing',
         component: ContractList
+      },
+      {
+        path: 'clean',
+        name: 'clean',
+        component: CleanOrder
+      },
+      {
+        path: 'repair',
+        name: 'repair',
+        component: RepairOrder
+      },
+      {
+        path: 'report',
+        name: 'report',
+        component: ReportOrder
+      },
+      {
+        path: 'complaint',
+        name: 'complaint',
+        component: ComplaintOrder
       }
     ]
   },
