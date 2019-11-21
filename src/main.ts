@@ -9,6 +9,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import { api, baseUrl } from './config/api.js'
 import registerGlobalComponents from './components/index.js'
 import 'vue-g2'
 import ECharts from 'vue-echarts'
@@ -27,7 +28,11 @@ Vue.component('v-chart', ECharts)
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+
+axios.defaults.baseURL = baseUrl
+
 Vue.prototype.$https = axios
+Vue.prototype.$urls = api
 
 registerGlobalComponents(Vue) // 全局注册组件
 

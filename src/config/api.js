@@ -1,8 +1,17 @@
 // 空间管理
-const areaManager = {
-  addParkList: `${process.env.VUE_APP_BASE_URL}/assets.park.add` // 添加园区模块
+
+const baseUrl = 'https://service.iot1234.com:2443/api/'
+
+const api = {
+  park: {
+    addParkList: `/assets.park.add` // 添加园区模块
+  },
+  desk: {
+    getList: '/baidu.com'
+  }
 }
 
 export {
-  areaManager
+  api,
+  baseUrl
 }
