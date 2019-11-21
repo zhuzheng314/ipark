@@ -38,24 +38,6 @@
       </span>
 
     </el-dialog>
-    <el-dialog
-      title="添加房间"
-      :visible.sync="addRoomShow"
-      width="600px"
-    >
-      <div>
-        <ParkForm
-          ref="tt"
-          :formList="addRoomFormList"
-          :itemList="[]">
-        </ParkForm>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
-
-    </el-dialog>
   </div>
 </template>
 
@@ -617,24 +599,6 @@ export default {
     }
   },
   mounted () {
-    let fakerList = []
-    for (let i = 0; i < 6; i++) {
-      let arr = []
-      let allArea = 0
-      let randomLength = this.random(3, 8)
-      for (let j = 0; j < randomLength; j++) {
-        let area = this.random(150, 300)
-        allArea += area
-        arr.push({
-          area,
-          allArea,
-          bgColor: this.colorList[this.random(0, 4) % 4]
-        })
-      }
-      fakerList.push(arr)
-    }
-    this.fakerList = fakerList
-
     for (let i = 0; i < 10; i++) {
       this.fakerBuildList.push({ name: '协力大厦', img: require('@/assets/img/park/listhead.png'), value: 1000 })
     }

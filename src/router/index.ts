@@ -73,12 +73,12 @@ const routes = [
       {
         path: 'park',
         name: 'park',
-        component: ParkNew
+        component: Park
       },
       {
         path: 'build',
         name: 'build',
-        component: Build
+        component: ParkNew
       },
       {
         path: 'room',
