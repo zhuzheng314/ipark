@@ -13,7 +13,7 @@
             <el-dropdown-item command="西港发展中心">西港发展中心</el-dropdown-item>
             <el-dropdown-item command="梦想小镇">梦想小镇</el-dropdown-item>
             <el-dropdown-item command="人工智能小镇">人工智能小镇</el-dropdown-item>
-            <el-dropdown-item divided command="add">新增园区</el-dropdown-item>
+            <el-dropdown-item divided command="add">+ 新增园区</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
