@@ -54,6 +54,13 @@
           prop="e"
           label="模板描述">
         </el-table-column>
+        <el-table-column
+          prop="e"
+          label="操作">
+          <template>
+            <el-button type="text">下载</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
 

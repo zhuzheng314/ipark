@@ -204,43 +204,89 @@ export default {
               key: 'i',
               placeholder: '请输入',
               rule: [
-                // { required: true, message: '请输入租客名称', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                { required: true, message: '该项为必填', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
-              label: '园区总面积',
+              label: '建筑面积',
               key: 'i2',
-              placeholder: '请输入租客名称',
+              placeholder: '请输入',
               rule: [
-                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { required: true, message: '该项为必填', trigger: 'blur' }
                 // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
-              label: '园区可出租面积',
+              label: '总投资',
               key: 'i3',
-              placeholder: '请输入租客名称',
+              placeholder: '请输入',
               rule: [
-                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
                 // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
-              label: '园区可出租面积',
+              label: '所属物业',
               key: 'i4',
               placeholder: '请输入租客名称',
               rule: [
-                // { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
                 // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区联系人',
+              key: 'i4',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区联系电话',
+              key: 'i4',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'select',
+              label: '园区状态',
+              key: 'u2',
+              placeholder: '请输入',
+              options: [
+                {
+                  label: '在建',
+                  value: 's1'
+                },
+                {
+                  label: '招商',
+                  value: 's1'
+                },
+                {
+                  label: '运营',
+                  value: 's1'
+                },
+                {
+                  label: '其他',
+                  value: 's1'
+                }
+              ],
+              rule: [
+                { required: true, message: '请输入', trigger: 'blur' }
               ]
             },
             {
               type: 'textarea',
-              label: '园区图片',
+              label: '园区描述',
               key: 'i5',
               placeholder: '请输入',
               rule: [
@@ -250,18 +296,8 @@ export default {
             },
             {
               type: 'upload-img',
-              label: '园区描述',
+              label: '园区图片',
               key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            },
-            {
-              type: 'upload-file',
-              label: '园区描述',
-              key: 'u2',
               placeholder: '请输入'
               // rule: [
               //   { required: true, message: '请输入', trigger: 'blur' },

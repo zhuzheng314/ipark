@@ -109,7 +109,7 @@ export default {
             },
             {
               name: '退驻管理',
-              path: '/Entry/apply'
+              path: '/Entry/leave'
             }
           ]
         },
