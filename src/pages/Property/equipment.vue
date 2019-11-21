@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-breadcrumb separator="/" style="margin-bottom: 20px">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card style="width: 100%">
       <!--      <div slot="header" class="clearfix">-->
       <!--        <span>条件筛选</span>-->

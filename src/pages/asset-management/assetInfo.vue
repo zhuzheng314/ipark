@@ -2,16 +2,6 @@
   <div class="assetInfo">
 
     <el-card style="margin-bottom: 10px">
-<!--      <div class="box-card-title" style="width: 200px; height: 100px;float: left">-->
-<!--        <div class="back" @click="setState">-->
-<!--          <i class="el-icon-arrow-left"></i>-->
-<!--        </div>-->
-<!--        <div class="parkName">-->
-<!--          <i class="iconfont">&#xe60c;</i>-->
-<!--          <p class="park-building">西港发展中心 / B栋</p>-->
-<!--          <p class="details">查看详情</p>-->
-<!--        </div>-->
-<!--      </div>-->
       <div slot="header" class="clearfix">
         <el-page-header @back="goBack" content="协力大厦">
         </el-page-header>
@@ -82,12 +72,27 @@
       <el-divider></el-divider>
 
 <!--      状态-->
-      <div>
-        <div v-for="item in 4" :key="'t' + item" class="typeWrap">
-          <div class="status" :style="{background: colorList[item - 1]}"></div>
-          <div class="text">2019({{item}})</div>
+      <div style="margin-bottom: 10px">
+        <div class="typeWrap">
+          <div class="status" :style="{background: '#57D1E2'}"></div>
+          <div class="text">在租</div>
         </div>
-
+        <div class="typeWrap">
+          <div class="status" :style="{background: '#46D2A8'}"></div>
+          <div class="text">待招商（主力店）</div>
+        </div>
+        <div class="typeWrap">
+          <div class="status" :style="{background: '#F1A468'}"></div>
+          <div class="text">自用类型</div>
+        </div>
+        <div class="typeWrap">
+          <div class="status" :style="{background: '#46D2A8'}"></div>
+          <div class="text">未分配</div>
+        </div>
+        <div class="typeWrap">
+          <div class="status" :style="{background: '#626C91'}"></div>
+          <div class="text">锁定</div>
+        </div>
         <div style="float: right">
           <el-button size="mini" @click="() => this.showType = !this.showType">切换</el-button>
         </div>
@@ -96,7 +101,10 @@
 <!--      楼宇列表-->
 
       <div class="list" :key="'list-' + index" v-for="(item, index) in fakerList">
-        <div class="list-header">{{index}}</div>
+        <div class="list-header">
+          <div>{{fakerList.length - index}}楼</div>
+          <div>1500㎡</div>
+        </div>
         <div class="list-wrap">
           <div v-for="(subItem, subIndex) in item" :key="'listItem' + subIndex" >
             <div
@@ -199,7 +207,7 @@ export default {
       value: '',
       fakerList: [
       ],
-      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91'],
+      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#626C91'],
       infoBoxData: [
         {
           type: 0,
