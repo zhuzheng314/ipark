@@ -43,7 +43,7 @@ export default {
 .statistic{
   /deep/ .statistic-card{
     float: left;
-    margin-left: 48px;
+    margin-right: 16px;
     width: 234px;
     height: 132px;
     color: @white;

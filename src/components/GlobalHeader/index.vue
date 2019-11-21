@@ -2,7 +2,7 @@
   <div class="g-header">
     <div class="left">
       <div class="desk">
-        <i class="iconfont" @click="$router.push({path:'/desk'})">&#xe60f;</i>
+        <i class="iconfont" @click="$router.push({path:'/home'})">&#xe60f;</i>
       </div>
       <div class="park-dropdown">
         <el-dropdown  @command="handleSelectPark">
