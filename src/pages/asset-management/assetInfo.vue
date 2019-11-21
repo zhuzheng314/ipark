@@ -638,6 +638,12 @@ export default {
     }
   },
   mounted () {
+    //  this.$https.post(this.$urls.park.getParkList, {
+    //   a: 100,
+    //   b: 200
+    // }).then((res) => {
+    //   console.log(res)
+    // })
     let fakerList = []
     for (let i = 0; i < 6; i++) {
       let arr = []

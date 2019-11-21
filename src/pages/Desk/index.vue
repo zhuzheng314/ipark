@@ -250,8 +250,8 @@ export default {
       lineOptions2: {},
       barOptions: {},
       // roseDiagramOptions: {},
-      doughnutOptions: {}
-
+      doughnutOptions: {},
+      gaugeOptions: {}
     }
   },
   mounted () {

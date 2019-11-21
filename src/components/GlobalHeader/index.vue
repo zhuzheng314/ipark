@@ -21,7 +21,7 @@
 
     <div class="right">
       <div class="item">
-        <el-badge style="margin-right: 10px" :value="2" class="item" type="error">
+        <el-badge style="margin-right: 10px" :value="2" class="item">
           <el-popover
             placement="bottom-end"
             width="200"
