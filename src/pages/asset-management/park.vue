@@ -5,13 +5,14 @@
         <i class="el-icon-plus"></i> 添加园区
       </div>
       <div class="left-list">
-        <div class="item" :key="index + 'leftcard'" v-for="(item, index) in fakerList">
-          <img class="pic" :src="item.img">
-          <div class="cont">
-            <div class="title">{{item.name}}</div>
-            <div class="value">{{item.value}}㎡</div>
+        <div class="item" :class="{ active: buildIndex === index}"  :key="index + 'leftcard'" v-for="(item, index) in fakerList">
+          <div class="inner" @click="handleBuildClick(index, item)">
+            <img class="pic" :src="item.img">
+            <div class="cont">
+              <div class="title">{{item.name}}</div>
+              <div class="value">{{item.value}}㎡</div>
+            </div>
           </div>
-          <div class="devide"></div>
         </div>
       </div>
     </div>
@@ -306,7 +307,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      buildIndex: 0
     }
   },
   methods: {
@@ -316,6 +318,9 @@ export default {
     },
     handleAdd () {
       this.addShow = true
+    },
+    handleBuildClick (index) {
+      this.buildIndex = index
     },
     test (a) {
       console.log(this.$refs.tt)
@@ -360,13 +365,13 @@ export default {
     width: 250px;
     /*padding: 0 10px;*/
     &-btn{
-      width:250px;
-      height:66px;
+      width:100%;
+      height:50px;
       background:rgba(255,255,255,1);
       border:1px solid rgba(63,177,227,1);
       box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
       margin-bottom: 10px;
-      line-height: 66px;
+      line-height: 50px;
       color: rgba(63,177,227,1);
       text-align: center;
       font-size: 16px;
@@ -378,45 +383,64 @@ export default {
     &-list{
       cursor: pointer;
       width: 100%;
-      background-color: white;
       height: calc(~"100% - 20px");
-      border-radius: 4px;
+      border-radius: 6px;
       box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
       overflow-y: scroll;
       .item{
         position: relative;
-        height:86px;
+        height:80px;
         width: 100%;
         background:rgba(255,255,255,1);
-        padding: 20px 16px;
-        .pic{
-          width: 80px;
-          height: 52px;
-          float: left;
-          margin-right: 10px;
+        .inner{
+          margin: 0 auto;
+          padding-top: 16px;
+          width: calc(~"100% - 40px");
+          height: 80px;
+          border-bottom: 1px solid #d0d0d0;
+          overflow: hidden;
+          .pic{
+            width: 80px;
+            height: 52px;
+            float: left;
+            margin-right: 10px;
+          }
+          .cont{
+            float: left;
+            .title{
+              font-size: 16px;
+              color: #666;
+              margin-bottom: 15px;
+              line-height: 16px;
+            }
+            .value{
+              font-size: 14px;
+              line-height: 14px;
+              color: #999;
+            }
+          }
+        }
+      }
+      .item:hover{
+        background-color:  rgba(63,177,227,.5);
+        .inner{
+          border: none;
         }
         .cont{
-          float: left;
-          .title{
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 18px;
-            line-height: 18px;
-          }
-          .value{
-            font-size: 14px;
-            line-height: 14px;
-            color: #999;
+          .title, .value{
+            color: white;
           }
         }
-        .devide{
-          position: absolute;
-          left: 10px;
-          bottom: 0;
-          height: 1px;
-          /*background-color: #c6cad9;*/
-          border-bottom: 1px solid #c6cad9;
-          width: 230px;
+      }
+      .active.item{
+        background-color: rgba(63,177,227,1);
+        .inner{
+          border: none;
+        }
+        .cont{
+          .title, .value{
+            color: white !important;
+          }
         }
       }
     }

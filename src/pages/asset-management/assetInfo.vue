@@ -72,26 +72,10 @@
       <el-divider></el-divider>
 
 <!--      状态-->
-      <div style="margin-bottom: 10px">
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#57D1E2'}"></div>
-          <div class="text">在租</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#46D2A8'}"></div>
-          <div class="text">待招商（主力店）</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#F1A468'}"></div>
-          <div class="text">自用类型</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#46D2A8'}"></div>
-          <div class="text">未分配</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#626C91'}"></div>
-          <div class="text">锁定</div>
+      <div style="margin-bottom: 10px;cursor: pointer">
+        <div class="typeWrap" @click="handleStatusClick(item)" v-for="item in statusList" :key="item.str">
+          <div class="status" :style="{background: item.color}"></div>
+          <div class="text">{{item.str}}</div>
         </div>
         <div style="float: right">
           <el-button size="mini" @click="() => this.showType = !this.showType">切换</el-button>
@@ -108,24 +92,15 @@
         <div class="list-wrap">
           <div v-for="(subItem, subIndex) in item" :key="'listItem' + subIndex" >
             <div
-              v-if="!showType"
               class="list-item"
               @click="roomInfo({index,subIndex})"
-              :style="{ width: 'calc(' + 100 / item.length + '% - 5px)' , background: subItem.bgColor }">
+              :style="{
+                width: !showType ? 'calc(' + 100 / item.length + '% - 5px)': 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)',
+                background: subItem.isFind || !filterStatus ? subItem.bgColor : '#DCDCDC' }">
               <div class="text">阿里巴巴</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
               <div class="sub-text">2019-11-11到期</div>
-              <div class="status">占用</div>
-            </div>
-            <div
-              v-if="showType"
-              class="list-item"
-              @click="roomInfo({index,subIndex})"
-              :style="{ width: 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)' , background: subItem.bgColor }">
-              <div class="text">阿里巴巴</div>
-              <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-              <div class="sub-text">2019-11-11到期</div>
-              <div class="status">占用</div>
+              <div class="status">{{subItem.statusStr}}</div>
             </div>
           </div>
 
@@ -227,6 +202,33 @@ export default {
       fakerList: [
       ],
       colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#626C91'],
+      statusList: [
+        {
+          color: '#57D1E2',
+          code: 1,
+          str: '在租'
+        },
+        {
+          color: '#46D2A8',
+          code: 2,
+          str: '待招商'
+        },
+        {
+          color: '#F1A468',
+          code: 3,
+          str: '自用'
+        },
+        {
+          color: '#626C91',
+          code: 4,
+          str: '未分配'
+        },
+        {
+          color: '#626C91',
+          code: 5,
+          str: '锁定'
+        }
+      ],
       infoBoxData: [
         {
           type: 0,
@@ -634,28 +636,9 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      filterStatus: false
     }
-  },
-  mounted () {
-    let fakerList = []
-    for (let i = 0; i < 6; i++) {
-      let arr = []
-      let allArea = 0
-      let randomLength = this.random(3, 8)
-      for (let j = 0; j < randomLength; j++) {
-        let area = this.random(150, 300)
-        allArea += area
-        arr.push({
-          area,
-          allArea,
-          status: this.random(0, 4) % 4,
-          bgColor: this.colorList[this.random(0, 4) % 4]
-        })
-      }
-      fakerList.push(arr)
-    }
-    this.fakerList = fakerList
   },
   methods: {
     getState (value) {
@@ -674,7 +657,51 @@ export default {
     },
     goBack () {
       this.$router.go(-1) // 后退
+    },
+    handleStatusClick (data) {
+      // if (this.filterStr !== data.str) {
+      //   this.filterStatus = false
+      // }
+      this.filterStatus = !this.filterStatus
+      this.findRoomByStatus(data.code)
+    },
+    findRoomByStatus (code) {
+      this.fakerList.forEach(item => {
+        item.forEach(sub => {
+          sub.isFind = false
+          if (sub.code === code) {
+            sub.isFind = true
+          }
+        })
+      })
     }
+  },
+  created () {
+    let fakerList = []
+    for (let i = 0; i < 6; i++) {
+      let arr = []
+      let allArea = 0
+      let randomLength = this.random(3, 8)
+      for (let j = 0; j < randomLength; j++) {
+        let area = this.random(150, 300)
+        allArea += area
+        let status = this.random(0, 5) % 5
+        arr.push({
+          area,
+          allArea,
+          status,
+          code: status + 1,
+          checked: false,
+          position: i + '-' + j,
+          isFind: false,
+          statusStr: this.statusList[status].str,
+          bgColor: this.statusList[status].color
+        })
+      }
+      fakerList.push(arr)
+    }
+    console.log(fakerList)
+    this.fakerList = fakerList
   }
 }
 </script>
@@ -792,7 +819,7 @@ export default {
             position: absolute;
             right: 0;
             top: 0;
-            width: 42px;
+            padding: 0 12px;
             height: 24px;
             background:rgba(255,255,255,0.45);
             color: #5E5E5E;
