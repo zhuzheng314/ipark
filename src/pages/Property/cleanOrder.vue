@@ -57,6 +57,7 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
       title="新建工单模板"

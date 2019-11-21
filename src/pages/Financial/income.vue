@@ -4,23 +4,45 @@
       <div>
         <el-select  size="small"
                     multiple
-                    v-model="value"
+                    v-model="value1"
                     placeholder="账单类型">
           <el-option
-            v-for="item in options"
+            v-for="item in typeOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
 
+        <el-select  size="small"
+                    multiple
+                    v-model="value2"
+                    style="width: 220px; margin-left: 15px"
+                    placeholder="账单类型">
+
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
         <el-input
-          placeholder="搜索"
+          placeholder="搜索客户名称"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value">
+          v-model="value3">
         </el-input>
+        <el-date-picker
+          v-model="value4"
+          size="small"
+          style="margin-left: 15px"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
         <el-button
           style="float: right"
           type="primary"
@@ -54,22 +76,35 @@
         </el-table-column>
         <el-table-column
           prop="c"
-          label="金额">
+          label="缴费日期">
         </el-table-column>
         <el-table-column
           prop="d"
-          label="币种">
+          label="金额">
         </el-table-column>
         <el-table-column
           prop="e"
+          label="币种">
+        </el-table-column>
+        <el-table-column
+          prop="f"
+          label="缴费状态">
+        </el-table-column>
+        <el-table-column
+          prop="g"
           label="发票类型">
         </el-table-column>
         <el-table-column
-          prop="c"
+          prop="h"
           label="开票金额">
+        </el-table-column>
+        <el-table-column
+          prop="i"
+          label="跟进人">
         </el-table-column>
       </el-table>
     </el-card>
+    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
       title="新建收付款账单"
@@ -135,25 +170,34 @@ export default {
         { name: '已收', value: 10000 },
         { name: '未缴(3笔)', value: '10000' }
       ],
-      options: [
+      typeOptions: [
         {
           value: '选项1',
           label: '全部'
         }, {
           value: '选项2',
-          label: '水费'
+          label: '租金收入'
         }, {
           value: '选项3',
-          label: '电费'
-        }, {
-          value: '选项4',
-          label: '燃气'
-        }, {
-          value: '选项5',
-          label: '房租'
+          label: '物业收入'
         }
       ],
-      value: '',
+      stateOptions: [
+        {
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '已缴费'
+        }, {
+          value: '选项3',
+          label: '未缴费'
+        }
+      ],
+      value1: '',
+      value2: '',
+      value3: '',
+      value4: '',
       addContractVisible: false,
       addContractFormList: [
         {
@@ -526,9 +570,13 @@ export default {
         {
           a: item % 2 === 0 ? '物业收入' : '租金收入',
           b: item % 2 === 0 ? '裴仕颉' : '赵阳',
-          c: 10000 + item,
-          d: item % 2 === 0 ? '美元' : '人民币',
-          e: 'xxxx-xxxx'
+          c: item % 2 === 0 ? '2019-10-14' : '-',
+          d: 10000 + item,
+          e: item % 2 === 0 ? '美元' : '人民币',
+          f: item % 2 === 0 ? '已缴费' : '未缴费',
+          g: 'xxxx-xxxx',
+          h: 10000 + item,
+          i: item % 2 === 0 ? '裴仕颉' : '赵阳'
         }
       )
     })

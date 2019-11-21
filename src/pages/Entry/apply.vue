@@ -2,7 +2,6 @@
   <div>
     <el-card>
       <div>
-
         <el-select  size="small"
                     multiple
                     style="width: 180px; margin-right: 15px"
@@ -106,6 +105,7 @@
         </el-pagination>
       </div>
     </el-card>
+    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
       title="新建合同"
@@ -137,7 +137,8 @@
       </HeaderCard>
       <HeaderInfo type=1 :data="tenantsInfo_info"></HeaderInfo>
       <div class="drawer-body" style="height: 700px;">
-        <BodyCard type=1 :data="tenantsInfo_body"></BodyCard>
+        <BodyCard type=1 :data="tenantsInfo_body1"></BodyCard>
+        <BodyCard type=1 :data="tenantsInfo_body2"></BodyCard>
         <BodyCard type=2 :data="tenantsInfo_body_table1"></BodyCard>
         <!-- <BodyCard type=2 :data="tenantsInfo_body_table2"></BodyCard> -->
       </div>
@@ -585,7 +586,16 @@ export default {
 
         }]
       },
-      tenantsInfo_body: {
+      tenantsInfo_body1: {
+        title: '入驻性质',
+        info: [
+          { name: '入驻性质', value: '企业入驻' }, // 企业入驻、个人入驻、工位租赁、其他
+          { name: '跟进人', value: '王秀兰' },
+          { name: '备注', value: '-' }
+
+        ]
+      },
+      tenantsInfo_body2: {
         title: '抬头发票',
         info: [
           { name: '纳税人识别号', value: '5465489518XX' },
@@ -600,19 +610,21 @@ export default {
         title: '合同',
         info: {
           label: [
-            { prop: 'a', label: '租客' },
-            { prop: 'b', label: '楼宇/房间号' },
+            { prop: 'a', label: '合同编号' },
+            { prop: 'b', label: '楼宇/房间号/工位' },
             { prop: 'c', label: '租赁数' },
+            { prop: 'h', label: '签订日期' },
             { prop: 'd', label: '开始日' },
             { prop: 'e', label: '结束日' },
             { prop: 'f', label: '合同单价' },
-            { prop: 'g', label: '状态' }
+            { prop: 'g', label: '状态' },
+            { prop: 'i', label: '签订人' }
           ],
           tableData: [
-            { a: '杭州拓源科技有限公司', b: '华润中心/701', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行' },
-            { a: '杭州拓源科技有限公司', b: '华润中心/701', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行' },
-            { a: '杭州拓源科技有限公司', b: '华润中心/701', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行' },
-            { a: '杭州拓源科技有限公司', b: '华润中心/701', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行' }
+            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' },
+            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' },
+            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' },
+            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' }
           ]
         }
       }

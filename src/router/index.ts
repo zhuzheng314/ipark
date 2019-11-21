@@ -41,18 +41,18 @@ const routes = [
       requireAuth: true
     },
     children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: ContractList
-      },
+      // {
+      //   path: '/home',
+      //   name: 'home',
+      //   component: ContractList
+      // },
       {
         path: '/overview',
         name: 'overview',
         component: Overview
       },
       {
-        path: '/desk',
+        path: '/home',
         name: 'desk',
         component: Desk
       }

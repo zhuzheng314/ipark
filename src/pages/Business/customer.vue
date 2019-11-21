@@ -50,30 +50,42 @@
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="客户状态">
+          label="客户名称">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="渠道">
+          label="进度阶段">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="需求面积段">
+          label="来源渠道">
         </el-table-column>
         <el-table-column
           prop="d"
+          label="需求面积段">
+        </el-table-column>
+        <el-table-column
+          prop="e"
           label="行业">
         </el-table-column>
         <el-table-column
-          prop="e"
+          prop="f"
+          label="最近联络时间">
+        </el-table-column>
+        <el-table-column
+          prop="g"
+          label="联络人">
+        </el-table-column>
+        <el-table-column
+          prop="h"
+          label="联系方式">
+        </el-table-column>
+        <el-table-column
+          prop="i"
           label="预计签约时间">
         </el-table-column>
         <el-table-column
-          prop="e"
-          label="币种（单位）">
-        </el-table-column>
-        <el-table-column
-          prop="e"
+          prop="j"
           label="跟进人">
         </el-table-column>
       </el-table>
@@ -108,7 +120,8 @@
       </HeaderCard>
       <div class="drawer-body" style="height: 660px;">
         <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
-        <!-- <BodyCard type=1 :data="customerInfo_body_room"></BodyCard> -->
+        <BodyCard type=1 :data="customerInfo_body_2"></BodyCard>
+        <BodyCard type=3 :data="customerInfo_body_3"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
           <template #btn>
             <el-button
@@ -120,6 +133,7 @@
 
       </div>
     </el-drawer>
+    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
 </template>
 
@@ -214,6 +228,30 @@ export default {
             },
             {
               type: 'select',
+              label: '进度阶段',
+              key: 'tamplate',
+              placeholder: '请选择',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ],
+              options: [
+                {
+                  label: '初次来访',
+                  value: 's1'
+                }, {
+                  label: '意向客户',
+                  value: 's2'
+                }, {
+                  label: '成交客户',
+                  value: 's3'
+                }, {
+                  label: '休眠客户',
+                  value: 's4'
+                }
+              ]
+            },
+            {
+              type: 'select',
               label: '行业',
               key: 'tamplate',
               placeholder: '请输入',
@@ -275,6 +313,61 @@ export default {
           span: 12,
           minHeight: 500,
           children: [
+            {
+              type: 'cascader',
+              label: '需求面积',
+              key: 'xuqmj',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ],
+              options: [
+                {
+                  value: 1,
+                  label: '100㎡以内'
+                }, {
+                  value: 2,
+                  label: '100-200㎡'
+                }, {
+                  value: 3,
+                  label: '200-300㎡'
+                }, {
+                  value: 4,
+                  label: '300㎡以上'
+                }
+              ]
+            },
+            {
+              type: 'cascader',
+              label: '需求工位',
+              key: 'fangyxx',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ],
+              options: [
+                {
+                  value: 1,
+                  label: '1-20个'
+                }, {
+                  value: 2,
+                  label: '21-50个'
+                }, {
+                  value: 3,
+                  label: '51-100个'
+                }, {
+                  value: 4,
+                  label: '100个以上'
+                }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '预计签约时间',
+              key: 'i',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'change' }
+              ]
+            },
             {
               type: 'cascader',
               label: '房源信息',
@@ -410,6 +503,19 @@ export default {
           { name: '跟进人', value: '杨晓明' }
         ]
       },
+      customerInfo_body_2: {
+        title: '关注房源',
+        info: [
+          { name: '所属园区', value: '西港发展中心' },
+          { name: '楼宇/房间号', value: '协力大厦/302' },
+          { name: '房源面积', value: '300㎡' },
+          { name: '房源状态', value: '空置' }
+        ]
+      },
+      customerInfo_body_3: {
+        title: '备注',
+        info: ''
+      },
       customerInfo_body_table: {
         title: '合同',
         info: {
@@ -446,10 +552,15 @@ export default {
       this.tableData.push(
         {
           a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '$20000'
+          b: item % 2 === 0 ? '已签约' : '未签约',
+          c: item % 2 === 0 ? '中介' : '广告',
+          d: item % 2 === 0 ? '200㎡以上' : '200㎡以下',
+          e: item % 2 === 0 ? '互联网' : '金融',
+          f: item % 2 === 0 ? '2019-10-15' : '2019-09-25',
+          g: item % 2 === 0 ? '裴仕颉' : '金李敏',
+          h: '13954546589',
+          i: item % 2 === 0 ? '2019-12-15' : '2019-12-25',
+          j: item % 2 === 0 ? '裴仕颉' : '金李敏'
         }
       )
     })

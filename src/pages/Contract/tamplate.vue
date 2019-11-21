@@ -56,6 +56,7 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
       title="新建合同模板"
@@ -89,20 +90,23 @@ export default {
       yearList: [
       ],
       options: [{
-        value: '选项1',
-        label: '黄金糕'
+        label: '房屋租赁',
+        value: 's1'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        label: '物业保洁',
+        value: 's2'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        label: '花木租赁',
+        value: 's3'
       }, {
-        value: '选项4',
-        label: '龙须面'
+        label: '场地租赁',
+        value: 's4'
       }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        label: '设备租赁',
+        value: 's5'
+      }, {
+        label: '其他',
+        value: 's6'
       }],
       value: '',
       addContractVisible: false,
@@ -117,11 +121,23 @@ export default {
           ],
           options: [
             {
-              label: '美食',
+              label: '房屋租赁',
               value: 's1'
             }, {
-              label: '美食美食',
+              label: '物业保洁',
               value: 's2'
+            }, {
+              label: '花木租赁',
+              value: 's3'
+            }, {
+              label: '场地租赁',
+              value: 's4'
+            }, {
+              label: '设备租赁',
+              value: 's5'
+            }, {
+              label: '其他',
+              value: 's6'
             }
           ]
         }, {
