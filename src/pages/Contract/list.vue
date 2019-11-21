@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-card style="width: 100%">
-<!--      <div slot="header" class="clearfix">-->
-<!--        <span>条件筛选</span>-->
-<!--      </div>-->
       <el-select  size="small"
                   v-model="value" placeholder="合同类型">
         <el-option
@@ -98,9 +95,10 @@
 
     <el-dialog
       title="新建合同"
-      top="0"
+      top="10px"
       width="950px"
-      style="height: 720px; overflow-y: scroll"
+      style="overflow-y: scroll"
+      :style="{height: dialogHeight + 'px'}"
       :visible.sync="addContractVisible"
     >
       <div>
@@ -981,200 +979,6 @@ export default {
           ]
         }
       ],
-      // addContractFormList: [
-      //   {
-      //     title: '合同信息',
-      //     children: [
-      //       {
-      //         type: 'select',
-      //         label: '模版选择',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '合同编号',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'select',
-      //         label: '跟进人',
-      //         key: 'followPerson',
-      //         placeholder: '请选择',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       }, {
-      //         type: 'date-picker',
-      //         label: '签订时间',
-      //         key: 'date',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       }, {
-      //         type: 'date-picker',
-      //         label: '计租时间',
-      //         key: 'date2',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       }, {
-      //         type: 'date-picker',
-      //         label: '失效时间',
-      //         key: 'date3',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       }
-      //     ]
-      //   }, {
-      //     title: '租客信息',
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '租客',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '行业',
-      //         key: 'tenantIndustry',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '法人',
-      //         key: 'fr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'input',
-      //         label: '签订人',
-      //         key: 'qdr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'input',
-      //         label: '联系方式',
-      //         key: 'zklxr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   }, {
-      //     title: '房源信息',
-      //     children: [
-      //       {
-      //         type: 'cascader',
-      //         label: '房源信息',
-      //         key: 'fangyxx',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [{
-      //           value: 1,
-      //           label: '梦想小镇',
-      //           children: [{
-      //             value: 2,
-      //             label: '1幢',
-      //             children: [
-      //               { value: 3, label: '101' },
-      //               { value: 4, label: '201' },
-      //               { value: 5, label: '205' }
-      //             ]
-      //           }, {
-      //             value: 7,
-      //             label: '3幢',
-      //             children: [
-      //               { value: 8, label: '101' },
-      //               { value: 9, label: '103' },
-      //               { value: 10, label: '503' }
-      //             ]
-      //           }, {
-      //             value: 12,
-      //             label: '8幢',
-      //             children: [
-      //               { value: 13, label: '202' },
-      //               { value: 14, label: '503' },
-      //               { value: 15, label: '603' }
-      //             ]
-      //           }]
-      //         }, {
-      //           value: 17,
-      //           label: '人工智能小镇',
-      //           children: [{
-      //             value: 18,
-      //             label: '16幢',
-      //             children: [
-      //               { value: 19, label: '501' },
-      //               { value: 20, label: '505' }
-      //             ]
-      //           }, {
-      //             value: 21,
-      //             label: '19幢',
-      //             children: [
-      //               { value: 22, label: '103' },
-      //               { value: 23, label: '105' }
-      //             ]
-      //           }]
-      //         }]
-      //       }
-      //     ]
-      //   }
-      // ],
       contractInfoState: false,
       contractInfo_header: {
         title: '正常执行',
@@ -1266,7 +1070,8 @@ export default {
           { name: '年天数', value: '365天' },
           { name: '支付类型', value: '3月一付' }
         ]
-      }
+      },
+      dialogHeight: 700
     }
   },
   methods: {
@@ -1329,6 +1134,7 @@ export default {
     // console.log(this.yearList)
   },
   mounted () {
+    this.dialogHeight = document.documentElement.clientHeight
     console.log(document.documentElement.clientHeight, 'document.documentElement.clientHeight')
   }
 }
