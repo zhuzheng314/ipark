@@ -341,9 +341,6 @@ export default {
     for (let i = 0; i < 10; i++) {
       this.fakerList.push({ name: '新港.新界', img: require('@/assets/img/park/listhead.png'), value: 1000 })
     }
-    this.$https.post('https://service.iot1234.com:2443/api/assets.park.get_list', {}).then((res) => {
-      console.log(res)
-    })
   }
 }
 </script>

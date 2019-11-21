@@ -12,12 +12,12 @@ const menuList = [
         name: '园区',
         icon: '',
         path: '/asset-management/park'
+      },
+      {
+        name: '楼宇',
+        icon: '',
+        path: '/asset-management/build'
       }
-      // {
-      //   name: '楼宇',
-      //   icon: '',
-      //   path: '/asset-management/build'
-      // }
     ]
   },
   {

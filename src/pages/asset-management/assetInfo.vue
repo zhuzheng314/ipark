@@ -8,7 +8,7 @@
       </div>
       <div>
         <InfoBox
-          style="float: left; margin:0 60px 0 15px"
+          style="float: left; margin:0 40px 10px 15px"
           v-for="(item, index) in infoBoxData" :type='item.type'
           :key="'info' + index"
           :data="item"
@@ -20,7 +20,7 @@
 
     <el-card>
       <div>
-        <el-select size="small" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
           <el-option
             v-for="item in requirement.area.areaList"
             :key="item.value"
@@ -28,7 +28,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.state.value" placeholder="审核状态">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.state.value" placeholder="进退驻状态">
           <el-option
             v-for="item in requirement.state.stateList"
             :key="item.value"
@@ -36,7 +36,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
           <el-option
             v-for="item in requirement.timeLimit.timeLimitList"
             :key="item.value"
@@ -44,15 +44,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.industry.value" placeholder="行业筛选">
-          <el-option
-            v-for="item in requirement.industry.industryList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.source.value" placeholder="招商筛选">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.source.value" placeholder="招商类别">
           <el-option
             v-for="item in requirement.source.sourceList"
             :key="item.value"
@@ -60,7 +52,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.empty.value" placeholder="空置筛选">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.empty.value" placeholder="空置状态">
           <el-option
             v-for="item in requirement.empty.emptyList"
             :key="item.value"
@@ -68,6 +60,14 @@
             :value="item.value">
           </el-option>
         </el-select>
+        <el-button
+          size="small"
+          type="primary"
+          style="float: right"
+          @click="() => this.addRoomShow = true"
+          icon="el-icon-plus">
+          新增房间
+        </el-button>
       </div>
       <el-divider></el-divider>
 
@@ -171,6 +171,25 @@
         </div>
       </el-drawer>
     </el-card>
+
+    <el-dialog
+      title="添加房间"
+      :visible.sync="addRoomShow"
+      width="600px"
+    >
+      <div>
+        <ParkForm
+          ref="tt"
+          :formList="addRoomFormList"
+          :itemList="[]">
+        </ParkForm>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="test(222)">确定</el-button>
+      </span>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -321,15 +340,11 @@ export default {
           stateList: [
             {
               value: 1,
-              label: '已审核'
+              label: '进驻'
             },
             {
               value: 2,
-              label: '审核中'
-            },
-            {
-              value: 3,
-              label: '未通过'
+              label: '退驻'
             }
           ],
           value: ''
@@ -505,7 +520,121 @@ export default {
           tableData: [
           ]
         }
-      }
+      },
+      addRoomShow: false,
+      addRoomFormList: [
+        {
+          title: '园区信息',
+          children: [
+            {
+              type: 'input',
+              label: '园区名称',
+              key: 'i',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '建筑面积',
+              key: 'i2',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '总投资',
+              key: 'i3',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '所属物业',
+              key: 'i4',
+              placeholder: '请输入租客名称',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区联系人',
+              key: 'i4',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区联系电话',
+              key: 'i4',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'select',
+              label: '园区状态',
+              key: 'u2',
+              placeholder: '请输入',
+              options: [
+                {
+                  label: '在建',
+                  value: 's1'
+                },
+                {
+                  label: '招商',
+                  value: 's1'
+                },
+                {
+                  label: '运营',
+                  value: 's1'
+                },
+                {
+                  label: '其他',
+                  value: 's1'
+                }
+              ],
+              rule: [
+                { required: true, message: '请输入', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'textarea',
+              label: '园区描述',
+              key: 'i5',
+              placeholder: '请输入',
+              rule: [
+                // { required: true, message: '请输入', trigger: 'blur' },
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'upload-img',
+              label: '园区图片',
+              key: 'u1',
+              placeholder: '请输入'
+              // rule: [
+              //   { required: true, message: '请输入', trigger: 'blur' },
+              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              // ]
+            }
+          ]
+        }
+      ]
     }
   },
   mounted () {
@@ -520,6 +649,7 @@ export default {
         arr.push({
           area,
           allArea,
+          status: this.random(0, 4) % 4,
           bgColor: this.colorList[this.random(0, 4) % 4]
         })
       }
