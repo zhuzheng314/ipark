@@ -57,12 +57,13 @@ export default {
     width: 100%;
     height: 616px;
     .chart{
-      height: 70%;
+      height: 50%;
       padding: 18px;
     }
     .data{
-      height: 20%;
+      height: 30%;
       padding: 18px;
+      position: relative;
     }
   }
   .transverse{
@@ -71,18 +72,21 @@ export default {
     position: relative;
     .data{
       position: absolute;
-      top: 30px;
+      top: 0px;
       left: 0;
-      width: 30%;
+      width: 25%;
+      height: 100%;
       padding: 18px;
       box-sizing: border-box;
     }
     .chart{
       position: absolute;
       padding: 18px;
-      top: 30px;
+      top: 0px;
       right: 0;
-      width: 70%;
+      width: 75%;
+      height: 100%;
+      box-sizing: border-box;
     }
   }
 }

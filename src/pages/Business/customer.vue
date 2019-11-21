@@ -109,7 +109,14 @@
       <div class="drawer-body" style="height: 660px;">
         <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
         <!-- <BodyCard type=1 :data="customerInfo_body_room"></BodyCard> -->
-        <!-- <BodyCard type=2 :data="customerInfo_body_table1"></BodyCard> -->
+        <BodyCard type=2 :data="customerInfo_body_table">
+          <template #btn>
+            <el-button
+              :style="{height: '80%',margin: 'auto 8px'}"
+              size="mini"
+            >发起合同</el-button>
+          </template>
+        </BodyCard>
 
       </div>
     </el-drawer>
@@ -402,6 +409,22 @@ export default {
           { name: '预计签约时间', value: '2019-12-06' },
           { name: '跟进人', value: '杨晓明' }
         ]
+      },
+      customerInfo_body_table: {
+        title: '合同',
+        info: {
+          label: [
+            { prop: 'a', label: '合同编号' },
+            { prop: 'b', label: '楼宇/房间号' },
+            { prop: 'c', label: '租赁面积' },
+            { prop: 'd', label: '开始日' },
+            { prop: 'e', label: '结束日' },
+            { prop: 'f', label: '合同单价' },
+            { prop: 'g', label: '状态' },
+            { prop: 'h', label: '联系人方式' }
+          ],
+          tableData: []
+        }
       }
 
     }

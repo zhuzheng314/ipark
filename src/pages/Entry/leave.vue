@@ -140,8 +140,8 @@
       </span>
     </el-dialog>
 
-<!--      租客详细信息-->
-      <el-drawer
+    <!--      租客详细信息-->
+    <el-drawer
       title="租客详细信息"
       custom-class="drawer-r"
       :visible.sync="tenantsInfoState"
@@ -680,7 +680,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/style/index.less';
+  @import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
   }
