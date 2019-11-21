@@ -103,8 +103,10 @@
           label="跟进人">
         </el-table-column>
       </el-table>
+      <div style="width: 100%; text-align: right; padding-top: 20px">
+        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+      </div>
     </el-card>
-    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
       title="新建收付款账单"

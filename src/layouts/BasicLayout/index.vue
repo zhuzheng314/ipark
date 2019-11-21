@@ -9,8 +9,7 @@
       </el-header>
       <el-main>
         <el-breadcrumb v-if="route.name" separator-class="el-icon-arrow-right" style="padding-bottom: 20px;">
-          <!-- <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item> -->
-          <el-breadcrumb-item v-if="route.name">{{route.name}}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: route.path }" v-if="route.name">{{route.name}}</el-breadcrumb-item>
           <el-breadcrumb-item v-if="route.name1">{{route.name1}}</el-breadcrumb-item>
         </el-breadcrumb>
         <router-view />

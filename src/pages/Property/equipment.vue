@@ -1,9 +1,5 @@
 <template>
   <div>
-    <el-breadcrumb separator="/" style="margin-bottom: 20px">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-    </el-breadcrumb>
     <el-card style="width: 100%">
       <!--      <div slot="header" class="clearfix">-->
       <!--        <span>条件筛选</span>-->
@@ -85,8 +81,10 @@
           label="上期录入时间">
         </el-table-column>
       </el-table>
+      <div style="width: 100%; text-align: right; padding-top: 20px">
+        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+      </div>
     </el-card>
-    <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
       title="新建设备"
