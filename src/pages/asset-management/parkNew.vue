@@ -603,12 +603,9 @@ export default {
       this.fakerBuildList.push({ name: '协力大厦', img: require('@/assets/img/park/listhead.png'), value: 1000 })
     }
 
-    this.$https.post(this.$urls.park.addParkList, {
-      a: 100,
-      b: 200
-    }).then((res) => {
-      console.log(res)
-    })
+    // this.$https.post(this.$urls.park.addParkList, {}).then((res) => {
+    //   console.log(res)
+    // })
   }
 }
 </script>

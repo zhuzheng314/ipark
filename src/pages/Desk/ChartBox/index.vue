@@ -26,10 +26,7 @@ export default {
   name: 'chartBox',
   components: {
   },
-  props: {
-    type: Number,
-    data: Object
-  },
+  props: ['type', 'data'],
   data () {
     return {
     }
