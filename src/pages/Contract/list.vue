@@ -99,7 +99,7 @@
     <el-dialog
       title="新建合同"
       top="0"
-      width="900px"
+      width="950px"
       style="height: 720px; overflow-y: scroll"
       :visible.sync="addContractVisible"
     >
