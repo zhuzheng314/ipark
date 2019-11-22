@@ -150,8 +150,8 @@
         </ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">ccc</el-button>
-        <el-button type="primary" @click="test(222)">222</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="test(222)">确定</el-button>
       </span>
 
     </el-dialog>
@@ -231,10 +231,10 @@ export default {
             {
               type: 'input',
               label: '所属物业',
-              key: 'i4',
+              key: 'hjkhjk',
               placeholder: '请输入租客名称',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
+
                 // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },

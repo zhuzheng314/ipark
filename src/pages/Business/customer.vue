@@ -191,7 +191,7 @@ export default {
           children: [
             {
               type: 'input',
-              label: '客户',
+              label: '客户(企业名称)',
               key: 'i',
               placeholder: '请输入',
               rule: [
