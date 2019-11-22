@@ -84,6 +84,10 @@ const menuList = [
       {
         name: '投诉管理',
         path: '/property/complaint'
+      },
+      {
+        name: '费用催缴',
+        path: '/financial/payment'
       }
       // {
       //   name: '报事管理',
@@ -106,10 +110,6 @@ const menuList = [
       {
         name: '财务收入',
         path: '/financial/income'
-      },
-      {
-        name: '费用催缴',
-        path: '/financial/payment'
       }
     ]
   }

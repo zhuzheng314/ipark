@@ -1,7 +1,10 @@
 <template>
   <div>
-    <el-card style="width: 100%">
-      <div>
+<!--    <el-card style="width: 100%">-->
+
+<!--    </el-card>-->
+    <el-card>
+      <div slot="header">
         <el-select  size="small"
                     multiple
                     v-model="value1"
@@ -51,9 +54,7 @@
           @click="handleAddContract"
         >添加账单</el-button>
       </div>
-    </el-card>
-    <el-card>
-      <div>
+      <div style="margin-top: -10px">
         <div :key="item.name" v-for="item in finData" class="simple-item">
           <div class="title">{{item.name}}</div>
           <div class="value">{{item.value}}</div>

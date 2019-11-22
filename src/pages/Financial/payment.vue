@@ -3,9 +3,9 @@
     <el-card style="width: 100%">
       <div>
         <el-select  size="small"
-                    multiple
-                    v-model="value"
-                    placeholder="费用类型">
+            multiple
+            v-model="value"
+            placeholder="费用类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -142,9 +142,12 @@ export default {
       ],
       finData: [
         { name: '应收(3笔)', value: '10000' },
-        { name: '滞纳金', value: 10000 },
         { name: '已收', value: 10000 },
-        { name: '未缴(3笔)', value: '10000' }
+        { name: '未缴(3笔)', value: '10000' },
+        { name: '租金', value: 10000 },
+        { name: '物业费', value: 10000 },
+        { name: '四表费用', value: 10000 },
+        { name: '其他', value: 10000 }
       ],
       options: [
         {

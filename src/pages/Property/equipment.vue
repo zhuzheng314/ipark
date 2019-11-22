@@ -144,7 +144,7 @@ export default {
           label: '煤气'
         }, {
           value: '选项5',
-          label: '其他'
+          label: '暖通空调'
         }
       ],
       value: '',
