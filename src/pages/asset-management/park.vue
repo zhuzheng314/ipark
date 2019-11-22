@@ -18,78 +18,80 @@
     </div>
     <div class="right">
       <el-card style="margin-bottom: 10px">
-        <div style="color: #666; font-size: 16px; margin-bottom: 20px">西港发展中心</div>
+        <div style="color: #666; font-size: 16px;" slot="header">西港发展中心</div>
         <div>
-          <div v-for="(item, index) in cardImgList" :key="index + 'imgcard'" class="imgCard" :style="{background: item.background}">
-            <div class="imgCard-icon">
-              <img :src="item.icon" alt="">
-            </div>
-            <div class="value">{{item.value}}</div>
-            <div class="name">{{item.name}}</div>
-          </div>
+<!--          <div v-for="(item, index) in cardImgList" :key="index + 'imgcard'" class="imgCard" :style="{background: item.background}">-->
+<!--            <div class="imgCard-icon">-->
+<!--              <img :src="item.icon" alt="">-->
+<!--            </div>-->
+<!--            <div class="value">{{item.value}}</div>-->
+<!--            <div class="name">{{item.name}}</div>-->
+<!--          </div>-->
+          <InfoBox
+            style="float: left; margin:0 40px 10px 15px"
+            v-for="(item, index) in infoBoxData" :type='item.type'
+            :key="'info' + index"
+            :data="item"
+          ></InfoBox>
           <div style="clear: both"></div>
         </div>
-        <el-row>
-          <el-col :span="12">
-            <div class="detail">
-              <div :key="'detail' + index" v-for="(item, index) in detail" class="item">
-                <div class="title">
-                  {{item.name}}
-                </div>
-                <div class="value">
-                  {{item.value}}
-                </div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="detail">
-              <div :key="'itemi'+index" v-for="(item,index) in detail" class="item">
-                <div class="title">
-                  {{item.name}}
-                </div>
-                <div class="value">
-                  {{item.value}}
+        <el-divider></el-divider>
+        <div style="margin-top: -10px">
+          <el-row>
+            <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in detail" >
+              <div class="detail">
+                <div class="item">
+                  <div class="title">
+                    {{item.name}}:
+                  </div>
+                  <div class="value">
+                    {{item.value}}
+                  </div>
                 </div>
               </div>
-            </div>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </div>
 
       </el-card>
 
-      <el-card style="margin-bottom: 10px">
+<!--      <el-card style="margin-bottom: 10px">-->
 
-        <el-input
-          placeholder="搜索楼宇"
-          style="width: 180px; margin-right: 15px"
-          prefix-icon="el-icon-search"
-          v-model="value">
-        </el-input>
+<!--      </el-card>-->
 
-        <el-select
+      <el-card>
+        <div slot="header">
+          <el-input
+            size="small"
+            placeholder="搜索楼宇"
+            style="width: 180px; margin-right: 15px"
+            prefix-icon="el-icon-search"
+            v-model="value">
+          </el-input>
+
+          <el-select
             multiple
+            size="small"
             style="width: 180px; margin-right: 15px"
             v-model="value"
             placeholder="出租率">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
 
-        <el-button
-          style="float: right;"
-          type="primary"
-          icon="el-icon-plus"
-          @click="handleAdd"
-        >新增楼宇</el-button>
-        <div class="clearfix"></div>
-      </el-card>
-
-      <el-card>
+          <el-button
+            style="float: right;"
+            size="small"
+            type="primary"
+            icon="el-icon-plus"
+            @click="handleAdd"
+          >新增楼宇</el-button>
+          <div class="clearfix"></div>
+        </div>
         <el-table
           ref="filterTable"
           :data="tableData"
@@ -168,10 +170,102 @@ export default {
       addShow: false,
       fakerList: [],
       tableData: [],
+      infoBoxData: [
+        {
+          type: 0,
+          title: {
+            name: '管理面积',
+            note: '测试文本'
+          },
+          value: {
+            value: 20311400.3,
+            unit: '㎡',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '总房源数量',
+            value: 22,
+            unit: '间'
+          }
+        },
+        {
+          type: 'num',
+          title: {
+            name: '出租率',
+            note: '测试文本'
+          },
+          value: {
+            value: 55,
+            unit: '%',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '本月签约面积',
+            value: 22,
+            unit: '㎡'
+          }
+        },
+        {
+          type: 'num',
+          title: {
+            name: '在租实时均价',
+            note: '测试文本'
+          },
+          value: {
+            value: 2,
+            unit: '元/㎡·天',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '本月签约均价',
+            value: 0,
+            unit: '元/㎡·天'
+          }
+        },
+        {
+          type: 0,
+          title: {
+            name: '可招商面积',
+            note: '测试文本'
+          },
+          value: {
+            value: 20311400.3,
+            unit: '㎡',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '可招商房间',
+            value: 22,
+            unit: '间'
+          }
+        },
+        {
+          type: 'chart',
+          title: {
+            name: '当前计租率',
+            note: '测试文本'
+          },
+          value: {
+            value: 22.3,
+            unit: '%',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '预计全年计租率',
+            value: 22,
+            unit: '%'
+          }
+        }
+      ],
       detail: [
-        { name: '经营公司', value: '科创中心' },
-        { name: '账务账套', value: '杭州账套' },
-        { name: '介绍', value: '发展中心发展中心发展中心发展中心发展中心发展中心' }
+        { name: '产权', value: '科创中心' },
+        { name: '地理位置', value: '西湖区' },
+        { name: '联系电话', value: '18888888888' },
+        { name: '占地面积', value: '250000㎡' },
+        { name: '建筑面积', value: '150000㎡' },
+        { name: '总投资额', value: '200,000w' },
+        { name: '实际投资', value: '150,000w' },
+        { name: '园区定位', value: '互联网' }
       ],
       cardImgList: [
         { name: '体量 ㎡', value: '11111', imgUrl: require('@/assets/img/park/area.png'), icon: require('@/assets/img/park/icon1.png'), background: '#838CC7' },
@@ -470,7 +564,8 @@ export default {
       }
     }
     .detail{
-      margin-top: 20px;
+      margin-top: 10px;
+      padding-left: 10px;
       .item{
         height: 16px;
         line-height: 16px;

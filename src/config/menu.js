@@ -74,7 +74,7 @@ const menuList = [
     icon: '\ue60b',
     children: [
       {
-        name: '四表联抄',
+        name: '四表集抄',
         path: '/property/equipment'
       },
       {
@@ -86,13 +86,17 @@ const menuList = [
         path: '/property/complaint'
       },
       {
-        name: '报事管理',
-        path: '/property/report'
-      },
-      {
-        name: '保洁管理',
-        path: '/property/clean'
+        name: '费用催缴',
+        path: '/property/payment'
       }
+      // {
+      //   name: '报事管理',
+      //   path: '/property/report'
+      // },
+      // {
+      //   name: '保洁管理',
+      //   path: '/property/clean'
+      // }
     ]
   },
   {
@@ -100,16 +104,12 @@ const menuList = [
     icon: '\ue604',
     children: [
       {
-        name: '费用列资',
+        name: '费用列支',
         path: '/financial/list'
       },
       {
         name: '财务收入',
         path: '/financial/income'
-      },
-      {
-        name: '费用催缴',
-        path: '/financial/payment'
       }
     ]
   }

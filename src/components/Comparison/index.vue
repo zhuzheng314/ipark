@@ -7,7 +7,7 @@
       <i v-if="data.chart<0" class="el-icon-bottom"></i>
       <i v-if="data.chart>0" class="el-icon-top"></i>
     </div>
-    <div v-if="type=='chart'" class="chart">
+    <div v-if="type==='chart'" class="chart">
       <el-progress
         type="circle"
         :width="28"
@@ -38,11 +38,11 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .comparison{
-  min-width: 150px;
+  min-width: 170px;
   float: left;
   height: 56px;
   border-right: 2px solid #e6e8ee;
-  margin: 20px 30px 20px 0;
+  margin: 10px 30px 25px 0;
   position: relative;
   .name{
     font-size: 12px;
@@ -57,7 +57,7 @@ export default {
   }
   .chart{
     position: absolute;
-    right: 10px;
+    right: 25px;
     bottom: 0;
     // transform: translateY(-50%);
     i{

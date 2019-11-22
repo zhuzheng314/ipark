@@ -1,24 +1,15 @@
 <template>
   <div>
-    <el-card style="width: 100%">
-      <div>
-        <el-select  size="small"
-                    multiple
-                    v-model="value1"
-                    placeholder="账单类型">
-          <el-option
-            v-for="item in typeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+<!--    <el-card style="width: 100%">-->
+
+<!--    </el-card>-->
+    <el-card>
+      <div slot="header">
 
         <el-select  size="small"
                     multiple
                     v-model="value2"
-                    style="width: 220px; margin-left: 15px"
-                    placeholder="账单类型">
+                    placeholder="缴费状态">
 
           <el-option
             v-for="item in stateOptions"
@@ -51,13 +42,12 @@
           @click="handleAddContract"
         >添加账单</el-button>
       </div>
-    </el-card>
-    <el-card>
       <div>
-        <div :key="item.name" v-for="item in finData" class="simple-item">
-          <div class="title">{{item.name}}</div>
-          <div class="value">{{item.value}}</div>
-        </div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in finData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
       </div>
 
     </el-card>
@@ -83,20 +73,32 @@
           label="金额">
         </el-table-column>
         <el-table-column
-          prop="e"
-          label="币种">
-        </el-table-column>
-        <el-table-column
           prop="f"
           label="缴费状态">
         </el-table-column>
         <el-table-column
           prop="g"
-          label="发票类型">
+          label="合同名称">
         </el-table-column>
         <el-table-column
           prop="h"
-          label="开票金额">
+          label="租金">
+        </el-table-column>
+        <el-table-column
+          prop="h"
+          label="物业费">
+        </el-table-column>
+        <el-table-column
+          prop="h"
+          label="水费">
+        </el-table-column>
+        <el-table-column
+          prop="h"
+          label="电费">
+        </el-table-column>
+        <el-table-column
+          prop="h"
+          label="空调暖通费">
         </el-table-column>
         <el-table-column
           prop="i"
@@ -167,22 +169,13 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '应收(3笔)', value: '10000' },
-        { name: '滞纳金', value: 10000 },
-        { name: '已收', value: 10000 },
-        { name: '未缴(3笔)', value: '10000' }
-      ],
-      typeOptions: [
-        {
-          value: '选项1',
-          label: '全部'
-        }, {
-          value: '选项2',
-          label: '租金收入'
-        }, {
-          value: '选项3',
-          label: '物业收入'
-        }
+        { name: '租金', value: '254235', chart: '-0.1128', type: 'arrow' },
+        { name: '物业费', value: 13453, chart: '0.3432', type: 'arrow' },
+        { name: '水费', value: 13513, chart: '0.6356', type: 'arrow' },
+        { name: '电费', value: '134553', chart: '0.3564', type: 'arrow' },
+        { name: '燃气', value: '134553', chart: '-0.3564', type: 'arrow' },
+        { name: '空调暖通', value: '134553', chart: '0.3564', type: 'arrow' },
+        { name: '其他', value: '134553', chart: '0.3564', type: 'arrow' }
       ],
       stateOptions: [
         {
@@ -283,26 +276,6 @@ export default {
               type: 'date-picker-range',
               label: '计费周期',
               key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金比例（%）',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金上限（%）',
-              key: 'i',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入', trigger: 'blur' },
@@ -591,23 +564,5 @@ export default {
   @import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
-  }
-  .simple-item{
-    min-width: 140px;
-    border-right: 2px solid rgb(230, 232, 238);
-    padding-left: 20px;
-    float: left;
-    margin: 20px 30px 20px 0;
-    .title{
-      font-size: 12px;
-      color: rgb(152, 154, 163);
-      line-height: 12px;
-      margin-bottom: 20px;
-    }
-    .value{
-      font-size: 22px;
-      color: rgb(31, 33, 46);
-      height: 22px;
-    }
   }
 </style>

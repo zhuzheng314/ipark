@@ -139,8 +139,6 @@
         <BodyCard type=1 :data="contractInfo_body_room"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body2"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body3"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body4"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body5"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body6"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body7"></BodyCard>
@@ -1012,20 +1010,6 @@ export default {
       contractInfo_body2: {
         title: '其他关键信息',
         info: [ ]
-      },
-      contractInfo_body3: {
-        title: '滞纳金',
-        info: [
-          { name: '滞纳金比例', value: '0.5%/天' },
-          { name: '滞纳金上限', value: '1%' }
-        ]
-      },
-      contractInfo_body4: {
-        title: '滞纳金',
-        info: [
-          { name: '滞纳金比例', value: '0.5%/天' },
-          { name: '滞纳金上限', value: '1%' }
-        ]
       },
       contractInfo_body5: {
         title: '基本条款',
