@@ -74,7 +74,7 @@ const menuList = [
     icon: '\ue60b',
     children: [
       {
-        name: '四表联抄',
+        name: '四表集抄',
         path: '/property/equipment'
       },
       {
@@ -84,15 +84,15 @@ const menuList = [
       {
         name: '投诉管理',
         path: '/property/complaint'
-      },
-      {
-        name: '报事管理',
-        path: '/property/report'
-      },
-      {
-        name: '保洁管理',
-        path: '/property/clean'
       }
+      // {
+      //   name: '报事管理',
+      //   path: '/property/report'
+      // },
+      // {
+      //   name: '保洁管理',
+      //   path: '/property/clean'
+      // }
     ]
   },
   {
