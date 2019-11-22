@@ -28,7 +28,7 @@
             trigger="click"
           >
             <div class="message">
-              <div
+              <!-- <div
                 v-for="item in 3"
                 :key="'msg' + item"
                 class="message-item"
@@ -36,7 +36,6 @@
                 <span
                   style="margin: 0; font-size: 13px; line-height: 13px; display: inline-block; margin-bottom: 4px; color: #333"
                 >
-<!--                  <EllipsisText>{{item}}啊手动阀手动阀手动阀手动阀士大夫大师傅撒地方大师傅</EllipsisText>-->
                   您有新的待办事项
                 </span>
                 <br>
@@ -45,7 +44,9 @@
 
               <div style="text-align: right; margin-top: 5px">
                 <el-link type="primary" style="font-size: 13px">查看更多</el-link>
-              </div>
+              </div> -->
+
+              <p style="text-align: center;">暂无消息</p>
             </div>
             <i class="el-icon-bell g-handle" slot="reference"></i>
           </el-popover>
@@ -57,8 +58,7 @@
         <el-dropdown style="height: 56px;width: 25px">
           <i class="el-icon-user g-handle"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>个人设置</el-dropdown-item>
+            <el-dropdown-item>修改密码</el-dropdown-item>
             <el-dropdown-item divided>退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>

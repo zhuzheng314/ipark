@@ -185,12 +185,12 @@ export default {
   box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.1);
   .logo{
     animation: logo 10s infinite;
-    height: 50px;
-    line-height: 50px;
-    width: 30%;
+    height: 56px;
+    line-height: 56px;
+    width: 100%;
     text-align: left;
-    padding-left: 10px;
     color: white;
+    border-bottom: 1px solid #ccc;
   }
   @keyframes logo
    {
