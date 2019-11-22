@@ -37,8 +37,9 @@
 <!--      </el-radio-group>-->
       <div>
         <div :key="item.name" v-for="item in finData" class="simple-item">
-          <div class="title">{{item.name}}</div>
-          <div class="value">{{item.value}}</div>
+          <!-- <div class="title">{{item.name}}</div>
+          <div class="value">{{item.value}}</div> -->
+           <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
         </div>
       </div>
 
@@ -156,12 +157,9 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '初次接触', value: 10000 },
-        { name: '潜在客户', value: 10000 },
-        { name: '意向客户', value: 10000 },
-        { name: '成交客户', value: 10000 },
-        { name: '流失客户', value: 10000 },
-        { name: '总计', value: 10000 }
+        { name: '初次接触', value: 134, chart: '0.23', type: 'arrow' },
+        { name: '成交客户', value: 45, chart: '0.15', type: 'arrow' },
+        { name: '流失客户', value: 12, chart: '-0.85', type: 'arrow' }
       ],
       options: [
         {
@@ -576,22 +574,22 @@ export default {
   .el-card{
     margin-bottom: 20px;
   }
-  .simple-item{
-    min-width: 140px;
-    border-right: 2px solid rgb(230, 232, 238);
-    padding-left: 20px;
-    float: left;
-    margin: 20px 30px 20px 0;
-    .title{
-      font-size: 12px;
-      color: rgb(152, 154, 163);
-      line-height: 12px;
-      margin-bottom: 20px;
-    }
-    .value{
-      font-size: 22px;
-      color: rgb(31, 33, 46);
-      height: 22px;
-    }
-  }
+  // .simple-item{
+  //   min-width: 140px;
+  //   border-right: 2px solid rgb(230, 232, 238);
+  //   padding-left: 20px;
+  //   float: left;
+  //   margin: 20px 30px 20px 0;
+  //   .title{
+  //     font-size: 12px;
+  //     color: rgb(152, 154, 163);
+  //     line-height: 12px;
+  //     margin-bottom: 20px;
+  //   }
+  //   .value{
+  //     font-size: 22px;
+  //     color: rgb(31, 33, 46);
+  //     height: 22px;
+  //   }
+  // }
 </style>

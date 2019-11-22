@@ -36,8 +36,8 @@ export class FilterFun {
     }
   }
   // 百分百
-  Percent (value: any): string {
-    value = Number(value * 100).toFixed(2)
+  Percent (value: any, n:number = 2): string {
+    value = Number(value * 100).toFixed(n)
     return value + '%'
   }
 
