@@ -217,11 +217,56 @@ export default {
   data () {
     return {
       statistic: [
-        { color: '#A0A7E6', icon: '&#xe656;', title: '园区总览', chart: [{ name: '建筑面积(㎡)', value: 3256 }, { name: '总投资(万元)', value: 3245 }], router: '/asset-management/park' },
-        { color: '#358DD7', icon: '&#xe620;', title: '入驻企业数量', chart: [{ name: '租赁费(元)', value: 45896 }, { name: '物业费(元)', value: 86542 }], router: '/Entry/apply' },
-        { color: '#54bab8', icon: '&#xe67e;', title: '园区产值', chart: [{ name: '税收(元)', value: 654821 }, { name: '坪效(元)', value: 56214 }], router: '/asset-management/park' },
-        { color: '#33add0', icon: '&#xe63c;', title: '合同管理', chart: [{ name: '进程', value: 26 }, { name: '入住率', value: '78%' }], router: '/contract/list' },
-        { color: '#b671bb', icon: '&#xe625;', title: '物业服务', chart: [{ name: '服务数量', value: 15 }, { name: '平均解决时间(分钟)', value: 48 }], router: '/property/repair' }
+        {
+          color: '#A0A7E6',
+          icon: '&#xe656;',
+          title: '园区总览',
+          chart: [
+            { name: '建筑面积(㎡)', value: 3256 },
+            { name: '总投资(万元)', value: 3245 }
+          ],
+          router: '/asset-management/park'
+        },
+        {
+          color: '#358DD7',
+          icon: '&#xe620;',
+          title: '入驻企业及合同',
+          chart: [
+            { name: '入驻企业数(个)', value: 65 },
+            { name: '合同数(个)', value: 80 }
+          ],
+          router: '/Entry/apply'
+        },
+        {
+          color: '#54bab8',
+          icon: '&#xe67e;',
+          title: '园区产值',
+          chart: [
+            { name: '房租费用(元)', value: 654821 },
+            { name: '总金额(元)', value: 865624 }
+          ],
+          router: '/asset-management/park'
+        },
+        {
+          color: '#33add0',
+          icon: '&#xe63c;',
+          title: '投诉报修',
+          chart: [
+            { name: '投诉(个)', value: 1 },
+            { name: '报修(个)', value: 23 }
+          ],
+          router: '/property/complaint'
+        },
+        {
+          color: '#b671bb',
+          icon: '&#xe625;',
+          title: '费用和缴催',
+          chart: [
+            { name: '催缴数量(个)', value: 32 },
+            { name: '已结清数量(个)', value: 48 }
+          ],
+          router: '/financial/payment'
+        }
       ],
       chartBox1: {
         title: '园区产值'
@@ -333,11 +378,11 @@ export default {
       },
       yAxis: {
         type: 'category',
-        data: ['投诉', '维修', '保洁', '报事']
+        data: ['已缴', '催缴', '投诉', '维修']
       },
       series: [{
         name: '物业服务',
-        data: [1, 21, 42, 36],
+        data: [48, 32, 1, 23],
         type: 'bar'
       }]
     }

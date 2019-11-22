@@ -125,23 +125,22 @@
         </HeaderCard>
         <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
         <div class="drawer-body" style="height: 500px;">
-          <BodyCard type=1 :data="roomInfo_body"></BodyCard>
           <BodyCard type=2 :data="roomInfo_body_table1">
             <template #btn>
               <el-button
                 :style="{height: '80%',margin: 'auto 8px'}"
                 size="mini"
-              >查看合同</el-button>
+              >新建合同</el-button>
             </template>
           </BodyCard>
           <BodyCard type=2 :data="roomInfo_body_table2">
-            <template #btn>
+            <!-- <template #btn>
               <el-button
                 :style="{height: '80%',margin: 'auto 8px'}"
                 icon="el-icon-plus"
                 size="mini"
               >客户 </el-button>
-            </template>
+            </template> -->
           </BodyCard>
         </div>
       </el-drawer>
@@ -470,26 +469,16 @@ export default {
         ],
         tableData: [{
           area: '360.00',
-          roomState: '在租中',
-          state: '不可招商',
+          roomState: '待招商',
+          state: '可招商',
           price: '3.00',
           type: '办公',
           decorate: '简装',
           tag: '自带办公家居，随时入住'
         }]
       },
-      roomInfo_body: {
-        title: '租赁合同信息',
-        info: [
-          { name: '租户', value: 'XXX有限公司' },
-          { name: '计租日', value: '2019/11/21' },
-          { name: '结束日', value: '2020/11/10' },
-          { name: '状态', value: '未进驻' }
-
-        ]
-      },
       roomInfo_body_table1: {
-        title: '物业合同信息',
+        title: '合同信息',
         info: {
           label: [
             { prop: 'tenant', label: '租户' },
@@ -499,13 +488,13 @@ export default {
             { prop: 'state', label: '状态' }
           ],
           tableData: [
-            {
-              tenant: '拓源科技',
-              start: '2019/11/11',
-              end: '2020/11/10',
-              price: '3.00元/㎡·天',
-              state: '新建待审核'
-            }
+            // {
+            //   tenant: '拓源科技',
+            //   start: '2019/11/11',
+            //   end: '2020/11/10',
+            //   price: '3.00元/㎡·天',
+            //   state: '新建待审核'
+            // }
           ]
         }
       },
