@@ -24,7 +24,7 @@
         <el-badge style="margin-right: 10px" :value="2" class="item">
           <el-popover
             placement="bottom-end"
-            width="200"
+            width="150"
             trigger="click"
           >
             <div class="message">
@@ -46,7 +46,10 @@
                 <el-link type="primary" style="font-size: 13px">查看更多</el-link>
               </div> -->
 
-              <p style="text-align: center;">暂无消息</p>
+              <div class="noMsg" style="text-align: center;height: 100px;padding-top: 20px;">
+                <i class="iconfont" style="font-size: 36px;color: #ccc;">&#xe642;</i>
+                <p style="margin: 0px 0 0 0;font-size: 12px;">暂无消息</p>
+              </div>
             </div>
             <i class="el-icon-bell g-handle" slot="reference"></i>
           </el-popover>
@@ -389,7 +392,6 @@ export default {
       }
     }
   }
-
   /*/deep/ .el-dropdown{*/
   /*  width: 24px;*/
   /*  height: 24px;*/
