@@ -58,11 +58,11 @@
 
       </div>
       <div class="item">
-        <el-dropdown style="height: 56px;width: 25px">
+        <el-dropdown  @command="handleCommand" style="height: 56px;width: 25px">
           <i class="el-icon-user g-handle"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item divided>退出登录</el-dropdown-item>
+            <el-dropdown-item command="pwd">修改密码</el-dropdown-item>
+            <el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -89,6 +89,40 @@
       </span>
 
     </el-dialog>
+
+    <el-dialog
+      title="修改密码"
+      :visible.sync="setPassWordVisible"
+      width="500px"
+    >
+      <div>
+        <ParkForm
+          ref="tt"
+          :formList="[]"
+          :itemList="setPassWord">
+        </ParkForm>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setPassWord = false">取消</el-button>
+        <el-button type="primary" @click="test(222)">确定</el-button>
+      </span>
+
+    </el-dialog>
+<!--    <el-dialog-->
+<!--      title="更改密码"-->
+<!--      top="10px"-->
+<!--      width="500px"-->
+<!--      style="overflow-y: scroll; z-index: 1000000"-->
+<!--      :visible.sync="true"-->
+<!--    >-->
+<!--      <div>-->
+<!--        <ParkForm :formList="setPassWord" :itemList="[]"></ParkForm>-->
+<!--      </div>-->
+<!--      <span slot="footer" class="dialog-footer">-->
+<!--        <el-button @click="setPassWordVisible = false">取 消</el-button>-->
+<!--        <el-button type="primary" @click="setPassWordVisible = false">确 定</el-button>-->
+<!--      </span>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -235,6 +269,39 @@ export default {
             }
           ]
         }
+      ],
+      setPassWordVisible: false,
+      setPassWord: [
+        {
+          type: 'input',
+          label: '当前密码',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '该项为必填', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        },
+        {
+          type: 'input',
+          label: '新密码',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '该项为必填', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        },
+        {
+          type: 'input',
+          label: '请再次输入密码',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '该项为必填', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        }
       ]
     }
   },
@@ -244,6 +311,11 @@ export default {
         this.addParkShow = true
       } else {
         this.parkName = a
+      }
+    },
+    handleCommand (command) {
+      if (command === 'pwd') {
+        this.setPassWordVisible = true
       }
     }
   }

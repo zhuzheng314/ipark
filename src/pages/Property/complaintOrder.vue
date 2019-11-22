@@ -1,9 +1,7 @@
 <template>
   <div>
     <el-card style="width: 100%">
-      <span style="font-size: 16px;color: #303133;border-left: 3px solid #358dd8;padding-left: 10px">投诉工单</span>
       <el-select  size="small"
-                  style="margin-left: 15px"
                   v-model="value2" placeholder="工单状态">
         <el-option
           v-for="item in options2"
@@ -27,7 +25,7 @@
         icon="el-icon-plus"
         size="small"
         @click="handleAddContract"
-      >新建工单模板</el-button>
+      >投诉</el-button>
     </el-card>
     <el-card>
       <el-table
@@ -36,23 +34,32 @@
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="模板编号">
+          label="租客名称">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="模板名称">
+          label="发起人">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="模板类型">
+          label="联系电话">
         </el-table-column>
         <el-table-column
-          prop="d"
-          label="状态">
+          prop="t"
+          label="发起时间">
+        </el-table-column>
+        <el-table-column
+          prop="adress"
+          label="地址">
         </el-table-column>
         <el-table-column
           prop="e"
-          label="模板描述">
+          label="状态">
+          <el-tag size="mini">已解决</el-tag>
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="描述">
         </el-table-column>
       </el-table>
       <div style="width: 100%; text-align: right; padding-top: 20px">
@@ -61,9 +68,9 @@
     </el-card>
 
     <el-dialog
-      title="新建工单模板"
+      title="新建投诉工单"
       :visible.sync="addContractVisible"
-      width="800px"
+      width="600px"
       :before-close="handleClose">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
@@ -139,9 +146,7 @@ export default {
       addContractVisible: false,
       addContractFormList: [
         {
-          title: '租客信息',
-          span: 12,
-          minHeight: 350,
+          title: '工单信息',
           children: [
             {
               type: 'input',
@@ -150,22 +155,6 @@ export default {
               placeholder: '请输入租客名称',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        }, {
-          title: '工单信息',
-          span: 12,
-          minHeight: 350,
-          children: [
-            {
-              type: 'input',
-              label: '服务地点',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
                 { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
@@ -177,24 +166,6 @@ export default {
               rule: [
                 { required: true, message: '请输入合同编号', trigger: 'blur' },
                 { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '工单类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
               ]
             },
             {
@@ -216,17 +187,10 @@ export default {
                 { required: true, message: '请输入合同编号', trigger: 'blur' },
                 { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
-            }
-          ]
-        },
-        {
-          title: '工单摘要',
-          span: 12,
-          minHeight: 250,
-          children: [
+            },
             {
               type: 'textarea',
-              label: '摘要内容',
+              label: '描述',
               key: 'fr',
               placeholder: '请输入',
               rule: [
@@ -235,8 +199,8 @@ export default {
               ]
             },
             {
-              type: 'upload',
-              label: '封面图片',
+              type: 'upload-img',
+              label: '图片',
               key: 'ccc',
               placeholder: '请输入',
               rule: [
@@ -248,8 +212,6 @@ export default {
         },
         {
           title: '房源信息',
-          span: 12,
-          minHeight: 250,
           children: [
             {
               type: 'cascader',
@@ -421,11 +383,13 @@ export default {
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
       this.tableData.push(
         {
-          a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '这是销售类合同的描述xxx'
+          a: '奇点云' + item,
+          b: '刘涛' + item,
+          c: '1779999999' + item,
+          s: item % 2 === 0 ? '已解决' : '待解决',
+          t: '2019-11-11',
+          e: 'xxxxxxxx',
+          adress: '梦想小镇7幢705'
         }
       )
     })
