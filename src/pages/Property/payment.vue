@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-card style="width: 100%">
-      <div>
+    <el-card>
+      <div slot="header">
         <el-select  size="small"
-            multiple
-            v-model="value"
-            placeholder="费用类型">
+                    multiple
+                    v-model="value"
+                    placeholder="费用类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -29,13 +29,12 @@
           @click="handleAddContract"
         >新增催缴</el-button>
       </div>
-    </el-card>
-    <el-card>
       <div>
-        <div :key="item.name" v-for="item in finData" class="simple-item">
-          <div class="title">{{item.name}}</div>
-          <div class="value">{{item.value}}</div>
-        </div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in finData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
       </div>
 
     </el-card>
@@ -141,13 +140,13 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '应收(3笔)', value: '10000' },
-        { name: '已收', value: 10000 },
-        { name: '未缴(3笔)', value: '10000' },
-        { name: '租金', value: 10000 },
-        { name: '物业费', value: 10000 },
-        { name: '四表费用', value: 10000 },
-        { name: '其他', value: 10000 }
+        { name: '应收(3笔)', value: '10000', chart: '0.3564', type: 'arrow' },
+        { name: '已收', value: 10000, chart: '-0.3564', type: 'arrow' },
+        { name: '未缴(3笔)', value: '10000', chart: '0.3564', type: 'arrow' },
+        { name: '租金', value: 10000, chart: '-0.3564', type: 'arrow' },
+        { name: '物业费', value: 10000, chart: '0.3564', type: 'arrow' },
+        { name: '四表费用', value: 10000, chart: '-0.3564', type: 'arrow' },
+        { name: '其他', value: 10000, chart: '0.3564', type: 'arrow' }
       ],
       options: [
         {
@@ -242,26 +241,6 @@ export default {
               type: 'date-picker-range',
               label: '计费周期',
               key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金比例（%）',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金上限（%）',
-              key: 'i',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入', trigger: 'blur' },
@@ -562,23 +541,5 @@ export default {
   @import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
-  }
-  .simple-item{
-    min-width: 140px;
-    border-right: 2px solid rgb(230, 232, 238);
-    padding-left: 20px;
-    float: left;
-    margin: 20px 30px 20px 0;
-    .title{
-      font-size: 12px;
-      color: rgb(152, 154, 163);
-      line-height: 12px;
-      margin-bottom: 20px;
-    }
-    .value{
-      font-size: 22px;
-      color: rgb(31, 33, 46);
-      height: 22px;
-    }
   }
 </style>

@@ -143,8 +143,6 @@
         <BodyCard type=1 :data="contractInfo_body_room"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body2"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body3"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body4"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body5"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body6"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body7"></BodyCard>
@@ -183,19 +181,15 @@ export default {
       options: [
         {
           value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          label: '物业'
+        },
+        {
+          value: '选项1',
+          label: '出租'
+        },
+        {
+          value: '选项1',
+          label: '其他'
         }
       ],
       value: '',
@@ -1030,20 +1024,6 @@ export default {
       contractInfo_body2: {
         title: '其他关键信息',
         info: [ ]
-      },
-      contractInfo_body3: {
-        title: '滞纳金',
-        info: [
-          { name: '滞纳金比例', value: '0.5%/天' },
-          { name: '滞纳金上限', value: '1%' }
-        ]
-      },
-      contractInfo_body4: {
-        title: '滞纳金',
-        info: [
-          { name: '滞纳金比例', value: '0.5%/天' },
-          { name: '滞纳金上限', value: '1%' }
-        ]
       },
       contractInfo_body5: {
         title: '基本条款',

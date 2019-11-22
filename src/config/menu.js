@@ -87,7 +87,7 @@ const menuList = [
       },
       {
         name: '费用催缴',
-        path: '/financial/payment'
+        path: '/property/payment'
       }
       // {
       //   name: '报事管理',
@@ -104,7 +104,7 @@ const menuList = [
     icon: '\ue604',
     children: [
       {
-        name: '费用列资',
+        name: '费用列支',
         path: '/financial/list'
       },
       {
