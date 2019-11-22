@@ -1011,6 +1011,20 @@ export default {
         title: '其他关键信息',
         info: [ ]
       },
+      contractInfo_body3: {
+        title: '滞纳金',
+        info: [
+          { name: '滞纳金比例', value: '0.5%/天' },
+          { name: '滞纳金上限', value: '1%' }
+        ]
+      },
+      contractInfo_body4: {
+        title: '滞纳金',
+        info: [
+          { name: '滞纳金比例', value: '0.5%/天' },
+          { name: '滞纳金上限', value: '1%' }
+        ]
+      },
       contractInfo_body5: {
         title: '基本条款',
         info: [

@@ -1,31 +1,40 @@
 <template>
   <div>
     <el-card style="width: 100%">
-      <el-select  size="small"
-                  v-model="value2" placeholder="工单状态">
-        <el-option
-          v-for="item in options2"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+      <div slot="header">
+        <el-select  size="small"
+                    v-model="value2" placeholder="工单状态">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
 
-      <el-input
-        placeholder="搜索工单"
-        size="small"
-        style="width: 220px; margin-left: 15px"
-        prefix-icon="el-icon-search"
-        v-model="value">
-      </el-input>
+        <el-input
+          placeholder="搜索工单"
+          size="small"
+          style="width: 220px; margin-left: 15px"
+          prefix-icon="el-icon-search"
+          v-model="value">
+        </el-input>
 
-      <el-button
-        style="float: right"
-        type="primary"
-        icon="el-icon-plus"
-        size="small"
-        @click="handleAddContract"
-      >报修</el-button>
+        <el-button
+          style="float: right"
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="handleAddContract"
+        >报修</el-button>
+      </div>
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in finData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+      </div>
     </el-card>
     <el-card>
       <el-table
@@ -367,7 +376,13 @@ export default {
       workOrderInfo_body3: {
         title: '工单评价',
         info: '无'
-      }
+      },
+      finData: [
+        { name: '已解决', value: '254235', chart: '-0.1128', type: 'arrow' },
+        { name: '待解决', value: 13453, chart: '-0.3432', type: 'arrow' },
+        { name: '完成率', value: 13513, chart: '0.99', type: 'arrow' },
+        { name: '满意度', value: '134553', chart: '0.99', type: 'arrow' }
+      ]
 
     }
   },
