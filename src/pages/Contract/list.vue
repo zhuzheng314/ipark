@@ -55,17 +55,17 @@
         </el-table-column>
         <el-table-column
           prop="c"
-          label="合同编号">
+          label="客户名称">
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          sortable
+          label="截止时间">
         </el-table-column>
         <el-table-column
           prop="d"
           sortable
           label="签订日">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          sortable
-          label="开始日期">
         </el-table-column>
         <el-table-column
           prop="f"
@@ -79,10 +79,6 @@
         <el-table-column
           prop="h"
           label="跟进人">
-        </el-table-column>
-        <el-table-column
-          prop="i"
-          label="是否续签">
         </el-table-column>
         <el-table-column
           prop="j"
@@ -165,37 +161,23 @@ export default {
   },
   data () {
     return {
-      tableData: [{
-        a: 'xxx-1',
-        b: '协力大厦',
-        c: 'number',
-        d: '2015-10-10',
-        e: '2016-01-01',
-        f: '到期未处理',
-        g: '100',
-        h: '刘某人',
-        i: '否',
-        j: 200000
-      }],
+      tableData: [],
       activeName: 'first',
       yearList: [
       ],
       options: [
         {
           value: '选项1',
-          label: '黄金糕'
+          label: '签订'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: '执行'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '到期'
         }, {
           value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          label: '到期未处理'
         }
       ],
       value: '',
@@ -1116,7 +1098,7 @@ export default {
         {
           a: 'xxx' + item,
           b: '协力大厦' + item,
-          c: 'number' + item,
+          c: 'XXX公司' + item,
           d: '2015-10-10',
           e: '2016-01-01',
           f: '到期未处理',

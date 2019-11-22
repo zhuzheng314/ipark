@@ -503,6 +503,7 @@ export default {
         info: {
           label: [
             { prop: 'tenant', label: '租客' },
+            { prop: 'tel', label: '联系电话' },
             { prop: 'state', label: '客户状态' },
             { prop: 'date', label: '跟进人员' },
             { prop: 'channel', label: '招商渠道' },
