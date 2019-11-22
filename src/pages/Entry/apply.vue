@@ -53,6 +53,14 @@
         >新增</el-button>
       </div>
     </el-card>
+    <el-card style="margin-bottom: 20px">
+      <div slot="header" class="clearfix">
+        <span>进驻监控图</span>
+      </div>
+      <div class="chart">
+        <v-chart style="width:100%;height: 300px;" :options="stackedAreaOptions"></v-chart>
+      </div>
+    </el-card>
     <el-card>
       <el-table
         :data="tableData"
@@ -195,6 +203,7 @@ export default {
       ],
       date: [],
       value: '',
+      stackedAreaOptions: {},
       addContractVisible: false,
       addContractFormList: [
         {
@@ -656,6 +665,91 @@ export default {
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
+    },
+    // 折线面积图
+    stackedAreaChart (data) {
+      let stackedAreaChartOption = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#65C6E7'
+            }
+          }
+        },
+        grid: {
+          top: '5%',
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+          // tooltip:{axisPointer:{lineStyle:{color:"#65C6E7"}}},
+          // borderColor: '#65C6E7'
+        },
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: false,
+            axisTick: {// 坐标轴刻度线
+              show: true,
+              inside: true,
+              lineStyle: {
+                // color:'#33E9FF',
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                // color: '#33E9FF',
+              }
+            },
+            data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            axisLine: {
+              lineStyle: {
+                // color: '#33E9FF',
+              }
+            },
+            axisLabel: {// 刻度颜色
+              // color:"#33E9FF",
+            },
+            splitLine: {
+              lineStyle: {// 网格线
+                width: 0,
+                color: ['rgba(51, 233, 255, 0.6)']
+              }
+            }
+          }
+        ],
+        // color : ['#00FEFF','#FFFF57'],
+        series: [
+          {
+            type: 'line',
+            areaStyle: { normal: {} },
+            lineStyle: { width: 2 },
+
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0, color: 'rgba(54, 172, 254, 0.5)'
+              }, {
+                offset: 1, color: 'rgba(67, 144, 250, 0.1)'
+              }],
+              global: false
+            },
+            data: data
+          }
+        ]
+      }
+      return stackedAreaChartOption
     }
   },
   created () {
@@ -682,6 +776,13 @@ export default {
         value: (Math.random() * 100)
       })
     }
+
+    let stackedAreaData = []
+    for (let i = 0; i <= 12; i++) {
+      stackedAreaData.push(Math.floor(Math.random() * 10))
+    }
+
+    this.stackedAreaOptions = this.stackedAreaChart(stackedAreaData)
     // console.log(this.yearList)
   }
 }
@@ -689,6 +790,10 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
+// .echarts {
+//   width: 100%;
+//   height: 100%;
+// }
   .el-card{
     margin-bottom: 20px;
   }

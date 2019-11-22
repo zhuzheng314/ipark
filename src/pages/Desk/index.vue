@@ -288,7 +288,8 @@ export default {
         grid: {
           left: '80px',
           right: '40px'
-        }
+        },
+        barWidth: '20'
       },
       columnOptions: {},
       lineOptions1: {},
@@ -317,9 +318,9 @@ export default {
       xAxis: { type: 'category' },
       yAxis: {},
       series: [
-        { type: 'bar' },
-        { type: 'bar' },
-        { type: 'bar' }
+        { type: 'bar', barWidth: this.publicOptions.barWidth },
+        { type: 'bar', barWidth: this.publicOptions.barWidth },
+        { type: 'bar', barWidth: this.publicOptions.barWidth }
       ]
     }
     this.lineOptions1 = {
@@ -383,7 +384,8 @@ export default {
       series: [{
         name: '物业服务',
         data: [48, 32, 1, 23],
-        type: 'bar'
+        type: 'bar',
+        barWidth: this.publicOptions.barWidth
       }]
     }
     this.doughnutOptions = {
