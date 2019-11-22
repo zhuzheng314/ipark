@@ -1,7 +1,7 @@
 const menuList = [
   {
     name: '资产管理',
-    icon: '\ue604',
+    icon: '\ue64c',
     children: [
       // {
       //   name: '园区管理',
@@ -97,7 +97,7 @@ const menuList = [
   },
   {
     name: '财务管理',
-    icon: '\ue60a',
+    icon: '\ue604',
     children: [
       {
         name: '费用列资',
