@@ -146,15 +146,19 @@
     >
       <div>
         <ParkForm
-          ref="tt"
+          ref="parkForm"
           :formList="addContractFormList"
           :itemList="[]">
+<!--          <span slot="footer" class="dialog-footer">-->
+<!--            <el-button @click="dialogVisible = false">取消</el-button>-->
+<!--            <el-button type="primary" @click="handleAddPark">确定</el-button>-->
+<!--          </span>-->
         </ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
+<!--      <span slot="footer" class="dialog-footer">-->
+<!--        <el-button @click="dialogVisible = false">取消</el-button>-->
+<!--        <el-button type="primary" @click="handleAddPark">确定</el-button>-->
+<!--      </span>-->
 
     </el-dialog>
   </div>
@@ -416,10 +420,8 @@ export default {
     handleBuildClick (index) {
       this.buildIndex = index
     },
-    test (a) {
-      console.log(this.$refs.tt)
-      // this.$refs.tt.handleValidate()
-      this.$refs.tt.onSubmit()
+    handleAddPark (a) {
+      this.$refs.parkForm.onSubmit()
     }
   },
   mounted () {

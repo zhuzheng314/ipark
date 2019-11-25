@@ -37,62 +37,67 @@
 <!--      </el-radio-group>-->
       <div>
         <div :key="item.name" v-for="item in finData" class="simple-item">
-          <!-- <div class="title">{{item.name}}</div>
-          <div class="value">{{item.value}}</div> -->
-           <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+           <Comparison :type="item.type" :data="item"></Comparison>
         </div>
       </div>
 
     </el-card>
     <el-card>
-      <el-table
-        :data="tableData"
+<!--      <el-table-->
+<!--        :data="tableData"-->
+<!--        @row-click="customerState"-->
+<!--        style="width: 100%">-->
+<!--        <el-table-column-->
+<!--          prop="a"-->
+<!--          label="客户名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="b"-->
+<!--          label="进度阶段">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="c"-->
+<!--          label="来源渠道">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="d"-->
+<!--          label="需求面积段">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          label="行业">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="f"-->
+<!--          label="最近联络时间">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="g"-->
+<!--          label="联络人">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="h"-->
+<!--          label="联系方式">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="i"-->
+<!--          label="预计签约时间">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="j"-->
+<!--          label="跟进人">-->
+<!--        </el-table-column>-->
+<!--      </el-table>-->
+
+<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
+<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
+<!--      </div>-->
+
+      <GTable
         @row-click="customerState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="客户名称">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="进度阶段">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="来源渠道">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="需求面积段">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="行业">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          label="最近联络时间">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="联络人">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="联系方式">
-        </el-table-column>
-        <el-table-column
-          prop="i"
-          label="预计签约时间">
-        </el-table-column>
-        <el-table-column
-          prop="j"
-          label="跟进人">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div>
+        :tableLabel="$tableLabels.businessCustomer"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog
@@ -545,6 +550,9 @@ export default {
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
+    },
+    test (page) {
+      console.log(page)
     }
   },
   created () {
@@ -564,7 +572,6 @@ export default {
         }
       )
     })
-    // console.log(this.yearList)
   }
 }
 </script>

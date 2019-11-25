@@ -8,12 +8,13 @@ import '../public/style/index.less'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import { api, baseUrl } from './config/api'
 import axios from './plugins/axios'
-import { api, baseUrl } from './config/api.js'
 import registerGlobalComponents from './components/index.js'
 import 'vue-g2'
 import ECharts from 'vue-echarts'
 import 'echarts'
+import { tables } from './config/table'
 
 // 过滤器
 import { FilterFun } from './filters/FilterFun'
@@ -31,6 +32,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$https = axios
 Vue.prototype.$urls = api
+Vue.prototype.$tableLabels = tables
 
 registerGlobalComponents(Vue) // 全局注册组件
 
