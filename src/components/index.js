@@ -10,6 +10,7 @@ import ParkForm from './ParkForm/index.vue'
 import SideMenu from './SideMenu/index.vue'
 import HeaderInfo from './HeaderInfo/index.vue'
 import Comparison from './Comparison/index.vue'
+import GTable from './GTable'
 
 export default (Vue) => {
   Vue.component('BodyCard', BodyCard)
@@ -21,4 +22,5 @@ export default (Vue) => {
   Vue.component('SideMenu', SideMenu)
   Vue.component('HeaderInfo', HeaderInfo)
   Vue.component('Comparison', Comparison)
+  Vue.component('GTable', GTable)
 }

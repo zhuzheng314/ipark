@@ -31,40 +31,46 @@
       >新建合同模板</el-button>
     </el-card>
     <el-card>
-      <el-table
-        :data="tableData"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="模板编号">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="模板名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="模板类型">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="状态">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="模板描述">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="操作">
-          <template>
-            <el-button type="text">下载</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div>
+<!--      <el-table-->
+<!--        :data="tableData"-->
+<!--        style="width: 100%">-->
+<!--        <el-table-column-->
+<!--          prop="a"-->
+<!--          label="模板编号">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="b"-->
+<!--          label="模板名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="c"-->
+<!--          label="模板类型">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="d"-->
+<!--          label="状态">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          label="模板描述">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          label="操作">-->
+<!--          <template>-->
+<!--            <el-button type="text">下载</el-button>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--      </el-table>-->
+<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
+<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
+<!--      </div>-->
+
+      <GTable
+        @row-click="contractState"
+        :tableLabel="$tableLabels.contractTamplate"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog

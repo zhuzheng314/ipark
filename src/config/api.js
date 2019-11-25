@@ -32,7 +32,6 @@ const api = {
     remove: `/assets.floor.remove`, // 删除楼层
     get_list: `/assets.floor.get_list`, // 获取楼宇楼层
     get_info: `/assets.floor.get_info` // 获取楼宇楼层
-
   },
   // 房间模块管理
   room: {
