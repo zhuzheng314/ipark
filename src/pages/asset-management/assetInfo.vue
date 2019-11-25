@@ -727,6 +727,9 @@ export default {
     }
     console.log(fakerList)
     this.fakerList = fakerList
+    this.$https.post(this.$urls.park.get_list, { page_no: 1, page_size: 10 }).then((res) => {
+      console.log(res)
+    })
   }
 }
 </script>

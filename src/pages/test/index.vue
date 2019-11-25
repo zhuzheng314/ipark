@@ -15,7 +15,20 @@
       <BodyCard type=2 :data="drawer_body_table"></BodyCard>
     </div>
   </el-drawer>
-  {{345324 | NumFormat}}
+  <el-upload
+    class="upload-demo"
+    ref="upload"
+    :action="url"
+    :on-preview="handlePreview"
+    :on-remove="handleRemove"
+    :before-upload="handleBeforeUpload"
+    :on-success="handleSuccess"
+    :file-list="fileList"
+  >
+    <el-button size="small" type="primary">点击上传</el-button>
+    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  </el-upload>
+  <!-- <el-button type="primary" @click="showfile">文件</el-button> -->
 </div>
 </template>
 
@@ -31,7 +44,9 @@ export default {
   props: [''],
   data () {
     return {
-      drawerState: true,
+      url: 'http://192.168.0.231:3000/upload',
+      fileList: [],
+      drawerState: false,
       drawer_header: {
         icon: '&#xe60c;',
         title: '西港发展中心  /  B栋 /  301、302',
@@ -102,34 +117,37 @@ export default {
     }
   },
   mounted () {
-
+    // console.log(this.url)
   },
   watch: {
 
   },
   methods: {
-    click1 () {
-      alert('click1')
-    },
-    click2 () {
-      alert('click2')
-    },
-    click3 () {
-      alert('click3')
-    },
-    click4 () {
-      alert('click4')
+    showfile () {
+      console.log(this.fileList)
     },
     drawer () {
       this.drawerState = true
+    },
+    submitUpload () {
+      // this.$refs.upload.submit();
+      this.$https.post('http://192.168.0.231:3000/upload', {}).then((res) => {
+        // console.log(res)
+      })
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    handleBeforeUpload (file) {
+      // console.log(file, 'handleBeforeUpload')
+      return true
+    },
+    handleSuccess (response, file, fileList) {
+      // console.log(response, file, fileList)
     }
-    // handleClose(done) {
-    //   this.$confirm('确认关闭？')
-    //   .then(_ => {
-    //     done();
-    //   })
-    //   .catch(_ => {});
-    // }
   }
 }
 </script>
