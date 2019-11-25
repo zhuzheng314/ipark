@@ -41,54 +41,60 @@
       </g2-column>
     </el-card>
     <el-card>
-      <el-table
-        :data="tableData"
+<!--      <el-table-->
+<!--        :data="tableData"-->
+<!--        @row-click="contractState"-->
+<!--        style="width: 100%">-->
+<!--        <el-table-column-->
+<!--          prop="a"-->
+<!--          label="合同序号">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="b"-->
+<!--          label="楼宇名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="c"-->
+<!--          label="客户名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          sortable-->
+<!--          label="截止时间">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="d"-->
+<!--          sortable-->
+<!--          label="签订日">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="f"-->
+<!--          sortable-->
+<!--          label="合同状态">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="g"-->
+<!--          label="租赁数目">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="h"-->
+<!--          label="跟进人">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="j"-->
+<!--          sortable-->
+<!--          label="合同金额">-->
+<!--        </el-table-column>-->
+<!--      </el-table>-->
+<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
+<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
+<!--      </div>-->
+
+      <GTable
         @row-click="contractState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="合同序号">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="楼宇名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="客户名称">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          sortable
-          label="截止时间">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          sortable
-          label="签订日">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          sortable
-          label="合同状态">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="租赁数目">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="跟进人">
-        </el-table-column>
-        <el-table-column
-          prop="j"
-          sortable
-          label="合同金额">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div>
+        :tableLabel="$tableLabels.contractList"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog

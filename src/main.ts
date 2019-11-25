@@ -9,11 +9,12 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import { api, baseUrl } from './config/api.js'
+import { api, baseUrl } from './config/api'
 import registerGlobalComponents from './components/index.js'
 import 'vue-g2'
 import ECharts from 'vue-echarts'
 import 'echarts'
+import { tables } from './config/table'
 
 // 过滤器
 import { FilterFun } from './filters/FilterFun'
@@ -33,6 +34,7 @@ axios.defaults.baseURL = baseUrl
 
 Vue.prototype.$https = axios
 Vue.prototype.$urls = api
+Vue.prototype.$tableLabels = tables
 
 registerGlobalComponents(Vue) // 全局注册组件
 
