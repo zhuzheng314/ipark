@@ -8,7 +8,7 @@ import '../public/style/index.less'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import axios from 'axios'
+import axios from './plugins/axios'
 import { api, baseUrl } from './config/api.js'
 import registerGlobalComponents from './components/index.js'
 import 'vue-g2'
@@ -28,8 +28,6 @@ Vue.component('v-chart', ECharts)
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-
-axios.defaults.baseURL = baseUrl
 
 Vue.prototype.$https = axios
 Vue.prototype.$urls = api
