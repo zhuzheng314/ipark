@@ -1,10 +1,15 @@
 // 空间管理
 
-const baseUrl = 'https://service.iot1234.com:2443/api/'
+// const baseUrl = 'https://service.iot1234.com:2443/api/'
+const domin = 'http://192.168.0.231:3000/'
+const baseUrl = domin + 'api/'
+const uploadUrl = domin + 'upload'
 
 const api = {
+  // 上传文件
+  upload: uploadUrl,
   // 获取园区所有信息
-  getParkInfo: `/assets.park.get`,
+  // getParkInfo: `/assets.park.get`,
   // 园区模块
   park: {
     add: `/assets.park.add`, // 添加园区
@@ -41,6 +46,7 @@ const api = {
 }
 
 export {
+  domin,
   api,
   baseUrl
 }

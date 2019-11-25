@@ -265,7 +265,7 @@ export default {
             { name: '催缴数量(个)', value: 32 },
             { name: '已结清数量(个)', value: 48 }
           ],
-          router: '/financial/payment'
+          router: '/property/payment'
         }
       ],
       chartBox1: {
