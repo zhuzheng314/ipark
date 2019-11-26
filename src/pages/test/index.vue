@@ -15,6 +15,8 @@
       <BodyCard type=2 :data="drawer_body_table"></BodyCard>
     </div>
   </el-drawer>
+  <el-divider></el-divider>
+
   <el-upload
     class="upload-demo"
     ref="upload"
@@ -28,7 +30,23 @@
     <el-button size="small" type="primary">点击上传</el-button>
     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
   </el-upload>
-  <!-- <el-button type="primary" @click="showfile">文件</el-button> -->
+  <el-divider></el-divider>
+
+  <el-card>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-input v-model="API_input" placeholder="请输入API"></el-input>
+        <el-input type="textarea"  rows="10" placeholder="请输入要传的参数" v-model="API_textarea2"></el-input>
+        <el-button style="margin-bottom: 10px;" size="small"
+        type="primary" @click="API_test">API测试</el-button>
+      </el-col>
+      <el-col :span="6">
+        <el-input type="textarea" rows="15" placeholder="返回数据" v-model="API_textarea"></el-input>
+      </el-col>
+    </el-row>
+  </el-card>
+  <el-divider></el-divider>
+
 </div>
 </template>
 
@@ -44,6 +62,9 @@ export default {
   props: [''],
   data () {
     return {
+      API_input: '',
+      API_textarea: '',
+      API_textarea2: '',
       url: 'http://192.168.0.231:3000/upload',
       fileList: [],
       drawerState: false,
@@ -120,9 +141,89 @@ export default {
     // console.log(this.url)
   },
   watch: {
+    API_textarea () {
+
+    }
 
   },
   methods: {
+    // API接口测试
+    API_test () {
+      let api = this.$urls.park.add
+      let params2 = {
+        // domain_id: 317,
+        address: '协力大厦',
+        estate_property: '1',
+        usage: '1',
+        complete_ts: '2019-11-07T04:55:20.176Z',
+        acquire_way: 1,
+        capital: 1,
+        detail: '1',
+        attached: {},
+        memo: '1',
+        name: '西岗2',
+        built_area: 10000,
+        total_invest: 8000,
+        property: '',
+        contacter: '',
+        contact: '',
+        state: 1,
+        cover_area: 12000,
+        actual_invest: 9000
+
+      }
+      let params = {
+        page_size: 999,
+        page_no: 1
+      }
+      let params3 = {
+        domain_id: 464
+      }
+      let params4 = {
+        pid: 454,
+        name: '测试房间1',
+        info: {},
+        code: 111,
+        domain_memo: '',
+        room_property: 1,
+        is_rentable: false,
+        state: 1,
+        room_usage: 0,
+        decoration_standard: 0,
+        area: 300,
+        direction: 2,
+        estate_property: '1',
+        usage: '1',
+        acquire_way: '1',
+        acquire_ts: '2019-11-07T04:55:20.176Z',
+        is_flue: false,
+        floor_height: 10,
+        bearing: 10000,
+        attached: {},
+        memo: ''
+
+      }
+
+      if (this.API_input) {
+        api = this.API_input
+      }
+      if (this.API_textarea2) {
+        params = JSON.parse(this.API_textarea2)
+      }
+
+      this.$https.post(api, params2).then((res) => {
+        this.$message(res.msg)
+        this.API_textarea = JSON.stringify(res, null, 2)
+        if (res.code !== 1000) {
+          this.API_textarea = JSON.stringify({
+            err: res.err,
+            msg: res.msg,
+            track: res.track
+          })
+        }
+        // console.log(this.API_textarea)
+      })
+    },
     showfile () {
       console.log(this.fileList)
     },

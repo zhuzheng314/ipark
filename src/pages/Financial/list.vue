@@ -59,7 +59,7 @@
 
     </el-card>
     <el-card>
-      <el-table
+      <!-- <el-table
         :data="tableData"
         @row-click="financialState"
         style="width: 100%">
@@ -106,7 +106,12 @@
       </el-table>
       <div style="width: 100%; text-align: right; padding-top: 20px">
         <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div>
+      </div> -->
+      <GTable
+        @row-click="financialState"
+        :tableLabel="$tableLabels.financialList"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog
@@ -115,7 +120,7 @@
       width="600px"
     >
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <ParkForm :formList="$formsLabels.financialForm" :itemList="[]"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -194,147 +199,147 @@ export default {
       ],
       value: '',
       addContractVisible: false,
-      addContractFormList: [
-        {
-          title: '账单',
-          children: [
-            {
-              type: 'select',
-              label: '关联合同',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '付款方',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '列支方向',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '状态',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '已缴',
-                  value: 's1'
-                }, {
-                  label: '未缴',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系人',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '客户',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '金额',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '时间',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '费用类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '水费',
-                  value: 's1'
-                }, {
-                  label: '电费',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'date-picker-range',
-              label: '计费周期',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '备注',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        }
-      ],
+      // addContractFormList: [
+      //   {
+      //     title: '账单',
+      //     children: [
+      //       {
+      //         type: 'select',
+      //         label: '关联合同',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '美食',
+      //             value: 's1'
+      //           }, {
+      //             label: '美食美食',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '付款方',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '列支方向',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '状态',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '已缴',
+      //             value: 's1'
+      //           }, {
+      //             label: '未缴',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '客户',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '金额',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker',
+      //         label: '时间',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '费用类型',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '水费',
+      //             value: 's1'
+      //           }, {
+      //             label: '电费',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker-range',
+      //         label: '计费周期',
+      //         key: 'fr',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '备注',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       }
+      //     ]
+      //   }
+      // ],
       tamplateFormList: [
         {
           type: 'select',

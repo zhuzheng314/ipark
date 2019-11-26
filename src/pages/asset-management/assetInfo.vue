@@ -154,7 +154,7 @@
       <div>
         <ParkForm
           ref="tt"
-          :formList="addRoomFormList"
+          :formList="$formsLabels.addRoomForm"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -514,154 +514,154 @@ export default {
         }
       },
       addRoomShow: false,
-      addRoomFormList: [
-        {
-          title: '房间信息',
-          children: [
-            {
-              type: 'select',
-              label: '所属楼宇',
-              key: 'u',
-              placeholder: '请选择',
-              options: [
-                {
-                  label: '协力大厦1',
-                  value: 's1'
-                },
-                {
-                  label: '协力大厦2',
-                  value: 's2'
-                },
-                {
-                  label: '协力大厦3',
-                  value: 's3'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '所属楼层',
-              key: 'u2',
-              placeholder: '请选择',
-              options: [
-                {
-                  label: '一楼',
-                  value: 's1'
-                },
-                {
-                  label: '二楼',
-                  value: 's2'
-                },
-                {
-                  label: '三楼',
-                  value: 's3'
-                },
-                {
-                  label: '四楼',
-                  value: 's4'
-                },
-                {
-                  label: '五楼',
-                  value: 's5'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '房间号',
-              key: 'u3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '面积',
-              key: 'u4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '状态',
-              key: 'u5',
-              placeholder: '请选择',
-              options: [
-                {
-                  label: '在租',
-                  value: 's1'
-                },
-                {
-                  label: '待招商',
-                  value: 's2'
-                },
-                {
-                  label: '自用',
-                  value: 's3'
-                },
-                {
-                  label: '锁定',
-                  value: 's4'
-                },
-                {
-                  label: '未分配',
-                  value: 's5'
-                }
-              ],
-              rule: [
-                { required: true, message: '请选择', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系人',
-              key: 'u6',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系人电话',
-              key: 'u7',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '房间描述',
-              key: 'u8',
-              placeholder: '请输入',
-              rule: [
-                // { required: true, message: '请输入', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '房间图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
+      // addRoomFormList: [
+      //   {
+      //     title: '房间信息',
+      //     children: [
+      //       {
+      //         type: 'select',
+      //         label: '所属楼宇',
+      //         key: 'u',
+      //         placeholder: '请选择',
+      //         options: [
+      //           {
+      //             label: '协力大厦1',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '协力大厦2',
+      //             value: 's2'
+      //           },
+      //           {
+      //             label: '协力大厦3',
+      //             value: 's3'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '所属楼层',
+      //         key: 'u2',
+      //         placeholder: '请选择',
+      //         options: [
+      //           {
+      //             label: '一楼',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '二楼',
+      //             value: 's2'
+      //           },
+      //           {
+      //             label: '三楼',
+      //             value: 's3'
+      //           },
+      //           {
+      //             label: '四楼',
+      //             value: 's4'
+      //           },
+      //           {
+      //             label: '五楼',
+      //             value: 's5'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '房间号',
+      //         key: 'u3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '面积',
+      //         key: 'u4',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '状态',
+      //         key: 'u5',
+      //         placeholder: '请选择',
+      //         options: [
+      //           {
+      //             label: '在租',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '待招商',
+      //             value: 's2'
+      //           },
+      //           {
+      //             label: '自用',
+      //             value: 's3'
+      //           },
+      //           {
+      //             label: '锁定',
+      //             value: 's4'
+      //           },
+      //           {
+      //             label: '未分配',
+      //             value: 's5'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人',
+      //         key: 'u6',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人电话',
+      //         key: 'u7',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '房间描述',
+      //         key: 'u8',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           // { required: true, message: '请输入', trigger: 'blur' },
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'upload-img',
+      //         label: '房间图片',
+      //         key: 'u1',
+      //         placeholder: '请输入'
+      //         // rule: [
+      //         //   { required: true, message: '请输入', trigger: 'blur' },
+      //         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         // ]
+      //       }
+      //     ]
+      //   }
+      // ],
       filterStatus: false
     }
   },

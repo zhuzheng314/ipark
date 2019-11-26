@@ -81,7 +81,7 @@
             size="small"
             type="primary"
             icon="el-icon-plus"
-            @click="handleAdd"
+            @click="handleAddBuild"
           >新增楼宇</el-button>
           <div class="clearfix"></div>
         </div>
@@ -140,12 +140,25 @@
       <div>
         <ParkForm
           ref="parkForm"
-          :formList="addContractFormList"
           @onSubmit="handleAddPark"
+          :formList="addContractFormList"
           :itemList="[]">
         </ParkForm>
       </div>
 
+    </el-dialog>
+    <el-dialog
+      title="添加楼宇"
+      :visible.sync="addShowBuild"
+      width="600px"
+    >
+      <div>
+        <ParkForm
+          ref="parkForm"
+          :formList="$formsLabels.addBuildForm"
+          :itemList="[]">
+        </ParkForm>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -158,6 +171,7 @@ export default {
   data () {
     return {
       addShow: false,
+      addShowBuild: false,
       fakerList: [],
       tableData: [],
       infoBoxData: [
@@ -448,6 +462,9 @@ export default {
       }).then(res => {
         console.log(res)
       })
+    },
+    handleAddBuild () {
+      this.addShowBuild = true
     },
     fetchParkList () {
       this.$https.post(this.$urls.park.get_list, {

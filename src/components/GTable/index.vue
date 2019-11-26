@@ -14,10 +14,10 @@
         :prop="item.prop">
         <template slot-scope="scope">
           <span v-if="item.renderTags">
-             <el-tag size="mini">{{scope.row[item.prop]}}</el-tag>
+            <el-tag size="mini">{{scope.row[item.prop]}}</el-tag>
           </span>
           <span v-else-if="item.renderButton">
-             <el-button type="text">下载</el-button>
+            <el-button type="text">下载</el-button>
           </span>
           <span v-else>{{scope.row[item.prop]}}</span>
         </template>

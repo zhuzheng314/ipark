@@ -15,6 +15,7 @@ import 'vue-g2'
 import ECharts from 'vue-echarts'
 import 'echarts'
 import { tables } from './config/table'
+import { forms } from './config/form'
 import * as _ from 'lodash'
 
 // 过滤器
@@ -35,6 +36,7 @@ Vue.prototype.$https = axios
 Vue.prototype.$urls = api
 Vue.prototype.$tableLabels = tables
 Vue.prototype._ = _
+Vue.prototype.$formsLabels = forms
 
 registerGlobalComponents(Vue) // 全局注册组件
 
