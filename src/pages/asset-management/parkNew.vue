@@ -28,7 +28,7 @@
       <div>
         <ParkForm
           ref="tt"
-          :formList="addBuildFormList"
+          :formList="$formsLabels.addBuildForm"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -490,85 +490,85 @@ export default {
           ]
         }
       ],
-      addBuildFormList: [
-        {
-          title: '楼宇信息',
-          children: [
-            {
-              type: 'input',
-              label: '楼宇名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '建筑面积',
-              key: 'i2',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '可出租面积',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '所属园区',
-              key: 'u2',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '西港新界',
-                  value: 's1'
-                },
-                {
-                  label: '海创园',
-                  value: 's1'
-                },
-                {
-                  label: '梦想小镇',
-                  value: 's1'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '楼宇描述',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '楼宇图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
+      // addBuildFormList: [
+      //   {
+      //     title: '楼宇信息',
+      //     children: [
+      //       {
+      //         type: 'input',
+      //         label: '楼宇名称',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '建筑面积',
+      //         key: 'i2',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '可出租面积',
+      //         key: 'i3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '所属园区',
+      //         key: 'u2',
+      //         placeholder: '请输入',
+      //         options: [
+      //           {
+      //             label: '西港新界',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '海创园',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '梦想小镇',
+      //             value: 's1'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '楼宇描述',
+      //         key: 'i4',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'upload-img',
+      //         label: '楼宇图片',
+      //         key: 'u1',
+      //         placeholder: '请输入'
+      //         // rule: [
+      //         //   { required: true, message: '请输入', trigger: 'blur' },
+      //         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         // ]
+      //       }
+      //     ]
+      //   }
+      // ],
 
       buildIndex: 0
     }

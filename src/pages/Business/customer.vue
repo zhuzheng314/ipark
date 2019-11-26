@@ -5,9 +5,20 @@
         <el-select  size="small"
                     multiple
                     v-model="value"
-                    placeholder="客户类型">
+                    placeholder="进度阶段">
           <el-option
-            v-for="item in options"
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select  size="small"
+                    multiple
+                    v-model="value"
+                    placeholder="来源渠道">
+          <el-option
+            v-for="item in options2"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -15,7 +26,7 @@
         </el-select>
 
         <el-input
-          placeholder="搜索"
+          placeholder="搜索客户名称"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
@@ -103,9 +114,9 @@
     <el-dialog
       title="新建客户"
       :visible.sync="addContractVisible"
-      width="800px">
+      width="600px">
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <ParkForm :formList="$formsLabels.addCustomerForm" :itemList="[]"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addContractVisible = false">取 消</el-button>
@@ -166,271 +177,288 @@ export default {
         { name: '成交客户', value: 45, chart: '0.15', type: 'arrow' },
         { name: '流失客户', value: 12, chart: '-0.85', type: 'arrow' }
       ],
-      options: [
+      options1: [
         {
           value: '选项1',
           label: '全部'
         }, {
           value: '选项2',
-          label: '水费'
+          label: '初次来访'
         }, {
           value: '选项3',
-          label: '电费'
+          label: '意向客户'
         }, {
           value: '选项4',
-          label: '燃气'
+          label: '成交客户'
         }, {
           value: '选项5',
-          label: '房租'
+          label: '休眠客户'
+        }
+      ],
+      options2: [
+        {
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '广告媒体'
+        }, {
+          value: '选项3',
+          label: '中介'
+        }, {
+          value: '选项4',
+          label: '客户自访'
+        }, {
+          value: '选项5',
+          label: '其他'
         }
       ],
       value: '',
       addContractVisible: false,
-      addContractFormList: [
-        {
-          title: '客户信息',
-          span: 12,
-          minHeight: 500,
-          children: [
-            {
-              type: 'input',
-              label: '客户(企业名称)',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系人',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系方式',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '跟进人',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '进度阶段',
-              key: 'tamplate',
-              placeholder: '请选择',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '初次来访',
-                  value: 's1'
-                }, {
-                  label: '意向客户',
-                  value: 's2'
-                }, {
-                  label: '成交客户',
-                  value: 's3'
-                }, {
-                  label: '休眠客户',
-                  value: 's4'
-                }
-              ]
-            },
-            {
-              type: 'select',
-              label: '行业',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '来访时间',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '客户来源',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '上门',
-                  value: 's1'
-                }, {
-                  label: '官网',
-                  value: '官网'
-                }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '备注',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '房源信息',
-          span: 12,
-          minHeight: 500,
-          children: [
-            {
-              type: 'cascader',
-              label: '需求面积',
-              key: 'xuqmj',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  value: 1,
-                  label: '100㎡以内'
-                }, {
-                  value: 2,
-                  label: '100-200㎡'
-                }, {
-                  value: 3,
-                  label: '200-300㎡'
-                }, {
-                  value: 4,
-                  label: '300㎡以上'
-                }
-              ]
-            },
-            {
-              type: 'cascader',
-              label: '需求工位',
-              key: 'fangyxx',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  value: 1,
-                  label: '1-20个'
-                }, {
-                  value: 2,
-                  label: '21-50个'
-                }, {
-                  value: 3,
-                  label: '51-100个'
-                }, {
-                  value: 4,
-                  label: '100个以上'
-                }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '预计签约时间',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'cascader',
-              label: '房源信息',
-              key: 'fangyxx',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [{
-                value: 1,
-                label: '梦想小镇',
-                children: [{
-                  value: 2,
-                  label: '1幢',
-                  children: [
-                    { value: 3, label: '101' },
-                    { value: 4, label: '201' },
-                    { value: 5, label: '205' }
-                  ]
-                }, {
-                  value: 7,
-                  label: '3幢',
-                  children: [
-                    { value: 8, label: '101' },
-                    { value: 9, label: '103' },
-                    { value: 10, label: '503' }
-                  ]
-                }, {
-                  value: 12,
-                  label: '8幢',
-                  children: [
-                    { value: 13, label: '202' },
-                    { value: 14, label: '503' },
-                    { value: 15, label: '603' }
-                  ]
-                }]
-              }, {
-                value: 17,
-                label: '人工智能小镇',
-                children: [{
-                  value: 18,
-                  label: '16幢',
-                  children: [
-                    { value: 19, label: '501' },
-                    { value: 20, label: '505' }
-                  ]
-                }, {
-                  value: 21,
-                  label: '19幢',
-                  children: [
-                    { value: 22, label: '103' },
-                    { value: 23, label: '105' }
-                  ]
-                }]
-              }]
-            }
-          ]
-        }
-      ],
+      // addContractFormList: [
+      //   {
+      //     title: '客户信息',
+      //     span: 24,
+      //     // minHeight: 500,
+      //     children: [
+      //       {
+      //         type: 'input',
+      //         label: '客户(企业名称)',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系方式',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '跟进人',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '进度阶段',
+      //         key: 'tamplate',
+      //         placeholder: '请选择',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '初次来访',
+      //             value: 's1'
+      //           }, {
+      //             label: '意向客户',
+      //             value: 's2'
+      //           }, {
+      //             label: '成交客户',
+      //             value: 's3'
+      //           }, {
+      //             label: '休眠客户',
+      //             value: 's4'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '行业',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '美食',
+      //             value: 's1'
+      //           }, {
+      //             label: '美食美食',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker',
+      //         label: '来访时间',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '客户来源',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '上门',
+      //             value: 's1'
+      //           }, {
+      //             label: '官网',
+      //             value: '官网'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '备注',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     title: '房源信息',
+      //     span: 24,
+      //     children: [
+      //       {
+      //         type: 'cascader',
+      //         label: '需求面积',
+      //         key: 'xuqmj',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             value: 1,
+      //             label: '100㎡以内'
+      //           }, {
+      //             value: 2,
+      //             label: '100-200㎡'
+      //           }, {
+      //             value: 3,
+      //             label: '200-300㎡'
+      //           }, {
+      //             value: 4,
+      //             label: '300㎡以上'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'cascader',
+      //         label: '需求工位',
+      //         key: 'fangyxx',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             value: 1,
+      //             label: '1-20个'
+      //           }, {
+      //             value: 2,
+      //             label: '21-50个'
+      //           }, {
+      //             value: 3,
+      //             label: '51-100个'
+      //           }, {
+      //             value: 4,
+      //             label: '100个以上'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker',
+      //         label: '预计签约时间',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'change' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'cascader',
+      //         label: '房源信息',
+      //         key: 'fangyxx',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [{
+      //           value: 1,
+      //           label: '梦想小镇',
+      //           children: [{
+      //             value: 2,
+      //             label: '1幢',
+      //             children: [
+      //               { value: 3, label: '101' },
+      //               { value: 4, label: '201' },
+      //               { value: 5, label: '205' }
+      //             ]
+      //           }, {
+      //             value: 7,
+      //             label: '3幢',
+      //             children: [
+      //               { value: 8, label: '101' },
+      //               { value: 9, label: '103' },
+      //               { value: 10, label: '503' }
+      //             ]
+      //           }, {
+      //             value: 12,
+      //             label: '8幢',
+      //             children: [
+      //               { value: 13, label: '202' },
+      //               { value: 14, label: '503' },
+      //               { value: 15, label: '603' }
+      //             ]
+      //           }]
+      //         }, {
+      //           value: 17,
+      //           label: '人工智能小镇',
+      //           children: [{
+      //             value: 18,
+      //             label: '16幢',
+      //             children: [
+      //               { value: 19, label: '501' },
+      //               { value: 20, label: '505' }
+      //             ]
+      //           }, {
+      //             value: 21,
+      //             label: '19幢',
+      //             children: [
+      //               { value: 22, label: '103' },
+      //               { value: 23, label: '105' }
+      //             ]
+      //           }]
+      //         }]
+      //       }
+      //     ]
+      //   }
+      // ],
       tamplateFormList: [
         {
           type: 'select',

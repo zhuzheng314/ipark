@@ -10,7 +10,7 @@ const codeMessage = {
   1100: '尚未登录',
   1101: '没有权限',
   1102: '登录失败',
-  1003: '用户被锁定',
+  1103: '用户被锁定',
   1110: '内部错误',
   1111: '数据库访问错误',
   1112: '服务访问错误',
@@ -53,9 +53,15 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   config => {
     const code = config.data.code
-    if (code === 1100 || code === 1002 || code === 1003) {
+    const msg = codeMessage[code]
+    if (code === 1100 || code === 1102 || code === 1103) {
       window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
     }
+    config.data.msg = code + ':' + msg
+    return config.data
+  },
+  error => {
+    return Promise.reject(error)
   }
 )
 

@@ -2,7 +2,7 @@
   <div>
     <el-card style="width: 100%">
       <el-select  size="small"
-                  v-model="value" placeholder="合同类型">
+                  v-model="value" placeholder="合同状态">
         <el-option
           v-for="item in options"
           :key="item.value"
