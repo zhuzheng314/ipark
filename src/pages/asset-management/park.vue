@@ -5,12 +5,12 @@
         <i class="el-icon-plus"></i> 添加园区
       </div>
       <div class="left-list">
-        <div class="item" :class="{ active: buildIndex === index}"  :key="index + 'leftcard'" v-for="(item, index) in fakerList">
-          <div class="inner" @click="handleBuildClick(index, item)">
-            <img class="pic" :src="item.img">
+        <div class="item" :class="{ active: buildIndex === index}"  :key="index + 'leftcard'" v-for="(item, index) in parkList">
+          <div class="inner" @click="handleParkClick(index, item)">
+            <img class="pic" :src="item.attached[0] && item.attached[0].url">
             <div class="cont">
-              <div class="title">{{item.name}}</div>
-              <div class="value">{{item.value}}㎡</div>
+              <div class="title">{{item.name || '-'}}</div>
+              <div class="value">{{item.cover_area || '-'}}㎡</div>
             </div>
           </div>
         </div>
@@ -20,13 +20,6 @@
       <el-card style="margin-bottom: 10px">
         <div style="color: #666; font-size: 16px;" slot="header">西港发展中心</div>
         <div>
-<!--          <div v-for="(item, index) in cardImgList" :key="index + 'imgcard'" class="imgCard" :style="{background: item.background}">-->
-<!--            <div class="imgCard-icon">-->
-<!--              <img :src="item.icon" alt="">-->
-<!--            </div>-->
-<!--            <div class="value">{{item.value}}</div>-->
-<!--            <div class="name">{{item.name}}</div>-->
-<!--          </div>-->
           <InfoBox
             style="float: left; margin:0 40px 10px 15px"
             v-for="(item, index) in infoBoxData" :type='item.type'
@@ -38,14 +31,14 @@
         <el-divider></el-divider>
         <div style="margin-top: -10px">
           <el-row>
-            <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in detail" >
+            <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
               <div class="detail">
                 <div class="item">
                   <div class="title">
                     {{item.name}}:
                   </div>
                   <div class="value">
-                    {{item.value}}
+                    {{item.value + item.unit}}
                   </div>
                 </div>
               </div>
@@ -148,17 +141,10 @@
         <ParkForm
           ref="parkForm"
           :formList="addContractFormList"
+          @onSubmit="handleAddPark"
           :itemList="[]">
-<!--          <span slot="footer" class="dialog-footer">-->
-<!--            <el-button @click="dialogVisible = false">取消</el-button>-->
-<!--            <el-button type="primary" @click="handleAddPark">确定</el-button>-->
-<!--          </span>-->
         </ParkForm>
       </div>
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--        <el-button @click="dialogVisible = false">取消</el-button>-->
-<!--        <el-button type="primary" @click="handleAddPark">确定</el-button>-->
-<!--      </span>-->
 
     </el-dialog>
   </div>
@@ -261,15 +247,15 @@ export default {
           }
         }
       ],
-      detail: [
-        { name: '产权', value: '科创中心' },
-        { name: '地理位置', value: '西湖区' },
-        { name: '联系电话', value: '18888888888' },
-        { name: '占地面积', value: '250000㎡' },
-        { name: '建筑面积', value: '150000㎡' },
-        { name: '总投资额', value: '200,000w' },
-        { name: '实际投资', value: '150,000w' },
-        { name: '园区定位', value: '互联网' }
+      parkInfo: [
+        { name: '产权', value: '', key: 'capital', unit: '' },
+        { name: '地理位置', value: '', key: 'address', unit: '' },
+        { name: '联系电话', value: '', key: 'contact', unit: '' },
+        { name: '占地面积', value: '', key: 'cover_area', unit: '㎡' },
+        { name: '建筑面积', value: '', key: 'built_area', unit: '㎡' },
+        { name: '总投资额', value: '', key: 'decimal', unit: 'w' },
+        { name: '实际投资', value: '', key: 'actual_invest', unit: 'w' },
+        { name: '园区定位', value: '', key: 'usage', unit: '' }
       ],
       cardImgList: [
         { name: '体量 ㎡', value: '11111', imgUrl: require('@/assets/img/park/area.png'), icon: require('@/assets/img/park/icon1.png'), background: '#838CC7' },
@@ -300,7 +286,7 @@ export default {
             {
               type: 'input',
               label: '园区名称',
-              key: 'i',
+              key: 'name',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '该项为必填', trigger: 'blur' }
@@ -308,8 +294,26 @@ export default {
             },
             {
               type: 'input',
-              label: '建筑面积',
-              key: 'i2',
+              label: '园区地址',
+              key: 'address',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '产权',
+              key: 'capital',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '建筑面积(㎡)',
+              key: 'built_area',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '该项为必填', trigger: 'blur' }
@@ -317,9 +321,29 @@ export default {
               ]
             },
             {
-              type: 'input',
-              label: '总投资',
-              key: 'i3',
+              type: 'input-num',
+              label: '占地面积(㎡)',
+              key: 'cover_area',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '总投资:万元',
+              key: 'total_invest',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '实际投资:万元',
+              key: 'actual_invest',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -329,17 +353,16 @@ export default {
             {
               type: 'input',
               label: '所属物业',
-              key: 'hjkhjk',
-              placeholder: '请输入租客名称',
+              key: 'property',
+              placeholder: '请输入',
               rule: [
-
                 // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
               label: '园区联系人',
-              key: 'i4',
+              key: 'contacter',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -349,7 +372,7 @@ export default {
             {
               type: 'input',
               label: '园区联系电话',
-              key: 'i4',
+              key: 'contact',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -359,34 +382,33 @@ export default {
             {
               type: 'select',
               label: '园区状态',
-              key: 'u2',
+              key: 'state',
               placeholder: '请输入',
               options: [
                 {
                   label: '在建',
-                  value: 's1'
+                  value: 1
                 },
                 {
                   label: '招商',
-                  value: 's1'
+                  value: 2
                 },
                 {
                   label: '运营',
-                  value: 's1'
+                  value: 3
                 },
                 {
                   label: '其他',
-                  value: 's1'
+                  value: 4
                 }
               ],
               rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
               ]
             },
             {
               type: 'textarea',
               label: '园区描述',
-              key: 'i5',
+              key: 'detail',
               placeholder: '请输入',
               rule: [
                 // { required: true, message: '请输入', trigger: 'blur' },
@@ -396,17 +418,15 @@ export default {
             {
               type: 'upload-img',
               label: '园区图片',
-              key: 'u1',
+              key: 'attached',
               placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
             }
           ]
         }
       ],
-      buildIndex: 0
+      buildIndex: 0,
+      parkList: [],
+      buildingList: []
     }
   },
   methods: {
@@ -417,11 +437,64 @@ export default {
     handleAdd () {
       this.addShow = true
     },
-    handleBuildClick (index) {
+    handleParkClick (index, park) {
       this.buildIndex = index
+      this.fetchParkInfo(park)
+      this.fetchBuildList(park)
     },
-    handleAddPark (a) {
-      this.$refs.parkForm.onSubmit()
+    handleAddPark (data) {
+      this.$https.post(this.$urls.park.add, {
+        ...data
+      }).then(res => {
+        console.log(res)
+      })
+    },
+    fetchParkList () {
+      this.$https.post(this.$urls.park.get_list, {
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
+        if (res.code === 1000) {
+          this.parkList = res.list
+        }
+      })
+    },
+    fetchParkInfo (park) {
+      this.$https.post(this.$urls.park.get_info, {
+        domain_id: park.domain_id
+      }).then(res => {
+        let parkInfo = this._.cloneDeep(this.parkInfo)
+        if (res.code === 1000) {
+          parkInfo.forEach((x, index) => {
+            Object.keys(res).forEach(y => {
+              if (y === x.key) {
+                parkInfo[index].value = res[y]
+              }
+            })
+          })
+        }
+        this.parkInfo = parkInfo
+      })
+    },
+    fetchBuildList (park) {
+      this.$https.post(this.$urls.building.get_list, {
+        page_no: 1,
+        page_size: 20,
+        domain_id: park.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.buildingList = res.list
+        }
+      })
+    },
+    fetchTreeList () {
+      this.$https.post(this.$urls.park.get_tree_list, {
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
+        if (res.code === 1000) {
+        }
+      })
     }
   },
   mounted () {
@@ -442,6 +515,8 @@ export default {
     for (let i = 0; i < 10; i++) {
       this.fakerList.push({ name: '新港.新界', img: require('@/assets/img/park/listhead.png'), value: 1000 })
     }
+    this.fetchParkList()
+    this.fetchTreeList()
   }
 }
 </script>
@@ -449,13 +524,14 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .park{
-  display: flex;
+  /*display: flex;*/
   width: 100%;
   height: 100%;
   * {
     box-sizing: border-box;
   }
   .left{
+    float:left;
     height: 100%;
     margin-right: 10px;
     width: 250px;

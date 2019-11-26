@@ -39,9 +39,7 @@ request.interceptors.request.use(
     config.data = {
       ...config.data,
       access_token: token,
-      app_id: body.app_id,
-      app_key: body.app_key,
-      v: body.v
+      ...body
     }
     return config
   },
@@ -56,6 +54,10 @@ request.interceptors.response.use(
     if (code === 1100 || code === 1002 || code === 1003) {
       window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
     }
+    return config.data
+  },
+  error => {
+    return Promise.reject(error)
   }
 )
 

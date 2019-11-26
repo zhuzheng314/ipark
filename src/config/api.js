@@ -14,8 +14,10 @@ const api = {
   park: {
     add: `/assets.park.add`, // 添加园区
     get_list: `/assets.park.get_list`, // 获取园区
+    get_info: '/assets.park.get_info', // 园区详情
     modify: `/assets.park.modify`, // 修改园区
-    remove: `/assets.park.remove` //  删除园区
+    remove: `/assets.park.remove`, //  删除园区
+    get_tree_list: '/assets.park.get_tree_list'
   },
   // 楼宇模块管理
   building: {

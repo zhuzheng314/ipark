@@ -31,6 +31,13 @@
                     >
                     </el-input>
 
+                    <!-- input-num -->
+                    <el-input-number
+                      v-if="item.type === 'input-num'"
+                      v-model="form[item.key]"
+                      controls="false"
+                    ></el-input-number>
+
                     <!-- textarea -->
                     <el-input
                       v-if="item.type === 'textarea'"
@@ -97,11 +104,12 @@
 
                     <!--            upload-->
                     <el-upload
-                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :action="$urls.upload"
                       list-type="picture-card"
-                      :ref="item.key"
-                      :before-upload="beforeUpload"
-                      v-model="form[item.key]"
+                      ref="picture-card"
+                      :before-upload="handleBeforeUpload"
+                      :on-success="handleUploadImgSuccess"
+                      :on-remove="handleUploadImgRemove"
                       v-if="item.type === 'upload-img'"
                       multiple
                       :limit="3">
@@ -111,7 +119,9 @@
 
                     <el-upload
                       class="upload-demo"
-                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :action="$urls.upload"
+                      :on-success="handleUploadFileSuccess"
+                      :on-remove="handleUploadFileRemove"
                       v-if="item.type === 'upload-file'"
                       multiple>
                       <el-button size="small" type="primary">点击上传</el-button>
@@ -202,7 +212,7 @@
 
           <!-- upload-->
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            :action="$urls.upload"
             v-if="item.type === 'upload'"
             multiple
             :limit="3">
@@ -214,6 +224,10 @@
       </div>
 
       <slot name="footer"></slot>
+      <span class="dialog-footer">
+        <el-button @click="resetForm">取消</el-button>
+        <el-button type="primary" @click="handleSubmit">确定</el-button>
+      </span>
     </el-form>
   </div>
 </template>
@@ -230,78 +244,36 @@ export default {
       rules: {
       },
       formList1: [
-        {
-          type: 'input',
-          label: 'input',
-          key: 'i',
-          placeholder: 'asdfsadf',
-          rule: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'radio',
-          label: 'radio',
-          key: 'r',
-          options: [
-            {
-              label: 'dd1',
-              value: 'vdd1'
-            }, {
-              label: 'dd2',
-              value: 'vdd2'
-            }
-          ]
-        }, {
-          type: 'checkbox',
-          label: 'checkbox',
-          key: 'c',
-          options: [
-            {
-              label: '美食',
-              value: 'vdd1'
-            }, {
-              label: '美食美食',
-              value: 'vdd2'
-            }
-          ]
-        }, {
-          type: 'textarea',
-          label: 'textarea',
-          key: 'textarea',
-          placeholder: 'textarea',
-          rule: [
-            { required: true, message: '请输入', trigger: 'blur' },
-            { min: 3, max: 50, message: '长度在 3 到 50 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'select',
-          label: 'select',
-          key: 'select',
-          rule: [
-            { required: true, message: '请输入', trigger: 'change' }
-          ],
-          options: [
-            {
-              label: '美食',
-              value: 's1'
-            }, {
-              label: '美食美食',
-              value: 's2'
-            }
-          ]
-        }, {
-          type: 'switch',
-          label: 'switch',
-          key: 'switch'
-        }
-      ]
+      ],
+      uploadImgKey: '',
+      uploadFileKey: ''
     }
   },
   methods: {
-    beforeUpload (file) {
-      console.log(file, this.$refs)
-      this.form.u2 = 456456465
+    handleBeforeUpload (file) {
+      console.log(file)
+      // return false
+    },
+    handleUploadImgSuccess (response, file, fileList) {
+      this.form[this.uploadImgKey][this.uploadImgKey] = this.filterFileList(fileList)
+    },
+    handleUploadImgRemove (file, fileList) {
+      this.form[this.uploadImgKey][this.uploadImgKey] = this.filterFileList(fileList)
+    },
+    handleUploadFileSuccess (response, file, fileList) {
+      this.form[this.uploadFileKey] = this.filterFileList(fileList)
+    },
+    handleUploadFileRemove (file, fileList) {
+      this.form[this.uploadFileKey] = this.filterFileList(fileList)
+    },
+    filterFileList (fileList) {
+      let arr = []
+      fileList && fileList.forEach(item => {
+        if (item.response.code === 1000) {
+          arr.push(item.response.urls[0])
+        }
+      })
+      return arr
     },
     handleValidate () {
       this.$refs['form'].validate((valid) => {
@@ -315,17 +287,20 @@ export default {
     },
     resetForm (formName) {
       this.$refs['form'].resetFields()
+      this.$emit('resetForm')
     },
     onSubmit () {
       this.$refs['form'].validate((valid, value) => {
         if (valid) {
-          console.log(this.$refs['form'].model)
-          console.log(this.$refs['u1'])
+          this.$emit('onSubmit', this.$refs['form'].model)
         } else {
           console.log('error submit!!')
           return false
         }
       })
+    },
+    handleSubmit () {
+      this.onSubmit()
     },
     initItemList (itemList) {
       let rules = {}
@@ -338,6 +313,12 @@ export default {
         }
         if (item.type === 'switch ') { // switch c初始值是布尔
           formInitValue = false
+        }
+        if (item.type === 'upload-img') { // 如果是图片，要拿到他的key TODO
+          this.uploadImgKey = item.key
+        }
+        if (item.type === 'upload-file') { // 如果是文件，要拿到他的key TODO
+          this.uploadFileKey = item.key
         }
         form[item.key] = formInitValue // form初始化
       })
@@ -364,14 +345,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-/*/deep/ .el-upload--picture-card{*/
-/*    width: 90px;*/
-/*    height: 90px;*/
-/*    line-height: 90px;*/
-/*  }*/
-/*  /deep/ .el-upload-list__item-actions{*/
-/*    width: 90px;*/
-/*    height: 90px;*/
-/*    line-height: 90px;*/
-/*  }*/
+  /deep/ .el-upload-list--picture-card .el-upload-list__item {
+    width: 100px;
+    height: 100px;
+  }
+  /deep/ .el-upload--picture-card{
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
 </style>

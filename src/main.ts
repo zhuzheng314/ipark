@@ -15,6 +15,7 @@ import 'vue-g2'
 import ECharts from 'vue-echarts'
 import 'echarts'
 import { tables } from './config/table'
+import * as _ from 'lodash'
 
 // 过滤器
 import { FilterFun } from './filters/FilterFun'
@@ -33,6 +34,7 @@ Vue.config.productionTip = false
 Vue.prototype.$https = axios
 Vue.prototype.$urls = api
 Vue.prototype.$tableLabels = tables
+Vue.prototype._ = _
 
 registerGlobalComponents(Vue) // 全局注册组件
 
