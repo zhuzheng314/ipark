@@ -328,6 +328,26 @@ export default {
             },
             {
               type: 'input',
+              label: '实际投资',
+              key: 'i3',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区定位',
+              key: 'i3',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
               label: '所属物业',
               key: 'hjkhjk',
               placeholder: '请输入租客名称',

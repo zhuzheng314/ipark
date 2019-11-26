@@ -5,9 +5,20 @@
         <el-select  size="small"
                     multiple
                     v-model="value"
-                    placeholder="客户类型">
+                    placeholder="进度阶段">
           <el-option
-            v-for="item in options"
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select  size="small"
+                    multiple
+                    v-model="value"
+                    placeholder="来源渠道">
+          <el-option
+            v-for="item in options2"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -15,7 +26,7 @@
         </el-select>
 
         <el-input
-          placeholder="搜索"
+          placeholder="搜索客户名称"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
@@ -103,7 +114,7 @@
     <el-dialog
       title="新建客户"
       :visible.sync="addContractVisible"
-      width="800px">
+      width="600px">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>
@@ -166,22 +177,40 @@ export default {
         { name: '成交客户', value: 45, chart: '0.15', type: 'arrow' },
         { name: '流失客户', value: 12, chart: '-0.85', type: 'arrow' }
       ],
-      options: [
+      options1: [
         {
           value: '选项1',
           label: '全部'
         }, {
           value: '选项2',
-          label: '水费'
+          label: '初次来访'
         }, {
           value: '选项3',
-          label: '电费'
+          label: '意向客户'
         }, {
           value: '选项4',
-          label: '燃气'
+          label: '成交客户'
         }, {
           value: '选项5',
-          label: '房租'
+          label: '休眠客户'
+        }
+      ],
+      options2: [
+        {
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '广告媒体'
+        }, {
+          value: '选项3',
+          label: '中介'
+        }, {
+          value: '选项4',
+          label: '客户自访'
+        }, {
+          value: '选项5',
+          label: '其他'
         }
       ],
       value: '',
@@ -189,8 +218,8 @@ export default {
       addContractFormList: [
         {
           title: '客户信息',
-          span: 12,
-          minHeight: 500,
+          span: 24,
+          // minHeight: 500,
           children: [
             {
               type: 'input',
@@ -315,8 +344,7 @@ export default {
         },
         {
           title: '房源信息',
-          span: 12,
-          minHeight: 500,
+          span: 24,
           children: [
             {
               type: 'cascader',
