@@ -39,9 +39,7 @@ request.interceptors.request.use(
     config.data = {
       ...config.data,
       access_token: token,
-      app_id: body.app_id,
-      app_key: body.app_key,
-      v: body.v
+      ...body
     }
     return config
   },
