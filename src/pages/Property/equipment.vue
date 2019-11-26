@@ -36,7 +36,7 @@
       </div>
     </el-card>
     <el-card>
-      <el-table
+      <!-- <el-table
         :data="tableData"
         @row-click="equipmentState"
         style="width: 100%">
@@ -71,7 +71,12 @@
       </el-table>
       <div style="width: 100%; text-align: right; padding-top: 20px">
         <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div>
+      </div> -->
+      <GTable
+        @row-click="equipmentState"
+        :tableLabel="$tableLabels.equipmentList"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
 <!--      设备详情-->

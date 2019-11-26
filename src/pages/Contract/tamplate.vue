@@ -79,7 +79,7 @@
       width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="[]" :itemList="tamplateFormList"></ParkForm>
+        <ParkForm :formList="[]" :itemList="$formsLabels.tamplateForm"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -124,66 +124,66 @@ export default {
         value: 's6'
       }],
       value: '',
-      addContractVisible: false,
-      tamplateFormList: [
-        {
-          type: 'select',
-          label: '模板类型',
-          key: 'tamplate',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请选择', trigger: 'change' }
-          ],
-          options: [
-            {
-              label: '房屋租赁',
-              value: 's1'
-            }, {
-              label: '物业保洁',
-              value: 's2'
-            }, {
-              label: '花木租赁',
-              value: 's3'
-            }, {
-              label: '场地租赁',
-              value: 's4'
-            }, {
-              label: '设备租赁',
-              value: 's5'
-            }, {
-              label: '其他',
-              value: 's6'
-            }
-          ]
-        }, {
-          type: 'input',
-          label: '模板名称',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请输入模板名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'textarea',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'upload',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }
-      ]
+      addContractVisible: false
+      // tamplateFormList: [
+      //   {
+      //     type: 'select',
+      //     label: '模板类型',
+      //     key: 'tamplate',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '请选择', trigger: 'change' }
+      //     ],
+      //     options: [
+      //       {
+      //         label: '房屋租赁',
+      //         value: 's1'
+      //       }, {
+      //         label: '物业保洁',
+      //         value: 's2'
+      //       }, {
+      //         label: '花木租赁',
+      //         value: 's3'
+      //       }, {
+      //         label: '场地租赁',
+      //         value: 's4'
+      //       }, {
+      //         label: '设备租赁',
+      //         value: 's5'
+      //       }, {
+      //         label: '其他',
+      //         value: 's6'
+      //       }
+      //     ]
+      //   }, {
+      //     type: 'input',
+      //     label: '模板名称',
+      //     key: 'i',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '请输入模板名称', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }, {
+      //     type: 'textarea',
+      //     label: '模板描述',
+      //     key: 'i11',
+      //     placeholder: '请输入模板描述',
+      //     rule: [
+      //       { required: true, message: '请输入模板描述', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }, {
+      //     type: 'upload',
+      //     label: '模板描述',
+      //     key: 'i11',
+      //     placeholder: '请输入模板描述',
+      //     rule: [
+      //       { required: true, message: '请输入模板描述', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }
+      // ]
     }
   },
   methods: {

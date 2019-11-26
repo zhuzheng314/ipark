@@ -88,7 +88,7 @@
             size="small"
             type="primary"
             icon="el-icon-plus"
-            @click="handleAdd"
+            @click="handleAddBuild"
           >新增楼宇</el-button>
           <div class="clearfix"></div>
         </div>
@@ -147,7 +147,7 @@
       <div>
         <ParkForm
           ref="parkForm"
-          :formList="addContractFormList"
+          :formList="$formsLabels.addParkForm"
           :itemList="[]">
 <!--          <span slot="footer" class="dialog-footer">-->
 <!--            <el-button @click="dialogVisible = false">取消</el-button>-->
@@ -161,6 +161,19 @@
 <!--      </span>-->
 
     </el-dialog>
+    <el-dialog
+      title="添加楼宇"
+      :visible.sync="addShowBuild"
+      width="600px"
+    >
+      <div>
+        <ParkForm
+          ref="parkForm"
+          :formList="$formsLabels.addBuildForm"
+          :itemList="[]">
+        </ParkForm>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -172,6 +185,7 @@ export default {
   data () {
     return {
       addShow: false,
+      addShowBuild: false,
       fakerList: [],
       tableData: [],
       infoBoxData: [
@@ -293,139 +307,139 @@ export default {
           label: '90%以上'
         }
       ],
-      addContractFormList: [
-        {
-          title: '园区信息',
-          children: [
-            {
-              type: 'input',
-              label: '园区名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '建筑面积',
-              key: 'i2',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '总投资',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '实际投资',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区定位',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属物业',
-              key: 'hjkhjk',
-              placeholder: '请输入租客名称',
-              rule: [
+      // addContractFormList: [
+      //   {
+      //     title: '园区信息',
+      //     children: [
+      //       {
+      //         type: 'input',
+      //         label: '园区名称',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '建筑面积',
+      //         key: 'i2',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '总投资',
+      //         key: 'i3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '实际投资',
+      //         key: 'i3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '园区定位',
+      //         key: 'i3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '所属物业',
+      //         key: 'hjkhjk',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
 
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系人',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系电话',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '园区状态',
-              key: 'u2',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '在建',
-                  value: 's1'
-                },
-                {
-                  label: '招商',
-                  value: 's1'
-                },
-                {
-                  label: '运营',
-                  value: 's1'
-                },
-                {
-                  label: '其他',
-                  value: 's1'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '园区描述',
-              key: 'i5',
-              placeholder: '请输入',
-              rule: [
-                // { required: true, message: '请输入', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '园区图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '园区联系人',
+      //         key: 'i4',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '园区联系电话',
+      //         key: 'i4',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '园区状态',
+      //         key: 'u2',
+      //         placeholder: '请输入',
+      //         options: [
+      //           {
+      //             label: '在建',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '招商',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '运营',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '其他',
+      //             value: 's1'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '园区描述',
+      //         key: 'i5',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           // { required: true, message: '请输入', trigger: 'blur' },
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'upload-img',
+      //         label: '园区图片',
+      //         key: 'u1',
+      //         placeholder: '请输入'
+      //         // rule: [
+      //         //   { required: true, message: '请输入', trigger: 'blur' },
+      //         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         // ]
+      //       }
+      //     ]
+      //   }
+      // ],
       buildIndex: 0
     }
   },
@@ -442,6 +456,9 @@ export default {
     },
     handleAddPark (a) {
       this.$refs.parkForm.onSubmit()
+    },
+    handleAddBuild () {
+      this.addShowBuild = true
     }
   },
   mounted () {
