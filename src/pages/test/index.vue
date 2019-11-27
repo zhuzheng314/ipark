@@ -1,5 +1,6 @@
 <template>
 <div class="test">
+<!--  eslint-disable-->
   <el-button type="primary" @click="drawer()">弹窗</el-button>
   <el-drawer
   title="房间详情"
@@ -46,6 +47,56 @@
     </el-row>
   </el-card>
   <el-divider></el-divider>
+
+  <el-card style="width: 800px">
+
+    <div v-for="(a, ai) in testData">
+      <h1>#{{a.index+ '.' +a.title}}</h1>
+      <div v-for="(b, bi) in a.content" style="padding-left: 30px">
+        <h2>·{{a.index}}-{{bi + 1}}{{b.title}}</h2>
+        <div v-for="(c, ci) in b.content" style="padding-left: 30px">
+          <h3>{{a.index}}-{{bi + 1}}-{{ ci + 1 }}{{c.title}}</h3>
+          <div>api: {{c.api}}</div>
+          <div>业务参数</div>
+          <table border="1" cellpadding="0" cellspacing="0" width="600px">
+            <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+            <tr v-for="item in c.business" v-if="c.explain.length">
+              <td>{{item.key}}</td>
+              <td>{{item.type}}</td>
+              <td>{{item.required}}</td>
+              <td width="400px">{{item.description}}</td>
+            </tr>
+          </table>
+          <br/>
+          <div>返回参数</div>
+          <table border="1" cellpadding="0" cellspacing="0" width="600px">
+            <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+            <tr v-for="item in c.return" v-if="c.explain.length">
+              <td>{{item.key}}</td>
+              <td>{{item.type}}</td>
+              <td>{{item.required}}</td>
+              <td width="400px">{{item.description}}</td>
+            </tr>
+          </table>
+          <br/>
+          <div v-if="c.explain.length">list说明</div>
+          <table border="1" cellpadding="0" cellspacing="0" width="600px">
+            <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+            <tr v-for="item in c.explain" v-if="c.explain.length">
+              <td>{{item.key}}</td>
+              <td>{{item.type}}</td>
+              <td>{{item.required}}</td>
+              <td width="400px">{{item.description}}</td>
+            </tr>
+          </table>
+          <br>
+        </div>
+
+      </div>
+
+    </div>
+
+  </el-card>
 
 </div>
 </template>
@@ -134,17 +185,793 @@ export default {
             }
           ]
         }
-      }
+      },
+      tableData: [{
+        name: '2016-05-02',
+        key: '王小虎',
+        detail: '上海市普陀区金沙江路 1518 弄',
+        type: 'int',
+        require: false
+      }],
+      testData: []
     }
   },
   mounted () {
-    // console.log(this.url)
+    for (let i = 0; i < 10; i++) {
+      this.tableData.push({
+        name: 'cc',
+        key: 'cc',
+        detail: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅',
+        type: 'int',
+        require: false
+      })
+    }
+    this.testData = [
+      {
+        index: 3,
+        title: '交互协议设计',
+        content: [
+          {
+            title: '运营模块管理',
+            content: [
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: '运营模块管理',
+            content: [
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: '运营模块管理',
+            content: [
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        index: 4,
+        title: '交互协议设计',
+        content: [
+          {
+            title: '运营模块管理',
+            content: [
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: '运营模块管理',
+            content: [
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: '运营模块管理',
+            content: [
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              },
+              {
+                title: '添加园区模块',
+                api: 'assets.park.add',
+                business: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  },
+                  {
+                    key: 'address',
+                    type: 'string',
+                    required: true,
+                    description: '园区地址'
+                  },
+                  {
+                    key: 'estate_property',
+                    type: 'string',
+                    required: true,
+                    description: `房产性质：0-其他、1-商业用房、2-生产用房、3-住宅;用字符串存储,逗号分隔,示例:"1,2,3"`
+                  }
+                ],
+                return: [
+                  {
+                    key: 'list',
+                    type: 'json array',
+                    required: true,
+                    description: '园区模块列表'
+                  }
+                ],
+                explain: [
+                  {
+                    key: 'domain_id',
+                    type: 'int',
+                    required: true,
+                    description: '域关联ID'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   watch: {
-    API_textarea () {
-
-    }
-
   },
   methods: {
     // API接口测试
@@ -255,4 +1082,16 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
+  h1{
+    font-size: 40px;
+    line-height: 60px;
+  }
+  h2{
+    font-size: 30px;
+    line-height: 40px;
+  }
+  h3{
+    font-size: 20px;
+    line-height: 30px;
+  }
 </style>
