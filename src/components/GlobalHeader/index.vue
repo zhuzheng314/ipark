@@ -7,12 +7,15 @@
       <div class="park-dropdown">
         <el-dropdown  @command="handleSelectPark">
           <span class="el-dropdown-link" style="font-size: 16px">
-            {{parkName}}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{$store.state.header.activePark && $store.state.header.activePark.name || '请选择园区'}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="西港发展中心">西港发展中心</el-dropdown-item>
-            <el-dropdown-item command="梦想小镇">梦想小镇</el-dropdown-item>
-            <el-dropdown-item command="人工智能小镇">人工智能小镇</el-dropdown-item>
+            <el-dropdown-item
+              :key="item.name + index"
+              v-for="(item, index) in $store.state.header.parkList"
+              :command="item">
+              {{item.name}}
+            </el-dropdown-item>
             <el-dropdown-item divided command="add">+ 新增园区</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -306,11 +309,12 @@ export default {
     }
   },
   methods: {
-    handleSelectPark (commad) {
-      if (commad === 'add') {
+    handleSelectPark (item) {
+      // 1.activePark存session 2.修改parkList状态 3.下拉后刷新
+      if (item === 'add') {
         this.addParkShow = true
       } else {
-        this.parkName = a
+        this.$store.commit('commitActivePark', item)
       }
     },
     handleCommand (command) {

@@ -1,18 +1,29 @@
-import request from '@/ajax/request'
-import urls from '@/api/orderCenter'
+import request from '@/plugins/axios'
+import { baseUrl, api } from '@/config/api'
 
 const header = {
   state: {
-    refundStatusMap: ['全部', '退款中', '退款成功', '退款失败', '待审核', '已拒绝', '已撤销']
+    parkList: [],
+    activePark: {}
   },
   getters: {
   },
-  mutations: {},
+  mutations: {
+    commitParkList (state, list) {
+      state.parkList = list
+    },
+    commitActivePark (state, park) {
+      state.activePark = park
+    }
+  },
   actions: {
-    order_orderMerchantList ({ commit }, data) {
-      return request({
-        url: urls.orderMerchantList,
-        data
+    getParkList ({ commit }, data) {
+      return request.post(baseUrl + api.park.get_tree_list, {
+        ...data
+      }).then(res => {
+        if (res.code === 1000) {
+          commit('commitParkList', res.list)
+        }
       })
     }
   }
