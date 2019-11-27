@@ -7,7 +7,7 @@ const addParkForm = [
       {
         type: 'input',
         label: '园区名称',
-        key: 'i',
+        key: 'name',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -15,8 +15,26 @@ const addParkForm = [
       },
       {
         type: 'input',
-        label: '建筑面积',
-        key: 'i2',
+        label: '园区地址',
+        key: 'address',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input',
+        label: '产权',
+        key: 'capital',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '建筑面积(㎡)',
+        key: 'built_area',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -24,9 +42,19 @@ const addParkForm = [
         ]
       },
       {
-        type: 'input',
-        label: '总投资',
-        key: 'i3',
+        type: 'input-num',
+        label: '占地面积(㎡)',
+        key: 'cover_area',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '总投资:万元',
+        key: 'total_invest',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -34,19 +62,9 @@ const addParkForm = [
         ]
       },
       {
-        type: 'input',
-        label: '实际投资',
-        key: 'i3',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '园区定位',
-        key: 'i3',
+        type: 'input-num',
+        label: '实际投资:万元',
+        key: 'actual_invest',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -56,17 +74,16 @@ const addParkForm = [
       {
         type: 'input',
         label: '所属物业',
-        key: 'hjkhjk',
-        placeholder: '请输入租客名称',
+        key: 'property',
+        placeholder: '请输入',
         rule: [
-
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'input',
         label: '园区联系人',
-        key: 'i4',
+        key: 'contacter',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -76,7 +93,17 @@ const addParkForm = [
       {
         type: 'input',
         label: '园区联系电话',
-        key: 'i4',
+        key: 'contact',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input',
+        label: '园区定位',
+        key: 'usage',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -86,34 +113,33 @@ const addParkForm = [
       {
         type: 'select',
         label: '园区状态',
-        key: 'u2',
+        key: 'state',
         placeholder: '请输入',
         options: [
           {
             label: '在建',
-            value: 's1'
+            value: 1
           },
           {
             label: '招商',
-            value: 's1'
+            value: 2
           },
           {
             label: '运营',
-            value: 's1'
+            value: 3
           },
           {
             label: '其他',
-            value: 's1'
+            value: 4
           }
         ],
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' }
         ]
       },
       {
         type: 'textarea',
         label: '园区描述',
-        key: 'i5',
+        key: 'detail',
         placeholder: '请输入',
         rule: [
           // { required: true, message: '请输入', trigger: 'blur' },
@@ -123,12 +149,8 @@ const addParkForm = [
       {
         type: 'upload-img',
         label: '园区图片',
-        key: 'u1',
+        key: 'attached',
         placeholder: '请输入'
-        // rule: [
-        //   { required: true, message: '请输入', trigger: 'blur' },
-        //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        // ]
       }
     ]
   }

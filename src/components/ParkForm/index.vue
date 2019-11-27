@@ -255,16 +255,24 @@ export default {
       // return false
     },
     handleUploadImgSuccess (response, file, fileList) {
-      this.form[this.uploadImgKey][this.uploadImgKey] = this.filterFileList(fileList)
+      this.form[this.uploadImgKey] = {
+        upload: this.filterFileList(fileList)
+      }
     },
     handleUploadImgRemove (file, fileList) {
-      this.form[this.uploadImgKey][this.uploadImgKey] = this.filterFileList(fileList)
+      this.form[this.uploadImgKey] = {
+        upload: this.filterFileList(fileList)
+      }
     },
     handleUploadFileSuccess (response, file, fileList) {
-      this.form[this.uploadFileKey] = this.filterFileList(fileList)
+      this.form[this.uploadFileKey] = {
+        upload: this.filterFileList(fileList)
+      }
     },
     handleUploadFileRemove (file, fileList) {
-      this.form[this.uploadFileKey] = this.filterFileList(fileList)
+      this.form[this.uploadFileKey] = {
+        upload: this.filterFileList(fileList)
+      }
     },
     filterFileList (fileList) {
       let arr = []

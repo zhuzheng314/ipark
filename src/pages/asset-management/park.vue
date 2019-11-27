@@ -5,7 +5,9 @@
         <i class="el-icon-plus"></i> 添加园区
       </div>
       <div class="left-list">
-        <div class="item" :class="{ active: buildIndex === index}"  :key="index + 'leftcard'" v-for="(item, index) in parkList">
+        <div class="item"
+             :class="{ active: item.domain_id === $store.state.header.activePark.domain_id}"
+             :key="index + 'leftcard'" v-for="(item, index) in $store.state.header.parkList">
           <div class="inner" @click="handleParkClick(index, item)">
             <img class="pic" :src="item.attached[0] && item.attached[0].url">
             <div class="cont">
@@ -13,6 +15,7 @@
               <div class="value">{{item.cover_area || '-'}}㎡</div>
             </div>
           </div>
+          <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
         </div>
       </div>
     </div>
@@ -47,10 +50,6 @@
         </div>
 
       </el-card>
-
-<!--      <el-card style="margin-bottom: 10px">-->
-
-<!--      </el-card>-->
 
       <el-card>
         <div slot="header">
@@ -267,7 +266,7 @@ export default {
         { name: '联系电话', value: '', key: 'contact', unit: '' },
         { name: '占地面积', value: '', key: 'cover_area', unit: '㎡' },
         { name: '建筑面积', value: '', key: 'built_area', unit: '㎡' },
-        { name: '总投资额', value: '', key: 'decimal', unit: 'w' },
+        { name: '总投资额', value: '', key: 'total_invest', unit: 'w' },
         { name: '实际投资', value: '', key: 'actual_invest', unit: 'w' },
         { name: '园区定位', value: '', key: 'usage', unit: '' }
       ],
@@ -394,6 +393,16 @@ export default {
               ]
             },
             {
+              type: 'input',
+              label: '园区定位',
+              key: 'usage',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
               type: 'select',
               label: '园区状态',
               key: 'state',
@@ -440,7 +449,8 @@ export default {
       ],
       buildIndex: 0,
       parkList: [],
-      buildingList: []
+      buildingList: [],
+      activePark: ''
     }
   },
   methods: {
@@ -452,7 +462,9 @@ export default {
       this.addShow = true
     },
     handleParkClick (index, park) {
+      console.log(park)
       this.buildIndex = index
+      this.$store.commit('commitActivePark', park)
       this.fetchParkInfo(park)
       this.fetchBuildList(park)
     },
@@ -463,23 +475,36 @@ export default {
         console.log(res)
         if (res.code === 1000) {
           this.fetchParkList()
+          this.$message.success('新增园区成功')
+          this.addShow = false
         }
       })
     },
     handleRemovePark (park) {
-
+      this.$confirm('此操作将永久删除该园区, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      })
+        .then(() => {
+          this.$https.post(this.$urls.park.remove, {
+            domain_id: park.domain_id
+          }).then(res => {
+            if (res.code === 1000) {
+              this.$message.success('删除成功')
+              this.$store.dispatch('getParkList', { page_no: 1,
+                page_size: 20 }).then(res => {
+              })
+            }
+          })
+        })
     },
     handleAddBuild () {
       this.addShowBuild = true
     },
     fetchParkList () {
-      this.$https.post(this.$urls.park.get_list, {
-        page_no: 1,
-        page_size: 20
-      }).then(res => {
-        if (res.code === 1000) {
-          this.parkList = res.list
-        }
+      this.$store.dispatch('getParkList', { page_no: 1,
+        page_size: 20 }).then(res => {
       })
     },
     fetchParkInfo (park) {
@@ -497,6 +522,7 @@ export default {
           })
         }
         this.parkInfo = parkInfo
+        this.activePark = res
       })
     },
     fetchBuildList (park) {
@@ -514,6 +540,14 @@ export default {
       this.$https.post(this.$urls.park.get_tree_list, {
         page_no: 1,
         page_size: 20
+      }).then(res => {
+        if (res.code === 1000) {
+        }
+      })
+    },
+    fetchRemovePark (park) {
+      this.$https.post(this.$urls.park.remove, {
+        domain_id: park.domain_id
       }).then(res => {
         if (res.code === 1000) {
         }
@@ -540,6 +574,7 @@ export default {
     }
     this.fetchParkList()
     this.fetchTreeList()
+    console.log(this.$store)
   }
 }
 </script>
@@ -615,6 +650,12 @@ export default {
             }
           }
         }
+        .el-icon-delete{
+          position: absolute;
+          right: 10px;
+          top: 45%;
+          display: none;
+        }
       }
       .item:hover{
         background-color:  rgba(63,177,227,.5);
@@ -625,6 +666,10 @@ export default {
           .title, .value{
             color: white;
           }
+        }
+        .el-icon-delete{
+          color: white;
+          display: block;
         }
       }
       .active.item{
