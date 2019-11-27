@@ -461,7 +461,13 @@ export default {
         ...data
       }).then(res => {
         console.log(res)
+        if (res.code === 1000) {
+          this.fetchParkList()
+        }
       })
+    },
+    handleRemovePark (park) {
+
     },
     handleAddBuild () {
       this.addShowBuild = true
