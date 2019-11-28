@@ -1,7 +1,7 @@
 <template>
   <div class="comparison">
     <div class="name">{{data.name}}</div>
-    <div class="value">{{data.value}}</div>
+    <div class="value">{{data.value ? data.value : '-'}}</div>
     <div v-if="type=='arrow'" class="chart" :class="data.chart<0 ? 'down' : 'up'">
       <span>{{data.chart | Percent(0)}}</span>
       <i v-if="data.chart<0" class="el-icon-bottom"></i>

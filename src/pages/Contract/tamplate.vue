@@ -5,7 +5,7 @@
       <!--        <span>条件筛选</span>-->
       <!--      </div>-->
       <el-select  size="small"
-                  v-model="value" placeholder="合同模板类型">
+                  v-model="value1" placeholder="合同模板类型">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -19,7 +19,7 @@
         size="small"
         style="width: 220px; margin-left: 15px"
         prefix-icon="el-icon-search"
-        v-model="value">
+        v-model="value2">
       </el-input>
 
       <el-button
@@ -123,7 +123,8 @@ export default {
         label: '其他',
         value: 's6'
       }],
-      value: '',
+      value1: '',
+      value2: '',
       addContractVisible: false
       // tamplateFormList: [
       //   {

@@ -36,7 +36,7 @@
                 <tr v-for="(item,index) in c.return" :key="index" >
                   <td>{{item.key}}</td>
                   <td>{{item.type}}</td>
-                  <td>{{item.required}}</td>
+                    <td>{{item.required}}</td>
                   <td width="400px">{{item.description}}</td>
                 </tr>
               </table>
@@ -45,11 +45,10 @@
             <div v-if="c.explain.length">
               <div>-list说明:</div>
                 <table border="1" cellpadding="0" cellspacing="0" width="600px">
-                  <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+                  <tr><th>参数名称</th><th>参数类型</th><th>参数描述</th></tr>
                   <tr v-for="(item,index) in c.explain" :key="index">
                     <td>{{item.key}}</td>
                     <td>{{item.type}}</td>
-                    <td>{{item.required}}</td>
                     <td width="400px">{{item.description}}</td>
                   </tr>
                 </table>
@@ -210,10 +209,22 @@ export default {
               description: `楼宇名称`
             },
             {
+              key: 'room',
+              type: 'string',
+              required: true,
+              description: `房号`
+            },
+            {
               key: 'order_num',
               type: 'int',
               required: true,
               description: `序号`
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: true,
+              description: `状态`
             },
             {
               key: 'contract_code',
@@ -226,6 +237,12 @@ export default {
               type: 'int',
               required: true,
               description: `合同类型`
+            },
+            {
+              key: 'equip_type',
+              type: 'int',
+              required: true,
+              description: `设备类型`
             },
             {
               key: 'customer',
@@ -744,7 +761,7 @@ export default {
             },
             {
               key: 'originator',
-              type: 'string',
+              type: 'int',
               required: true,
               description: '发起人'
             },
@@ -761,10 +778,22 @@ export default {
               description: '预约服务时间'
             },
             {
+              key: 'subject',
+              type: 'string',
+              required: true,
+              description: '摘要'
+            },
+            {
               key: 'describe',
               type: 'string',
               required: true,
               description: '描述'
+            },
+            {
+              key: 'evaluate',
+              type: 'string',
+              required: true,
+              description: '评价'
             },
             {
               key: 'attached',
@@ -800,7 +829,7 @@ export default {
             },
             {
               key: 'originator',
-              type: 'string',
+              type: 'int',
               required: true,
               description: '发起人'
             },
@@ -817,10 +846,22 @@ export default {
               description: '预约服务时间'
             },
             {
+              key: 'subject',
+              type: 'string',
+              required: true,
+              description: '摘要'
+            },
+            {
               key: 'describe',
               type: 'string',
               required: true,
               description: '描述'
+            },
+            {
+              key: 'evaluate',
+              type: 'string',
+              required: true,
+              description: '评价'
             },
             {
               key: 'attached',
@@ -829,10 +870,10 @@ export default {
               description: '图片'
             },
             {
-              key: 'park',
-              type: 'json',
+              key: 'domain_id',
+              type: 'int',
               required: true,
-              description: `房间`
+              description: '房间id'
             }
           ],
           return: [],
@@ -910,7 +951,7 @@ export default {
             },
             {
               key: 'originator',
-              type: 'string',
+              type: 'int',
               required: true,
               description: '发起人'
             },
@@ -921,22 +962,40 @@ export default {
               description: '联系电话'
             },
             {
-              key: 'create_ts',
+              key: 'reserve_ts',
               type: 'timestamp',
               required: true,
               description: '发起时间'
             },
             {
-              key: 'address',
+              key: 'subject',
               type: 'string',
               required: true,
-              description: '地址'
+              description: '摘要'
             },
             {
               key: 'describe',
               type: 'string',
               required: true,
               description: '描述'
+            },
+            {
+              key: 'evaluate',
+              type: 'string',
+              required: true,
+              description: '评价'
+            },
+            {
+              key: 'attached',
+              type: 'jsonb',
+              required: true,
+              description: '图片'
+            },
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '房间id'
             }
           ]
         },
@@ -1011,7 +1070,7 @@ export default {
       content: [
         {
           title: '获取费用催缴模块统计信息',
-          api: 'assets.d_payment.get_list',
+          api: 'assets.d_payment.get_info',
           business: [
             {
               key: 'domain_id',
@@ -1143,6 +1202,18 @@ export default {
               description: '币种'
             },
             {
+              key: 'money',
+              type: 'decimal',
+              required: true,
+              description: `催缴金额`
+            },
+            {
+              key: 'overdue_ts',
+              type: 'timestamp',
+              required: true,
+              description: `逾期天数`
+            },
+            {
               key: 'start_ts',
               type: 'timestamp',
               required: true,
@@ -1185,7 +1256,7 @@ export default {
           explain: []
         },
         {
-          title: '获取投诉列表',
+          title: '获取催缴列表',
           api: 'assets.payment.get_list',
           business: [
             {
@@ -1261,7 +1332,7 @@ export default {
           ]
         },
         {
-          title: '获取投诉工单信息',
+          title: '获取催缴信息',
           api: 'assets.payment.get_info',
           business: [
             {
@@ -1641,6 +1712,12 @@ export default {
               description: '来访时间'
             },
             {
+              key: 'update_ts',
+              type: 'timestamp',
+              required: true,
+              description: '最近联络时间'
+            },
+            {
               key: 'receiver',
               type: 'string',
               required: true,
@@ -1706,9 +1783,9 @@ export default {
         }
       ]
     }
-    // 园区统计信息
+    // 园区管理模块
     let park = {
-      title: '园区统计信息',
+      title: '园区管理模块',
       content: [
         {
           title: '获取园区统计信息',
@@ -1760,12 +1837,614 @@ export default {
             }
           ],
           explain: []
+        },
+        {
+          title: '添加园区模块',
+          api: 'assets.park.add',
+          business: [
+            {
+              key: 'complete_ts',
+              type: 'timestamp',
+              required: false,
+              description: '竣工或购置时间，预留字段-可以不用'
+            },
+            {
+              key: 'acquire_way',
+              type: 'int',
+              required: false,
+              description: '取得方式，预留字段-可以不用'
+            },
+            {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: '园区地址'
+            },
+            {
+              key: 'estate_property',
+              type: 'string',
+              required: true,
+              description: '房产性质，预留字段-可以不用'
+            },
+            {
+              key: 'usage',
+              type: 'string',
+              required: true,
+              description: '园区定位'
+            },
+            {
+              key: 'capital',
+              type: 'string',
+              required: true,
+              description: '产权单位，资产方'
+            },
+            {
+              key: 'detail',
+              type: 'string',
+              required: false,
+              description: '园区描述'
+            },
+            {
+              key: 'attached',
+              type: 'multipart-file',
+              required: false,
+              description: '园区图片，或者文件，可以多文件'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注，预留字段暂时不用'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              required: true,
+              description: '园区名称'
+            },
+            {
+              key: 'built_area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积:单位平方米'
+            },
+            {
+              key: 'total_invest',
+              type: 'decimal',
+              required: false,
+              description: '总投资:万元'
+            },
+            {
+              key: 'property',
+              type: 'string',
+              required: false,
+              description: '所属物业'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: '联系人'
+            },
+            {
+              key: 'contact',
+              type: 'string',
+              required: false,
+              description: '联系方式'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '园区状态'
+            },
+            {
+              key: 'cover_area',
+              type: 'numeric',
+              required: false,
+              description: '占地面积:单位平方米'
+            },
+            {
+              key: 'actual_invest',
+              type: 'numeric',
+              required: false,
+              description: '实际投资:万元'
+            }
+
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改园区模块',
+          api: 'assets.park.modify',
+          business: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID，是一个和地域关联的主键，园区信息的唯一标识，修改和删除的接口必须要有的参数，资产模块的园区、楼宇、楼层、房间都有这个作为主键'
+            },
+            {
+              key: 'complete_ts',
+              type: 'timestamp',
+              required: false,
+              description: '竣工或购置时间，预留字段-可以不用'
+            },
+            {
+              key: 'acquire_way',
+              type: 'int',
+              required: false,
+              description: '取得方式，预留字段-可以不用'
+            },
+            {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: '园区地址'
+            },
+            {
+              key: 'estate_property',
+              type: 'string',
+              required: true,
+              description: '房产性质，预留字段-可以不用'
+            },
+            {
+              key: 'usage',
+              type: 'string',
+              required: true,
+              description: '园区定位'
+            },
+            {
+              key: 'capital',
+              type: 'string',
+              required: true,
+              description: '产权单位，资产方'
+            },
+            {
+              key: 'detail',
+              type: 'string',
+              required: false,
+              description: '园区描述'
+            },
+            {
+              key: 'attached',
+              type: 'multipart-file',
+              required: false,
+              description: '园区图片，或者文件，可以多文件'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注，预留字段暂时不用'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              required: true,
+              description: '园区名称'
+            },
+            {
+              key: 'built_area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积:单位平方米'
+            },
+            {
+              key: 'total_invest',
+              type: 'decimal',
+              required: false,
+              description: '总投资:万元'
+            },
+            {
+              key: 'property',
+              type: 'string',
+              required: false,
+              description: '所属物业'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: '联系人'
+            },
+            {
+              key: 'contact',
+              type: 'string',
+              required: false,
+              description: '联系方式'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '园区状态'
+            },
+            {
+              key: 'cover_area',
+              type: 'numeric',
+              required: false,
+              description: '占地面积:单位平方米'
+            },
+            {
+              key: 'actual_invest',
+              type: 'numeric',
+              required: false,
+              description: '实际投资:万元'
+            }
+
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '删除园区模块',
+          api: 'assets.park.remove',
+          business: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID，主键id'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取园区模块列表',
+          api: 'assets.park.get_info',
+          business: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: false,
+              description: '域关联ID'
+            }
+          ],
+          return: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              description: '域关联ID'
+            },
+            {
+              key: 'complete_ts',
+              type: 'timestamp',
+              description: '竣工或购置时间'
+            },
+            {
+              key: 'acquire_way',
+              type: 'int',
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨'
+            },
+            {
+              key: 'address',
+              type: 'string',
+              description: '园区地址'
+            },
+            {
+              key: 'estate_property',
+              type: 'string',
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅'
+            },
+            {
+              key: 'usage',
+              type: 'string',
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置'
+            },
+            {
+              key: 'capital',
+              type: 'string',
+              description: '产权单位，资产方'
+            },
+            {
+              key: 'detail',
+              type: 'string',
+              description: '介绍'
+            },
+            {
+              key: 'attached',
+              type: 'multipart-file',
+              description: '附件-文件上传尚未开发'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              description: '备注'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              description: '园区名称'
+            },
+            {
+              key: 'built_area',
+              type: 'decimal',
+              description: '建筑面积:单位平方米'
+            },
+            {
+              key: 'total_invest',
+              type: 'decimal',
+              description: '总投资:万元'
+            },
+            {
+              key: 'property',
+              type: 'string',
+              description: '所属物业'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              description: '联系人'
+            },
+            {
+              key: 'contact',
+              type: 'string',
+              description: '联系方式'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              description: '园区状态'
+            },
+            {
+              key: 'cover_area',
+              type: 'numeric',
+              description: '占地面积:单位平方米'
+            },
+            {
+              key: 'actual_invest',
+              type: 'numeric',
+              description: '实际投资:万元'
+            }
+          ],
+          explain: []
+        },
+        {
+          title: '获取园区模块列表',
+          api: 'assets.park.get_list',
+          business: [
+            {
+              key: 'page_no',
+              type: 'int',
+              required: true,
+              description: '页码'
+            },
+            {
+              key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: false,
+              description: '域关联ID，是一个和地域关联的主键，园区信息的唯一标识，修改和删除的接口必须要有的参数，资产模块的园区、楼宇、楼层、房间都有这个作为主键'
+            },
+            {
+              key: 'complete_ts',
+              type: 'timestamp',
+              required: false,
+              description: '竣工或购置时间，预留字段-可以不用'
+            },
+            {
+              key: 'acquire_way',
+              type: 'int',
+              required: false,
+              description: '取得方式，预留字段-可以不用'
+            },
+            {
+              key: 'address',
+              type: 'string',
+              required: false,
+              description: '园区地址'
+            },
+            {
+              key: 'estate_property',
+              type: 'string',
+              required: false,
+              description: '房产性质，预留字段-可以不用'
+            },
+            {
+              key: 'usage',
+              type: 'string',
+              required: false,
+              description: '园区定位'
+            },
+            {
+              key: 'capital',
+              type: 'string',
+              required: false,
+              description: '产权单位，资产方'
+            },
+            {
+              key: 'detail',
+              type: 'string',
+              required: false,
+              description: '园区描述'
+            },
+            {
+              key: 'attached',
+              type: 'multipart-file',
+              required: false,
+              description: '园区图片，或者文件，可以多文件'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注，预留字段暂时不用'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              required: false,
+              description: '园区名称'
+            },
+            {
+              key: 'built_area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积:单位平方米'
+            },
+            {
+              key: 'total_invest',
+              type: 'decimal',
+              required: false,
+              description: '总投资:万元'
+            },
+            {
+              key: 'property',
+              type: 'string',
+              required: false,
+              description: '所属物业'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: '联系人'
+            },
+            {
+              key: 'contact',
+              type: 'string',
+              required: false,
+              description: '联系方式'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '园区状态'
+            },
+            {
+              key: 'cover_area',
+              type: 'numeric',
+              required: false,
+              description: '占地面积:单位平方米'
+            },
+            {
+              key: 'actual_invest',
+              type: 'numeric',
+              required: false,
+              description: '实际投资:万元'
+            }
+
+          ],
+          return: [
+            {
+              key: 'list',
+              type: 'json array',
+              required: true,
+              description: '园区模块列表'
+            }
+          ],
+          explain: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              description: '域关联ID'
+            },
+            {
+              key: 'complete_ts',
+              type: 'timestamp',
+              description: '竣工或购置时间'
+            },
+            {
+              key: 'acquire_way',
+              type: 'int',
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨'
+            },
+            {
+              key: 'address',
+              type: 'string',
+              description: '园区地址'
+            },
+            {
+              key: 'estate_property',
+              type: 'string',
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅'
+            },
+            {
+              key: 'usage',
+              type: 'string',
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置'
+            },
+            {
+              key: 'capital',
+              type: 'string',
+              description: '产权单位，资产方'
+            },
+            {
+              key: 'detail',
+              type: 'string',
+              description: '介绍'
+            },
+            {
+              key: 'attached',
+              type: 'multipart-file',
+              description: '附件-文件上传尚未开发'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              description: '备注'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              description: '园区名称'
+            },
+            {
+              key: 'built_area',
+              type: 'decimal',
+              description: '建筑面积:单位平方米'
+            },
+            {
+              key: 'total_invest',
+              type: 'decimal',
+              description: '总投资:万元'
+            },
+            {
+              key: 'property',
+              type: 'string',
+              description: '所属物业'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              description: '联系人'
+            },
+            {
+              key: 'contact',
+              type: 'string',
+              description: '联系方式'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              description: '园区状态'
+            },
+            {
+              key: 'cover_area',
+              type: 'numeric',
+              description: '占地面积:单位平方米'
+            },
+            {
+              key: 'actual_invest',
+              type: 'numeric',
+              description: '实际投资:万元'
+            }
+          ]
         }
       ]
     }
-    // 楼宇统计信息
+    // 楼宇模块管理
     let building = {
-      title: '楼宇统计信息',
+      title: '楼宇模块管理',
       content: [
         {
           title: '获取楼宇统计信息',
@@ -1845,6 +2524,819 @@ export default {
               required: true,
               description: `建筑面积:单位平方米`
             }
+          ],
+          explain: []
+        },
+        {
+          title: '添加楼宇',
+          api: 'assets.building.add',
+          business: [
+            {
+              key: 'pid',
+              type: 'int',
+              required: true,
+              description: '父域id,就是所属园区的domain_id'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              required: true,
+              description: `名称,可修改`
+            },
+            {
+              key: 'info',
+              type: 'json',
+              required: false,
+              description: `域扩展信息，备用字段-可以忽略`
+            },
+            {
+              key: 'code',
+              type: 'string',
+              required: false,
+              description: `编码,比如行政区号，备用字段-可以忽略`
+            },
+            {
+              key: 'domain_memo',
+              type: 'string',
+              required: false,
+              description: `域备注，备用字段-可以忽略`
+            },
+            {
+              key: 'property_unit',
+              type: 'string',
+              required: true,
+              description: `产权单位，备用字段-可以忽略`
+            },
+            {
+              key: 'property_certificate',
+              type: 'string',
+              required: true,
+              description: `产权证，备用字段-可以忽略`
+            },
+            {
+              key: 'complete_ts',
+              type: 'timestamp',
+              required: true,
+              description: `竣工或购置时间，备用字段-可以忽略`
+            },
+            {
+              key: 'area',
+              type: 'decimal',
+              required: true,
+              description: `建筑面积`
+            },
+            {
+              key: 'rent_area',
+              type: 'decimal',
+              required: true,
+              description: `出租面积`
+            },
+            {
+              key: 'attached',
+              type: 'json',
+              required: false,
+              description: `附件或者图片`
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: `楼宇描述`
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改楼宇',
+          api: 'assets.building.modify',
+          business: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID' },
+            { key: 'name',
+              type: 'string',
+              required: false,
+              description: '名称' },
+            { key: 'property_unit',
+              type: 'string',
+              required: false,
+              description: '产权单位' },
+            { key: 'property_certificate',
+              type: 'string',
+              required: false,
+              description: '产权证' },
+            { key: 'complete_ts',
+              type: 'timestamp',
+              required: false,
+              description: '竣工或购置时间' },
+            { key: 'area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积' },
+            { key: 'attached',
+              type: 'multipart-file',
+              required: false,
+              description: '附件-文件上传尚未开发' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注' },
+            { key: 'rent_area',
+              type: 'numeric',
+              required: false,
+              description: '出租面积' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: ' 删除楼宇',
+          api: 'assets.building.remove',
+          business: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域ID，主键id,唯一标识符'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取楼宇列表',
+          api: 'assets.building.get_list',
+          business: [
+            { key: 'page_no', type: 'int', required: true, description: '页码' },
+            { key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数' },
+            { key: 'domain_id',
+              type: 'int',
+              required: false,
+              description: '域关联ID' },
+            { key: 'name',
+              type: 'string',
+              required: false,
+              description: '名称' },
+            { key: 'property_unit',
+              type: 'string',
+              required: false,
+              description: '产权单位，备用字段-可以忽略' },
+            { key: 'property_certificate',
+              type: 'string',
+              required: false,
+              description: '产权证，备用字段-可以忽略' },
+            { key: 'complete_ts',
+              type: 'timestamp',
+              required: false,
+              description: '竣工或购置时间，备用字段-可以忽略' },
+            { key: 'area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积' },
+            { key: 'rent_area',
+              type: 'decimal',
+              required: false,
+              description: '出租面积' },
+            { key: 'attached',
+              type: 'json',
+              required: false,
+              description: '附件或者图片' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '楼宇描述' },
+            { key: 'create_ts',
+              type: 'timestamp',
+              required: false,
+              description: '备注' },
+            { key: 'rent_area',
+              type: 'numeric',
+              required: false,
+              description: '备注' }
+          ],
+          return: [
+            {
+              key: 'list',
+              type: 'json array',
+              required: true,
+              description: '楼宇列表'
+            }
+          ],
+          explain: []
+        },
+        {
+          title: '获取楼宇信息',
+          api: 'assets.building.get_list',
+          business: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID，主键id' }
+          ],
+          return: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID' },
+            { key: 'name', type: 'string', required: true, description: '名称' },
+            { key: 'property_unit',
+              type: 'string',
+              required: true,
+              description: '产权单位' },
+            { key: 'property_certificate',
+              type: 'string',
+              required: true,
+              description: '产权证' },
+            { key: 'complete_ts',
+              type: 'timestamp',
+              required: true,
+              description: '竣工或购置时间' },
+            { key: 'area',
+              type: 'decimal',
+              required: true,
+              description: '建筑面积' },
+            { key: 'attached',
+              type: 'multipart-file',
+              required: false,
+              description: '附件-文件上传尚未开发' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '楼宇描述' },
+            { key: 'create_ts',
+              type: 'timestamp',
+              required: false,
+              description: '记录的生成时间' },
+            { key: 'rent_area',
+              type: 'numeric',
+              required: false,
+              description: '出租面积' }
+          ],
+          explain: []
+        }
+      ]
+    }
+    // 楼层模块管理
+    let floor = {
+      title: '楼层模块管理:::目前楼层的概念已经被干掉了',
+      content: [
+        {
+          title: '添加楼层 ，楼层这一块的添加可以先不管',
+          api: 'assets.floor.add',
+          business: [
+            { key: 'pid',
+              type: 'int',
+              required: true,
+              description: '父域id,就是楼宇的domain_id' },
+            { key: 'name',
+              type: 'string',
+              required: true,
+              description: '名称,可修改' },
+            { key: 'info',
+              type: 'json',
+              required: false,
+              description: '域扩展信息,预留字段-可以忽略' },
+            { key: 'code',
+              type: 'string',
+              required: false,
+              description: '编码,比如行政区号-预留字段-可以忽略' },
+            { key: 'domain_memo',
+              type: 'string',
+              required: false,
+              description: '域备注-预留字段-可以忽略' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改楼层',
+          api: 'assets.floor.modify',
+          business: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID，主键id'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              required: false,
+              description: '楼层名称'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '删除楼层',
+          api: 'assets.floor.remove',
+          business: [
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '主键ID，唯一标识符'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取楼层列表',
+          api: 'assets.floor.get_list',
+          business: [
+            {
+              key: 'page_no',
+              type: 'int',
+              required: true,
+              description: '页码'
+            },
+            {
+              key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '主键ID，唯一标识符'
+            },
+            {
+              key: 'name',
+              type: 'string',
+              required: false,
+              description: '名称'
+            }
+          ],
+          return: [],
+          explain: []
+        }
+      ]
+    }
+    // 房间模块管理
+    let room = {
+      title: '房间模块管理',
+      content: [
+        {
+          title: '添加房间',
+          api: 'assets.room.add',
+          business: [
+            { key: 'pid',
+              type: 'int',
+              required: true,
+              description: '父域id,就是楼宇的domain_id；因为目前的父域id,就是楼层的domain_id' },
+            { key: 'name',
+              type: 'string',
+              required: true,
+              description: '房间号，名称' },
+            { key: 'area',
+              type: 'decimal',
+              required: true,
+              description: '建筑面积 单位：平方米' },
+            { key: 'state', type: 'int', required: true, description: '房间状态' },
+            { key: 'contacter',
+              type: 'sting',
+              required: false,
+              description: '联系人' },
+            { key: 'contact',
+              type: 'string',
+              required: false,
+              description: '联系方式' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '房间描述' },
+            { key: 'attached',
+              type: 'jsonb',
+              required: false,
+              description: '附件或者图片' },
+            { key: 'info',
+              type: 'json',
+              required: false,
+              description: '域扩展信息，预留字段-可以忽略' },
+            { key: 'code',
+              type: 'string',
+              required: false,
+              description: '编码,比如行政区号，预留字段-可以忽略' },
+            { key: 'domain_memo',
+              type: 'string',
+              required: false,
+              description: '域备注，预留字段-可以忽略' },
+            { key: 'room_property',
+              type: 'int',
+              required: true,
+              description: '房间性质：0-出租、1-出售、2-自用、3-公用，预留字段-可以忽略' },
+            { key: 'is_rentable',
+              type: 'boolean',
+              required: true,
+              description: '是否可租： true 可租 、 false 不可租，预留字段-可以忽略' },
+            { key: 'room_usage',
+              type: 'int',
+              required: true,
+              description: '房间用途：0-其他、1-办公、2-厂房、3-公寓，预留字段-可以忽略' },
+            { key: 'decoration_standard',
+              type: 'int',
+              required: true,
+              description: '装修标准：0-毛坯、1-简装、2-精装，预留字段-可以忽略' },
+            { key: 'direction',
+              type: 'int',
+              required: false,
+              description: '朝向：0-东、1-南、2-西、3-北，预留字段-可以忽略' },
+            { key: 'estate_property',
+              type: 'string',
+              required: true,
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅，预留字段-可以忽略' },
+            { key: 'usage',
+              type: 'string',
+              required: true,
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置，预留字段-可以忽略' },
+            { key: 'acquire_way',
+              type: 'int',
+              required: true,
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨，预留字段-可以忽略' },
+            { key: 'acquire_ts',
+              type: 'timestamp',
+              required: true,
+              description: '取得时间，预留字段-可以忽略' },
+            { key: 'is_flue',
+              type: 'bool',
+              required: false,
+              description: '烟道：true 有、false 无，预留字段-可以忽略' },
+            { key: 'floor_height',
+              type: 'decimal',
+              required: false,
+              description: '层高： 米，预留字段-可以忽略' },
+            { key: 'floor',
+              type: 'int',
+              required: false,
+              description: '楼层号' },
+            { key: 'bearing',
+              type: 'decimal',
+              required: false,
+              description: '承重： 千克，预留字段-可以忽略' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改房间',
+          api: 'assets.room.modify',
+          business: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID，房间的主键id' },
+            { key: 'name',
+              type: 'string',
+              required: false,
+              description: '房间名称' },
+            { key: 'room_property',
+              type: 'int',
+              required: false,
+              description: '房间性质：0-出租、1-出售、2-自用、3-公用' },
+            { key: 'is_rentable',
+              type: 'boolean',
+              required: false,
+              description: '是否可租： true 可租 、 false 不可租' },
+            { key: 'state',
+              type: 'int',
+              required: false,
+              description: '房间状态：0-空闲、1-预定、2-占用' },
+            { key: 'room_usage',
+              type: 'int',
+              required: false,
+              description: '房间用途：0-其他、1-办公、2-厂房、3-公寓' },
+            { key: 'decoration_standard',
+              type: 'int',
+              required: false,
+              description: '装修标准：0-毛坯、1-简装、2-精装' },
+            { key: 'area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积 单位：平方米' },
+            { key: 'direction',
+              type: 'int',
+              required: false,
+              description: '朝向：0-东、1-南、2-西、3-北' },
+            { key: 'estate_property',
+              type: 'string',
+              required: false,
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅' },
+            { key: 'usage',
+              type: 'string',
+              required: false,
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置' },
+            { key: 'acquire_way',
+              type: 'int',
+              required: false,
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨' },
+            { key: 'acquire_ts',
+              type: 'timestamp',
+              required: false,
+              description: '取得时间' },
+            { key: 'is_flue',
+              type: 'bool',
+              required: false,
+              description: '烟道：true 有、false 无' },
+            { key: 'floor_height',
+              type: 'decimal',
+              required: false,
+              description: '层高： 米' },
+            { key: 'bearing',
+              type: 'decimal',
+              required: false,
+              description: '承重： 千克' },
+            { key: 'attached',
+              type: 'jsonb',
+              required: false,
+              description: '附件' },
+            { key: 'floor',
+              type: 'int',
+              required: false,
+              description: '楼层号' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '删除房间',
+          api: 'assets.room.remove',
+          business: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '主键ID' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取房间列表',
+          api: 'assets.room.get_list',
+          business: [
+            { key: 'page_no', type: 'int', required: true, description: '页码' },
+            { key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数' },
+            { key: 'domain_id',
+              type: 'int',
+              required: false,
+              description: '域关联ID' },
+            { key: 'name',
+              type: 'string',
+              required: false,
+              description: '房间名称' },
+            { key: 'room_property',
+              type: 'int',
+              required: false,
+              description: '房间性质：0-出租、1-出售、2-自用、3-公用' },
+            { key: 'is_rentable',
+              type: 'boolean',
+              required: false,
+              description: '是否可租： true 可租 、 false 不可租' },
+            { key: 'state',
+              type: 'int',
+              required: false,
+              description: '房间状态：0-空闲、1-预定、2-占用' },
+            { key: 'room_usage',
+              type: 'int',
+              required: false,
+              description: '房间用途：0-其他、1-办公、2-厂房、3-公寓' },
+            { key: 'decoration_standard',
+              type: 'int',
+              required: false,
+              description: '装修标准：0-毛坯、1-简装、2-精装' },
+            { key: 'area',
+              type: 'decimal',
+              required: false,
+              description: '建筑面积 单位：平方米' },
+            { key: 'direction',
+              type: 'int',
+              required: false,
+              description: '朝向：0-东、1-南、2-西、3-北' },
+            { key: 'estate_property',
+              type: 'string',
+              required: false,
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅' },
+            { key: 'usage',
+              type: 'string',
+              required: false,
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置' },
+            { key: 'acquire_way',
+              type: 'int',
+              required: false,
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨' },
+            { key: 'acquire_ts',
+              type: 'timestamp',
+              required: false,
+              description: '取得时间' },
+            { key: 'is_flue',
+              type: 'bool',
+              required: false,
+              description: '烟道：true 有、false 无' },
+            { key: 'floor_height',
+              type: 'decimal',
+              required: false,
+              description: '层高： 米' },
+            { key: 'bearing',
+              type: 'decimal',
+              required: false,
+              description: '承重： 千克' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注' }
+          ],
+          return: [
+            { key: 'list',
+              type: 'json array',
+              required: true,
+              description: '楼宇列表' }
+          ],
+          explain: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID' },
+            { key: 'name',
+              type: 'string',
+              required: true,
+              description: '房间名称' },
+            { key: 'room_property',
+              type: 'int',
+              required: true,
+              description: '房间性质：0-出租、1-出售、2-自用、3-公用' },
+            { key: 'is_rentable',
+              type: 'boolean',
+              required: true,
+              description: '是否可租： true 可租 、 false 不可租' },
+            { key: 'state',
+              type: 'int',
+              required: true,
+              description: '房间状态：0-空闲、1-预定、2-占用' },
+            { key: 'room_usage',
+              type: 'int',
+              required: true,
+              description: '房间用途：0-其他、1-办公、2-厂房、3-公寓' },
+            { key: 'decoration_standard',
+              type: 'int',
+              required: true,
+              description: '装修标准：0-毛坯、1-简装、2-精装' },
+            { key: 'area',
+              type: 'decimal',
+              required: true,
+              description: '建筑面积 单位：平方米' },
+            { key: 'direction',
+              type: 'int',
+              required: false,
+              description: '朝向：0-东、1-南、2-西、3-北' },
+            { key: 'estate_property',
+              type: 'string',
+              required: true,
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅' },
+            { key: 'usage',
+              type: 'string',
+              required: true,
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置' },
+            { key: 'acquire_way',
+              type: 'int',
+              required: true,
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨' },
+            { key: 'acquire_ts',
+              type: 'timestamp',
+              required: true,
+              description: '取得时间' },
+            { key: 'is_flue',
+              type: 'bool',
+              required: false,
+              description: '烟道：true 有、false 无' },
+            { key: 'floor_height',
+              type: 'decimal',
+              required: false,
+              description: '层高： 米' },
+            { key: 'bearing',
+              type: 'decimal',
+              required: false,
+              description: '承重： 千克' },
+            { key: 'attached',
+              type: 'jsonb',
+              required: false,
+              description: '附件' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注' }
+          ]
+        },
+        {
+          title: '获取房间信息',
+          api: 'assets.room.get_info',
+          business: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID' }
+          ],
+          return: [
+            { key: 'domain_id',
+              type: 'int',
+              required: true,
+              description: '域关联ID' },
+            { key: 'name',
+              type: 'string',
+              required: true,
+              description: '房间名称' },
+            { key: 'room_property',
+              type: 'int',
+              required: true,
+              description: '房间性质：0-出租、1-出售、2-自用、3-公用' },
+            { key: 'is_rentable',
+              type: 'boolean',
+              required: true,
+              description: '是否可租： true 可租 、 false 不可租' },
+            { key: 'state',
+              type: 'int',
+              required: true,
+              description: '房间状态：0-空闲、1-预定、2-占用' },
+            { key: 'room_usage',
+              type: 'int',
+              required: true,
+              description: '房间用途：0-其他、1-办公、2-厂房、3-公寓' },
+            { key: 'decoration_standard',
+              type: 'int',
+              required: true,
+              description: '装修标准：0-毛坯、1-简装、2-精装' },
+            { key: 'area',
+              type: 'decimal',
+              required: true,
+              description: '建筑面积 单位：平方米' },
+            { key: 'direction',
+              type: 'int',
+              required: false,
+              description: '朝向：0-东、1-南、2-西、3-北' },
+            { key: 'estate_property',
+              type: 'string',
+              required: true,
+              description: '房产性质：0-其他、1-商业用房、2-生产用房、3-住宅' },
+            { key: 'usage',
+              type: 'string',
+              required: true,
+              description: '房产用途：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置' },
+            { key: 'acquire_way',
+              type: 'int',
+              required: true,
+              description: '取得方式：0-其他、1-自建、2-购置、3-划拨' },
+            { key: 'acquire_ts',
+              type: 'timestamp',
+              required: true,
+              description: '取得时间' },
+            { key: 'is_flue',
+              type: 'bool',
+              required: false,
+              description: '烟道：true 有、false 无' },
+            { key: 'floor_height',
+              type: 'decimal',
+              required: false,
+              description: '层高： 米' },
+            { key: 'bearing',
+              type: 'decimal',
+              required: false,
+              description: '承重： 千克' },
+            { key: 'attached',
+              type: 'jsonb',
+              required: false,
+              description: '附件' },
+            { key: 'create_ts',
+              type: 'timestamp',
+              required: false,
+              description: '创建时间' },
+            { key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注' }
           ],
           explain: []
         }
@@ -2165,7 +3657,7 @@ export default {
               key: 'create_ts',
               type: 'timestamp',
               required: true,
-              description: '来访时间'
+              description: '时间'
             },
             {
               key: 'customer_id',
@@ -3038,12 +4530,373 @@ export default {
         }
       ]
     }
+    // 字典模块管理
+    let zidmkgl = {
+      title: '字典类型模块',
+      content: [
+        {
+          title: '添加字典类型模块',
+          api: 'model.dictype.add',
+          business: [
+            {
+              key: 'type_code',
+              type: 'string',
+              required: true,
+              description: '字典类型编码'
+            },
+            {
+              key: 'type_name',
+              type: 'string',
+              required: true,
+              description: '字典类型名称'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改字典类型模块',
+          api: 'model.dictype.modify',
+          business: [
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            },
+            {
+              key: 'type_code',
+              type: 'string',
+              required: false,
+              description: '字典类型编码'
+            },
+            {
+              key: 'type_name',
+              type: 'string',
+              required: false,
+              description: '字典类型名称'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '删除字典类型模块',
+          api: 'model.dictype.remove',
+          business: [
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取字典类型列表',
+          api: 'model.dictype.get_list',
+          business: [
+            {
+              key: 'page_no',
+              type: 'int',
+              required: true,
+              description: '页码'
+            },
+            {
+              key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            },
+            {
+              key: 'type_code',
+              type: 'string',
+              required: false,
+              description: '字典类型编码'
+            },
+            {
+              key: 'type_name',
+              type: 'string',
+              required: false,
+              description: '字典类型名称'
+            }
+          ],
+          return: [
+            {
+              key: 'list',
+              type: 'int',
+              required: false,
+              description: '字典类型列表'
+            }
+          ],
+          explain: [
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            },
+            {
+              key: 'type_code',
+              type: 'string',
+              required: false,
+              description: '字典类型编码'
+            },
+            {
+              key: 'type_name',
+              type: 'string',
+              required: false,
+              description: '字典类型名称'
+            }
+          ]
+        },
+        {
+          title: '获取字典类型信息',
+          api: 'model.dictype.get_list',
+          business: [
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            }
+          ],
+          return: [
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            },
+            {
+              key: 'type_code',
+              type: 'string',
+              required: false,
+              description: '字典类型编码'
+            },
+            {
+              key: 'type_name',
+              type: 'string',
+              required: false,
+              description: '字典类型名称'
+            }
+          ],
+          explain: []
+        },
+        {
+          title: '获取字典树',
+          api: 'model.dictype.get_tree_list',
+          business: [
+            {
+              key: 'page_no',
+              type: 'int',
+              required: true,
+              description: '页码'
+            },
+            {
+              key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            {
+              key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id'
+            },
+            {
+              key: 'type_code',
+              type: 'string',
+              required: false,
+              description: '字典类型编码'
+            },
+            {
+              key: 'type_name',
+              type: 'string',
+              required: false,
+              description: '字典类型名称'
+            }
+          ],
+          return: [
+            {
+              key: 'list',
+              type: 'json array',
+              required: true,
+              description: '字典类型列表'
+            }
+          ],
+          explain: []
+        }
+      ]
+    }
+    // 字典管理
+    let zidgl = {
+      title: '字典模块',
+      content: [
+        {
+          title: '添加字典模块',
+          api: 'model.dicinfo.add',
+          business: [
+            { key: '参数名称',
+              type: '参数类型',
+              required: false,
+              description: '参数描述' },
+            { key: 'type_id',
+              type: 'int',
+              required: true,
+              description: '字典类型id' },
+            { key: 'dic_code',
+              type: 'string',
+              required: true,
+              description: '业务编码' },
+            { key: 'dic_info',
+              type: 'string',
+              required: false,
+              description: '业务详情' },
+            { key: 'order_num',
+              type: 'int',
+              required: true,
+              description: '排序使用' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改字典模块',
+          api: 'model.dicinfo.modify',
+          business: [
+            { key: 'id', type: 'int', required: true, description: '字典id' },
+            { key: 'type_id',
+              type: 'int',
+              required: false,
+              description: '字典类型id' },
+            { key: 'dic_code',
+              type: 'string',
+              required: false,
+              description: '业务编码' },
+            { key: 'dic_info',
+              type: 'string',
+              required: false,
+              description: '业务详情' },
+            { key: 'order_num',
+              type: 'int',
+              required: false,
+              description: '排序使用' }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '删除字典模块',
+          api: 'model.dicinfo.remove',
+          business: [
+            {
+              key: 'id',
+              type: 'int',
+              required: true,
+              description: '字典id'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取字典列表',
+          api: 'model.dicinfo.get_list',
+          business: [
+            { key: 'pageno', type: 'int', required: true, description: '页码' },
+            { key: 'pagesize',
+              type: 'int',
+              required: true,
+              description: '页面显示行数' },
+            { key: 'id', type: 'int', required: false, description: '字典id' },
+            { key: 'typeid',
+              type: 'int',
+              required: false,
+              description: '字典类型id' },
+            { key: 'diccode',
+              type: 'string',
+              required: false,
+              description: '业务编码' },
+            { key: 'dicinfo',
+              type: 'string',
+              required: false,
+              description: '业务详情' },
+            { key: 'ordernum',
+              type: 'int',
+              required: false,
+              description: '排序使用' }
+          ],
+          return: [
+            {
+              key: 'list',
+              type: 'json array',
+              required: true,
+              description: '字典id'
+            }
+          ],
+          explain: [
+            { key: 'type_id',
+              type: 'int',
+              required: false,
+              description: '字典类型id' },
+            { key: 'dic_code',
+              type: 'string',
+              required: false,
+              description: '业务编码' },
+            { key: 'dic_info',
+              type: 'string',
+              required: false,
+              description: '业务详情' },
+            { key: 'order_num',
+              type: 'int',
+              required: false,
+              description: '排序使用' }
+          ]
+        },
+        {
+          title: '获取字典信息',
+          api: 'model.dicinfo.get_list',
+          business: [
+            { key: 'id', type: 'int', required: true, description: '字典ID' }
+          ],
+          return: [
+            { key: 'type_id',
+              type: 'int',
+              required: false,
+              description: '字典类型id' },
+            { key: 'dic_code',
+              type: 'string',
+              required: false,
+              description: '业务编码' },
+            { key: 'dic_info',
+              type: 'string',
+              required: false,
+              description: '业务详情' },
+            { key: 'order_num',
+              type: 'int',
+              required: false,
+              description: '排序使用' }
+          ],
+          explain: []
+        }
+      ]
+    }
 
     this.testData = [
       {
         index: 1,
         title: '资产管理模块',
-        content: [park, building]
+        content: [park, building, floor, room]
       },
       {
         index: 2,
@@ -3069,6 +4922,11 @@ export default {
         index: 6,
         title: '财务管理模块',
         content: [feiyonglz, caiwusr]
+      },
+      {
+        index: 7,
+        title: '字典模块管理',
+        content: [zidmkgl, zidgl]
       }
     ]
   },

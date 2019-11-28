@@ -1,5 +1,6 @@
 <template>
   <div>
+  {{parkId}}
 <!--    <el-card style="width: 100%">-->
 
 <!--    </el-card>-->
@@ -8,7 +9,7 @@
 
         <el-select  size="small"
                     multiple
-                    v-model="value2"
+                    v-model="value1"
                     placeholder="缴费状态">
 
           <el-option
@@ -23,10 +24,10 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value3">
+          v-model="value2">
         </el-input>
         <el-date-picker
-          v-model="value4"
+          v-model="value3"
           size="small"
           style="margin-left: 15px"
           type="daterange"
@@ -166,6 +167,16 @@ export default {
     ElCard,
     ParkForm
   },
+  computed: {
+    parkId () {
+      return this.$store.state.form.activePark.domain_id
+    }
+  },
+  watch: {
+    parkId () {
+      this.fetchChargeInfo()
+    }
+  },
   data () {
     return {
       tableData: [],
@@ -174,13 +185,13 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '租金', value: '254235', chart: '-0.1128', type: 'arrow' },
-        { name: '物业费', value: 13453, chart: '0.3432', type: 'arrow' },
-        { name: '水费', value: 13513, chart: '0.6356', type: 'arrow' },
-        { name: '电费', value: '134553', chart: '0.3564', type: 'arrow' },
-        { name: '燃气', value: '134553', chart: '-0.3564', type: 'arrow' },
-        { name: '空调暖通', value: '134553', chart: '0.3564', type: 'arrow' },
-        { name: '其他', value: '134553', chart: '0.3564', type: 'arrow' }
+        { key: 'rent', name: '租金', value: '', chart: '', type: 'arrow' },
+        { key: 'property_fee', name: '物业费', value: '', chart: '', type: 'arrow' },
+        { key: 'water_fee', name: '水费', value: '', chart: '', type: 'arrow' },
+        { key: 'electric_fee', name: '电费', value: '', chart: '', type: 'arrow' },
+        { key: 'gas_fee', name: '燃气', value: '', chart: '', type: 'arrow' },
+        { key: 'heat_fee', name: '空调暖通', value: '', chart: '', type: 'arrow' },
+        { key: 'other_fee', name: '其他', value: '', chart: '', type: 'arrow' }
       ],
       stateOptions: [
         {
@@ -197,169 +208,7 @@ export default {
       value1: '',
       value2: '',
       value3: '',
-      value4: '',
       addContractVisible: false,
-      // addContractFormList: [
-      //   {
-      //     title: '账单',
-      //     children: [
-      //       {
-      //         type: 'select',
-      //         label: '关联合同',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '付款方',
-      //         key: 'i',
-      //         placeholder: '请输入租客名称',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '联系人',
-      //         key: 'i',
-      //         placeholder: '请输入租客名称',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '费用类型',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '币种',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'date-picker-range',
-      //         label: '计费周期',
-      //         key: 'fr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'textarea',
-      //         label: '备注',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '房源信息',
-      //     children: [
-      //       {
-      //         type: 'cascader',
-      //         label: '房源信息',
-      //         key: 'fangyxx',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [{
-      //           value: 1,
-      //           label: '梦想小镇',
-      //           children: [{
-      //             value: 2,
-      //             label: '1幢',
-      //             children: [
-      //               { value: 3, label: '101' },
-      //               { value: 4, label: '201' },
-      //               { value: 5, label: '205' }
-      //             ]
-      //           }, {
-      //             value: 7,
-      //             label: '3幢',
-      //             children: [
-      //               { value: 8, label: '101' },
-      //               { value: 9, label: '103' },
-      //               { value: 10, label: '503' }
-      //             ]
-      //           }, {
-      //             value: 12,
-      //             label: '8幢',
-      //             children: [
-      //               { value: 13, label: '202' },
-      //               { value: 14, label: '503' },
-      //               { value: 15, label: '603' }
-      //             ]
-      //           }]
-      //         }, {
-      //           value: 17,
-      //           label: '人工智能小镇',
-      //           children: [{
-      //             value: 18,
-      //             label: '16幢',
-      //             children: [
-      //               { value: 19, label: '501' },
-      //               { value: 20, label: '505' }
-      //             ]
-      //           }, {
-      //             value: 21,
-      //             label: '19幢',
-      //             children: [
-      //               { value: 22, label: '103' },
-      //               { value: 23, label: '105' }
-      //             ]
-      //           }]
-      //         }]
-      //       }
-      //     ]
-      //   }
-      // ],
       tamplateFormList: [
         {
           type: 'select',
@@ -472,35 +321,6 @@ export default {
           tableData: []
         }
       },
-      // financialInfo_body_table2: {
-      //   title: '付款',
-      //   info: {
-      //     label: [
-      //       { prop: 'a', label: '对方单位名称' },
-      //       { prop: 'b', label: '入账日' },
-      //       { prop: 'c', label: '借贷标' },
-      //       { prop: 'd', label: '发生额' },
-      //       { prop: 'e', label: '匹配金额' },
-      //       { prop: 'f', label: '匹配时间' },
-      //       { prop: 'g', label: '取消匹配时间' },
-      //       { prop: 'h', label: '操作' }
-      //     ],
-      //     tableData: []
-      //   }
-      // },
-      // financialInfo_body_table3: {
-      //   title: '结转',
-      //   info: {
-      //     label: [
-      //       { prop: 'a', label: '对方单位' },
-      //       { prop: 'b', label: '转入金额' },
-      //       { prop: 'c', label: '转出金额' },
-      //       { prop: 'd', label: '结转时间' },
-      //       { prop: 'e', label: '作废时间' }
-      //     ],
-      //     tableData: []
-      //   }
-      // },
       financialInfo_body_table4: {
         title: '开票记录',
         info: {
@@ -515,20 +335,6 @@ export default {
           tableData: []
         }
       }
-      // financialInfo_body_table5: {
-      //   title: '调整',
-      //   info: {
-      //     label: [
-      //       { prop: 'a', label: '调整金额' },
-      //       { prop: 'b', label: '调整时间' },
-      //       { prop: 'c', label: '调整类型' },
-      //       { prop: 'd', label: '备注' },
-      //       { prop: 'e', label: '作废调整时间' },
-      //       { prop: 'f', label: '操作' }
-      //     ],
-      //     tableData: []
-      //   }
-      // }
 
     }
   },
@@ -542,24 +348,35 @@ export default {
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
+    },
+    fetchChargeInfo () { // 获取财务收入统计信息
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.charge.info, params).then((res) => {
+        // console.log(res)
+        this.tableData = res.list
+        let data = res.data
+        this.finData.forEach(v => {
+          v.value = data[v.key]
+          v.chart = data[v.key + '_rate']
+        })
+      })
+    },
+    fetchChargeList () { // 获取财务收入列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.charge.get_list, params).then((res) => {
+        // console.log(res)
+        // this.tableData = res.list
+      })
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: item % 2 === 0 ? '物业收入' : '租金收入',
-          b: item % 2 === 0 ? '裴仕颉' : '赵阳',
-          c: item % 2 === 0 ? '2019-10-14' : '-',
-          d: 10000 + item,
-          e: item % 2 === 0 ? '美元' : '人民币',
-          f: item % 2 === 0 ? '已缴费' : '未缴费',
-          g: 'xxxx-xxxx',
-          h: 10000 + item,
-          i: item % 2 === 0 ? '裴仕颉' : '赵阳'
-        }
-      )
-    })
+    this.fetchChargeInfo()
+    this.fetchChargeList()
     // console.log(this.yearList)
   }
 }
