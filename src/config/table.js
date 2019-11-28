@@ -1,35 +1,35 @@
 // 客户管理
 const businessCustomer = [
   {
-    prop: 'a',
+    prop: 'name',
     label: '客户名称'
   },
   {
-    prop: 'b',
+    prop: 'state',
     label: '进度阶段'
   },
   {
-    prop: 'c',
+    prop: 'info_source',
     label: '来源渠道'
   },
   {
-    prop: 'd',
+    prop: 'demand_area',
     label: '需求面积段'
   },
   {
-    prop: 'e',
+    prop: 'status',
     label: '行业'
   },
   {
-    prop: 'f',
+    prop: 'update_ts',
     label: '最近联络时间'
   },
   {
-    prop: 'g',
+    prop: 'contacter',
     label: '联络人'
   },
   {
-    prop: 'h',
+    prop: 'contact',
     label: '联系方式'
   },
   {
@@ -37,7 +37,7 @@ const businessCustomer = [
     label: '预计签约时间'
   },
   {
-    prop: 'j',
+    prop: 'receiver',
     label: '跟进人'
   }
 ]
@@ -218,83 +218,83 @@ const leaveList = [
 // 四表集抄
 const equipmentList = [
   {
-    prop: 'a',
+    prop: 'building_name',
     label: '楼宇名称'
   },
   {
-    prop: 'c',
+    prop: 'room',
     label: '房号'
   },
   {
-    prop: 'a',
+    prop: 'contract_code',
     label: '合同编号'
   },
   {
-    prop: 'e',
+    prop: 'equip_type',
     label: '设备类型'
   },
   {
-    prop: 'f',
+    prop: 'state',
     label: '状态',
     renderTags: true
   },
   {
-    prop: 'g',
+    prop: 'customer',
     label: '客户'
   },
   {
-    prop: 't',
+    prop: 'create_ts',
     label: '抄录时间'
   }
 ]
 // 报修管理
 const repairList = [
   {
-    prop: 'a',
+    prop: 'customer',
     label: '租客名称'
   },
   {
-    prop: 'b',
+    prop: 'originator',
     label: '发起人'
   },
   {
-    prop: 'c',
+    prop: 'contact',
     label: '联系电话'
   },
   {
-    prop: 't',
+    prop: 'reserve_ts',
     label: '发起时间'
   },
   {
-    prop: 'adress',
+    prop: 'address',
     label: '地址'
   },
   {
-    prop: 'e',
+    prop: 'state',
     label: '状态',
     renderTags: true
   },
   {
-    prop: 'e',
+    prop: 'describe',
     label: '描述'
   }
 ]
 // 投诉管理
 const complaintList = [
   {
-    prop: 'a',
+    prop: 'customer',
     label: '租客名称'
   },
   {
-    prop: 'b',
+    prop: 'originator',
     label: '发起人'
   },
   {
-    prop: 'c',
+    prop: 'contact',
     label: '联系电话'
   },
   {
-    prop: 't',
+    prop: 'reserve_tsreserve_ts',
     label: '发起时间'
   },
   {
@@ -302,47 +302,47 @@ const complaintList = [
     label: '地址'
   },
   {
-    prop: 'e',
+    prop: 'state',
     label: '状态',
     renderTags: true
   },
   {
-    prop: 'e',
+    prop: 'describe',
     label: '描述'
   }
 ]
 // 费用催缴
 const paymentList = [
   {
-    prop: 'a',
+    prop: 'park',
     label: '楼宇名称'
   },
   {
-    prop: 'b',
+    prop: 'park',
     label: '房间号'
   },
   {
-    prop: 'c',
+    prop: 'customer',
     label: '客户名称'
   },
   {
-    prop: 'd',
+    prop: 'type',
     label: '费用类型'
   },
   {
-    prop: 'e',
+    prop: 'money',
     label: '催缴金额'
   },
   {
-    prop: 'num',
+    prop: 'overdue_ts',
     label: '逾期天数'
   },
   {
-    prop: 'person',
+    prop: 'receiver',
     label: '跟进人'
   },
   {
-    prop: 'day',
+    prop: 'create_ts',
     label: '最近一次催缴时间'
   }
 ]
@@ -357,86 +357,90 @@ const financialList = [
     label: '状态'
   },
   {
-    prop: 'a',
+    prop: 'contract_code',
     label: '关联合同'
   },
   {
-    prop: 'd',
+    prop: 'payer',
     label: '付款方'
   },
   {
-    prop: 'e',
+    prop: 'contacter',
     label: '联系人'
   },
   {
-    prop: 'e',
+    prop: 'receiver',
     label: '跟进人'
   },
   {
-    prop: 'e',
+    prop: 'log_type',
     label: '客户'
   },
   {
-    prop: 'e',
+    prop: 'cost',
     label: '金额'
   },
   {
-    prop: 'e',
+    prop: 'create_ts',
     label: '时间'
   },
   {
-    prop: 'moneyType',
+    prop: 'cost_type',
     label: '费用类型'
   }
 ]
 // 财务收入
 const incomeList = [
   {
-    prop: 'a',
+    prop: 'type',
     label: '费用类型'
   },
   {
-    prop: 'b',
+    prop: 'customer',
     label: '客户名称'
   },
   {
-    prop: 'c',
+    prop: 'create_ts',
     label: '缴费日期'
   },
   {
-    prop: 'd',
+    prop: 'charge',
     label: '金额'
   },
   {
-    prop: 'f',
+    prop: 'state',
     label: '缴费状态'
   },
   {
-    prop: 'g',
-    label: '合同名称'
+    prop: 'contract_code',
+    label: '合同编号'
   },
   {
-    prop: 'h',
+    prop: 'rent',
     label: '租金'
   },
   {
-    prop: 'h',
+    prop: 'property_fee',
     label: '物业费'
   },
   {
-    prop: 'h',
+    prop: 'water_fee',
     label: '水费'
   },
   {
-    prop: 'h',
+    prop: 'electric_fee',
     label: '电费'
   },
   {
-    prop: 'h',
+    prop: 'gas_fee',
+    label: '燃气费'
+  },
+  {
+    prop: 'heat_fee',
     label: '空调暖通费'
   },
   {
-    prop: 'i',
+    prop: 'receiver',
     label: '跟进人'
   }
 ]

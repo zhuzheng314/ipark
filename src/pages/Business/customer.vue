@@ -4,7 +4,7 @@
       <div>
         <el-select  size="small"
                     multiple
-                    v-model="value"
+                    v-model="value1"
                     placeholder="进度阶段">
           <el-option
             v-for="item in options1"
@@ -15,7 +15,7 @@
         </el-select>
         <el-select  size="small"
                     multiple
-                    v-model="value"
+                    v-model="value2"
                     placeholder="来源渠道">
           <el-option
             v-for="item in options2"
@@ -30,7 +30,7 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value">
+          v-model="value3">
         </el-input>
         <el-button
           style="float: right"
@@ -213,7 +213,9 @@ export default {
           label: '其他'
         }
       ],
-      value: '',
+      value1: '',
+      value2: '',
+      value3: '',
       addContractVisible: false,
       // addContractFormList: [
       //   {
@@ -581,25 +583,19 @@ export default {
     },
     test (page) {
       console.log(page)
+    },
+    fetchCustomerList () { // 获取客户列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.customer.get_list, params).then((res) => {
+        console.log(res)
+      })
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: 'xxx-xx-' + item,
-          b: item % 2 === 0 ? '已签约' : '未签约',
-          c: item % 2 === 0 ? '中介' : '广告',
-          d: item % 2 === 0 ? '200㎡以上' : '200㎡以下',
-          e: item % 2 === 0 ? '互联网' : '金融',
-          f: item % 2 === 0 ? '2019-10-15' : '2019-09-25',
-          g: item % 2 === 0 ? '裴仕颉' : '金李敏',
-          h: '13954546589',
-          i: item % 2 === 0 ? '2019-12-15' : '2019-12-25',
-          j: item % 2 === 0 ? '裴仕颉' : '金李敏'
-        }
-      )
-    })
+    this.fetchCustomerList()
   }
 }
 </script>

@@ -132,6 +132,7 @@ export default {
   },
   data () {
     return {
+      form: '',
       passwordForm: {
         password1: '',
         password2: '',
@@ -195,22 +196,37 @@ export default {
     setPassWord () {
       if (!this.passwordForm.password1) {
         this.$message('请输入当前密码')
+        return
       }
       if (this.passwordForm.password2 !== this.passwordForm.password3) {
         this.$message('请输入相同的密码')
       }
-      var md5 = require('md5')
-      let params = {
-        user_id: 'business_admin',
-        old_pass: md5(this.passwordForm.password1),
-        pass: md5(this.passwordForm.password2)
+      if (!this.passwordForm.password2 && !this.passwordForm.password3) {
+        this.$message('新密码不能为空')
       }
-      console.log(params)
-      this.$https.post(this.$urls.reste_password, params).then((res) => {
-        console.log(res.code)
-        // this.$message(res.code)
-      })
+      if (this.passwordForm.password1 && this.passwordForm.password2 && this.passwordForm.password3 && this.passwordForm.password2 === this.passwordForm.password3) {
+        var md5 = require('md5')
+        let params = {
+          user_id: 'business_admin',
+          old_pass: md5(this.passwordForm.password1),
+          pass: md5(this.passwordForm.password2)
+        }
+        console.log(params)
+        this.$https.post(this.$urls.reste_password, params).then((res) => {
+          console.log(res.code)
+          // this.$message(res.code)
+          this.setPassWordVisible = false
+          let msg = res.code
+          this.$message(`${msg}`)
+        })
+      }
     }
+  },
+  created () {
+    this.$store.dispatch('getParkList', {
+      page_no: 1,
+      page_size: 20
+    })
   }
 }
 </script>
