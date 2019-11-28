@@ -58,7 +58,7 @@
             placeholder="搜索楼宇"
             style="width: 180px; margin-right: 15px"
             prefix-icon="el-icon-search"
-            v-model="value">
+            v-model="inputValue">
           </el-input>
 
           <el-select
@@ -288,6 +288,7 @@ export default {
         { name: '实际租赁面积 ㎡', value: '12456', imgUrl: require('@/assets/img/park/area4.png'), icon: require('@/assets/img/park/icon4.png'), background: '#B76FB9' }
       ],
       value: '',
+      inputValue: '',
       options: [
         {
           value: '选项1',
@@ -319,7 +320,6 @@ export default {
       this.addShow = true
     },
     handleParkClick (index, park) {
-      console.log(park)
       this.buildIndex = index
       this.$store.commit('commitActivePark', park)
       this.fetchParkInfo(park)
@@ -402,11 +402,11 @@ export default {
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
-        pid: this.$store.state.activePark.domain_id,
+        pid: this.$store.state.form.activePark.domain_id,
         page_no: 1,
         page_size: 20
       }).then(res => {
-        console.log(res)
+        // console.log(res)
       })
     },
 
@@ -428,7 +428,7 @@ export default {
       })
     },
     fetchRemoveBuild (build) {
-      console.log(build)
+      // console.log(build)
       this.$https.post(this.$urls.building.remove, {
         domain_id: build.domain_id
       }).then(res => {
@@ -459,7 +459,7 @@ export default {
     }
     this.fetchParkList()
     this.fetchTreeList()
-    console.log(this.$store)
+    // console.log(this.$store)
   }
 }
 </script>

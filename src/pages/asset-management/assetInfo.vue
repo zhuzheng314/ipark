@@ -84,20 +84,21 @@
 
 <!--      楼宇列表-->
 
-      <div class="list" :key="'list-' + index" v-for="(item, index) in fakerList">
+      <div class="list" :key="'list-' + index" v-for="(item, index) in roomFloor">
         <div class="list-header">
-          <div>{{fakerList.length - index}}楼</div>
-          <div>1500㎡</div>
+          <div>{{item.floor_height}}楼</div>
+          <div>{{item.allArea}}㎡</div>
         </div>
         <div class="list-wrap">
-          <div v-for="(subItem, subIndex) in item" :key="'listItem' + subIndex" >
+          <div v-for="(subItem, subIndex) in item.children" :key="'listItem' + subIndex" >
             <div
               class="list-item"
               @click="roomInfo({index,subIndex})"
               :style="{
-                width: !showType ? 'calc(' + 100 / item.length + '% - 5px)': 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)',
+                width: !showType ? 'calc(' + 100 / item.length + '% - 5px)'
+                : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
                 background: subItem.isFind || !filterStatus ? subItem.bgColor : '#DCDCDC' }">
-              <div class="text">阿里巴巴</div>
+              <div class="text">{{subItem.name}}</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
               <div class="sub-text">2019-11-11到期</div>
               <div class="status">{{subItem.statusStr}}</div>
@@ -518,6 +519,11 @@ export default {
       filterStatus: false
     }
   },
+  computed: {
+    roomFloor () {
+      return this.$store.getters.roomFloor
+    }
+  },
   methods: {
     getState (value) {
       this.state = value
@@ -558,6 +564,33 @@ export default {
         domain_id: this.buildId,
         page_no: 1,
         page_size: 20
+      }).then(res => {
+        let list = res.list
+        let arr = []
+        list.forEach(x => {
+          if (arr.length) {
+            let flag = false
+            arr.forEach((y, yi) => {
+              if (y.floor === x.floor_height) {
+                flag = true
+                y.children.push(x)
+              }
+              if (yi === arr.length - 1 && !flag) {
+                arr.push({
+                  floor: x.floor_height,
+                  children: [{ ...x }]
+                })
+              }
+            })
+          } else {
+            arr.push({
+              floor: x.floor_height,
+              children: [{
+                ...x
+              }]
+            })
+          }
+        })
       })
     }
   },
@@ -589,9 +622,6 @@ export default {
       fakerList.push(arr)
     }
     this.fakerList = fakerList
-    this.$https.post(this.$urls.park.get_list, { page_no: 1, page_size: 10 }).then((res) => {
-      console.log(res)
-    })
     this.buildId = Number(this.$route.query.buildId)
   }
 }

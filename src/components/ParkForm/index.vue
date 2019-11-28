@@ -7,7 +7,7 @@
       :model="form"
       label-width="auto"
     >
-      <div v-if="formList.length" type="flex" justify="left">
+      <div v-if="formList.length">
         <el-row>
           <el-col v-for="(card, index) in formList" :key="'formcard' + index" :span="card.span || 24">
             <el-card style="margin: 10px;" :style="{minHeight: card.minHeight + 'px'}"  >
@@ -51,7 +51,7 @@
                     <!-- radio -->
                     <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
                       <el-radio
-                        v-for="(subItem, subIndex) in options[item.key].length ? options[item.key] : item.options"
+                        v-for="(subItem, subIndex) in options && options[item.key].length ? options && options[item.key] : item.options"
                         :key="subItem.label + subIndex"
                         :label="subItem.label"
                       >
@@ -73,7 +73,7 @@
                     <!-- checkbox -->
                     <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
                       <el-checkbox
-                        v-for="(subItem, subIndex) in options[item.key].length ? options[item.key] : item.options"
+                        v-for="(subItem, subIndex) in options && options[item.key].length ? options && options[item.key] : item.options"
                         :key="subItem.label + subIndex"
                         :label="subItem.label"
                       >
@@ -83,7 +83,7 @@
                     <!-- select -->
                     <el-select style="width: 100%" v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
                       <el-option
-                        v-for="(subItem) in options[item.key].length ? options[item.key] : item.options"
+                        v-for="(subItem) in options && options[item.key].length ? options && options[item.key] : item.options"
                         :label="subItem.label"
                         :value="subItem.value"
                         :key="subItem.value"
@@ -236,7 +236,12 @@
 <script>
 export default {
   name: 'ParkForm',
-  props: ['formList', 'itemList', 'options'],
+  // props: ['formList', 'itemList', 'options'],
+  props: {
+    formList: [String, Number, Array],
+    itemList: [String, Number, Array],
+    options: [String, Number, Array]
+  },
   data () {
     return {
       fileList: [],
