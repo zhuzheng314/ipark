@@ -65,7 +65,8 @@
           <i class="el-icon-user g-handle"></i>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="pwd">修改密码</el-dropdown-item>
-            <el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item>
+            <!-- <el-button type="text" @click="pwd">点击打开 Message Box</el-button> -->
+            <el-dropdown-item command="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -99,33 +100,46 @@
       width="500px"
     >
       <div>
-        <ParkForm
+        <!-- <ParkForm
           ref="tt"
           :formList="[]"
           :itemList="setPassWord">
-        </ParkForm>
+        </ParkForm> -->
+        <el-form :model="form">
+          <el-form-item label="当前密码" label-width="80px">
+            <el-input v-model="passwordForm.password1" show-password type="password"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码" label-width="80px">
+            <el-input v-model="passwordForm.password2" show-password type="password"></el-input>
+          </el-form-item>
+          <el-form-item label="确定密码" label-width="80px">
+            <el-input v-model="passwordForm.password3" show-password type="password"></el-input>
+          </el-form-item>
+        </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="setPassWord = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
+        <el-button @click="setPassWordVisible = false">取消</el-button>
+        <el-button type="primary" @click="setPassWord">确定</el-button>
       </span>
 
     </el-dialog>
-<!--    <el-dialog-->
-<!--      title="更改密码"-->
-<!--      top="10px"-->
-<!--      width="500px"-->
-<!--      style="overflow-y: scroll; z-index: 1000000"-->
-<!--      :visible.sync="true"-->
-<!--    >-->
-<!--      <div>-->
-<!--        <ParkForm :formList="setPassWord" :itemList="[]"></ParkForm>-->
-<!--      </div>-->
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--        <el-button @click="setPassWordVisible = false">取 消</el-button>-->
-<!--        <el-button type="primary" @click="setPassWordVisible = false">确 定</el-button>-->
-<!--      </span>-->
-<!--    </el-dialog>-->
+
+   <!-- <el-dialog
+     title="更改密码"
+     top="10px"
+     width="500px"
+     style="overflow-y: scroll; z-index: 1000000"
+     :visible.sync="true"
+   >
+     <div>
+       <ParkForm :formList="setPassWord" :itemList="[]"></ParkForm>
+     </div>
+     <span slot="footer" class="dialog-footer">
+       <el-button @click="setPassWordVisible = false">取 消</el-button>
+       <el-button type="primary" @click="setPassWordVisible = false">确 定</el-button>
+     </span>
+   </el-dialog>
+    -->
   </div>
 </template>
 
@@ -139,6 +153,11 @@ export default {
   },
   data () {
     return {
+      passwordForm: {
+        password1: '',
+        password2: '',
+        password3: ''
+      },
       options: [
         {
           value: '选项1',
@@ -273,39 +292,39 @@ export default {
           ]
         }
       ],
-      setPassWordVisible: false,
-      setPassWord: [
-        {
-          type: 'input',
-          label: '当前密码',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '该项为必填', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        },
-        {
-          type: 'input',
-          label: '新密码',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '该项为必填', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        },
-        {
-          type: 'input',
-          label: '请再次输入密码',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '该项为必填', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }
-      ]
+      setPassWordVisible: false
+      // setPassWord: [
+      //   {
+      //     type: 'input',
+      //     label: '当前密码',
+      //     key: 'i',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '该项为必填', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   },
+      //   {
+      //     type: 'input',
+      //     label: '新密码',
+      //     key: 'i',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '该项为必填', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   },
+      //   {
+      //     type: 'input',
+      //     label: '请再次输入密码',
+      //     key: 'i',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '该项为必填', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }
+      // ]
     }
   },
   methods: {
@@ -321,6 +340,28 @@ export default {
       if (command === 'pwd') {
         this.setPassWordVisible = true
       }
+      if (command === 'loginOut') {
+        this.$store.commit('clearSession')
+      }
+    },
+    setPassWord () {
+      if (!this.passwordForm.password1) {
+        this.$message('请输入当前密码')
+      }
+      if (this.passwordForm.password2 !== this.passwordForm.password3) {
+        this.$message('请输入相同的密码')
+      }
+      var md5 = require('md5')
+      let params = {
+        user_id: 'business_admin',
+        old_pass: md5(this.passwordForm.password1),
+        pass: md5(this.passwordForm.password2)
+      }
+      console.log(params)
+      this.$https.post(this.$urls.reste_password, params).then((res) => {
+        console.log(res.code)
+        // this.$message(res.code)
+      })
     }
   }
 }

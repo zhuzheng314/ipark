@@ -30,6 +30,7 @@ import EntryLeave from '@/pages/Entry/leave.vue' // 退驻申请
 import Approval from '@/pages/Entry/approval.vue' // 进驻审批
 
 import Test from '@/pages/test/index.vue' // 测试
+import Api from '@/pages/test/api.vue' // 测试
 
 Vue.use(VueRouter)
 
@@ -228,6 +229,11 @@ const routes = [
         path: 'test',
         name: 'test',
         component: Test
+      },
+      {
+        path: 'api',
+        name: 'api',
+        component: Api
       }
     ]
   }
