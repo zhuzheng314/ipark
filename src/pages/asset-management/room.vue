@@ -1,14 +1,6 @@
 <template>
   <div class="building">
     <el-card class="box-card-title">
-<!--      <div class="back" @click="setState">-->
-<!--        <i class="el-icon-arrow-left"></i>-->
-<!--      </div>-->
-<!--      <div class="parkName">-->
-<!--        <i class="iconfont">&#xe60c;</i>-->
-<!--        <p class="park-building">西港发展中心  /  B栋</p>-->
-<!--        <p class="details">查看详情</p>-->
-<!--      </div>-->
       <el-page-header style="margin-bottom: 20px" @back="goBack" content="协力大厦">
       </el-page-header>
       <div class="building-infoBox">
@@ -308,9 +300,6 @@ export default {
         tag: '家'
       })
     })
-  },
-  watch: {
-
   },
   methods: {
     setState () {

@@ -170,7 +170,7 @@ const addBuildForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '建筑面积',
         key: 'area',
         placeholder: '请输入',
@@ -180,9 +180,9 @@ const addBuildForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '可出租面积',
-        key: 'i3',
+        key: 'rent_area',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -192,21 +192,9 @@ const addBuildForm = [
       {
         type: 'select',
         label: '所属园区',
-        key: 'u2',
+        key: 'pid',
         placeholder: '请输入',
         options: [
-          {
-            label: '西港新界',
-            value: 's1'
-          },
-          {
-            label: '海创园',
-            value: 's1'
-          },
-          {
-            label: '梦想小镇',
-            value: 's1'
-          }
         ],
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }
@@ -215,7 +203,7 @@ const addBuildForm = [
       {
         type: 'textarea',
         label: '楼宇描述',
-        key: 'i4',
+        key: 'memo',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -227,10 +215,6 @@ const addBuildForm = [
         label: '楼宇图片',
         key: 'attached',
         placeholder: '请输入'
-        // rule: [
-        //   { required: true, message: '请输入', trigger: 'blur' },
-        //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        // ]
       }
     ]
   }

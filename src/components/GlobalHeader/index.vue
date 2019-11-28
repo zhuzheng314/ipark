@@ -7,12 +7,12 @@
       <div class="park-dropdown">
         <el-dropdown  @command="handleSelectPark">
           <span class="el-dropdown-link" style="font-size: 16px">
-            {{$store.state.header.activePark && $store.state.header.activePark.name || '请选择园区'}}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{$store.state.form.activePark && $store.state.form.activePark.name || '请选择园区'}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
               :key="item.name + index"
-              v-for="(item, index) in $store.state.header.parkList"
+              v-for="(item, index) in $store.state.form.parkList"
               :command="item">
               {{item.name}}
             </el-dropdown-item>
@@ -83,7 +83,8 @@
       <div>
         <ParkForm
           ref="tt"
-          :formList="addParkFormList"
+          :formList="$formsLabels.addParkForm"
+          @onSubmit="handleAddPark"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -100,11 +101,6 @@
       width="500px"
     >
       <div>
-        <!-- <ParkForm
-          ref="tt"
-          :formList="[]"
-          :itemList="setPassWord">
-        </ParkForm> -->
         <el-form :model="form">
           <el-form-item label="当前密码" label-width="80px">
             <el-input v-model="passwordForm.password1" show-password type="password"></el-input>
@@ -123,23 +119,6 @@
       </span>
 
     </el-dialog>
-
-   <!-- <el-dialog
-     title="更改密码"
-     top="10px"
-     width="500px"
-     style="overflow-y: scroll; z-index: 1000000"
-     :visible.sync="true"
-   >
-     <div>
-       <ParkForm :formList="setPassWord" :itemList="[]"></ParkForm>
-     </div>
-     <span slot="footer" class="dialog-footer">
-       <el-button @click="setPassWordVisible = false">取 消</el-button>
-       <el-button type="primary" @click="setPassWordVisible = false">确 定</el-button>
-     </span>
-   </el-dialog>
-    -->
   </div>
 </template>
 
@@ -179,152 +158,7 @@ export default {
       value: '',
       parkName: '请选择园区',
       addParkShow: false,
-      addParkFormList: [
-        {
-          title: '园区信息',
-          children: [
-            {
-              type: 'input',
-              label: '园区名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '建筑面积',
-              key: 'i2',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '总投资',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属物业',
-              key: 'i4',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系人',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系电话',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '园区状态',
-              key: 'u2',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '在建',
-                  value: 's1'
-                },
-                {
-                  label: '招商',
-                  value: 's1'
-                },
-                {
-                  label: '运营',
-                  value: 's1'
-                },
-                {
-                  label: '其他',
-                  value: 's1'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '园区描述',
-              key: 'i5',
-              placeholder: '请输入',
-              rule: [
-                // { required: true, message: '请输入', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '园区图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
       setPassWordVisible: false
-      // setPassWord: [
-      //   {
-      //     type: 'input',
-      //     label: '当前密码',
-      //     key: 'i',
-      //     placeholder: '请输入',
-      //     rule: [
-      //       { required: true, message: '该项为必填', trigger: 'blur' },
-      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //     ]
-      //   },
-      //   {
-      //     type: 'input',
-      //     label: '新密码',
-      //     key: 'i',
-      //     placeholder: '请输入',
-      //     rule: [
-      //       { required: true, message: '该项为必填', trigger: 'blur' },
-      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //     ]
-      //   },
-      //   {
-      //     type: 'input',
-      //     label: '请再次输入密码',
-      //     key: 'i',
-      //     placeholder: '请输入',
-      //     rule: [
-      //       { required: true, message: '该项为必填', trigger: 'blur' },
-      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //     ]
-      //   }
-      // ]
     }
   },
   methods: {
@@ -335,6 +169,19 @@ export default {
       } else {
         this.$store.commit('commitActivePark', item)
       }
+    },
+    handleAddPark (data) {
+      this.$https.post(this.$urls.park.add, {
+        ...data
+      }).then(res => {
+        if (res.code === 1000) {
+          this.$store.dispatch('getParkList', { page_no: 1,
+            page_size: 20 }).then(res => {
+          })
+          this.$message.success('新增园区成功')
+          this.addShow = false
+        }
+      })
     },
     handleCommand (command) {
       if (command === 'pwd') {
@@ -373,8 +220,8 @@ export default {
   width: 100%;
   height: 56px;
   background-color: white;
-  /*position: relative;*/
-  /*z-index: 2000;*/
+  position: relative;
+  z-index: 2000;
   box-shadow:0px 3px 8px rgba(0,0,0,0.1);
   overflow-x: hidden;
   .left{
