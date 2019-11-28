@@ -6,8 +6,8 @@
       </div>
       <div class="left-list">
         <div class="item"
-             :class="{ active: item.domain_id === $store.state.header.activePark.domain_id}"
-             :key="index + 'leftcard'" v-for="(item, index) in $store.state.header.parkList">
+             :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
+             :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.parkList">
           <div class="inner" @click="handleParkClick(index, item)">
             <img class="pic" :src="item.attached[0] && item.attached[0].url">
             <div class="cont">
@@ -86,8 +86,7 @@
         </div>
         <el-table
           ref="filterTable"
-          :data="tableData"
-          @row-click="handleRowClick"
+          :data="$store.state.form.buildList"
           style="width: 100%">
           <el-table-column
             prop="name"
@@ -128,6 +127,15 @@
             prop="num"
             label="可招租房源数量">
           </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+            <template slot-scope="scope">
+              <el-button @click="handleRowClick(scope.row)" type="text" size="small">查看</el-button>
+              <el-button @click="fetchRemoveBuild(scope.row)"  type="text" size="small">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-card>
     </div>
@@ -156,10 +164,12 @@
           ref="buildForm"
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
+          :options="$store.getters.parkListOptions"
           :itemList="[]">
         </ParkForm>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -293,171 +303,17 @@ export default {
           label: '90%以上'
         }
       ],
-      addContractFormList: [
-        {
-          title: '园区信息',
-          children: [
-            {
-              type: 'input',
-              label: '园区名称',
-              key: 'name',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区地址',
-              key: 'address',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '产权',
-              key: 'capital',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input-num',
-              label: '建筑面积(㎡)',
-              key: 'built_area',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input-num',
-              label: '占地面积(㎡)',
-              key: 'cover_area',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input-num',
-              label: '总投资:万元',
-              key: 'total_invest',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input-num',
-              label: '实际投资:万元',
-              key: 'actual_invest',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属物业',
-              key: 'property',
-              placeholder: '请输入',
-              rule: [
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系人',
-              key: 'contacter',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系电话',
-              key: 'contact',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区定位',
-              key: 'usage',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '园区状态',
-              key: 'state',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '在建',
-                  value: 1
-                },
-                {
-                  label: '招商',
-                  value: 2
-                },
-                {
-                  label: '运营',
-                  value: 3
-                },
-                {
-                  label: '其他',
-                  value: 4
-                }
-              ],
-              rule: [
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '园区描述',
-              key: 'detail',
-              placeholder: '请输入',
-              rule: [
-                // { required: true, message: '请输入', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '园区图片',
-              key: 'attached',
-              placeholder: '请输入'
-            }
-          ]
-        }
-      ],
       buildIndex: 0,
       parkList: [],
       buildingList: [],
       activePark: ''
     }
   },
+  computed: {
+  },
   methods: {
-    handleRowClick (row, column, event) {
-      console.log(row, column, event)
-      this.$router.push('/asset-management/assetInfo')
+    handleRowClick (row) {
+      this.$router.push(`/asset-management/assetInfo?buildId=${row.domain_id}`)
     },
     handleAdd () {
       this.addShow = true
@@ -473,9 +329,10 @@ export default {
       this.$https.post(this.$urls.park.add, {
         ...data
       }).then(res => {
-        console.log(res)
         if (res.code === 1000) {
-          this.fetchParkList()
+          this.$store.dispatch('getParkList', { page_no: 1,
+            page_size: 20 }).then(res => {
+          })
           this.$message.success('新增园区成功')
           this.addShow = false
         }
@@ -504,12 +361,25 @@ export default {
       this.addShowBuild = true
     },
     fetchAddBuild (data) {
-      console.log(data)
-      this.$store.dispatch('addBuild', data)
+      this.$store.dispatch('addBuild', data).then(res => {
+        if (res.code === 1000) {
+          this.addShowBuild = false
+          this.$message.success('新增成功')
+          this.$refs.buildForm.resetForm()
+        }
+      })
+      this.$store.dispatch('getBuildList', {
+        pid: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
+      })
     },
     fetchParkList (data) {
-      this.$store.dispatch('getParkList', { page_no: 1,
-        page_size: 20 }).then(res => {
+      this.$store.dispatch('getParkList', {
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
       })
     },
     fetchParkInfo (park) {
@@ -530,17 +400,16 @@ export default {
         this.activePark = res
       })
     },
-    fetchBuildList (park) {
-      this.$https.post(this.$urls.building.get_list, {
+    fetchBuildList () {
+      this.$store.dispatch('getBuildList', {
+        pid: this.$store.state.activePark.domain_id,
         page_no: 1,
-        page_size: 20,
-        domain_id: park.domain_id
+        page_size: 20
       }).then(res => {
-        if (res.code === 1000) {
-          this.buildingList = res.list
-        }
+        console.log(res)
       })
     },
+
     fetchTreeList () {
       this.$https.post(this.$urls.park.get_tree_list, {
         page_no: 1,
@@ -555,6 +424,17 @@ export default {
         domain_id: park.domain_id
       }).then(res => {
         if (res.code === 1000) {
+        }
+      })
+    },
+    fetchRemoveBuild (build) {
+      console.log(build)
+      this.$https.post(this.$urls.building.remove, {
+        domain_id: build.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.$message.success('删除成功')
+          this.fetchBuildList()
         }
       })
     }
