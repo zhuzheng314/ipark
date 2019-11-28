@@ -35,7 +35,8 @@
                     <el-input-number
                       v-if="item.type === 'input-num'"
                       v-model="form[item.key]"
-                      controls="false"
+                      style="width: 50%"
+                      controls-position="right"
                     ></el-input-number>
 
                     <!-- textarea -->
@@ -50,7 +51,7 @@
                     <!-- radio -->
                     <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
                       <el-radio
-                        v-for="(subItem, subIndex) in item.options"
+                        v-for="(subItem, subIndex) in options[item.key].length ? options[item.key] : item.options"
                         :key="subItem.label + subIndex"
                         :label="subItem.label"
                       >
@@ -72,7 +73,7 @@
                     <!-- checkbox -->
                     <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
                       <el-checkbox
-                        v-for="(subItem, subIndex) in item.options"
+                        v-for="(subItem, subIndex) in options[item.key].length ? options[item.key] : item.options"
                         :key="subItem.label + subIndex"
                         :label="subItem.label"
                       >
@@ -82,10 +83,10 @@
                     <!-- select -->
                     <el-select style="width: 100%" v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
                       <el-option
-                        v-for="(subItem) in item.options"
+                        v-for="(subItem) in options[item.key].length ? options[item.key] : item.options"
                         :label="subItem.label"
                         :value="subItem.value"
-                        :key="subItem.label"
+                        :key="subItem.value"
                       >
                       </el-option>
                     </el-select>
@@ -224,10 +225,10 @@
       </div>
 
       <slot name="footer"></slot>
-      <span class="dialog-footer">
+      <div style="text-align: right; margin-top: 10px; margin-right: 10px">
         <el-button @click="resetForm">取消</el-button>
         <el-button type="primary" @click="handleSubmit">确定</el-button>
-      </span>
+      </div>
     </el-form>
   </div>
 </template>
@@ -235,7 +236,7 @@
 <script>
 export default {
   name: 'ParkForm',
-  props: ['formList', 'itemList'],
+  props: ['formList', 'itemList', 'options'],
   data () {
     return {
       fileList: [],
@@ -293,7 +294,7 @@ export default {
         }
       })
     },
-    resetForm (formName) {
+    resetForm () {
       this.$refs['form'].resetFields()
       this.$emit('resetForm')
     },
