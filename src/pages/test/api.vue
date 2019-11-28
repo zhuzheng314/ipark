@@ -1,51 +1,39 @@
 <template>
-<div class="test">
-<!--  eslint-disable-->
+<div class="api">
   <el-card style="width: 800px">
     <div v-for="(a, ai) in testData" :key="ai">
       <h1>{{a.index+ '.' +a.title}}</h1>
-      <div v-for="(b, bi) in a.content" :key="bi" style="padding-left: 8px">
-        <h2>{{a.index}}.{{bi + 1}}.{{b.title}}</h2>
-        <ul style="padding-left: 16px;">
-          <li v-for="(c, ci) in b.content" :key="ci">
-            {{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}
-          </li>
-        </ul>
-        <div v-for="(c, ci) in b.content" :key="ci" style="padding-left: 8px">
-          <h3>{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}}</h3>
-          <div style="padding: 6px 0;">api: {{c.api}}</div>
-          <div>-业务参数:</div>
-          <table border="1" cellpadding="0" cellspacing="0" width="600px">
-            <div v-if="c.business.length">
-              <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
-              <tr v-for="(item,index) in c.business" :key="index" >
-                <td>{{item.key}}</td>
-                <td>{{item.type}}</td>
-                <td>{{item.required}}</td>
-                <td width="400px">{{item.description}}</td>
-              </tr>
-            </div>
-          </table>
-          <br/>
-          <div>-返回参数:</div>
-          <div v-if="!c.return.length">无</div>
-          <div v-if="c.return.length">
+      <div v-if="!a.content.length">-暂无API</div>
+      <div v-if="a.content.length">
+        <div v-for="(b, bi) in a.content" :key="bi" style="padding-left: 8px">
+          <h2>{{a.index}}.{{bi + 1}}.{{b.title}}</h2>
+          <ul style="padding-left: 16px;">
+            <li v-for="(c, ci) in b.content" :key="ci">
+              {{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}
+            </li>
+          </ul>
+          <div v-for="(c, ci) in b.content" :key="ci" style="padding-left: 8px">
+            <h3>{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}}</h3>
+            <div style="padding: 6px 0;">api: {{c.api}}</div>
+            <div>-业务参数:</div>
             <table border="1" cellpadding="0" cellspacing="0" width="600px">
-              <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
-              <tr v-for="(item,index) in c.return" :key="index" >
-                <td>{{item.key}}</td>
-                <td>{{item.type}}</td>
-                <td>{{item.required}}</td>
-                <td width="400px">{{item.description}}</td>
-              </tr>
+              <div v-if="c.business.length">
+                <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+                <tr v-for="(item,index) in c.business" :key="index" >
+                  <td>{{item.key}}</td>
+                  <td>{{item.type}}</td>
+                  <td>{{item.required}}</td>
+                  <td width="400px">{{item.description}}</td>
+                </tr>
+              </div>
             </table>
-          </div>
-          <br/>
-          <div v-if="c.explain.length">
-            <div>-list说明:</div>
+            <br/>
+            <div>-返回参数:</div>
+            <div v-if="!c.return.length">无</div>
+            <div v-if="c.return.length">
               <table border="1" cellpadding="0" cellspacing="0" width="600px">
                 <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
-                <tr v-for="(item,index) in c.explain" :key="index">
+                <tr v-for="(item,index) in c.return" :key="index" >
                   <td>{{item.key}}</td>
                   <td>{{item.type}}</td>
                   <td>{{item.required}}</td>
@@ -53,156 +41,36 @@
                 </tr>
               </table>
             </div>
-          <br>
+            <br/>
+            <div v-if="c.explain.length">
+              <div>-list说明:</div>
+                <table border="1" cellpadding="0" cellspacing="0" width="600px">
+                  <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+                  <tr v-for="(item,index) in c.explain" :key="index">
+                    <td>{{item.key}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.required}}</td>
+                    <td width="400px">{{item.description}}</td>
+                  </tr>
+                </table>
+              </div>
+            <br>
+          </div>
         </div>
       </div>
     </div>
   </el-card>
-  <el-divider></el-divider>
-
-  <el-button type="primary" @click="drawer()">弹窗</el-button>
-  <el-drawer
-  title="房间详情"
-  custom-class="drawer-r"
-  :visible.sync="drawerState"
-  size="1186px"
-  direction="rtl">
-    <HeaderCard :data="drawer_header"></HeaderCard>
-    <HeaderInfo type=1 :data="drawer_info"></HeaderInfo>
-    <div class="drawer-body" style="height:500px;">
-      <BodyCard type=1 :data="drawer_body"></BodyCard>
-      <BodyCard type=2 :data="drawer_body_table"></BodyCard>
-      <BodyCard type=2 :data="drawer_body_table"></BodyCard>
-    </div>
-  </el-drawer>
-  <el-divider></el-divider>
-
-  <el-upload
-    class="upload-demo"
-    ref="upload"
-    :action="url"
-    :on-preview="handlePreview"
-    :on-remove="handleRemove"
-    :before-upload="handleBeforeUpload"
-    :on-success="handleSuccess"
-    :file-list="fileList"
-  >
-    <el-button size="small" type="primary">点击上传</el-button>
-    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-  </el-upload>
-  <el-divider></el-divider>
-
-  <el-card>
-    <el-row :gutter="20">
-      <el-col :span="6">
-        <el-input v-model="API_input" placeholder="请输入API"></el-input>
-        <el-input type="textarea"  rows="10" placeholder="请输入要传的参数" v-model="API_textarea2"></el-input>
-        <el-button style="margin-bottom: 10px;" size="small"
-        type="primary" @click="API_test">API测试</el-button>
-      </el-col>
-      <el-col :span="6">
-        <el-input type="textarea" rows="15" placeholder="返回数据" v-model="API_textarea"></el-input>
-      </el-col>
-    </el-row>
-  </el-card>
-  <el-divider></el-divider>
-
 </div>
 </template>
 
 <script>
-import HeaderCard from '@/components/HeaderCard/index.vue'
-import HeaderInfo from '@/components/HeaderInfo/index.vue'
-import BodyCard from '@/components/BodyCard/index.vue'
 export default {
   name: 'test',
   components: {
-    HeaderCard, HeaderInfo, BodyCard
   },
-  props: [''],
   data () {
     return {
-      API_input: '',
-      API_textarea: '',
-      API_textarea2: '',
-      url: 'http://192.168.0.231:3000/upload',
-      fileList: [],
-      drawerState: false,
-      drawer_header: {
-        icon: '&#xe60c;',
-        title: '西港发展中心  /  B栋 /  301、302',
-        button: [
-          { name: '按钮', icon: '&#xe62a;', function: 'click1' },
-          { name: '按钮', icon: '&#xe62a;', function: 'click2' },
-          { name: '按钮', icon: '&#xe64f;', function: 'click3' },
-          { name: '按钮', icon: '&#xe607;', function: 'click4' },
-          { name: '按钮', icon: '&#xe60c;', function: 'click3' },
-          { name: '按钮', icon: '&#xe60c;', function: 'click4' }
-        ]
-      },
-      drawer_info: {
-        label: [
-          { prop: 'date', label: '日期' },
-          { prop: 'name', label: '姓名' },
-          { prop: 'address', label: '地址' }
-        ],
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
-      },
-      drawer_body: {
-        title: '房间信息',
-        info: [
-          { name: '用户姓名', value: '付晓晓' },
-          { name: '联系方式', value: '15648954632' },
-          { name: '身份证', value: '300000000000000000' },
-          { name: '地址', value: '浙江省杭州市西湖区黄姑山路工专路交叉路口' },
-          { name: '用户姓名', value: '付晓晓', tag: 1 },
-          { name: '用户姓名', value: '付晓晓' },
-          { name: '用户姓名', value: '付晓晓' }
-
-        ]
-      },
-      drawer_body_table: {
-        title: '房间信息',
-        info: {
-          label: [
-            { prop: 'date', label: '日期' },
-            { prop: 'name', label: '姓名' },
-            { prop: 'address', label: '地址' }
-          ],
-          tableData: [
-            {
-              date: '2016-05-02',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            },
-            {
-              date: '2016-05-02',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-02',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-              date: '2016-05-02',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }
-          ]
-        }
-      },
-      tableData: [{
-        name: '2016-05-02',
-        key: '王小虎',
-        detail: '上海市普陀区金沙江路 1518 弄',
-        type: 'int',
-        require: false
-      }],
-      testData: []
+      testData: ''
     }
   },
   mounted () {
@@ -378,7 +246,7 @@ export default {
           api: 'assets.equip.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'equip_id',
               type: 'int',
               required: false,
               description: '序号id'
@@ -422,22 +290,10 @@ export default {
               description: `单位`
             },
             {
-              key: 'building_name',
-              type: 'string',
+              key: 'park',
+              type: '数组',
               required: true,
-              description: `楼宇名称`
-            },
-            {
-              key: 'floor_name',
-              type: 'string',
-              required: true,
-              description: `楼层名称`
-            },
-            {
-              key: 'room_name',
-              type: 'string',
-              required: true,
-              description: `房间名称`
+              description: `园区到房间的数组`
             },
             {
               key: 'current_val',
@@ -1144,7 +1000,6 @@ export default {
               required: true,
               description: `工单评价`
             }
-
           ],
           explain: []
         }
@@ -1156,7 +1011,7 @@ export default {
       content: [
         {
           title: '获取费用催缴模块统计信息',
-          api: 'assets.payment.get_statistics',
+          api: 'assets.d_payment.get_list',
           business: [
             {
               key: 'domain_id',
@@ -1167,38 +1022,38 @@ export default {
           ],
           return: [
             {
-              key: 'receivable',
+              key: 'need_receive',
               type: 'int',
               required: true,
               description: `应收`
             },
             {
-              key: 'receivable_contrast',
-              type: 'int',
+              key: 'need_receive_rate',
+              type: 'decimal',
               required: true,
               description: `应收对比`
             },
             {
-              key: 'paid',
+              key: 'receive',
               type: 'int',
               required: true,
               description: `已收`
             },
             {
-              key: 'paid_contrast',
-              type: 'int',
+              key: 'receive_rate',
+              type: 'decimal',
               required: true,
               description: `已收对比`
             },
             {
-              key: 'unpaid',
+              key: 'un_receive',
               type: 'int',
               required: true,
               description: `未缴`
             },
             {
-              key: 'unpaid_contrast',
-              type: 'int',
+              key: 'un_receive_rate',
+              type: 'decimal',
               required: true,
               description: `未缴对比`
             },
@@ -1209,8 +1064,8 @@ export default {
               description: `租金`
             },
             {
-              key: 'rent_contrast',
-              type: 'int',
+              key: 'rent_rate',
+              type: 'decimal',
               required: true,
               description: `租金对比`
             },
@@ -1221,8 +1076,8 @@ export default {
               description: `物业费`
             },
             {
-              key: 'property_fee_contrast',
-              type: 'int',
+              key: 'property_rate',
+              type: 'decimal',
               required: true,
               description: `物业费对比`
             },
@@ -1233,7 +1088,7 @@ export default {
               description: `四表费用`
             },
             {
-              key: 'energy_contrast',
+              key: 'energy_rate',
               type: 'int',
               required: true,
               description: `四表费用对比`
@@ -1245,7 +1100,7 @@ export default {
               description: `其他`
             },
             {
-              key: 'other_contrast',
+              key: 'other_rate',
               type: 'int',
               required: true,
               description: `其他对比`
@@ -1258,40 +1113,46 @@ export default {
           api: 'assets.payment.add',
           business: [
             {
-              key: 'contract',
+              key: 'contract_code',
               type: 'string',
               required: true,
               description: '关联合同'
             },
             {
               key: 'payer',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '付款方'
             },
             {
-              key: 'contacts',
+              key: 'contacter',
               type: 'string',
               required: true,
               description: '联系人'
             },
             {
               key: 'type',
-              type: 'string',
+              type: 'int',
               required: true,
               description: '费用类型'
             },
             {
               key: 'currency',
-              type: 'string',
+              type: 'int',
               required: true,
               description: '币种'
             },
             {
-              key: 'cycle',
-              type: 'string',
+              key: 'start_ts',
+              type: 'timestamp',
               required: true,
-              description: '计费周期'
+              description: '计费周期开始'
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: true,
+              description: '计费周期结束'
             },
             {
               key: 'memo',
@@ -1300,22 +1161,10 @@ export default {
               description: '备注'
             },
             {
-              key: 'building_name',
-              type: 'string',
+              key: 'domain_id',
+              type: 'int',
               required: true,
-              description: `楼宇名称`
-            },
-            {
-              key: 'floor_name',
-              type: 'string',
-              required: true,
-              description: `楼层名称`
-            },
-            {
-              key: 'room_name',
-              type: 'string',
-              required: true,
-              description: `房间名称`
+              description: '房间id'
             }
           ],
           return: [],
@@ -1326,7 +1175,7 @@ export default {
           api: 'assets.payment.remove',
           business: [
             {
-              key: 'index',
+              key: 'payment_code',
               type: 'string',
               required: false,
               description: '工单号'
@@ -1368,22 +1217,10 @@ export default {
           ],
           explain: [
             {
-              key: 'building_name',
-              type: 'string',
+              key: 'park',
+              type: 'json',
               required: true,
-              description: `楼宇名称`
-            },
-            {
-              key: 'floor_name',
-              type: 'string',
-              required: true,
-              description: `楼层名称`
-            },
-            {
-              key: 'room_name',
-              type: 'string',
-              required: true,
-              description: `房间名称`
+              description: `房间`
             },
             {
               key: 'customer',
@@ -1393,31 +1230,31 @@ export default {
             },
             {
               key: 'type',
-              type: 'string',
+              type: 'int',
               required: true,
               description: `费用类型`
             },
             {
               key: 'money',
-              type: 'string',
+              type: 'decimal',
               required: true,
               description: `催缴金额`
             },
             {
-              key: 'day',
-              type: 'string',
+              key: 'overdue_ts',
+              type: 'timestamp',
               required: true,
               description: `逾期天数`
             },
             {
-              key: 'follow_up',
+              key: 'receiver',
               type: 'string',
               required: true,
               description: `跟进人`
             },
             {
-              key: 'date',
-              type: 'string',
+              key: 'create_ts',
+              type: 'timestamp',
               required: true,
               description: `最近一次催缴时间`
             }
@@ -1428,7 +1265,7 @@ export default {
           api: 'assets.payment.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'payment_code',
               type: 'int',
               required: false,
               description: '序号id'
@@ -1457,37 +1294,37 @@ export default {
           return: [
             {
               key: 'meet',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: `接触客户`
             },
             {
               key: 'meet_rate',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: `接触客户变化率`
             },
             {
               key: 'sign',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: `成交客户`
             },
             {
               key: 'sign_rate',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: `成交客户变化率`
             },
             {
               key: 'loss',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: `流失客户`
             },
             {
               key: 'loss_rate',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: `流失客户变化率`
             }
@@ -1548,13 +1385,13 @@ export default {
             },
             {
               key: 'email',
-              type: 'int',
+              type: 'string',
               required: false,
               description: '邮箱'
             },
             {
               key: 'demand_area',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: '需求面积'
             },
@@ -1584,9 +1421,9 @@ export default {
             },
             {
               key: 'room',
-              type: 'string',
+              type: '数组',
               required: true,
-              description: '房间id:用字符串存储,逗号分隔,示例:"1,2,3"'
+              description: 'json数组'
             },
             {
               key: 'state',
@@ -1611,97 +1448,91 @@ export default {
             {
               key: 'name',
               type: 'string',
-              required: true,
+              required: false,
               description: '客户或企业名称'
             },
             {
               key: 'contacter',
-              type: 'int',
-              required: true,
+              type: 'string',
+              required: false,
               description: '联系人'
             },
             {
               key: 'contact',
               type: 'string',
-              required: true,
+              required: false,
               description: '联系方式'
             },
             {
               key: 'info_source',
               type: 'int',
-              required: true,
+              required: false,
               description: '客户信息来源'
             },
             {
               key: 'status',
               type: 'int',
-              required: true,
+              required: false,
               description: '行业性质'
             },
             {
               key: 'memo',
               type: 'string',
-              required: true,
+              required: false,
               description: '备注'
             },
             {
               key: 'create_ts',
               type: 'timestamp',
-              required: true,
+              required: false,
               description: '来访时间'
             },
             {
               key: 'receiver',
               type: 'string',
-              required: true,
+              required: false,
               description: '跟进人'
             },
             {
               key: 'email',
-              type: 'int',
+              type: 'string',
               required: false,
               description: '邮箱'
             },
             {
               key: 'demand_area',
-              type: 'int',
-              required: true,
+              type: 'decimal',
+              required: false,
               description: '需求面积'
             },
             {
               key: 'work_station',
               type: 'int',
-              required: true,
+              required: false,
               description: '需求工位'
             },
             {
               key: 'demand_ts',
               type: 'timestamp',
-              required: true,
+              required: false,
               description: '预计签约时间'
             },
             {
-              key: 'domain',
-              type: 'int',
-              required: true,
+              key: 'room',
+              type: '数组',
+              required: false,
               description: '房源信息'
             },
             {
               key: 'customer_id',
               type: 'int',
-              required: true,
+              required: false,
               description: '客户id'
-            },
-            {
-              key: 'room',
-              type: 'string',
-              required: true,
-              description: '房间id:用字符串存储,逗号分隔,示例:"1,2,3"'
             },
             {
               key: 'state',
               type: 'int',
-              required: true,
+              required: false,
               description: '进度阶段'
             }
           ],
@@ -1741,19 +1572,19 @@ export default {
             {
               key: 'name',
               type: 'string',
-              required: true,
+              required: false,
               description: '客户或企业名称'
             },
             {
               key: 'info_source',
               type: 'int',
-              required: true,
+              required: false,
               description: '客户信息来源'
             },
             {
               key: 'state',
               type: 'int',
-              required: true,
+              required: false,
               description: '进度阶段'
             }
 
@@ -1775,7 +1606,7 @@ export default {
             },
             {
               key: 'contacter',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '联系人'
             },
@@ -1817,13 +1648,13 @@ export default {
             },
             {
               key: 'email',
-              type: 'int',
+              type: 'string',
               required: false,
               description: '邮箱'
             },
             {
               key: 'demand_area',
-              type: 'int',
+              type: 'decimal',
               required: true,
               description: '需求面积'
             },
@@ -1840,12 +1671,6 @@ export default {
               description: '预计签约时间'
             },
             {
-              key: 'domain',
-              type: 'int',
-              required: true,
-              description: '房源信息'
-            },
-            {
               key: 'customer_id',
               type: 'int',
               required: true,
@@ -1853,9 +1678,9 @@ export default {
             },
             {
               key: 'room',
-              type: 'string',
+              type: '数组',
               required: true,
-              description: '房间id:用字符串存储,逗号分隔,示例:"1,2,3"'
+              description: '房间id拼成的数组'
             },
             {
               key: 'state',
@@ -1872,7 +1697,7 @@ export default {
             {
               key: 'id',
               type: 'int',
-              required: false,
+              required: true,
               description: '客户id'
             }
           ],
@@ -2025,136 +1850,106 @@ export default {
         }
       ]
     }
-    // 财务收入
-    let charge = {
-      title: '财务收入模块',
+    // 费用列支
+    let feiyonglz = {
+      title: '费用列支模块',
       content: [
         {
-          title: '获取财务收入统计信息',
-          api: 'assets.d_charge.get_info',
+          title: '获取费用列支统计信息',
+          api: 'assets.d_cost.get_info',
           business: [
             {
               key: 'id',
               type: 'int',
               required: true,
-              description: '园区id'
+              description: '费用列支id'
             }
           ],
           return: [
             {
-              key: 'rent',
+              key: 'need_receive',
               type: 'int',
               required: true,
-              description: `租金`
+              description: `应收`
             },
             {
-              key: 'rent_rate',
-              type: 'int',
+              key: 'need_receive_rate',
+              type: 'decimal',
               required: true,
-              description: `租金的比率`
+              description: `应收对比`
             },
             {
-              key: 'property_fee',
+              key: 'receive',
               type: 'int',
               required: true,
-              description: `物业费`
+              description: `已收`
             },
             {
-              key: 'property_rate',
-              type: 'int',
+              key: 'receive_rate',
+              type: 'decimal',
               required: true,
-              description: `物业费的比率`
+              description: `已收对比`
             },
             {
-              key: 'water_fee',
+              key: 'un_receive',
               type: 'int',
               required: true,
-              description: `水费`
+              description: `未缴`
             },
             {
-              key: 'water_rate',
-              type: 'int',
+              key: 'un_receive_rate',
+              type: 'decimal',
               required: true,
-              description: `水费的比率`
-            },
-            {
-              key: 'gas_fee',
-              type: 'int',
-              required: true,
-              description: `电费`
-            },
-            {
-              key: 'gas_rate',
-              type: 'int',
-              required: true,
-              description: `电费的比率`
-            },
-            {
-              key: 'electric_fee',
-              type: 'int',
-              required: true,
-              description: `燃气`
-            },
-            {
-              key: 'electric_rate',
-              type: 'int',
-              required: true,
-              description: `燃气的比率`
-            },
-            {
-              key: 'heat_fee',
-              type: 'int',
-              required: true,
-              description: `空调暖通`
-            },
-            {
-              key: 'heat_rate',
-              type: 'int',
-              required: true,
-              description: `空调暖通的比率`
-            },
-            {
-              key: 'other_fee',
-              type: 'int',
-              required: true,
-              description: `其他`
-            },
-            {
-              key: 'other_rate',
-              type: 'int',
-              required: true,
-              description: `其他的比率`
-            },
-            {
-              key: 'create_ts',
-              type: 'int',
-              required: true,
-              description: `创建时间`
+              description: `未缴对比`
             }
           ],
           explain: []
         },
         {
-          title: '添加账单',
-          api: 'assets.charge.add',
+          title: '添加费用列支',
+          api: 'assets.cost.add',
           business: [
             {
-              key: 'contract',
+              key: 'log_type',
               type: 'int',
+              required: true,
+              description: '客户或企业名称'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: true,
+              description: '状态'
+            },
+            {
+              key: 'contract_code',
+              type: 'string',
               required: true,
               description: '合同编号'
             },
             {
               key: 'payer',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '付款方'
             },
             {
-              key: 'customer',
-              type: 'int',
+              key: 'contacter',
+              type: 'string',
               required: true,
-              description: '客户'
+              description: '联系人'
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: '跟进人'
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: true,
+              description: '来访时间'
             },
             {
               key: 'customer_id',
@@ -2163,144 +1958,96 @@ export default {
               description: '客户id'
             },
             {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'charge',
-              type: 'int',
-              required: true,
+              key: 'cost',
+              type: 'decimal',
+              required: false,
               description: '费用金额'
             },
             {
-              key: 'charge_type',
+              key: 'cost_type',
               type: 'int',
               required: true,
               description: '费用类型'
             },
             {
-              key: 'rent',
-              type: 'int',
-              required: true,
-              description: '租金'
-            },
-            {
-              key: 'property_fee',
-              type: 'int',
-              required: true,
-              description: '物业费'
-            },
-            {
-              key: 'water_fee',
-              type: 'int',
-              required: true,
-              description: '水费'
-            },
-            {
-              key: 'electric_fee',
-              type: 'int',
-              required: true,
-              description: '电费'
-            },
-            {
-              key: 'heat_fee',
-              type: 'int',
-              required: true,
-              description: '暖通费用'
-            },
-            {
-              key: 'currency',
-              type: 'int',
-              required: true,
-              description: '币种类型'
-            },
-            {
               key: 'start_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期开始'
+              description: '周期开始时间'
             },
             {
               key: 'end_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期结束'
-            },
-            {
-              key: 'rooms',
-              type: 'int',
-              required: true,
-              description: '房间'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'state',
-              type: 'int',
-              required: true,
-              description: '缴费状态'
+              description: '周期结束时间'
             },
             {
               key: 'memo',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '备注'
             },
             {
-              key: 'create_ts',
-              type: 'int',
+              key: 'customer',
+              type: 'string',
               required: true,
-              description: '创建时间'
-            },
-            {
-              key: 'gas_fee',
-              type: 'int',
-              required: true,
-              description: '燃气费用'
-            },
-            {
-              key: 'other_fee',
-              type: 'int',
-              required: true,
-              description: '其他费用'
+              description: '客户名字'
             }
           ],
           return: [],
           explain: []
         },
         {
-          title: '修改账单',
-          api: 'assets.charge.modify',
+          title: '修改费用列支',
+          api: 'assets.cost.modify ',
           business: [
             {
               key: 'id',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '主键'
             },
             {
-              key: 'contract',
+              key: 'log_type',
               type: 'int',
+              required: true,
+              description: '客户或企业名称'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: true,
+              description: '状态'
+            },
+            {
+              key: 'contract_code',
+              type: 'string',
               required: true,
               description: '合同编号'
             },
             {
               key: 'payer',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '付款方'
             },
             {
-              key: 'customer',
-              type: 'int',
+              key: 'contacter',
+              type: 'string',
               required: true,
-              description: '客户'
+              description: '联系人'
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: '跟进人'
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: true,
+              description: '来访时间'
             },
             {
               key: 'customer_id',
@@ -2309,164 +2056,158 @@ export default {
               description: '客户id'
             },
             {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'charge',
-              type: 'int',
-              required: true,
+              key: 'cost',
+              type: 'decimal',
+              required: false,
               description: '费用金额'
             },
             {
-              key: 'charge_type',
+              key: 'cost_type',
               type: 'int',
               required: true,
               description: '费用类型'
             },
             {
-              key: 'rent',
-              type: 'int',
-              required: true,
-              description: '租金'
-            },
-            {
-              key: 'property_fee',
-              type: 'int',
-              required: true,
-              description: '物业费'
-            },
-            {
-              key: 'water_fee',
-              type: 'int',
-              required: true,
-              description: '水费'
-            },
-            {
-              key: 'electric_fee',
-              type: 'int',
-              required: true,
-              description: '电费'
-            },
-            {
-              key: 'heat_fee',
-              type: 'int',
-              required: true,
-              description: '暖通费用'
-            },
-            {
-              key: 'currency',
-              type: 'int',
-              required: true,
-              description: '币种类型'
-            },
-            {
               key: 'start_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期开始'
+              description: '周期开始时间'
             },
             {
               key: 'end_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期结束'
-            },
-            {
-              key: 'rooms',
-              type: 'int',
-              required: true,
-              description: '房间'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'state',
-              type: 'int',
-              required: true,
-              description: '缴费状态'
+              description: '周期结束时间'
             },
             {
               key: 'memo',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '备注'
             },
             {
-              key: 'create_ts',
-              type: 'int',
+              key: 'customer',
+              type: 'string',
               required: true,
-              description: '创建时间'
-            },
-            {
-              key: 'gas_fee',
-              type: 'int',
-              required: true,
-              description: '燃气费用'
-            },
-            {
-              key: 'other_fee',
-              type: 'int',
-              required: true,
-              description: '其他费用'
+              description: '客户名字'
             }
           ],
           return: [],
           explain: []
         },
         {
-          title: '删除账单',
-          api: 'assets.charge.remove',
+          title: '删除费用列支',
+          api: 'assets.cost.remove',
           business: [
             {
               key: 'id',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '主键'
             }
           ],
           return: [],
           explain: []
         },
         {
-          title: '获取账单列表',
-          api: 'assets.charge.get_list',
+          title: '获取费用列支列表',
+          api: 'assets.cost.get_list',
           business: [
             {
-              key: 'id',
+              key: 'page_no',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '页码'
+            },
+            {
+              key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            {
+              key: 'log_type',
+              type: 'int',
+              required: true,
+              description: '客户或企业名称'
             },
             {
               key: 'state',
               type: 'int',
               required: true,
-              description: '缴费状态'
+              description: '状态'
+            },
+            {
+              key: 'contract_code',
+              type: 'string',
+              required: true,
+              description: '合同编号'
+            },
+            {
+              key: 'payer',
+              type: 'string',
+              required: true,
+              description: '付款方'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: true,
+              description: '联系人'
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: '跟进人'
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: true,
+              description: '来访时间'
+            },
+            {
+              key: 'customer_id',
+              type: 'int',
+              required: true,
+              description: '客户id'
+            },
+            {
+              key: 'cost',
+              type: 'decimal',
+              required: false,
+              description: '费用金额'
+            },
+            {
+              key: 'cost_type',
+              type: 'int',
+              required: true,
+              description: '费用类型'
             },
             {
               key: 'start_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期开始'
+              description: '周期开始时间'
             },
             {
               key: 'end_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期结束'
+              description: '周期结束时间'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: true,
+              description: '备注'
             },
             {
               key: 'customer',
-              type: 'int',
+              type: 'string',
               required: true,
-              description: '客户'
+              description: '客户名字'
             }
           ],
           return: [
@@ -2479,28 +2220,46 @@ export default {
           ],
           explain: [
             {
-              key: 'id',
+              key: 'log_type',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '客户或企业名称'
             },
             {
-              key: 'contract',
+              key: 'state',
               type: 'int',
+              required: true,
+              description: '状态'
+            },
+            {
+              key: 'contract_code',
+              type: 'string',
               required: true,
               description: '合同编号'
             },
             {
               key: 'payer',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '付款方'
             },
             {
-              key: 'customer',
-              type: 'int',
+              key: 'contacter',
+              type: 'string',
               required: true,
-              description: '客户'
+              description: '联系人'
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: '跟进人'
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: true,
+              description: '来访时间'
             },
             {
               key: 'customer_id',
@@ -2509,118 +2268,46 @@ export default {
               description: '客户id'
             },
             {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'charge',
-              type: 'int',
-              required: true,
+              key: 'cost',
+              type: 'decimal',
+              required: false,
               description: '费用金额'
             },
             {
-              key: 'charge_type',
+              key: 'cost_type',
               type: 'int',
               required: true,
               description: '费用类型'
             },
             {
-              key: 'rent',
-              type: 'int',
-              required: true,
-              description: '租金'
-            },
-            {
-              key: 'property_fee',
-              type: 'int',
-              required: true,
-              description: '物业费'
-            },
-            {
-              key: 'water_fee',
-              type: 'int',
-              required: true,
-              description: '水费'
-            },
-            {
-              key: 'electric_fee',
-              type: 'int',
-              required: true,
-              description: '电费'
-            },
-            {
-              key: 'heat_fee',
-              type: 'int',
-              required: true,
-              description: '暖通费用'
-            },
-            {
-              key: 'currency',
-              type: 'int',
-              required: true,
-              description: '币种类型'
-            },
-            {
               key: 'start_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期开始'
+              description: '周期开始时间'
             },
             {
               key: 'end_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
-              description: '计费周期结束'
-            },
-            {
-              key: 'rooms',
-              type: 'int',
-              required: true,
-              description: '房间'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'state',
-              type: 'int',
-              required: true,
-              description: '缴费状态'
+              description: '周期结束时间'
             },
             {
               key: 'memo',
-              type: 'int',
+              type: 'string',
               required: true,
               description: '备注'
             },
             {
-              key: 'create_ts',
-              type: 'int',
+              key: 'customer',
+              type: 'string',
               required: true,
-              description: '创建时间'
-            },
-            {
-              key: 'gas_fee',
-              type: 'int',
-              required: true,
-              description: '燃气费用'
-            },
-            {
-              key: 'other_fee',
-              type: 'int',
-              required: true,
-              description: '其他费用'
+              description: '客户名字'
             }
           ]
         },
         {
-          title: '获取账单详情',
-          api: 'assets.charge.get_info',
+          title: '获取费用列支信息',
+          api: 'assets.cost.get_info',
           business: [
             {
               key: 'id',
@@ -2629,205 +2316,114 @@ export default {
               description: '客户id'
             }
           ],
-          return: [
-            {
-              key: 'id',
-              type: 'int',
-              required: true,
-              description: '客户id'
-            },
-            {
-              key: 'contract',
-              type: 'int',
-              required: true,
-              description: '合同编号'
-            },
-            {
-              key: 'payer',
-              type: 'int',
-              required: true,
-              description: '付款方'
-            },
-            {
-              key: 'customer',
-              type: 'int',
-              required: true,
-              description: '客户'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: true,
-              description: '客户id'
-            },
-            {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'charge',
-              type: 'int',
-              required: true,
-              description: '费用金额'
-            },
-            {
-              key: 'charge_type',
-              type: 'int',
-              required: true,
-              description: '费用类型'
-            },
-            {
-              key: 'rent',
-              type: 'int',
-              required: true,
-              description: '租金'
-            },
-            {
-              key: 'property_fee',
-              type: 'int',
-              required: true,
-              description: '物业费'
-            },
-            {
-              key: 'water_fee',
-              type: 'int',
-              required: true,
-              description: '水费'
-            },
-            {
-              key: 'electric_fee',
-              type: 'int',
-              required: true,
-              description: '电费'
-            },
-            {
-              key: 'heat_fee',
-              type: 'int',
-              required: true,
-              description: '暖通费用'
-            },
-            {
-              key: 'currency',
-              type: 'int',
-              required: true,
-              description: '币种类型'
-            },
-            {
-              key: 'start_ts',
-              type: 'int',
-              required: true,
-              description: '计费周期开始'
-            },
-            {
-              key: 'end_ts',
-              type: 'int',
-              required: true,
-              description: '计费周期结束'
-            },
-            {
-              key: 'rooms',
-              type: 'int',
-              required: true,
-              description: '房间'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'state',
-              type: 'int',
-              required: true,
-              description: '缴费状态'
-            },
-            {
-              key: 'memo',
-              type: 'int',
-              required: true,
-              description: '备注'
-            },
-            {
-              key: 'create_ts',
-              type: 'int',
-              required: true,
-              description: '创建时间'
-            },
-            {
-              key: 'gas_fee',
-              type: 'int',
-              required: true,
-              description: '燃气费用'
-            },
-            {
-              key: 'other_fee',
-              type: 'int',
-              required: true,
-              description: '其他费用'
-            }
-          ],
+          return: [],
           explain: []
         }
       ]
     }
-    // 费用列支
-    let cost = {
-      title: '费用列支模块',
+    // 财务收入
+    let caiwusr = {
+      title: '财务收入模块',
       content: [
         {
-          title: '获取费用列支统计信息',
+          title: '获取财务收入统计信息',
           api: 'assets.d_charge.get_info',
           business: [
             {
               key: 'id',
               type: 'int',
               required: true,
-              description: '园区id'
+              description: '财务收入id'
             }
           ],
           return: [
             {
-              key: 'receive',
-              type: 'int',
+              key: 'rent',
+              type: 'decimal',
               required: true,
-              description: `已收`
+              description: `租金`
             },
             {
-              key: 'un_receive',
-              type: 'int',
+              key: 'property_fee',
+              type: 'decimal',
               required: true,
-              description: `未收`
+              description: `物业费`
             },
             {
-              key: 'need_receive',
-              type: 'int',
+              key: 'water_fee',
+              type: 'decimal',
               required: true,
-              description: `应收`
+              description: `水费`
             },
             {
-              key: 'receive_rate',
-              type: 'int',
+              key: 'gas_fee',
+              type: 'decimal',
               required: true,
-              description: `已收变化率`
+              description: `燃气费`
             },
             {
-              key: 'un_receive_rate',
-              type: 'int',
+              key: 'electric_fee',
+              type: 'decimal',
               required: true,
-              description: `未收变化率`
+              description: `电费`
             },
             {
-              key: 'need_receive_rate',
-              type: 'int',
+              key: 'heat_fee',
+              type: 'decimal',
               required: true,
-              description: `需收变化率`
+              description: `暖通费用`
+            },
+            {
+              key: 'other_fee',
+              type: 'decimal',
+              required: true,
+              description: `其他费用`
+            },
+            {
+              key: 'rent_rate',
+              type: 'decimal',
+              required: true,
+              description: `租金变化率`
+            },
+            {
+              key: 'property_rate',
+              type: 'decimal',
+              required: true,
+              description: `物业费变化率`
+            },
+            {
+              key: 'water_rate',
+              type: 'decimal',
+              required: true,
+              description: `水费变化率`
+            },
+            {
+              key: 'gas_rate',
+              type: 'decimal',
+              required: true,
+              description: `燃气费变化率`
+            },
+            {
+              key: 'electric_rate',
+              type: 'decimal',
+              required: true,
+              description: `电费变化率`
+            },
+            {
+              key: 'heat_rate',
+              type: 'decimal',
+              required: true,
+              description: `暖通费用变化率`
+            },
+            {
+              key: 'other_rate',
+              type: 'decimal',
+              required: true,
+              description: `其他费用变化率`
             },
             {
               key: 'create_ts',
-              type: 'int',
+              type: 'timestamp',
               required: true,
               description: `创建时间`
             }
@@ -2835,254 +2431,452 @@ export default {
           explain: []
         },
         {
-          title: '添加账单',
+          title: '添加财务收入',
           api: 'assets.charge.add',
           business: [
             {
-              key: 'log_type',
+              key: 'contract_code',
+              type: 'string',
+              required: false,
+              description: `合同编号`
+            },
+            {
+              key: 'payer',
+              type: 'string',
+              required: false,
+              description: `付款方`
+            },
+            {
+              key: 'customer',
+              type: 'string',
+              required: false,
+              description: `客户`
+            },
+            {
+              key: 'customer_id',
+              type: 'string',
+              required: false,
+              description: `客户id`
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: `联系人`
+            },
+            {
+              key: 'charge',
+              type: 'decimal',
+              required: false,
+              description: `费用金额`
+            },
+            {
+              key: 'charge_type',
               type: 'int',
-              required: true,
-              description: '收支类型'
+              required: false,
+              description: `费用类型`
+            },
+            {
+              key: 'rent',
+              type: 'decimal',
+              required: false,
+              description: `租金`
+            },
+            {
+              key: 'property_fee',
+              type: 'decimal',
+              required: false,
+              description: `物业费`
+            },
+            {
+              key: 'water_fee',
+              type: 'decimal',
+              required: false,
+              description: `水费`
+            },
+            {
+              key: 'electric_fee',
+              type: 'decimal',
+              required: false,
+              description: `电费`
+            },
+            {
+              key: 'heat_fee',
+              type: 'decimal',
+              required: false,
+              description: `暖通费用`
+            },
+            {
+              key: 'currency',
+              type: 'int',
+              required: false,
+              description: `币种类型`
+            },
+            {
+              key: 'start_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期开始`
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期结束`
+            },
+            {
+              key: 'rooms',
+              type: 'string',
+              required: false,
+              description: `房间用逗号分隔`
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: `跟进人`
             },
             {
               key: 'state',
               type: 'int',
-              required: true,
-              description: '状态'
-            },
-            {
-              key: 'contract',
-              type: 'int',
-              required: true,
-              description: '合同编号'
-            },
-            {
-              key: 'payer',
-              type: 'int',
-              required: true,
-              description: '付款方'
-            },
-            {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: true,
-              description: '客户id'
-            },
-            {
-              key: 'cost',
-              type: 'int',
-              required: true,
-              description: '费用金额'
-            },
-            {
-              key: 'cost_type',
-              type: 'int',
-              required: true,
-              description: '费用类型'
-            },
-            {
-              key: 'start_ts',
-              type: 'int',
-              required: true,
-              description: '周期开始时间'
-            },
-            {
-              key: 'end_ts',
-              type: 'int',
-              required: true,
-              description: '周期结束时间'
+              required: false,
+              description: `缴费状态`
             },
             {
               key: 'memo',
-              type: 'int',
-              required: true,
-              description: '备注'
+              type: 'string',
+              required: false,
+              description: `备注`
             },
             {
               key: 'create_ts',
-              type: 'int',
-              required: true,
-              description: '创建时间'
+              type: 'timestamp',
+              required: false,
+              description: `创建时间`
             },
             {
-              key: 'customer',
-              type: 'int',
-              required: true,
-              description: '客户名称'
+              key: 'gas_fee',
+              type: 'decimal',
+              required: false,
+              description: `燃气费用`
             },
             {
-              key: 'tb_cost',
-              type: 'int',
-              required: true,
-              description: '费用列支'
+              key: 'other_fee',
+              type: 'decimal',
+              required: false,
+              description: `其他费用`
             }
           ],
           return: [],
           explain: []
         },
         {
-          title: '修改账单',
-          api: 'assets.charge.modify',
+          title: '修改财务收入',
+          api: 'assets.charge.modify ',
           business: [
             {
               key: 'id',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '主键'
             },
             {
-              key: 'log_type',
+              key: 'contract_code',
+              type: 'string',
+              required: false,
+              description: `合同编号`
+            },
+            {
+              key: 'payer',
+              type: 'string',
+              required: false,
+              description: `付款方`
+            },
+            {
+              key: 'customer',
+              type: 'string',
+              required: false,
+              description: `客户`
+            },
+            {
+              key: 'customer_id',
+              type: 'string',
+              required: false,
+              description: `客户id`
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: `联系人`
+            },
+            {
+              key: 'charge',
+              type: 'decimal',
+              required: false,
+              description: `费用金额`
+            },
+            {
+              key: 'charge_type',
               type: 'int',
-              required: true,
-              description: '收支类型'
+              required: false,
+              description: `费用类型`
+            },
+            {
+              key: 'rent',
+              type: 'decimal',
+              required: false,
+              description: `租金`
+            },
+            {
+              key: 'property_fee',
+              type: 'decimal',
+              required: false,
+              description: `物业费`
+            },
+            {
+              key: 'water_fee',
+              type: 'decimal',
+              required: false,
+              description: `水费`
+            },
+            {
+              key: 'electric_fee',
+              type: 'decimal',
+              required: false,
+              description: `电费`
+            },
+            {
+              key: 'heat_fee',
+              type: 'decimal',
+              required: false,
+              description: `暖通费用`
+            },
+            {
+              key: 'currency',
+              type: 'int',
+              required: false,
+              description: `币种类型`
+            },
+            {
+              key: 'start_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期开始`
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期结束`
+            },
+            {
+              key: 'rooms',
+              type: 'string',
+              required: false,
+              description: `房间用逗号分隔`
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: `跟进人`
             },
             {
               key: 'state',
               type: 'int',
-              required: true,
-              description: '状态'
-            },
-            {
-              key: 'contract',
-              type: 'int',
-              required: true,
-              description: '合同编号'
-            },
-            {
-              key: 'payer',
-              type: 'int',
-              required: true,
-              description: '付款方'
-            },
-            {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: true,
-              description: '客户id'
-            },
-            {
-              key: 'cost',
-              type: 'int',
-              required: true,
-              description: '费用金额'
-            },
-            {
-              key: 'cost_type',
-              type: 'int',
-              required: true,
-              description: '费用类型'
-            },
-            {
-              key: 'start_ts',
-              type: 'int',
-              required: true,
-              description: '周期开始时间'
-            },
-            {
-              key: 'end_ts',
-              type: 'int',
-              required: true,
-              description: '周期结束时间'
+              required: false,
+              description: `缴费状态`
             },
             {
               key: 'memo',
-              type: 'int',
-              required: true,
-              description: '备注'
+              type: 'string',
+              required: false,
+              description: `备注`
             },
             {
               key: 'create_ts',
-              type: 'int',
-              required: true,
-              description: '创建时间'
+              type: 'timestamp',
+              required: false,
+              description: `创建时间`
             },
             {
-              key: 'customer',
-              type: 'int',
-              required: true,
-              description: '客户名称'
+              key: 'gas_fee',
+              type: 'decimal',
+              required: false,
+              description: `燃气费用`
             },
             {
-              key: 'tb_cost',
-              type: 'int',
-              required: true,
-              description: '费用列支'
+              key: 'other_fee',
+              type: 'decimal',
+              required: false,
+              description: `其他费用`
             }
           ],
           return: [],
           explain: []
         },
         {
-          title: '删除账单',
+          title: '删除财务收入',
           api: 'assets.charge.remove',
           business: [
             {
               key: 'id',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '主键'
             }
           ],
           return: [],
           explain: []
         },
         {
-          title: '获取账单列表',
+          title: '获取财务收入列表',
           api: 'assets.charge.get_list',
           business: [
             {
-              key: 'id',
+              key: 'page_no',
               type: 'int',
               required: true,
-              description: '客户id'
+              description: '页码'
+            },
+            {
+              key: 'page_size',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            {
+              key: 'contract_code',
+              type: 'string',
+              required: false,
+              description: `合同编号`
+            },
+            {
+              key: 'payer',
+              type: 'string',
+              required: false,
+              description: `付款方`
+            },
+            {
+              key: 'customer',
+              type: 'string',
+              required: false,
+              description: `客户`
+            },
+            {
+              key: 'customer_id',
+              type: 'string',
+              required: false,
+              description: `客户id`
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: `联系人`
+            },
+            {
+              key: 'charge',
+              type: 'decimal',
+              required: false,
+              description: `费用金额`
+            },
+            {
+              key: 'charge_type',
+              type: 'int',
+              required: false,
+              description: `费用类型`
+            },
+            {
+              key: 'rent',
+              type: 'decimal',
+              required: false,
+              description: `租金`
+            },
+            {
+              key: 'property_fee',
+              type: 'decimal',
+              required: false,
+              description: `物业费`
+            },
+            {
+              key: 'water_fee',
+              type: 'decimal',
+              required: false,
+              description: `水费`
+            },
+            {
+              key: 'electric_fee',
+              type: 'decimal',
+              required: false,
+              description: `电费`
+            },
+            {
+              key: 'heat_fee',
+              type: 'decimal',
+              required: false,
+              description: `暖通费用`
+            },
+            {
+              key: 'currency',
+              type: 'int',
+              required: false,
+              description: `币种类型`
+            },
+            {
+              key: 'start_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期开始`
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期结束`
+            },
+            {
+              key: 'rooms',
+              type: 'string',
+              required: false,
+              description: `房间用逗号分隔`
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: `跟进人`
             },
             {
               key: 'state',
               type: 'int',
-              required: true,
-              description: '缴费状态'
+              required: false,
+              description: `缴费状态`
             },
             {
-              key: 'start_ts',
-              type: 'int',
-              required: true,
-              description: '计费周期开始'
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: `备注`
             },
             {
-              key: 'end_ts',
-              type: 'int',
-              required: true,
-              description: '计费周期结束'
+              key: 'create_ts',
+              type: 'timestamp',
+              required: false,
+              description: `创建时间`
             },
             {
-              key: 'customer',
-              type: 'int',
-              required: true,
-              description: '客户'
+              key: 'gas_fee',
+              type: 'decimal',
+              required: false,
+              description: `燃气费用`
+            },
+            {
+              key: 'other_fee',
+              type: 'decimal',
+              required: false,
+              description: `其他费用`
             }
           ],
           return: [
@@ -3090,110 +2884,146 @@ export default {
               key: 'list',
               type: 'json array',
               required: true,
-              description: '费用列支列表'
+              description: '客户列表'
             }
           ],
           explain: [
             {
-              key: 'id',
-              type: 'int',
-              required: true,
-              description: '客户id'
+              key: 'contract_code',
+              type: 'string',
+              required: false,
+              description: `合同编号`
             },
             {
-              key: 'log_type',
+              key: 'payer',
+              type: 'string',
+              required: false,
+              description: `付款方`
+            },
+            {
+              key: 'customer',
+              type: 'string',
+              required: false,
+              description: `客户`
+            },
+            {
+              key: 'customer_id',
+              type: 'string',
+              required: false,
+              description: `客户id`
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: `联系人`
+            },
+            {
+              key: 'charge',
+              type: 'decimal',
+              required: false,
+              description: `费用金额`
+            },
+            {
+              key: 'charge_type',
               type: 'int',
-              required: true,
-              description: '收支类型'
+              required: false,
+              description: `费用类型`
+            },
+            {
+              key: 'rent',
+              type: 'decimal',
+              required: false,
+              description: `租金`
+            },
+            {
+              key: 'property_fee',
+              type: 'decimal',
+              required: false,
+              description: `物业费`
+            },
+            {
+              key: 'water_fee',
+              type: 'decimal',
+              required: false,
+              description: `水费`
+            },
+            {
+              key: 'electric_fee',
+              type: 'decimal',
+              required: false,
+              description: `电费`
+            },
+            {
+              key: 'heat_fee',
+              type: 'decimal',
+              required: false,
+              description: `暖通费用`
+            },
+            {
+              key: 'currency',
+              type: 'int',
+              required: false,
+              description: `币种类型`
+            },
+            {
+              key: 'start_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期开始`
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: false,
+              description: `计费周期结束`
+            },
+            {
+              key: 'rooms',
+              type: 'string',
+              required: false,
+              description: `房间用逗号分隔`
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: `跟进人`
             },
             {
               key: 'state',
               type: 'int',
-              required: true,
-              description: '状态'
-            },
-            {
-              key: 'contract',
-              type: 'int',
-              required: true,
-              description: '合同编号'
-            },
-            {
-              key: 'payer',
-              type: 'int',
-              required: true,
-              description: '付款方'
-            },
-            {
-              key: 'contacter',
-              type: 'int',
-              required: true,
-              description: '联系人'
-            },
-            {
-              key: 'receiver',
-              type: 'int',
-              required: true,
-              description: '跟进人'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: true,
-              description: '客户id'
-            },
-            {
-              key: 'cost',
-              type: 'int',
-              required: true,
-              description: '费用金额'
-            },
-            {
-              key: 'cost_type',
-              type: 'int',
-              required: true,
-              description: '费用类型'
-            },
-            {
-              key: 'start_ts',
-              type: 'int',
-              required: true,
-              description: '周期开始时间'
-            },
-            {
-              key: 'end_ts',
-              type: 'int',
-              required: true,
-              description: '周期结束时间'
+              required: false,
+              description: `缴费状态`
             },
             {
               key: 'memo',
-              type: 'int',
-              required: true,
-              description: '备注'
+              type: 'string',
+              required: false,
+              description: `备注`
             },
             {
               key: 'create_ts',
-              type: 'int',
-              required: true,
-              description: '创建时间'
+              type: 'timestamp',
+              required: false,
+              description: `创建时间`
             },
             {
-              key: 'customer',
-              type: 'int',
-              required: true,
-              description: '客户名称'
+              key: 'gas_fee',
+              type: 'decimal',
+              required: false,
+              description: `燃气费用`
             },
             {
-              key: 'tb_cost',
-              type: 'int',
-              required: true,
-              description: '费用列支'
+              key: 'other_fee',
+              type: 'decimal',
+              required: false,
+              description: `其他费用`
             }
           ]
         },
         {
-          title: '获取账单详情',
+          title: '获取财务收入信息',
           api: 'assets.charge.get_info',
           business: [
             {
@@ -3211,117 +3041,40 @@ export default {
 
     this.testData = [
       {
+        index: 1,
+        title: '资产管理模块',
+        content: [park, building]
+      },
+      {
+        index: 2,
+        title: '招商管理模块',
+        content: [kehgl]
+      },
+      {
         index: 3,
+        title: '合同管理模块',
+        content: []
+      },
+      {
+        index: 4,
+        title: '企业进退驻管理模块',
+        content: []
+      },
+      {
+        index: 5,
         title: '物业服务模块',
-        content: [sibjc, baoxgl, tousgl, feiycj, kehgl, park, building, charge, cost]
+        content: [sibjc, baoxgl, tousgl, feiycj]
+      },
+      {
+        index: 6,
+        title: '财务管理模块',
+        content: [feiyonglz, caiwusr]
       }
     ]
   },
   watch: {
   },
   methods: {
-    // API接口测试
-    API_test () {
-      let api = this.$urls.park.add
-      let params2 = {
-        // domain_id: 317,
-        address: '协力大厦',
-        estate_property: '1',
-        usage: '1',
-        complete_ts: '2019-11-07T04:55:20.176Z',
-        acquire_way: 1,
-        capital: 1,
-        detail: '1',
-        attached: {},
-        memo: '1',
-        name: '西岗2',
-        built_area: 10000,
-        total_invest: 8000,
-        property: '',
-        contacter: '',
-        contact: '',
-        state: 1,
-        cover_area: 12000,
-        actual_invest: 9000
-
-      }
-      let params = {
-        page_size: 999,
-        page_no: 1
-      }
-      let params3 = {
-        domain_id: 464
-      }
-      let params4 = {
-        pid: 454,
-        name: '测试房间1',
-        info: {},
-        code: 111,
-        domain_memo: '',
-        room_property: 1,
-        is_rentable: false,
-        state: 1,
-        room_usage: 0,
-        decoration_standard: 0,
-        area: 300,
-        direction: 2,
-        estate_property: '1',
-        usage: '1',
-        acquire_way: '1',
-        acquire_ts: '2019-11-07T04:55:20.176Z',
-        is_flue: false,
-        floor_height: 10,
-        bearing: 10000,
-        attached: {},
-        memo: ''
-
-      }
-
-      if (this.API_input) {
-        api = this.API_input
-      }
-      if (this.API_textarea2) {
-        params = JSON.parse(this.API_textarea2)
-      }
-
-      this.$https.post(api, params2).then((res) => {
-        this.$message(res.msg)
-        this.API_textarea = JSON.stringify(res, null, 2)
-        if (res.code !== 1000) {
-          this.API_textarea = JSON.stringify({
-            err: res.err,
-            msg: res.msg,
-            track: res.track
-          })
-        }
-        // console.log(this.API_textarea)
-      })
-    },
-    showfile () {
-      console.log(this.fileList)
-    },
-    drawer () {
-      this.drawerState = true
-    },
-    submitUpload () {
-      // this.$refs.upload.submit();
-      this.$https.post('http://192.168.0.231:3000/upload', {}).then((res) => {
-        // console.log(res)
-      })
-    },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview (file) {
-      console.log(file)
-    },
-    handleBeforeUpload (file) {
-      // console.log(file, 'handleBeforeUpload')
-      return true
-    },
-    handleSuccess (response, file, fileList) {
-      // console.log(response, file, fileList)
-    }
   }
 }
 </script>

@@ -8,6 +8,8 @@ const uploadUrl = domin + 'upload'
 const api = {
   // 获取域树
   tree: `account.domain.get_tree`,
+  // 修改密码
+  reste_password: `account.user.reset_pass`,
 
   // 上传文件
   upload: uploadUrl,
