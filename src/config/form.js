@@ -163,7 +163,7 @@ const addBuildForm = [
       {
         type: 'input',
         label: '楼宇名称',
-        key: 'i',
+        key: 'name',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -172,7 +172,7 @@ const addBuildForm = [
       {
         type: 'input',
         label: '建筑面积',
-        key: 'i2',
+        key: 'area',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -225,7 +225,7 @@ const addBuildForm = [
       {
         type: 'upload-img',
         label: '楼宇图片',
-        key: 'u1',
+        key: 'attached',
         placeholder: '请输入'
         // rule: [
         //   { required: true, message: '请输入', trigger: 'blur' },

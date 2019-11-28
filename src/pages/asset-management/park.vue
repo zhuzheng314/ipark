@@ -140,7 +140,7 @@
         <ParkForm
           ref="parkForm"
           @onSubmit="handleAddPark"
-          :formList="addContractFormList"
+          :formList="$formsLabels.addParkForm"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -153,7 +153,8 @@
     >
       <div>
         <ParkForm
-          ref="parkForm"
+          ref="buildForm"
+          @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :itemList="[]">
         </ParkForm>
@@ -502,7 +503,11 @@ export default {
     handleAddBuild () {
       this.addShowBuild = true
     },
-    fetchParkList () {
+    fetchAddBuild (data) {
+      console.log(data)
+      this.$store.dispatch('addBuild', data)
+    },
+    fetchParkList (data) {
       this.$store.dispatch('getParkList', { page_no: 1,
         page_size: 20 }).then(res => {
       })
