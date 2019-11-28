@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <el-select  size="small"
                     multiple
-                    v-model="value" placeholder="设备类型">
+                    v-model="value1" placeholder="设备类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -24,7 +24,7 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value">
+          v-model="value3">
         </el-input>
       </div>
       <div>
@@ -125,8 +125,9 @@ export default {
           label: '暖通空调'
         }
       ],
-      value: '',
+      value1: '',
       value2: '',
+      value3: '',
       equipmentInfoState: false,
       equipmentInfo_header: {
         title: '',

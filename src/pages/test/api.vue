@@ -1712,6 +1712,12 @@ export default {
               description: '来访时间'
             },
             {
+              key: 'update_ts',
+              type: 'timestamp',
+              required: true,
+              description: '最近联络时间'
+            },
+            {
               key: 'receiver',
               type: 'string',
               required: true,

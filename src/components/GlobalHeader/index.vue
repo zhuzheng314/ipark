@@ -132,6 +132,7 @@ export default {
   },
   data () {
     return {
+      form: '',
       passwordForm: {
         password1: '',
         password2: '',
@@ -219,6 +220,12 @@ export default {
         })
       }
     }
+  },
+  created () {
+    this.$store.dispatch('getParkList', {
+      page_no: 1,
+      page_size: 20
+    })
   }
 }
 </script>

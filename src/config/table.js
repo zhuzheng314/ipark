@@ -1,35 +1,35 @@
 // 客户管理
 const businessCustomer = [
   {
-    prop: 'a',
+    prop: 'name',
     label: '客户名称'
   },
   {
-    prop: 'b',
+    prop: 'state',
     label: '进度阶段'
   },
   {
-    prop: 'c',
+    prop: 'info_source',
     label: '来源渠道'
   },
   {
-    prop: 'd',
+    prop: 'demand_area',
     label: '需求面积段'
   },
   {
-    prop: 'e',
+    prop: 'status',
     label: '行业'
   },
   {
-    prop: 'f',
+    prop: 'update_ts',
     label: '最近联络时间'
   },
   {
-    prop: 'g',
+    prop: 'contacter',
     label: '联络人'
   },
   {
-    prop: 'h',
+    prop: 'contact',
     label: '联系方式'
   },
   {
@@ -37,7 +37,7 @@ const businessCustomer = [
     label: '预计签约时间'
   },
   {
-    prop: 'j',
+    prop: 'receiver',
     label: '跟进人'
   }
 ]

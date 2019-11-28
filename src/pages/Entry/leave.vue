@@ -6,7 +6,7 @@
         <el-select  size="small"
                     multiple
                     style="width: 180px; margin-right: 15px"
-                    v-model="value"
+                    v-model="value1"
                     placeholder="所属园区">
           <el-option
             v-for="item in options1"
@@ -18,7 +18,7 @@
         <el-select  size="small"
                     multiple
                     style="width: 180px; margin-right: 15px"
-                    v-model="value"
+                    v-model="value2"
                     placeholder="审批状态">
           <el-option
             v-for="item in options2"
@@ -42,7 +42,7 @@
           size="small"
           style="width: 180px; margin-right: 15px"
           prefix-icon="el-icon-search"
-          v-model="value">
+          v-model="value3">
         </el-input>
 
         <el-button
@@ -216,7 +216,9 @@ export default {
         }
       ],
       date: [],
-      value: '',
+      value1: '',
+      value2: '',
+      value3: '',
       stackedAreaOptions: {},
       addContractVisible: false,
       // addContractFormList: [

@@ -3,7 +3,7 @@
     <el-card style="width: 100%">
       <div slot="header">
         <el-select  size="small"
-                    v-model="value2" placeholder="工单状态">
+                    v-model="value1" placeholder="工单状态">
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -17,7 +17,7 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value">
+          v-model="value2">
         </el-input>
 
         <el-button
@@ -155,7 +155,7 @@ export default {
         label: '待解决'
       }
       ],
-      value: '',
+      value1: '',
       value2: '',
       addContractVisible: false,
       // addContractFormList: [
