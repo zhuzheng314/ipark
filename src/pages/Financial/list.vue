@@ -535,23 +535,19 @@ export default {
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
+    },
+    fetchCostList () { // 获取费用列支列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.cost.get_list, params).then((res) => {
+        console.log(res)
+      })
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '$20000',
-          type: '收款',
-          status: '未缴',
-          moneyType: '水费'
-        }
-      )
-    })
+    this.fetchCostList()
     // console.log(this.yearList)
   }
 }

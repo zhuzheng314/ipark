@@ -400,22 +400,19 @@ export default {
     },
     workOrderState () {
       this.workOrderInfoState = true
+    },
+    fetchComplaintList () { // 获取投诉管理列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.complaint.get_list, params).then((res) => {
+        console.log(res)
+      })
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: '奇点云' + item,
-          b: '刘涛' + item,
-          c: '1779999999' + item,
-          s: item % 2 === 0 ? '已解决' : '待解决',
-          t: '2019-11-11',
-          e: '已解决',
-          adress: '梦想小镇7幢705'
-        }
-      )
-    })
+    this.fetchComplaintList()
     // console.log(this.yearList)
   }
 }

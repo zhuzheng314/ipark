@@ -210,23 +210,19 @@ export default {
 
       this.equipmentInfoState = true
     },
-    handleClose () {}
+    handleClose () {},
+    fetchEquipList () { // 获取四表集抄列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.equip.get_list, params).then((res) => {
+        console.log(res)
+      })
+    }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: 'xxx-xx-' + item,
-          b: '楼' + item,
-          c: item + '01',
-          d: item % 2 === 0 ? 'xxx型号' : 'yyy型号',
-          e: '水表',
-          f: item % 2 === 0 ? '已缴' : '未缴',
-          g: '刘涛',
-          t: '2019-11-02'
-        }
-      )
-    })
+    this.fetchEquipList()
     // console.log(this.yearList)
   }
 }

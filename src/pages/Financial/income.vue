@@ -542,24 +542,20 @@ export default {
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
+    },
+    fetchChargeList () { // 获取财务收入列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.charge.get_list, params).then((res) => {
+        console.log(res)
+        // this.tableData = res.list
+      })
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: item % 2 === 0 ? '物业收入' : '租金收入',
-          b: item % 2 === 0 ? '裴仕颉' : '赵阳',
-          c: item % 2 === 0 ? '2019-10-14' : '-',
-          d: 10000 + item,
-          e: item % 2 === 0 ? '美元' : '人民币',
-          f: item % 2 === 0 ? '已缴费' : '未缴费',
-          g: 'xxxx-xxxx',
-          h: 10000 + item,
-          i: item % 2 === 0 ? '裴仕颉' : '赵阳'
-        }
-      )
-    })
+    this.fetchChargeList()
     // console.log(this.yearList)
   }
 }

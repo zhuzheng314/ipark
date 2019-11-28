@@ -581,9 +581,19 @@ export default {
     },
     test (page) {
       console.log(page)
+    },
+    fetchCustomerList () { // 获取客户列表
+      let params = {
+        page_no: 1,
+        page_size: 999
+      }
+      this.$https.post(this.$urls.customer.get_list, params).then((res) => {
+        console.log(res)
+      })
     }
   },
   created () {
+    this.fetchCustomerList();
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
       this.tableData.push(
         {
