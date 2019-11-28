@@ -38,7 +38,7 @@
       </el-table>
     </div>
     <div v-if="type==3">
-      <div class="bodyCard-text">{{data.info}}</div>
+      <div class="bodyCard-text">{{data.info ? data.info : '暂无备注'}}</div>
     </div>
   </el-card>
 </div>

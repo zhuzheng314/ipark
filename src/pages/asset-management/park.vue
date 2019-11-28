@@ -5,90 +5,85 @@
         <i class="el-icon-plus"></i> 添加园区
       </div>
       <div class="left-list">
-        <div class="item" :key="index + 'leftcard'" v-for="(item, index) in fakerList">
-          <img class="pic" :src="item.img">
-          <div class="cont">
-            <div class="title">{{item.name}}</div>
-            <div class="value">{{item.value}}㎡</div>
+        <div class="item"
+             :class="{ active: item.domain_id === $store.state.header.activePark.domain_id}"
+             :key="index + 'leftcard'" v-for="(item, index) in $store.state.header.parkList">
+          <div class="inner" @click="handleParkClick(index, item)">
+            <img class="pic" :src="item.attached[0] && item.attached[0].url">
+            <div class="cont">
+              <div class="title">{{item.name || '-'}}</div>
+              <div class="value">{{item.cover_area || '-'}}㎡</div>
+            </div>
           </div>
-          <div class="devide"></div>
+          <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
         </div>
       </div>
     </div>
     <div class="right">
       <el-card style="margin-bottom: 10px">
-        <div style="color: #666; font-size: 16px; margin-bottom: 20px">西港发展中心</div>
+        <div style="color: #666; font-size: 16px;" slot="header">西港发展中心</div>
         <div>
-          <div v-for="(item, index) in cardImgList" :key="index + 'imgcard'" class="imgCard" :style="{background: item.background}">
-            <div class="imgCard-icon">
-              <img :src="item.icon" alt="">
-            </div>
-            <div class="value">{{item.value}}</div>
-            <div class="name">{{item.name}}</div>
-          </div>
+          <InfoBox
+            style="float: left; margin:0 40px 10px 15px"
+            v-for="(item, index) in infoBoxData" :type='item.type'
+            :key="'info' + index"
+            :data="item"
+          ></InfoBox>
           <div style="clear: both"></div>
         </div>
-        <el-row>
-          <el-col :span="12">
-            <div class="detail">
-              <div :key="'detail' + index" v-for="(item, index) in detail" class="item">
-                <div class="title">
-                  {{item.name}}
-                </div>
-                <div class="value">
-                  {{item.value}}
-                </div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="detail">
-              <div :key="'itemi'+index" v-for="(item,index) in detail" class="item">
-                <div class="title">
-                  {{item.name}}
-                </div>
-                <div class="value">
-                  {{item.value}}
+        <el-divider></el-divider>
+        <div style="margin-top: -10px">
+          <el-row>
+            <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
+              <div class="detail">
+                <div class="item">
+                  <div class="title">
+                    {{item.name}}:
+                  </div>
+                  <div class="value">
+                    {{item.value + item.unit}}
+                  </div>
                 </div>
               </div>
-            </div>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </div>
 
-      </el-card>
-
-      <el-card style="margin-bottom: 10px">
-
-        <el-input
-          placeholder="搜索楼宇"
-          style="width: 180px; margin-right: 15px"
-          prefix-icon="el-icon-search"
-          v-model="value">
-        </el-input>
-
-        <el-select
-            multiple
-            style="width: 180px; margin-right: 15px"
-            v-model="value"
-            placeholder="出租率">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-
-        <el-button
-          style="float: right;"
-          type="primary"
-          icon="el-icon-plus"
-          @click="handleAdd"
-        >新增楼宇</el-button>
-        <div class="clearfix"></div>
       </el-card>
 
       <el-card>
+        <div slot="header">
+          <el-input
+            size="small"
+            placeholder="搜索楼宇"
+            style="width: 180px; margin-right: 15px"
+            prefix-icon="el-icon-search"
+            v-model="value">
+          </el-input>
+
+          <el-select
+            multiple
+            size="small"
+            style="width: 180px; margin-right: 15px"
+            v-model="value"
+            placeholder="出租率">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+
+          <el-button
+            style="float: right;"
+            size="small"
+            type="primary"
+            icon="el-icon-plus"
+            @click="handleAddBuild"
+          >新增楼宇</el-button>
+          <div class="clearfix"></div>
+        </div>
         <el-table
           ref="filterTable"
           :data="tableData"
@@ -143,16 +138,27 @@
     >
       <div>
         <ParkForm
-          ref="tt"
-          :formList="addContractFormList"
+          ref="parkForm"
+          @onSubmit="handleAddPark"
+          :formList="$formsLabels.addParkForm"
           :itemList="[]">
         </ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">ccc</el-button>
-        <el-button type="primary" @click="test(222)">222</el-button>
-      </span>
 
+    </el-dialog>
+    <el-dialog
+      title="添加楼宇"
+      :visible.sync="addShowBuild"
+      width="600px"
+    >
+      <div>
+        <ParkForm
+          ref="buildForm"
+          @onSubmit="fetchAddBuild"
+          :formList="$formsLabels.addBuildForm"
+          :itemList="[]">
+        </ParkForm>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -165,12 +171,105 @@ export default {
   data () {
     return {
       addShow: false,
+      addShowBuild: false,
       fakerList: [],
       tableData: [],
-      detail: [
-        { name: '经营公司', value: '科创中心' },
-        { name: '账务账套', value: '杭州账套' },
-        { name: '介绍', value: '发展中心发展中心发展中心发展中心发展中心发展中心' }
+      infoBoxData: [
+        {
+          type: 0,
+          title: {
+            name: '管理面积',
+            note: '测试文本'
+          },
+          value: {
+            value: 20311400.3,
+            unit: '㎡',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '总房源数量',
+            value: 22,
+            unit: '间'
+          }
+        },
+        {
+          type: 'num',
+          title: {
+            name: '出租率',
+            note: '测试文本'
+          },
+          value: {
+            value: 55,
+            unit: '%',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '本月签约面积',
+            value: 22,
+            unit: '㎡'
+          }
+        },
+        {
+          type: 'num',
+          title: {
+            name: '在租实时均价',
+            note: '测试文本'
+          },
+          value: {
+            value: 2,
+            unit: '元/㎡·天',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '本月签约均价',
+            value: 0,
+            unit: '元/㎡·天'
+          }
+        },
+        {
+          type: 0,
+          title: {
+            name: '可招商面积',
+            note: '测试文本'
+          },
+          value: {
+            value: 20311400.3,
+            unit: '㎡',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '可招商房间',
+            value: 22,
+            unit: '间'
+          }
+        },
+        {
+          type: 'chart',
+          title: {
+            name: '当前计租率',
+            note: '测试文本'
+          },
+          value: {
+            value: 22.3,
+            unit: '%',
+            chart: 0.24
+          },
+          subtitle: {
+            name: '预计全年计租率',
+            value: 22,
+            unit: '%'
+          }
+        }
+      ],
+      parkInfo: [
+        { name: '产权', value: '', key: 'capital', unit: '' },
+        { name: '地理位置', value: '', key: 'address', unit: '' },
+        { name: '联系电话', value: '', key: 'contact', unit: '' },
+        { name: '占地面积', value: '', key: 'cover_area', unit: '㎡' },
+        { name: '建筑面积', value: '', key: 'built_area', unit: '㎡' },
+        { name: '总投资额', value: '', key: 'total_invest', unit: 'w' },
+        { name: '实际投资', value: '', key: 'actual_invest', unit: 'w' },
+        { name: '园区定位', value: '', key: 'usage', unit: '' }
       ],
       cardImgList: [
         { name: '体量 ㎡', value: '11111', imgUrl: require('@/assets/img/park/area.png'), icon: require('@/assets/img/park/icon1.png'), background: '#838CC7' },
@@ -201,7 +300,7 @@ export default {
             {
               type: 'input',
               label: '园区名称',
-              key: 'i',
+              key: 'name',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '该项为必填', trigger: 'blur' }
@@ -209,8 +308,26 @@ export default {
             },
             {
               type: 'input',
-              label: '建筑面积',
-              key: 'i2',
+              label: '园区地址',
+              key: 'address',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '产权',
+              key: 'capital',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '建筑面积(㎡)',
+              key: 'built_area',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '该项为必填', trigger: 'blur' }
@@ -218,9 +335,29 @@ export default {
               ]
             },
             {
-              type: 'input',
-              label: '总投资',
-              key: 'i3',
+              type: 'input-num',
+              label: '占地面积(㎡)',
+              key: 'cover_area',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '该项为必填', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '总投资:万元',
+              key: 'total_invest',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '实际投资:万元',
+              key: 'actual_invest',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -230,17 +367,16 @@ export default {
             {
               type: 'input',
               label: '所属物业',
-              key: 'i4',
-              placeholder: '请输入租客名称',
+              key: 'property',
+              placeholder: '请输入',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
                 // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             },
             {
               type: 'input',
               label: '园区联系人',
-              key: 'i4',
+              key: 'contacter',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -250,7 +386,17 @@ export default {
             {
               type: 'input',
               label: '园区联系电话',
-              key: 'i4',
+              key: 'contact',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入租客名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '园区定位',
+              key: 'usage',
               placeholder: '请输入',
               rule: [
                 { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -260,34 +406,33 @@ export default {
             {
               type: 'select',
               label: '园区状态',
-              key: 'u2',
+              key: 'state',
               placeholder: '请输入',
               options: [
                 {
                   label: '在建',
-                  value: 's1'
+                  value: 1
                 },
                 {
                   label: '招商',
-                  value: 's1'
+                  value: 2
                 },
                 {
                   label: '运营',
-                  value: 's1'
+                  value: 3
                 },
                 {
                   label: '其他',
-                  value: 's1'
+                  value: 4
                 }
               ],
               rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
               ]
             },
             {
               type: 'textarea',
               label: '园区描述',
-              key: 'i5',
+              key: 'detail',
               placeholder: '请输入',
               rule: [
                 // { required: true, message: '请输入', trigger: 'blur' },
@@ -297,16 +442,16 @@ export default {
             {
               type: 'upload-img',
               label: '园区图片',
-              key: 'u1',
+              key: 'attached',
               placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
             }
           ]
         }
-      ]
+      ],
+      buildIndex: 0,
+      parkList: [],
+      buildingList: [],
+      activePark: ''
     }
   },
   methods: {
@@ -317,10 +462,101 @@ export default {
     handleAdd () {
       this.addShow = true
     },
-    test (a) {
-      console.log(this.$refs.tt)
-      // this.$refs.tt.handleValidate()
-      this.$refs.tt.onSubmit()
+    handleParkClick (index, park) {
+      console.log(park)
+      this.buildIndex = index
+      this.$store.commit('commitActivePark', park)
+      this.fetchParkInfo(park)
+      this.fetchBuildList(park)
+    },
+    handleAddPark (data) {
+      this.$https.post(this.$urls.park.add, {
+        ...data
+      }).then(res => {
+        console.log(res)
+        if (res.code === 1000) {
+          this.fetchParkList()
+          this.$message.success('新增园区成功')
+          this.addShow = false
+        }
+      })
+    },
+    handleRemovePark (park) {
+      this.$confirm('此操作将永久删除该园区, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      })
+        .then(() => {
+          this.$https.post(this.$urls.park.remove, {
+            domain_id: park.domain_id
+          }).then(res => {
+            if (res.code === 1000) {
+              this.$message.success('删除成功')
+              this.$store.dispatch('getParkList', { page_no: 1,
+                page_size: 20 }).then(res => {
+              })
+            }
+          })
+        })
+    },
+    handleAddBuild () {
+      this.addShowBuild = true
+    },
+    fetchAddBuild (data) {
+      console.log(data)
+      this.$store.dispatch('addBuild', data)
+    },
+    fetchParkList (data) {
+      this.$store.dispatch('getParkList', { page_no: 1,
+        page_size: 20 }).then(res => {
+      })
+    },
+    fetchParkInfo (park) {
+      this.$https.post(this.$urls.park.get_info, {
+        domain_id: park.domain_id
+      }).then(res => {
+        let parkInfo = this._.cloneDeep(this.parkInfo)
+        if (res.code === 1000) {
+          parkInfo.forEach((x, index) => {
+            Object.keys(res).forEach(y => {
+              if (y === x.key) {
+                parkInfo[index].value = res[y]
+              }
+            })
+          })
+        }
+        this.parkInfo = parkInfo
+        this.activePark = res
+      })
+    },
+    fetchBuildList (park) {
+      this.$https.post(this.$urls.building.get_list, {
+        page_no: 1,
+        page_size: 20,
+        domain_id: park.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.buildingList = res.list
+        }
+      })
+    },
+    fetchTreeList () {
+      this.$https.post(this.$urls.park.get_tree_list, {
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
+        if (res.code === 1000) {
+        }
+      })
+    },
+    fetchRemovePark (park) {
+      this.$https.post(this.$urls.park.remove, {
+        domain_id: park.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+        }
+      })
     }
   },
   mounted () {
@@ -341,9 +577,9 @@ export default {
     for (let i = 0; i < 10; i++) {
       this.fakerList.push({ name: '新港.新界', img: require('@/assets/img/park/listhead.png'), value: 1000 })
     }
-    this.$https.post('https://service.iot1234.com:2443/api/assets.park.get_list', {}).then((res) => {
-      console.log(res)
-    })
+    this.fetchParkList()
+    this.fetchTreeList()
+    console.log(this.$store)
   }
 }
 </script>
@@ -351,25 +587,26 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .park{
-  display: flex;
+  /*display: flex;*/
   width: 100%;
   height: 100%;
   * {
     box-sizing: border-box;
   }
   .left{
+    float:left;
     height: 100%;
     margin-right: 10px;
     width: 250px;
     /*padding: 0 10px;*/
     &-btn{
-      width:250px;
-      height:66px;
+      width:100%;
+      height:50px;
       background:rgba(255,255,255,1);
       border:1px solid rgba(63,177,227,1);
       box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
       margin-bottom: 10px;
-      line-height: 66px;
+      line-height: 50px;
       color: rgba(63,177,227,1);
       text-align: center;
       font-size: 16px;
@@ -381,45 +618,74 @@ export default {
     &-list{
       cursor: pointer;
       width: 100%;
-      background-color: white;
       height: calc(~"100% - 20px");
-      border-radius: 4px;
+      border-radius: 6px;
       box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
       overflow-y: scroll;
       .item{
         position: relative;
-        height:86px;
+        height:80px;
         width: 100%;
         background:rgba(255,255,255,1);
-        padding: 20px 16px;
-        .pic{
-          width: 80px;
-          height: 52px;
-          float: left;
-          margin-right: 10px;
+        .inner{
+          margin: 0 auto;
+          padding-top: 16px;
+          width: calc(~"100% - 40px");
+          height: 80px;
+          border-bottom: 1px solid #d0d0d0;
+          overflow: hidden;
+          .pic{
+            width: 80px;
+            height: 52px;
+            float: left;
+            margin-right: 10px;
+          }
+          .cont{
+            float: left;
+            .title{
+              font-size: 16px;
+              color: #666;
+              margin-bottom: 15px;
+              line-height: 16px;
+            }
+            .value{
+              font-size: 14px;
+              line-height: 14px;
+              color: #999;
+            }
+          }
+        }
+        .el-icon-delete{
+          position: absolute;
+          right: 10px;
+          top: 45%;
+          display: none;
+        }
+      }
+      .item:hover{
+        background-color:  rgba(63,177,227,.5);
+        .inner{
+          border: none;
         }
         .cont{
-          float: left;
-          .title{
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 18px;
-            line-height: 18px;
-          }
-          .value{
-            font-size: 14px;
-            line-height: 14px;
-            color: #999;
+          .title, .value{
+            color: white;
           }
         }
-        .devide{
-          position: absolute;
-          left: 10px;
-          bottom: 0;
-          height: 1px;
-          /*background-color: #c6cad9;*/
-          border-bottom: 1px solid #c6cad9;
-          width: 230px;
+        .el-icon-delete{
+          color: white;
+          display: block;
+        }
+      }
+      .active.item{
+        background-color: rgba(63,177,227,1);
+        .inner{
+          border: none;
+        }
+        .cont{
+          .title, .value{
+            color: white !important;
+          }
         }
       }
     }
@@ -449,7 +715,8 @@ export default {
       }
     }
     .detail{
-      margin-top: 20px;
+      margin-top: 10px;
+      padding-left: 10px;
       .item{
         height: 16px;
         line-height: 16px;

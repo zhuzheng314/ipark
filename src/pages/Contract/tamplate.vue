@@ -31,37 +31,46 @@
       >新建合同模板</el-button>
     </el-card>
     <el-card>
-      <el-table
-        :data="tableData"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="模板编号">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="模板名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="模板类型">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="状态">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="模板描述">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="操作">
-          <template>
-            <el-button type="text">下载</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+<!--      <el-table-->
+<!--        :data="tableData"-->
+<!--        style="width: 100%">-->
+<!--        <el-table-column-->
+<!--          prop="a"-->
+<!--          label="模板编号">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="b"-->
+<!--          label="模板名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="c"-->
+<!--          label="模板类型">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="d"-->
+<!--          label="状态">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          label="模板描述">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          label="操作">-->
+<!--          <template>-->
+<!--            <el-button type="text">下载</el-button>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--      </el-table>-->
+<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
+<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
+<!--      </div>-->
+
+      <GTable
+        @row-click="contractState"
+        :tableLabel="$tableLabels.contractTamplate"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog
@@ -70,7 +79,7 @@
       width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="[]" :itemList="tamplateFormList"></ParkForm>
+        <ParkForm :formList="[]" :itemList="$formsLabels.tamplateForm"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -96,70 +105,85 @@ export default {
       yearList: [
       ],
       options: [{
-        value: '选项1',
-        label: '黄金糕'
+        label: '房屋租赁',
+        value: 's1'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        label: '物业保洁',
+        value: 's2'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        label: '花木租赁',
+        value: 's3'
       }, {
-        value: '选项4',
-        label: '龙须面'
+        label: '场地租赁',
+        value: 's4'
       }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        label: '设备租赁',
+        value: 's5'
+      }, {
+        label: '其他',
+        value: 's6'
       }],
       value: '',
-      addContractVisible: false,
-      tamplateFormList: [
-        {
-          type: 'select',
-          label: '模板类型',
-          key: 'tamplate',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请选择', trigger: 'change' }
-          ],
-          options: [
-            {
-              label: '美食',
-              value: 's1'
-            }, {
-              label: '美食美食',
-              value: 's2'
-            }
-          ]
-        }, {
-          type: 'input',
-          label: '模板名称',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请输入模板名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'textarea',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'upload',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }
-      ]
+      addContractVisible: false
+      // tamplateFormList: [
+      //   {
+      //     type: 'select',
+      //     label: '模板类型',
+      //     key: 'tamplate',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '请选择', trigger: 'change' }
+      //     ],
+      //     options: [
+      //       {
+      //         label: '房屋租赁',
+      //         value: 's1'
+      //       }, {
+      //         label: '物业保洁',
+      //         value: 's2'
+      //       }, {
+      //         label: '花木租赁',
+      //         value: 's3'
+      //       }, {
+      //         label: '场地租赁',
+      //         value: 's4'
+      //       }, {
+      //         label: '设备租赁',
+      //         value: 's5'
+      //       }, {
+      //         label: '其他',
+      //         value: 's6'
+      //       }
+      //     ]
+      //   }, {
+      //     type: 'input',
+      //     label: '模板名称',
+      //     key: 'i',
+      //     placeholder: '请输入',
+      //     rule: [
+      //       { required: true, message: '请输入模板名称', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }, {
+      //     type: 'textarea',
+      //     label: '模板描述',
+      //     key: 'i11',
+      //     placeholder: '请输入模板描述',
+      //     rule: [
+      //       { required: true, message: '请输入模板描述', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }, {
+      //     type: 'upload',
+      //     label: '模板描述',
+      //     key: 'i11',
+      //     placeholder: '请输入模板描述',
+      //     rule: [
+      //       { required: true, message: '请输入模板描述', trigger: 'blur' },
+      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //     ]
+      //   }
+      // ]
     }
   },
   methods: {

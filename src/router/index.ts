@@ -19,7 +19,7 @@ import ReportOrder from '@/pages/Property/reportOrder.vue' // 报事
 import ComplaintOrder from '@/pages/Property/complaintOrder.vue' // 投诉
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 import FinancialIncome from '@/pages/Financial/income.vue' // 财务收入
-import FinancialPayment from '@/pages/Financial/payment.vue' // 费用催缴
+import PropertyPayment from '@/pages/Property/payment.vue' // 费用催缴
 import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
 import Park from '@/pages/asset-management/park.vue' // 园区
 import ParkNew from '@/pages/asset-management/parkNew.vue' // 新园区
@@ -43,18 +43,18 @@ const routes = [
       requireAuth: true
     },
     children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: ContractList
-      },
+      // {
+      //   path: '/home',
+      //   name: 'home',
+      //   component: ContractList
+      // },
       {
         path: '/overview',
         name: 'overview',
         component: Overview
       },
       {
-        path: '/desk',
+        path: '/home',
         name: 'desk',
         component: Desk
       }
@@ -73,12 +73,12 @@ const routes = [
       {
         path: 'park',
         name: 'park',
-        component: ParkNew
+        component: Park
       },
       {
         path: 'build',
         name: 'build',
-        component: Build
+        component: ParkNew
       },
       {
         path: 'room',
@@ -194,6 +194,11 @@ const routes = [
         path: 'complaint',
         name: 'complaint',
         component: ComplaintOrder
+      },
+      {
+        path: 'payment', // 费用催缴
+        name: 'PropertyPayment',
+        component: PropertyPayment
       }
     ]
   },
@@ -211,11 +216,6 @@ const routes = [
         path: 'income', // 财务收入
         name: 'FinancialIncome',
         component: FinancialIncome
-      },
-      {
-        path: 'payment', // 费用催缴
-        name: 'FinancialPayment',
-        component: FinancialPayment
       }
     ]
   },

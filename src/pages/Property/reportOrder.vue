@@ -56,6 +56,9 @@
           label="模板描述">
         </el-table-column>
       </el-table>
+      <div style="width: 100%; text-align: right; padding-top: 20px">
+        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+      </div>
     </el-card>
 
     <el-dialog

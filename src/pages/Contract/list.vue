@@ -1,11 +1,8 @@
 <template>
   <div>
     <el-card style="width: 100%">
-<!--      <div slot="header" class="clearfix">-->
-<!--        <span>条件筛选</span>-->
-<!--      </div>-->
       <el-select  size="small"
-                  v-model="value" placeholder="合同类型">
+                  v-model="value" placeholder="合同状态">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -44,62 +41,68 @@
       </g2-column>
     </el-card>
     <el-card>
-      <el-table
-        :data="tableData"
+<!--      <el-table-->
+<!--        :data="tableData"-->
+<!--        @row-click="contractState"-->
+<!--        style="width: 100%">-->
+<!--        <el-table-column-->
+<!--          prop="a"-->
+<!--          label="合同序号">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="b"-->
+<!--          label="楼宇名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="c"-->
+<!--          label="客户名称">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="e"-->
+<!--          sortable-->
+<!--          label="截止时间">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="d"-->
+<!--          sortable-->
+<!--          label="签订日">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="f"-->
+<!--          sortable-->
+<!--          label="合同状态">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="g"-->
+<!--          label="租赁数目">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="h"-->
+<!--          label="跟进人">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="j"-->
+<!--          sortable-->
+<!--          label="合同金额">-->
+<!--        </el-table-column>-->
+<!--      </el-table>-->
+<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
+<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
+<!--      </div>-->
+
+      <GTable
         @row-click="contractState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="合同序号">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="楼宇名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="合同编号">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          sortable
-          label="签订日">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          sortable
-          label="开始日期">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          sortable
-          label="合同状态">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="租赁数目">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="跟进人">
-        </el-table-column>
-        <el-table-column
-          prop="i"
-          label="是否续签">
-        </el-table-column>
-        <el-table-column
-          prop="j"
-          sortable
-          label="合同金额">
-        </el-table-column>
-      </el-table>
+        :tableLabel="$tableLabels.contractList"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog
       title="新建合同"
-      top="0"
+      top="10px"
       width="950px"
-      style="height: 720px; overflow-y: scroll"
+      style="overflow-y: scroll"
+      :style="{height: dialogHeight + 'px'}"
       :visible.sync="addContractVisible"
     >
       <div>
@@ -142,8 +145,6 @@
         <BodyCard type=1 :data="contractInfo_body_room"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body2"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body3"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body4"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body5"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body6"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body7"></BodyCard>
@@ -164,37 +165,23 @@ export default {
   },
   data () {
     return {
-      tableData: [{
-        a: 'xxx-1',
-        b: '协力大厦',
-        c: 'number',
-        d: '2015-10-10',
-        e: '2016-01-01',
-        f: '到期未处理',
-        g: '100',
-        h: '刘某人',
-        i: '否',
-        j: 200000
-      }],
+      tableData: [],
       activeName: 'first',
       yearList: [
       ],
       options: [
         {
           value: '选项1',
-          label: '黄金糕'
+          label: '签订'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: '执行'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '到期'
         }, {
           value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          label: '到期未处理'
         }
       ],
       value: '',
@@ -980,200 +967,6 @@ export default {
           ]
         }
       ],
-      // addContractFormList: [
-      //   {
-      //     title: '合同信息',
-      //     children: [
-      //       {
-      //         type: 'select',
-      //         label: '模版选择',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '合同编号',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'select',
-      //         label: '跟进人',
-      //         key: 'followPerson',
-      //         placeholder: '请选择',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       }, {
-      //         type: 'date-picker',
-      //         label: '签订时间',
-      //         key: 'date',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       }, {
-      //         type: 'date-picker',
-      //         label: '计租时间',
-      //         key: 'date2',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       }, {
-      //         type: 'date-picker',
-      //         label: '失效时间',
-      //         key: 'date3',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       }
-      //     ]
-      //   }, {
-      //     title: '租客信息',
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '租客',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '行业',
-      //         key: 'tenantIndustry',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '法人',
-      //         key: 'fr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'input',
-      //         label: '签订人',
-      //         key: 'qdr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'input',
-      //         label: '联系方式',
-      //         key: 'zklxr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   }, {
-      //     title: '房源信息',
-      //     children: [
-      //       {
-      //         type: 'cascader',
-      //         label: '房源信息',
-      //         key: 'fangyxx',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [{
-      //           value: 1,
-      //           label: '梦想小镇',
-      //           children: [{
-      //             value: 2,
-      //             label: '1幢',
-      //             children: [
-      //               { value: 3, label: '101' },
-      //               { value: 4, label: '201' },
-      //               { value: 5, label: '205' }
-      //             ]
-      //           }, {
-      //             value: 7,
-      //             label: '3幢',
-      //             children: [
-      //               { value: 8, label: '101' },
-      //               { value: 9, label: '103' },
-      //               { value: 10, label: '503' }
-      //             ]
-      //           }, {
-      //             value: 12,
-      //             label: '8幢',
-      //             children: [
-      //               { value: 13, label: '202' },
-      //               { value: 14, label: '503' },
-      //               { value: 15, label: '603' }
-      //             ]
-      //           }]
-      //         }, {
-      //           value: 17,
-      //           label: '人工智能小镇',
-      //           children: [{
-      //             value: 18,
-      //             label: '16幢',
-      //             children: [
-      //               { value: 19, label: '501' },
-      //               { value: 20, label: '505' }
-      //             ]
-      //           }, {
-      //             value: 21,
-      //             label: '19幢',
-      //             children: [
-      //               { value: 22, label: '103' },
-      //               { value: 23, label: '105' }
-      //             ]
-      //           }]
-      //         }]
-      //       }
-      //     ]
-      //   }
-      // ],
       contractInfoState: false,
       contractInfo_header: {
         title: '正常执行',
@@ -1265,7 +1058,8 @@ export default {
           { name: '年天数', value: '365天' },
           { name: '支付类型', value: '3月一付' }
         ]
-      }
+      },
+      dialogHeight: 700
     }
   },
   methods: {
@@ -1308,7 +1102,7 @@ export default {
         {
           a: 'xxx' + item,
           b: '协力大厦' + item,
-          c: 'number' + item,
+          c: 'XXX公司' + item,
           d: '2015-10-10',
           e: '2016-01-01',
           f: '到期未处理',
@@ -1328,6 +1122,7 @@ export default {
     // console.log(this.yearList)
   },
   mounted () {
+    this.dialogHeight = document.documentElement.clientHeight
     console.log(document.documentElement.clientHeight, 'document.documentElement.clientHeight')
   }
 }

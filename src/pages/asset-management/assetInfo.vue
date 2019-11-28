@@ -8,7 +8,7 @@
       </div>
       <div>
         <InfoBox
-          style="float: left; margin:0 60px 0 15px"
+          style="float: left; margin:0 40px 10px 15px"
           v-for="(item, index) in infoBoxData" :type='item.type'
           :key="'info' + index"
           :data="item"
@@ -20,7 +20,7 @@
 
     <el-card>
       <div>
-        <el-select size="small" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
           <el-option
             v-for="item in requirement.area.areaList"
             :key="item.value"
@@ -28,7 +28,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.state.value" placeholder="审核状态">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.state.value" placeholder="进退驻状态">
           <el-option
             v-for="item in requirement.state.stateList"
             :key="item.value"
@@ -36,7 +36,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
           <el-option
             v-for="item in requirement.timeLimit.timeLimitList"
             :key="item.value"
@@ -44,15 +44,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.industry.value" placeholder="行业筛选">
-          <el-option
-            v-for="item in requirement.industry.industryList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.source.value" placeholder="招商筛选">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.source.value" placeholder="招商类别">
           <el-option
             v-for="item in requirement.source.sourceList"
             :key="item.value"
@@ -60,7 +52,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" class="mr-10" v-model="requirement.empty.value" placeholder="空置筛选">
+        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.empty.value" placeholder="空置状态">
           <el-option
             v-for="item in requirement.empty.emptyList"
             :key="item.value"
@@ -68,30 +60,22 @@
             :value="item.value">
           </el-option>
         </el-select>
+        <el-button
+          size="small"
+          type="primary"
+          style="float: right"
+          @click="() => this.addRoomShow = true"
+          icon="el-icon-plus">
+          新增房间
+        </el-button>
       </div>
       <el-divider></el-divider>
 
 <!--      状态-->
-      <div style="margin-bottom: 10px">
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#57D1E2'}"></div>
-          <div class="text">在租</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#46D2A8'}"></div>
-          <div class="text">待招商（主力店）</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#F1A468'}"></div>
-          <div class="text">自用类型</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#46D2A8'}"></div>
-          <div class="text">未分配</div>
-        </div>
-        <div class="typeWrap">
-          <div class="status" :style="{background: '#626C91'}"></div>
-          <div class="text">锁定</div>
+      <div style="margin-bottom: 10px;cursor: pointer">
+        <div class="typeWrap" @click="handleStatusClick(item)" v-for="item in statusList" :key="item.str">
+          <div class="status" :style="{background: item.color}"></div>
+          <div class="text">{{item.str}}</div>
         </div>
         <div style="float: right">
           <el-button size="mini" @click="() => this.showType = !this.showType">切换</el-button>
@@ -108,24 +92,15 @@
         <div class="list-wrap">
           <div v-for="(subItem, subIndex) in item" :key="'listItem' + subIndex" >
             <div
-              v-if="!showType"
               class="list-item"
               @click="roomInfo({index,subIndex})"
-              :style="{ width: 'calc(' + 100 / item.length + '% - 5px)' , background: subItem.bgColor }">
+              :style="{
+                width: !showType ? 'calc(' + 100 / item.length + '% - 5px)': 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)',
+                background: subItem.isFind || !filterStatus ? subItem.bgColor : '#DCDCDC' }">
               <div class="text">阿里巴巴</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
               <div class="sub-text">2019-11-11到期</div>
-              <div class="status">占用</div>
-            </div>
-            <div
-              v-if="showType"
-              class="list-item"
-              @click="roomInfo({index,subIndex})"
-              :style="{ width: 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)' , background: subItem.bgColor }">
-              <div class="text">阿里巴巴</div>
-              <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-              <div class="sub-text">2019-11-11到期</div>
-              <div class="status">占用</div>
+              <div class="status">{{subItem.statusStr}}</div>
             </div>
           </div>
 
@@ -150,27 +125,45 @@
         </HeaderCard>
         <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
         <div class="drawer-body" style="height: 500px;">
-          <BodyCard type=1 :data="roomInfo_body"></BodyCard>
           <BodyCard type=2 :data="roomInfo_body_table1">
             <template #btn>
               <el-button
                 :style="{height: '80%',margin: 'auto 8px'}"
                 size="mini"
-              >查看合同</el-button>
+              >新建合同</el-button>
             </template>
           </BodyCard>
           <BodyCard type=2 :data="roomInfo_body_table2">
-            <template #btn>
+            <!-- <template #btn>
               <el-button
                 :style="{height: '80%',margin: 'auto 8px'}"
                 icon="el-icon-plus"
                 size="mini"
               >客户 </el-button>
-            </template>
+            </template> -->
           </BodyCard>
         </div>
       </el-drawer>
     </el-card>
+
+    <el-dialog
+      title="添加房间"
+      :visible.sync="addRoomShow"
+      width="600px"
+    >
+      <div>
+        <ParkForm
+          ref="tt"
+          :formList="$formsLabels.addRoomForm"
+          :itemList="[]">
+        </ParkForm>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="test(222)">确定</el-button>
+      </span>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -208,6 +201,33 @@ export default {
       fakerList: [
       ],
       colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#626C91'],
+      statusList: [
+        {
+          color: '#57D1E2',
+          code: 1,
+          str: '在租'
+        },
+        {
+          color: '#46D2A8',
+          code: 2,
+          str: '待招商'
+        },
+        {
+          color: '#F1A468',
+          code: 3,
+          str: '自用'
+        },
+        {
+          color: '#626C91',
+          code: 4,
+          str: '未分配'
+        },
+        {
+          color: '#626C91',
+          code: 5,
+          str: '锁定'
+        }
+      ],
       infoBoxData: [
         {
           type: 0,
@@ -321,15 +341,11 @@ export default {
           stateList: [
             {
               value: 1,
-              label: '已审核'
+              label: '进驻'
             },
             {
               value: 2,
-              label: '审核中'
-            },
-            {
-              value: 3,
-              label: '未通过'
+              label: '退驻'
             }
           ],
           value: ''
@@ -453,26 +469,16 @@ export default {
         ],
         tableData: [{
           area: '360.00',
-          roomState: '在租中',
-          state: '不可招商',
+          roomState: '待招商',
+          state: '可招商',
           price: '3.00',
           type: '办公',
           decorate: '简装',
           tag: '自带办公家居，随时入住'
         }]
       },
-      roomInfo_body: {
-        title: '租赁合同信息',
-        info: [
-          { name: '租户', value: 'XXX有限公司' },
-          { name: '计租日', value: '2019/11/21' },
-          { name: '结束日', value: '2020/11/10' },
-          { name: '状态', value: '未进驻' }
-
-        ]
-      },
       roomInfo_body_table1: {
-        title: '物业合同信息',
+        title: '合同信息',
         info: {
           label: [
             { prop: 'tenant', label: '租户' },
@@ -482,13 +488,13 @@ export default {
             { prop: 'state', label: '状态' }
           ],
           tableData: [
-            {
-              tenant: '拓源科技',
-              start: '2019/11/11',
-              end: '2020/11/10',
-              price: '3.00元/㎡·天',
-              state: '新建待审核'
-            }
+            // {
+            //   tenant: '拓源科技',
+            //   start: '2019/11/11',
+            //   end: '2020/11/10',
+            //   price: '3.00元/㎡·天',
+            //   state: '新建待审核'
+            // }
           ]
         }
       },
@@ -497,6 +503,7 @@ export default {
         info: {
           label: [
             { prop: 'tenant', label: '租客' },
+            { prop: 'tel', label: '联系电话' },
             { prop: 'state', label: '客户状态' },
             { prop: 'date', label: '跟进人员' },
             { prop: 'channel', label: '招商渠道' },
@@ -505,27 +512,158 @@ export default {
           tableData: [
           ]
         }
-      }
+      },
+      addRoomShow: false,
+      // addRoomFormList: [
+      //   {
+      //     title: '房间信息',
+      //     children: [
+      //       {
+      //         type: 'select',
+      //         label: '所属楼宇',
+      //         key: 'u',
+      //         placeholder: '请选择',
+      //         options: [
+      //           {
+      //             label: '协力大厦1',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '协力大厦2',
+      //             value: 's2'
+      //           },
+      //           {
+      //             label: '协力大厦3',
+      //             value: 's3'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '所属楼层',
+      //         key: 'u2',
+      //         placeholder: '请选择',
+      //         options: [
+      //           {
+      //             label: '一楼',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '二楼',
+      //             value: 's2'
+      //           },
+      //           {
+      //             label: '三楼',
+      //             value: 's3'
+      //           },
+      //           {
+      //             label: '四楼',
+      //             value: 's4'
+      //           },
+      //           {
+      //             label: '五楼',
+      //             value: 's5'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '房间号',
+      //         key: 'u3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '面积',
+      //         key: 'u4',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '状态',
+      //         key: 'u5',
+      //         placeholder: '请选择',
+      //         options: [
+      //           {
+      //             label: '在租',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '待招商',
+      //             value: 's2'
+      //           },
+      //           {
+      //             label: '自用',
+      //             value: 's3'
+      //           },
+      //           {
+      //             label: '锁定',
+      //             value: 's4'
+      //           },
+      //           {
+      //             label: '未分配',
+      //             value: 's5'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人',
+      //         key: 'u6',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人电话',
+      //         key: 'u7',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '房间描述',
+      //         key: 'u8',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           // { required: true, message: '请输入', trigger: 'blur' },
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'upload-img',
+      //         label: '房间图片',
+      //         key: 'u1',
+      //         placeholder: '请输入'
+      //         // rule: [
+      //         //   { required: true, message: '请输入', trigger: 'blur' },
+      //         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         // ]
+      //       }
+      //     ]
+      //   }
+      // ],
+      filterStatus: false
     }
-  },
-  mounted () {
-    let fakerList = []
-    for (let i = 0; i < 6; i++) {
-      let arr = []
-      let allArea = 0
-      let randomLength = this.random(3, 8)
-      for (let j = 0; j < randomLength; j++) {
-        let area = this.random(150, 300)
-        allArea += area
-        arr.push({
-          area,
-          allArea,
-          bgColor: this.colorList[this.random(0, 4) % 4]
-        })
-      }
-      fakerList.push(arr)
-    }
-    this.fakerList = fakerList
   },
   methods: {
     getState (value) {
@@ -544,7 +682,54 @@ export default {
     },
     goBack () {
       this.$router.go(-1) // 后退
+    },
+    handleStatusClick (data) {
+      // if (this.filterStr !== data.str) {
+      //   this.filterStatus = false
+      // }
+      this.filterStatus = !this.filterStatus
+      this.findRoomByStatus(data.code)
+    },
+    findRoomByStatus (code) {
+      this.fakerList.forEach(item => {
+        item.forEach(sub => {
+          sub.isFind = false
+          if (sub.code === code) {
+            sub.isFind = true
+          }
+        })
+      })
     }
+  },
+  created () {
+    let fakerList = []
+    for (let i = 0; i < 6; i++) {
+      let arr = []
+      let allArea = 0
+      let randomLength = this.random(3, 8)
+      for (let j = 0; j < randomLength; j++) {
+        let area = this.random(150, 300)
+        allArea += area
+        let status = this.random(0, 5) % 5
+        arr.push({
+          area,
+          allArea,
+          status,
+          code: status + 1,
+          checked: false,
+          position: i + '-' + j,
+          isFind: false,
+          statusStr: this.statusList[status].str,
+          bgColor: this.statusList[status].color
+        })
+      }
+      fakerList.push(arr)
+    }
+    console.log(fakerList)
+    this.fakerList = fakerList
+    this.$https.post(this.$urls.park.get_list, { page_no: 1, page_size: 10 }).then((res) => {
+      console.log(res)
+    })
   }
 }
 </script>
@@ -662,7 +847,7 @@ export default {
             position: absolute;
             right: 0;
             top: 0;
-            width: 42px;
+            padding: 0 12px;
             height: 24px;
             background:rgba(255,255,255,0.45);
             color: #5E5E5E;

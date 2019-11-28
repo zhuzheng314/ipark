@@ -1,13 +1,34 @@
 <template>
   <div>
     <el-card style="width: 100%">
-      <div>
-        <el-select  size="small"
+      <div slot="header">
+
+        <el-radio-group v-model="listType" size="small">
+          <el-radio-button label="top">收款</el-radio-button>
+          <el-radio-button label="right">付款</el-radio-button>
+        </el-radio-group>
+
+        <el-select
+          style="width: 220px; margin-left: 15px"
+          size="small"
                     multiple
                     v-model="value"
-                    placeholder="账单类型">
+                    placeholder="列支方向">
           <el-option
             v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select
+          style="width: 220px; margin-left: 15px"
+          size="small"
+          multiple
+          v-model="value"
+          placeholder="状态">
+          <el-option
+            v-for="item in options1"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -21,6 +42,7 @@
           prefix-icon="el-icon-search"
           v-model="value">
         </el-input>
+
         <el-button
           style="float: right"
           type="primary"
@@ -29,71 +51,76 @@
           @click="handleAddContract"
         >添加账单</el-button>
       </div>
-    </el-card>
-    <el-card>
-      <el-radio-group v-model="radio" size="mini">
-        <el-radio-button label="收款"></el-radio-button>
-        <el-radio-button label="付款"></el-radio-button>
-      </el-radio-group>
       <div>
         <div :key="item.name" v-for="item in finData" class="simple-item">
-          <div class="title">{{item.name}}</div>
-          <div class="value">{{item.value}}</div>
+          <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
         </div>
       </div>
 
     </el-card>
     <el-card>
-      <el-table
+      <!-- <el-table
         :data="tableData"
         @row-click="financialState"
         style="width: 100%">
         <el-table-column
+          prop="type"
+          label="列支方向">
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          label="状态">
+        </el-table-column>
+        <el-table-column
           prop="a"
-          label="楼宇名称">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="房间号">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="对房名称">
+          label="关联合同">
         </el-table-column>
         <el-table-column
           prop="d"
+          label="付款方">
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="联系人">
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="跟进人">
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="客户">
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="金额">
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="时间">
+        </el-table-column>
+        <el-table-column
+          prop="moneyType"
           label="费用类型">
         </el-table-column>
-        <el-table-column
-          prop="e"
-          label="账单金额">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="币种（单位）">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="实收/付金额">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="需收/退金额">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="开票金额">
-        </el-table-column>
       </el-table>
+      <div style="width: 100%; text-align: right; padding-top: 20px">
+        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+      </div> -->
+      <GTable
+        @row-click="financialState"
+        :tableLabel="$tableLabels.financialList"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog
-      title="新建收付款账单"
+      title="新建费用列支"
       :visible.sync="addContractVisible"
       width="600px"
     >
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <ParkForm :formList="$formsLabels.financialForm" :itemList="[]"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -147,212 +174,172 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '应收(3笔)', value: '10000' },
-        { name: '滞纳金', value: 10000 },
-        { name: '已收', value: 10000 },
-        { name: '未缴(3笔)', value: '10000' }
+        { name: '应收(3笔)', value: '254235', chart: '-0.1128', type: 'arrow' },
+        { name: '已收', value: 13513, chart: '0.6356', type: 'arrow' },
+        { name: '未缴(3笔)', value: '134553', chart: '0.3564', type: 'arrow' }
       ],
+      listType: 'top',
       options: [
         {
           value: '选项1',
-          label: '全部'
+          label: '收款'
         }, {
           value: '选项2',
-          label: '水费'
+          label: '付款'
+        }
+      ],
+      options1: [
+        {
+          value: '选项1',
+          label: '已缴'
         }, {
-          value: '选项3',
-          label: '电费'
-        }, {
-          value: '选项4',
-          label: '燃气'
-        }, {
-          value: '选项5',
-          label: '房租'
+          value: '选项2',
+          label: '未缴'
         }
       ],
       value: '',
       addContractVisible: false,
-      addContractFormList: [
-        {
-          title: '账单',
-          children: [
-            {
-              type: 'select',
-              label: '关联合同',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '付款方',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系人',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '费用类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'select',
-              label: '币种',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'date-picker-range',
-              label: '计费周期',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金比例（%）',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '滞纳金上限（%）',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '备注',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '房源信息',
-          children: [
-            {
-              type: 'cascader',
-              label: '房源信息',
-              key: 'fangyxx',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [{
-                value: 1,
-                label: '梦想小镇',
-                children: [{
-                  value: 2,
-                  label: '1幢',
-                  children: [
-                    { value: 3, label: '101' },
-                    { value: 4, label: '201' },
-                    { value: 5, label: '205' }
-                  ]
-                }, {
-                  value: 7,
-                  label: '3幢',
-                  children: [
-                    { value: 8, label: '101' },
-                    { value: 9, label: '103' },
-                    { value: 10, label: '503' }
-                  ]
-                }, {
-                  value: 12,
-                  label: '8幢',
-                  children: [
-                    { value: 13, label: '202' },
-                    { value: 14, label: '503' },
-                    { value: 15, label: '603' }
-                  ]
-                }]
-              }, {
-                value: 17,
-                label: '人工智能小镇',
-                children: [{
-                  value: 18,
-                  label: '16幢',
-                  children: [
-                    { value: 19, label: '501' },
-                    { value: 20, label: '505' }
-                  ]
-                }, {
-                  value: 21,
-                  label: '19幢',
-                  children: [
-                    { value: 22, label: '103' },
-                    { value: 23, label: '105' }
-                  ]
-                }]
-              }]
-            }
-          ]
-        }
-      ],
+      // addContractFormList: [
+      //   {
+      //     title: '账单',
+      //     children: [
+      //       {
+      //         type: 'select',
+      //         label: '关联合同',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '美食',
+      //             value: 's1'
+      //           }, {
+      //             label: '美食美食',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '付款方',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '列支方向',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '状态',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '已缴',
+      //             value: 's1'
+      //           }, {
+      //             label: '未缴',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系人',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '客户',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '金额',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker',
+      //         label: '时间',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '费用类型',
+      //         key: 'tamplate',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [
+      //           {
+      //             label: '水费',
+      //             value: 's1'
+      //           }, {
+      //             label: '电费',
+      //             value: 's2'
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker-range',
+      //         label: '计费周期',
+      //         key: 'fr',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '备注',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       }
+      //     ]
+      //   }
+      // ],
       tamplateFormList: [
         {
           type: 'select',
@@ -558,7 +545,10 @@ export default {
           b: '出租合同模板' + item,
           c: '销售类' + item,
           d: item % 2 === 0 ? '启用' : '停用',
-          e: '$20000'
+          e: '$20000',
+          type: '收款',
+          status: '未缴',
+          moneyType: '水费'
         }
       )
     })
@@ -572,22 +562,22 @@ export default {
   .el-card{
     margin-bottom: 20px;
   }
-  .simple-item{
-    min-width: 140px;
-    border-right: 2px solid rgb(230, 232, 238);
-    padding-left: 20px;
-    float: left;
-    margin: 20px 30px 20px 0;
-    .title{
-      font-size: 12px;
-      color: rgb(152, 154, 163);
-      line-height: 12px;
-      margin-bottom: 20px;
-    }
-    .value{
-      font-size: 22px;
-      color: rgb(31, 33, 46);
-      height: 22px;
-    }
-  }
+  // .simple-item{
+    // min-width: 140px;
+    // border-right: 2px solid rgb(230, 232, 238);
+    // padding-left: 20px;
+    // float: left;
+    // margin: 20px 30px 20px 0;
+    // .title{
+    //   font-size: 12px;
+    //   color: rgb(152, 154, 163);
+    //   line-height: 12px;
+    //   margin-bottom: 20px;
+    // }
+    // .value{
+    //   font-size: 22px;
+    //   color: rgb(31, 33, 46);
+    //   height: 22px;
+    // }
+  // }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="assetInfo">
-    <div class="left" style="padding: 0">
+  <div class="parkNew">
+    <div class="left">
       <div class="left-btn" @click="() => this.addBuildShow = true">
         <i class="el-icon-plus"></i> 添加楼宇
       </div>
@@ -18,184 +18,7 @@
       </div>
     </div>
     <div class="right">
-      <el-card style="margin-bottom: 10px">
-        <div slot="header" class="clearfix">
-          <el-page-header @back="goBack" content="协力大厦">
-          </el-page-header>
-        </div>
-        <div>
-          <InfoBox
-            style="float: left; margin:0 40px 0 15px"
-            v-for="(item, index) in infoBoxData" :type='item.type'
-            :key="'info' + index"
-            :data="item"
-          ></InfoBox>
-          <div style="clear:both"></div>
-        </div>
-
-      </el-card>
-
-      <el-card>
-        <div>
-          <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
-            <el-option
-              v-for="item in requirement.area.areaList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.state.value" placeholder="审核状态">
-            <el-option
-              v-for="item in requirement.state.stateList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
-            <el-option
-              v-for="item in requirement.timeLimit.timeLimitList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.industry.value" placeholder="行业筛选">
-            <el-option
-              v-for="item in requirement.industry.industryList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.source.value" placeholder="招商筛选">
-            <el-option
-              v-for="item in requirement.source.sourceList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.empty.value" placeholder="空置筛选">
-            <el-option
-              v-for="item in requirement.empty.emptyList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-button
-            size="small"
-            type="primary"
-            style="float: right"
-            @click="() => this.addRoomShow = true"
-            icon="el-icon-plus">
-            新增房间
-          </el-button>
-        </div>
-        <el-divider></el-divider>
-
-        <!--      状态-->
-        <div style="margin-bottom: 10px">
-          <div class="typeWrap">
-            <div class="status" :style="{background: '#57D1E2'}"></div>
-            <div class="text">在租</div>
-          </div>
-          <div class="typeWrap">
-            <div class="status" :style="{background: '#46D2A8'}"></div>
-            <div class="text">待招商（主力店）</div>
-          </div>
-          <div class="typeWrap">
-            <div class="status" :style="{background: '#F1A468'}"></div>
-            <div class="text">自用类型</div>
-          </div>
-          <div class="typeWrap">
-            <div class="status" :style="{background: '#46D2A8'}"></div>
-            <div class="text">未分配</div>
-          </div>
-          <div class="typeWrap">
-            <div class="status" :style="{background: '#626C91'}"></div>
-            <div class="text">锁定</div>
-          </div>
-          <div style="float: right">
-            <el-button size="mini" @click="() => this.showType = !this.showType">切换</el-button>
-          </div>
-        </div>
-
-        <!--      楼宇列表-->
-
-        <div class="list" :key="'list-' + index" v-for="(item, index) in fakerList">
-          <div class="list-header">
-            <div>{{fakerList.length - index}}楼</div>
-            <div>1500㎡</div>
-          </div>
-          <div class="list-wrap">
-            <div v-for="(subItem, subIndex) in item" :key="'listItem' + subIndex" >
-              <div
-                v-if="!showType"
-                class="list-item"
-                @click="roomInfo({index,subIndex})"
-                :style="{ width: 'calc(' + 100 / item.length + '% - 5px)' , background: subItem.bgColor }">
-                <div class="text">阿里巴巴</div>
-                <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-                <div class="sub-text">2019-11-11到期</div>
-                <div class="status">占用</div>
-              </div>
-              <div
-                v-if="showType"
-                class="list-item"
-                @click="roomInfo({index,subIndex})"
-                :style="{ width: 'calc(' + subItem.area * 100 / item[item.length - 1].allArea + '% - 5px)' , background: subItem.bgColor }">
-                <div class="text">阿里巴巴</div>
-                <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-                <div class="sub-text">2019-11-11到期</div>
-                <div class="status">占用</div>
-              </div>
-            </div>
-
-          </div>
-          <div class="clear"></div>
-        </div>
-
-        <!--      房间信息-->
-        <el-drawer
-          title="房间详情"
-          custom-class="drawer-r"
-          :visible.sync="roomInfoState"
-          size="1186px"
-          direction="rtl">
-          <HeaderCard :data="roomInfo_header">
-            <template #headerCardBtns>
-              <div class="btnBox" v-for="(item,i) in roomInfo_header.button" :key="(item,i)" @click="open(item.name)">
-                <i class="iconfont" v-html="item.icon"></i>
-                <span class="headerCard-btn-name">{{item.name}}</span>
-              </div>
-            </template>
-          </HeaderCard>
-          <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
-          <div class="drawer-body" style="height: 500px;">
-            <BodyCard type=1 :data="roomInfo_body"></BodyCard>
-            <BodyCard type=2 :data="roomInfo_body_table1">
-              <template #btn>
-                <el-button
-                  :style="{height: '80%',margin: 'auto 8px'}"
-                  size="mini"
-                >查看合同</el-button>
-              </template>
-            </BodyCard>
-            <BodyCard type=2 :data="roomInfo_body_table2">
-              <template #btn>
-                <el-button
-                  :style="{height: '80%',margin: 'auto 8px'}"
-                  icon="el-icon-plus"
-                  size="mini"
-                >客户 </el-button>
-              </template>
-            </BodyCard>
-          </div>
-        </el-drawer>
-      </el-card>
+      <assetinfo></assetinfo>
     </div>
     <el-dialog
       title="添加楼宇"
@@ -205,25 +28,7 @@
       <div>
         <ParkForm
           ref="tt"
-          :formList="addBuildFormList"
-          :itemList="[]">
-        </ParkForm>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
-
-    </el-dialog>
-    <el-dialog
-      title="添加房间"
-      :visible.sync="addRoomShow"
-      width="600px"
-    >
-      <div>
-        <ParkForm
-          ref="tt"
-          :formList="addRoomFormList"
+          :formList="$formsLabels.addBuildForm"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -240,12 +45,11 @@
 import ElDivider from 'element-ui/packages/divider/src/main'
 import InfoBox from '@/components/InfoBox/index.vue'
 import ElCard from 'element-ui/packages/card/src/main'
+import assetinfo from './assetInfo.vue'
 export default {
   name: 'assetInfo',
   components: {
-    ElCard,
-    ElDivider,
-    InfoBox
+    assetinfo
   },
   data () {
     return {
@@ -573,7 +377,6 @@ export default {
       fakerBuildList: [],
       addParkShow: false,
       addBuildShow: false,
-      addRoomShow: false,
       addParkFormList: [
         {
           title: '园区信息',
@@ -687,222 +490,87 @@ export default {
           ]
         }
       ],
-      addBuildFormList: [
-        {
-          title: '楼宇信息',
-          children: [
-            {
-              type: 'input',
-              label: '楼宇名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '建筑面积',
-              key: 'i2',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '可出租面积',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '所属园区',
-              key: 'u2',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '西港新界',
-                  value: 's1'
-                },
-                {
-                  label: '海创园',
-                  value: 's1'
-                },
-                {
-                  label: '梦想小镇',
-                  value: 's1'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '楼宇描述',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '楼宇图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
-      addRoomFormList: [
-        {
-          title: '园区信息',
-          children: [
-            {
-              type: 'input',
-              label: '园区名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '建筑面积',
-              key: 'i2',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '总投资',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属物业',
-              key: 'i4',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系人',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系电话',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '园区状态',
-              key: 'u2',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '在建',
-                  value: 's1'
-                },
-                {
-                  label: '招商',
-                  value: 's1'
-                },
-                {
-                  label: '运营',
-                  value: 's1'
-                },
-                {
-                  label: '其他',
-                  value: 's1'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '园区描述',
-              key: 'i5',
-              placeholder: '请输入',
-              rule: [
-                // { required: true, message: '请输入', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '园区图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
-      buildIndex: 0
-    }
-  },
-  mounted () {
-    let fakerList = []
-    for (let i = 0; i < 6; i++) {
-      let arr = []
-      let allArea = 0
-      let randomLength = this.random(3, 8)
-      for (let j = 0; j < randomLength; j++) {
-        let area = this.random(150, 300)
-        allArea += area
-        arr.push({
-          area,
-          allArea,
-          bgColor: this.colorList[this.random(0, 4) % 4]
-        })
-      }
-      fakerList.push(arr)
-    }
-    this.fakerList = fakerList
+      // addBuildFormList: [
+      //   {
+      //     title: '楼宇信息',
+      //     children: [
+      //       {
+      //         type: 'input',
+      //         label: '楼宇名称',
+      //         key: 'i',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '建筑面积',
+      //         key: 'i2',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '该项为必填', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '可出租面积',
+      //         key: 'i3',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'select',
+      //         label: '所属园区',
+      //         key: 'u2',
+      //         placeholder: '请输入',
+      //         options: [
+      //           {
+      //             label: '西港新界',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '海创园',
+      //             value: 's1'
+      //           },
+      //           {
+      //             label: '梦想小镇',
+      //             value: 's1'
+      //           }
+      //         ],
+      //         rule: [
+      //           { required: true, message: '请输入', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '楼宇描述',
+      //         key: 'i4',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
+      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'upload-img',
+      //         label: '楼宇图片',
+      //         key: 'u1',
+      //         placeholder: '请输入'
+      //         // rule: [
+      //         //   { required: true, message: '请输入', trigger: 'blur' },
+      //         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         // ]
+      //       }
+      //     ]
+      //   }
+      // ],
 
-    for (let i = 0; i < 10; i++) {
-      this.fakerBuildList.push({ name: '协力大厦', img: require('@/assets/img/park/listhead.png'), value: 1000 })
+      buildIndex: 0
     }
   },
   methods: {
@@ -929,6 +597,11 @@ export default {
     handleBuildClick (index) {
       this.buildIndex = index
     }
+  },
+  mounted () {
+    for (let i = 0; i < 10; i++) {
+      this.fakerBuildList.push({ name: '协力大厦', img: require('@/assets/img/park/listhead.png'), value: 1000 })
+    }
   }
 }
 </script>
@@ -938,7 +611,7 @@ export default {
   *{
     box-sizing: border-box;
   }
-  .assetInfo{
+  .parkNew{
     display: flex;
     /*.left {*/
     /*  width: 200px;*/
@@ -968,7 +641,6 @@ export default {
       &-list{
         cursor: pointer;
         width: 100%;
-        background-color: white;
         height: calc(~"100% - 20px");
         border-radius: 6px;
         box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
@@ -979,7 +651,7 @@ export default {
           width: 100%;
           background:rgba(255,255,255,1);
           .inner{
-            margin: 0 20px;
+            margin: 0 auto;
             padding-top: 16px;
             width: calc(~"100% - 40px");
             height: 80px;

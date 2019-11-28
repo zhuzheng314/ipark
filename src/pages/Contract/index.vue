@@ -34,7 +34,6 @@
           <el-step title="完成" description="这段就没那么长了"></el-step>
         </el-steps>
       </div>
-
     </el-card>
   </div>
 </template>

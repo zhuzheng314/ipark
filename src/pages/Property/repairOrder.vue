@@ -1,70 +1,93 @@
 <template>
   <div>
     <el-card style="width: 100%">
-      <span style="font-size: 16px;color: #303133;border-left: 3px solid #358dd8;padding-left: 10px">报修工单</span>
+      <div slot="header">
+        <el-select  size="small"
+                    v-model="value2" placeholder="工单状态">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
 
-      <el-select  size="small"
-                  style="margin-left: 15px"
-                  v-model="value2" placeholder="工单状态">
-        <el-option
-          v-for="item in options2"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+        <el-input
+          placeholder="搜索工单"
+          size="small"
+          style="width: 220px; margin-left: 15px"
+          prefix-icon="el-icon-search"
+          v-model="value">
+        </el-input>
 
-      <el-input
-        placeholder="搜索工单"
-        size="small"
-        style="width: 220px; margin-left: 15px"
-        prefix-icon="el-icon-search"
-        v-model="value">
-      </el-input>
-
-      <el-button
-        style="float: right"
-        type="primary"
-        icon="el-icon-plus"
-        size="small"
-        @click="handleAddContract"
-      >新建工单模板</el-button>
+        <el-button
+          style="float: right"
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="handleAddContract"
+        >报修</el-button>
+      </div>
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in finData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+      </div>
     </el-card>
     <el-card>
-      <el-table
+      <!-- <el-table
         :data="tableData"
         @row-click="workOrderState"
         style="width: 100%">
         <el-table-column
           prop="a"
-          label="模板编号">
+          label="租客名称">
         </el-table-column>
         <el-table-column
           prop="b"
-          label="模板名称">
+          label="发起人">
         </el-table-column>
         <el-table-column
           prop="c"
-          label="模板类型">
+          label="联系电话">
         </el-table-column>
         <el-table-column
-          prop="d"
-          label="状态">
+          prop="t"
+          label="发起时间">
+        </el-table-column>
+        <el-table-column
+          prop="adress"
+          label="地址">
         </el-table-column>
         <el-table-column
           prop="e"
-          label="模板描述">
+          label="状态">
+          <el-tag size="mini">已解决</el-tag>
+        </el-table-column>
+        <el-table-column
+          prop="e"
+          label="描述">
         </el-table-column>
       </el-table>
+      <div style="width: 100%; text-align: right; padding-top: 20px">
+        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+      </div> -->
+      <GTable
+        @row-click="workOrderState"
+        :tableLabel="$tableLabels.repairList"
+        :tableData="tableData">
+      </GTable>
     </el-card>
 
     <el-dialog
-      title="新建工单模板"
+      title="维修工单"
       :visible.sync="addContractVisible"
-      width="800px"
+      width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <ParkForm :formList="$formsLabels.repairForm" :itemList="[]"></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -135,178 +158,133 @@ export default {
       value: '',
       value2: '',
       addContractVisible: false,
-      addContractFormList: [
-        {
-          title: '租客信息',
-          span: 12,
-          minHeight: 350,
-          children: [
-            {
-              type: 'input',
-              label: '租客名称',
-              key: 'i',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        }, {
-          title: '工单信息',
-          span: 12,
-          minHeight: 350,
-          children: [
-            {
-              type: 'input',
-              label: '服务地点',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '发起人',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '工单类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '美食',
-                  value: 's1'
-                }, {
-                  label: '美食美食',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系电话',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '预约服务时间',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '工单摘要',
-          span: 12,
-          minHeight: 250,
-          children: [
-            {
-              type: 'textarea',
-              label: '摘要内容',
-              key: 'fr',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload',
-              label: '封面图片',
-              key: 'ccc',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '房源信息',
-          span: 12,
-          minHeight: 250,
-          children: [
-            {
-              type: 'cascader',
-              label: '房源信息',
-              key: 'fangyxx',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [{
-                value: 1,
-                label: '梦想小镇',
-                children: [{
-                  value: 2,
-                  label: '1幢',
-                  children: [
-                    { value: 3, label: '101' },
-                    { value: 4, label: '201' },
-                    { value: 5, label: '205' }
-                  ]
-                }, {
-                  value: 7,
-                  label: '3幢',
-                  children: [
-                    { value: 8, label: '101' },
-                    { value: 9, label: '103' },
-                    { value: 10, label: '503' }
-                  ]
-                }, {
-                  value: 12,
-                  label: '8幢',
-                  children: [
-                    { value: 13, label: '202' },
-                    { value: 14, label: '503' },
-                    { value: 15, label: '603' }
-                  ]
-                }]
-              }, {
-                value: 17,
-                label: '人工智能小镇',
-                children: [{
-                  value: 18,
-                  label: '16幢',
-                  children: [
-                    { value: 19, label: '501' },
-                    { value: 20, label: '505' }
-                  ]
-                }, {
-                  value: 21,
-                  label: '19幢',
-                  children: [
-                    { value: 22, label: '103' },
-                    { value: 23, label: '105' }
-                  ]
-                }]
-              }]
-            }
-          ]
-        }
-      ],
+      // addContractFormList: [
+      //   {
+      //     title: '工单信息',
+      //     children: [
+      //       {
+      //         type: 'input',
+      //         label: '租客名称',
+      //         key: 'i',
+      //         placeholder: '请输入租客名称',
+      //         rule: [
+      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '发起人',
+      //         key: 'tenantName',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'input',
+      //         label: '联系电话',
+      //         key: 'tenantName',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'date-picker',
+      //         label: '预约服务时间',
+      //         key: 'fr',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'textarea',
+      //         label: '描述',
+      //         key: 'fr',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       },
+      //       {
+      //         type: 'upload-img',
+      //         label: '图片',
+      //         key: 'ccc',
+      //         placeholder: '请输入',
+      //         rule: [
+      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
+      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //         ]
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     title: '房源信息',
+      //     children: [
+      //       {
+      //         type: 'cascader',
+      //         label: '房源信息',
+      //         key: 'fangyxx',
+      //         rule: [
+      //           { required: true, message: '请选择', trigger: 'change' }
+      //         ],
+      //         options: [{
+      //           value: 1,
+      //           label: '梦想小镇',
+      //           children: [{
+      //             value: 2,
+      //             label: '1幢',
+      //             children: [
+      //               { value: 3, label: '101' },
+      //               { value: 4, label: '201' },
+      //               { value: 5, label: '205' }
+      //             ]
+      //           }, {
+      //             value: 7,
+      //             label: '3幢',
+      //             children: [
+      //               { value: 8, label: '101' },
+      //               { value: 9, label: '103' },
+      //               { value: 10, label: '503' }
+      //             ]
+      //           }, {
+      //             value: 12,
+      //             label: '8幢',
+      //             children: [
+      //               { value: 13, label: '202' },
+      //               { value: 14, label: '503' },
+      //               { value: 15, label: '603' }
+      //             ]
+      //           }]
+      //         }, {
+      //           value: 17,
+      //           label: '人工智能小镇',
+      //           children: [{
+      //             value: 18,
+      //             label: '16幢',
+      //             children: [
+      //               { value: 19, label: '501' },
+      //               { value: 20, label: '505' }
+      //             ]
+      //           }, {
+      //             value: 21,
+      //             label: '19幢',
+      //             children: [
+      //               { value: 22, label: '103' },
+      //               { value: 23, label: '105' }
+      //             ]
+      //           }]
+      //         }]
+      //       }
+      //     ]
+      //   }
+      // ],
       tamplateFormList: [
         {
           type: 'select',
@@ -403,7 +381,13 @@ export default {
       workOrderInfo_body3: {
         title: '工单评价',
         info: '无'
-      }
+      },
+      finData: [
+        { name: '已解决', value: '254235', chart: '-0.1128', type: 'arrow' },
+        { name: '待解决', value: 13453, chart: '-0.3432', type: 'arrow' },
+        { name: '完成率', value: 13513, chart: '0.99', type: 'arrow' },
+        { name: '满意度', value: '134553', chart: '0.99', type: 'arrow' }
+      ]
 
     }
   },
@@ -419,11 +403,13 @@ export default {
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
       this.tableData.push(
         {
-          a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '这是销售类合同的描述xxx'
+          a: '奇点云' + item,
+          b: '刘涛' + item,
+          c: '1779999999' + item,
+          s: item % 2 === 0 ? '已解决' : '待解决',
+          t: '2019-11-11',
+          e: 'xxxxxxxx',
+          adress: '梦想小镇7幢705'
         }
       )
     })

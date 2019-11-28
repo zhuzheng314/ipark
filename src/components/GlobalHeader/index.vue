@@ -2,18 +2,21 @@
   <div class="g-header">
     <div class="left">
       <div class="desk">
-        <i class="iconfont" @click="$router.push({path:'/desk'})">&#xe60f;</i>
+        <i class="iconfont" @click="$router.push({path:'/home'})">&#xe60f;</i>
       </div>
       <div class="park-dropdown">
         <el-dropdown  @command="handleSelectPark">
           <span class="el-dropdown-link" style="font-size: 16px">
-            {{parkName}}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{$store.state.header.activePark && $store.state.header.activePark.name || '请选择园区'}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="西港发展中心">西港发展中心</el-dropdown-item>
-            <el-dropdown-item command="梦想小镇">梦想小镇</el-dropdown-item>
-            <el-dropdown-item command="人工智能小镇">人工智能小镇</el-dropdown-item>
-            <el-dropdown-item divided command="add">新增园区</el-dropdown-item>
+            <el-dropdown-item
+              :key="item.name + index"
+              v-for="(item, index) in $store.state.header.parkList"
+              :command="item">
+              {{item.name}}
+            </el-dropdown-item>
+            <el-dropdown-item divided command="add">+ 新增园区</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -21,14 +24,14 @@
 
     <div class="right">
       <div class="item">
-        <el-badge style="margin-right: 10px" :value="2" class="item" type="error">
+        <el-badge style="margin-right: 10px" :value="2" class="item">
           <el-popover
             placement="bottom-end"
-            width="200"
+            width="150"
             trigger="click"
           >
             <div class="message">
-              <div
+              <!-- <div
                 v-for="item in 3"
                 :key="'msg' + item"
                 class="message-item"
@@ -36,7 +39,6 @@
                 <span
                   style="margin: 0; font-size: 13px; line-height: 13px; display: inline-block; margin-bottom: 4px; color: #333"
                 >
-<!--                  <EllipsisText>{{item}}啊手动阀手动阀手动阀手动阀士大夫大师傅撒地方大师傅</EllipsisText>-->
                   您有新的待办事项
                 </span>
                 <br>
@@ -45,6 +47,11 @@
 
               <div style="text-align: right; margin-top: 5px">
                 <el-link type="primary" style="font-size: 13px">查看更多</el-link>
+              </div> -->
+
+              <div class="noMsg" style="text-align: center;height: 100px;padding-top: 20px;">
+                <i class="iconfont" style="font-size: 36px;color: #ccc;">&#xe642;</i>
+                <p style="margin: 0px 0 0 0;font-size: 12px;">暂无消息</p>
               </div>
             </div>
             <i class="el-icon-bell g-handle" slot="reference"></i>
@@ -54,12 +61,11 @@
 
       </div>
       <div class="item">
-        <el-dropdown style="height: 56px;width: 25px">
+        <el-dropdown  @command="handleCommand" style="height: 56px;width: 25px">
           <i class="el-icon-user g-handle"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>个人设置</el-dropdown-item>
-            <el-dropdown-item divided>退出登录</el-dropdown-item>
+            <el-dropdown-item command="pwd">修改密码</el-dropdown-item>
+            <el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -86,6 +92,40 @@
       </span>
 
     </el-dialog>
+
+    <el-dialog
+      title="修改密码"
+      :visible.sync="setPassWordVisible"
+      width="500px"
+    >
+      <div>
+        <ParkForm
+          ref="tt"
+          :formList="[]"
+          :itemList="setPassWord">
+        </ParkForm>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setPassWord = false">取消</el-button>
+        <el-button type="primary" @click="test(222)">确定</el-button>
+      </span>
+
+    </el-dialog>
+<!--    <el-dialog-->
+<!--      title="更改密码"-->
+<!--      top="10px"-->
+<!--      width="500px"-->
+<!--      style="overflow-y: scroll; z-index: 1000000"-->
+<!--      :visible.sync="true"-->
+<!--    >-->
+<!--      <div>-->
+<!--        <ParkForm :formList="setPassWord" :itemList="[]"></ParkForm>-->
+<!--      </div>-->
+<!--      <span slot="footer" class="dialog-footer">-->
+<!--        <el-button @click="setPassWordVisible = false">取 消</el-button>-->
+<!--        <el-button type="primary" @click="setPassWordVisible = false">确 定</el-button>-->
+<!--      </span>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -232,15 +272,54 @@ export default {
             }
           ]
         }
+      ],
+      setPassWordVisible: false,
+      setPassWord: [
+        {
+          type: 'input',
+          label: '当前密码',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '该项为必填', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        },
+        {
+          type: 'input',
+          label: '新密码',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '该项为必填', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        },
+        {
+          type: 'input',
+          label: '请再次输入密码',
+          key: 'i',
+          placeholder: '请输入',
+          rule: [
+            { required: true, message: '该项为必填', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
+        }
       ]
     }
   },
   methods: {
-    handleSelectPark (commad) {
-      if (commad === 'add') {
+    handleSelectPark (item) {
+      // 1.activePark存session 2.修改parkList状态 3.下拉后刷新
+      if (item === 'add') {
         this.addParkShow = true
       } else {
-        this.parkName = a
+        this.$store.commit('commitActivePark', item)
+      }
+    },
+    handleCommand (command) {
+      if (command === 'pwd') {
+        this.setPassWordVisible = true
       }
     }
   }
@@ -317,7 +396,6 @@ export default {
       }
     }
   }
-
   /*/deep/ .el-dropdown{*/
   /*  width: 24px;*/
   /*  height: 24px;*/
