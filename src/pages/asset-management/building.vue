@@ -94,13 +94,13 @@ export default {
             note: '测试文本'
           },
           value: {
-            value: 20311400.3,
+            value: null,
             unit: '㎡',
-            chart: 0.24
+            chart: null
           },
           subtitle: {
             name: '总房源数量',
-            value: 22,
+            value: null,
             unit: '间'
           }
         },
@@ -111,13 +111,13 @@ export default {
             note: '测试文本'
           },
           value: {
-            value: 55,
+            value: null,
             unit: '%',
-            chart: 0.24
+            chart: null
           },
           subtitle: {
             name: '本月签约面积',
-            value: 22,
+            value: null,
             unit: '㎡'
           }
         },
@@ -128,13 +128,13 @@ export default {
             note: '测试文本'
           },
           value: {
-            value: 2,
+            value: null,
             unit: '元/㎡·天',
-            chart: 0.24
+            chart: null
           },
           subtitle: {
             name: '本月签约均价',
-            value: 0,
+            value: null,
             unit: '元/㎡·天'
           }
         },
@@ -145,13 +145,13 @@ export default {
             note: '测试文本'
           },
           value: {
-            value: 20311400.3,
+            value: null,
             unit: '㎡',
-            chart: 0.24
+            chart: null
           },
           subtitle: {
             name: '可招商房间',
-            value: 22,
+            value: null,
             unit: '间'
           }
         },
@@ -162,13 +162,13 @@ export default {
             note: '测试文本'
           },
           value: {
-            value: 22.3,
+            value: null,
             unit: '%',
-            chart: 0.24
+            chart: null
           },
           subtitle: {
             name: '预计全年计租率',
-            value: 22,
+            value: null,
             unit: '%'
           }
         }

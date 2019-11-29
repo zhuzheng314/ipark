@@ -1,6 +1,5 @@
 <template>
   <div class="assetInfo">
-
     <el-card style="margin-bottom: 10px">
       <div slot="header" class="clearfix">
         <el-page-header @back="goBack" content="协力大厦">
@@ -228,93 +227,7 @@ export default {
           str: '锁定'
         }
       ],
-      infoBoxData: [
-        {
-          type: 0,
-          title: {
-            name: '管理面积',
-            note: '测试文本'
-          },
-          value: {
-            value: 20311400.3,
-            unit: '㎡',
-            chart: 0.24
-          },
-          subtitle: {
-            name: '总房源数量',
-            value: 22,
-            unit: '间'
-          }
-        },
-        {
-          type: 'num',
-          title: {
-            name: '出租率',
-            note: '测试文本'
-          },
-          value: {
-            value: 55,
-            unit: '%',
-            chart: 0.24
-          },
-          subtitle: {
-            name: '本月签约面积',
-            value: 22,
-            unit: '㎡'
-          }
-        },
-        {
-          type: 'num',
-          title: {
-            name: '在租实时均价',
-            note: '测试文本'
-          },
-          value: {
-            value: 2,
-            unit: '元/㎡·天',
-            chart: 0.24
-          },
-          subtitle: {
-            name: '本月签约均价',
-            value: 0,
-            unit: '元/㎡·天'
-          }
-        },
-        {
-          type: 0,
-          title: {
-            name: '可招商面积',
-            note: '测试文本'
-          },
-          value: {
-            value: 20311400.3,
-            unit: '㎡',
-            chart: 0.24
-          },
-          subtitle: {
-            name: '可招商房间',
-            value: 22,
-            unit: '间'
-          }
-        },
-        {
-          type: 'chart',
-          title: {
-            name: '当前计租率',
-            note: '测试文本'
-          },
-          value: {
-            value: 22.3,
-            unit: '%',
-            chart: 0.24
-          },
-          subtitle: {
-            name: '预计全年计租率',
-            value: 22,
-            unit: '%'
-          }
-        }
-      ],
+      infoBoxData: [],
       requirement: {
         area: {
           areaList: [
@@ -520,6 +433,9 @@ export default {
       this.buildId = Number(this.$route.query.buildId)
       this.fetchRoomList()
       this.fetchBuildList()
+    },
+    buildId () {
+      // this.fetchBuildingInfo()
     }
   },
   methods: {
@@ -590,17 +506,121 @@ export default {
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
-        pid: this.$store.state.form.activePark.domain_id,
+        // pid: this.$store.state.form.activePark.domain_id,
         page_no: 1,
         page_size: 20
       })
+      this.fetchBuildingInfo()
     },
     fetchAddRoom (data) {
       this.$store.dispatch('addRoom', data)
+    },
+    fetchBuildingInfo () {
+      let buildId = this.buildId
+      this.$https.post(this.$urls.building.get_list, {
+        page_no: 1,
+        page_size: 999,
+        domain_id: buildId
+      }).then(res => {
+        let data = res.list[0]
+        // this.$message(`${buildId}`)
+        let infoBoxData = [
+          {
+            type: 0,
+            title: {
+              name: '管理面积',
+              note: '测试文本'
+            },
+            value: {
+              value: data.total_area,
+              unit: '㎡',
+              chart: null
+            },
+            subtitle: {
+              name: '总房源数量',
+              value: data.total_rooms,
+              unit: '间'
+            }
+          },
+          {
+            type: 'num',
+            title: {
+              name: '出租率',
+              note: '测试文本'
+            },
+            value: {
+              value: data.rent_rate,
+              unit: '%',
+              chart: null
+            },
+            subtitle: {
+              name: '本月签约面积',
+              value: null,
+              unit: '㎡'
+            }
+          },
+          {
+            type: 'num',
+            title: {
+              name: '在租实时均价',
+              note: '测试文本'
+            },
+            value: {
+              value: data.avg_unit_price,
+              unit: '元/㎡·天',
+              chart: null
+            },
+            subtitle: {
+              name: '本月签约均价',
+              value: null,
+              unit: '元/㎡·天'
+            }
+          },
+          {
+            type: 0,
+            title: {
+              name: '可招商面积',
+              note: '测试文本'
+            },
+            value: {
+              value: data.rent_area,
+              unit: '㎡',
+              chart: null
+            },
+            subtitle: {
+              name: '可招商房间',
+              value: data.rent_rooms,
+              unit: '间'
+            }
+          },
+          {
+            type: 'chart',
+            title: {
+              name: '当前计租率',
+              note: '测试文本'
+            },
+            value: {
+              value: data.pay_rate,
+              unit: '%',
+              chart: null
+            },
+            subtitle: {
+              name: '预计全年计租率',
+              value: null,
+              unit: '%'
+            }
+          }
+        ]
+        this.infoBoxData = []
+        this.infoBoxData = infoBoxData
+        // this.$message(`${buildId}`)
+        // console.log(this.infoBoxData)
+      })
     }
   },
   mounted () {
     this.buildId = Number(this.$route.query.buildId)
+    this.fetchBuildingInfo()
     this.fetchRoomList()
     this.fetchBuildList()
   }

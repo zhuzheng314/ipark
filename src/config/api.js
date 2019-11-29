@@ -31,6 +31,7 @@ const api = {
   // 楼宇模块管理
   building: {
     info: `/assets.d_building.get_info`, // 获取楼宇统计信息
+    get_list2: `/assets.d_building.get_list`, // 获取楼宇统计信息
     add: `/assets.building.add`, // 添加楼宇
     modify: `/assets.building.modify`, // 修改楼宇
     remove: `/assets.building.remove`, // 删除楼宇
