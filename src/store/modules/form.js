@@ -11,12 +11,22 @@ const form = {
   getters: {
     parkListOptions: state => {
       return {
-        pid: state.parkList.map(x => {
+        pid: state.buildList.length ? state.parkList.map(x => {
           return {
             label: x.name,
             value: x.domain_id
           }
-        })
+        }) : []
+      }
+    },
+    buildListOptions: state => {
+      return {
+        pid: state.buildList.length ? state.buildList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
       }
     },
     roomFloor: state => {
