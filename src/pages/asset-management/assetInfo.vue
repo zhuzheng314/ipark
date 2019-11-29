@@ -97,11 +97,11 @@
               :style="{
                 width: !showType ? 'calc(' + 100 / item.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
-                background: subItem.isFind || !filterStatus ? subItem.bgColor : '#DCDCDC' }">
+                background: statusList[subItem.state].color }">
               <div class="text">{{subItem.name}}</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
               <div class="sub-text">2019-11-11到期</div>
-              <div class="status">{{subItem.statusStr}}</div>
+              <div class="status">{{statusList[subItem.state].str}}</div>
             </div>
           </div>
 
@@ -154,15 +154,13 @@
     >
       <div>
         <ParkForm
-          ref="tt"
+          ref="addRoomForm"
+          @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
+          :options="$store.getters.buildListOptions"
           :itemList="[]">
         </ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
 
     </el-dialog>
   </div>
@@ -202,31 +200,31 @@ export default {
       value: '',
       fakerList: [
       ],
-      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#626C91'],
+      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#dcdcdc'],
       statusList: [
         {
           color: '#57D1E2',
-          code: 1,
+          code: 0,
           str: '在租'
         },
         {
           color: '#46D2A8',
-          code: 2,
+          code: 1,
           str: '待招商'
         },
         {
           color: '#F1A468',
-          code: 3,
+          code: 2,
           str: '自用'
         },
         {
           color: '#626C91',
-          code: 4,
+          code: 3,
           str: '未分配'
         },
         {
-          color: '#626C91',
-          code: 5,
+          color: '#dcdcdc',
+          code: 4,
           str: '锁定'
         }
       ],
@@ -543,9 +541,6 @@ export default {
       this.$router.go(-1) // 后退
     },
     handleStatusClick (data) {
-      // if (this.filterStr !== data.str) {
-      //   this.filterStatus = false
-      // }
       this.filterStatus = !this.filterStatus
       this.findRoomByStatus(data.code)
     },
@@ -592,10 +587,23 @@ export default {
           }
         })
       })
+    },
+    fetchBuildList () {
+      this.$store.dispatch('getBuildList', {
+        pid: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
+        // console.log(res)
+      })
+    },
+    fetchAddRoom (data) {
+      this.$store.dispatch('addRoom', data)
     }
   },
   mounted () {
     this.fetchRoomList()
+    this.fetchBuildList()
   },
   created () {
     let fakerList = []
