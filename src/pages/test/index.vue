@@ -64,6 +64,7 @@ export default {
   data () {
     return {
       API_input: '',
+      API_textarea: '',
       API_textarea2: '',
       url: 'http://192.168.0.231:3000/upload',
       fileList: [],
@@ -148,11 +149,12 @@ export default {
   mounted () {
   },
   watch: {
+    // API_textarea(){}
   },
   computed: {
-    API_textarea () {
-      return this.API_textarea
-    }
+    // API_textarea () {
+    //   // return this.API_textarea
+    // }
   },
   methods: {
     // API接口测试
