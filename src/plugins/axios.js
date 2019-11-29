@@ -31,7 +31,7 @@ const body = {
 }
 // sessionStorage.ge('_token', 'C8B0A05E-F0E0-0001-7D19-1F401AA7FAC0')
 // 获取token
-const token = sessionStorage.getItem('_token')
+const token = JSON.parse(sessionStorage.getItem('_token'))
 
 request.interceptors.request.use(
   config => {
