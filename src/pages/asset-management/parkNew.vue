@@ -1,16 +1,16 @@
 <template>
   <div class="parkNew">
     <div class="left">
-      <div class="left-btn" @click="() => this.addBuildShow = true">
+      <div class="left-btn" @click="() => this.addShowBuild = true">
         <i class="el-icon-plus"></i> 添加楼宇
       </div>
       <div class="left-list">
-        <div class="item" :class="{ active: buildIndex === index}" :key="index + 'leftcard'" v-for="(item, index) in fakerBuildList">
+        <div class="item" :class="{ active: item.domain_id === buildId}" :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.buildList">
           <div class="inner" @click="handleBuildClick(index, item)">
             <img class="pic" :src="item.img">
             <div class="cont">
               <div class="title">{{item.name}}</div>
-              <div class="value">{{item.value}}㎡</div>
+              <div class="value">{{item.area}}㎡</div>
             </div>
           </div>
 
@@ -22,21 +22,18 @@
     </div>
     <el-dialog
       title="添加楼宇"
-      :visible.sync="addBuildShow"
+      :visible.sync="addShowBuild"
       width="600px"
     >
       <div>
         <ParkForm
-          ref="tt"
+          ref="buildForm"
+          @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
+          :options="$store.getters.parkListOptions"
           :itemList="[]">
         </ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
-
     </el-dialog>
   </div>
 </template>
@@ -51,8 +48,16 @@ export default {
   components: {
     assetinfo
   },
+  watch: {
+    '$route' (newR) {
+      this.fetchBuildList()
+      this.buildId = Number(newR.query.buildId)
+    }
+  },
   data () {
     return {
+      addShowBuild: false,
+      buildId: null,
       showType: true,
       options: [
         {
@@ -374,202 +379,8 @@ export default {
           ]
         }
       },
-      fakerBuildList: [],
       addParkShow: false,
       addBuildShow: false,
-      addParkFormList: [
-        {
-          title: '园区信息',
-          children: [
-            {
-              type: 'input',
-              label: '园区名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '建筑面积',
-              key: 'i2',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '总投资',
-              key: 'i3',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属物业',
-              key: 'i4',
-              placeholder: '请输入租客名称',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系人',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '园区联系电话',
-              key: 'i4',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' }
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '园区状态',
-              key: 'u2',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '在建',
-                  value: 's1'
-                },
-                {
-                  label: '招商',
-                  value: 's1'
-                },
-                {
-                  label: '运营',
-                  value: 's1'
-                },
-                {
-                  label: '其他',
-                  value: 's1'
-                }
-              ],
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'textarea',
-              label: '园区描述',
-              key: 'i5',
-              placeholder: '请输入',
-              rule: [
-                // { required: true, message: '请输入', trigger: 'blur' },
-                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'upload-img',
-              label: '园区图片',
-              key: 'u1',
-              placeholder: '请输入'
-              // rule: [
-              //   { required: true, message: '请输入', trigger: 'blur' },
-              //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              // ]
-            }
-          ]
-        }
-      ],
-      // addBuildFormList: [
-      //   {
-      //     title: '楼宇信息',
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '楼宇名称',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '该项为必填', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '建筑面积',
-      //         key: 'i2',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '该项为必填', trigger: 'blur' }
-      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '可出租面积',
-      //         key: 'i3',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
-      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '所属园区',
-      //         key: 'u2',
-      //         placeholder: '请输入',
-      //         options: [
-      //           {
-      //             label: '西港新界',
-      //             value: 's1'
-      //           },
-      //           {
-      //             label: '海创园',
-      //             value: 's1'
-      //           },
-      //           {
-      //             label: '梦想小镇',
-      //             value: 's1'
-      //           }
-      //         ],
-      //         rule: [
-      //           { required: true, message: '请输入', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'textarea',
-      //         label: '楼宇描述',
-      //         key: 'i4',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' }
-      //           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'upload-img',
-      //         label: '楼宇图片',
-      //         key: 'u1',
-      //         placeholder: '请输入'
-      //         // rule: [
-      //         //   { required: true, message: '请输入', trigger: 'blur' },
-      //         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         // ]
-      //       }
-      //     ]
-      //   }
-      // ],
-
       buildIndex: 0
     }
   },
@@ -594,14 +405,52 @@ export default {
     handleAdd () {
       this.addBuildShow = true
     },
-    handleBuildClick (index) {
+    handleBuildClick (index, item) {
       this.buildIndex = index
+      this.$router.push(`/asset-management/build?buildId=${item.domain_id}`)
+    },
+    fetchBuildList () {
+      this.$store.dispatch('getBuildList', {
+        pid: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 20
+      })
+    },
+    fetchAddBuild (data) {
+      this.$store.dispatch('addBuild', data).then(res => {
+        if (res.code === 1000) {
+          this.addShowBuild = false
+          this.$message.success('新增成功')
+          this.$refs.buildForm.resetForm()
+        }
+      })
+      this.$store.dispatch('getBuildList', {
+        pid: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 20
+      }).then(res => {
+      })
+    },
+    getBuildId () {
+      this.fetchBuildList()
+      if (this.$route.query.buildId) {
+        this.buildId = Number(this.$route.query.buildId)
+      } else {
+        this.$store.dispatch('getBuildList', {
+          pid: this.$store.state.form.activePark.domain_id,
+          page_no: 1,
+          page_size: 20
+        }).then(res => {
+          let buildId = res && res[0].domain_id
+          this.$router.push(`/asset-management/build?buildId=${buildId}`)
+        })
+      }
     }
   },
+  created () {
+    this.getBuildId()
+  },
   mounted () {
-    for (let i = 0; i < 10; i++) {
-      this.fakerBuildList.push({ name: '协力大厦', img: require('@/assets/img/park/listhead.png'), value: 1000 })
-    }
   }
 }
 </script>

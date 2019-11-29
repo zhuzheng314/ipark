@@ -101,13 +101,29 @@ const addParkForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'select',
         label: '园区定位',
         key: 'usage',
         placeholder: '请输入',
+        options: [
+          {
+            label: '互联网',
+            value: 1
+          },
+          {
+            label: '招商',
+            value: 2
+          },
+          {
+            label: '运营',
+            value: 3
+          },
+          {
+            label: '其他',
+            value: 4
+          }
+        ],
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {

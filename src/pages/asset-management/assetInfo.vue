@@ -488,13 +488,6 @@ export default {
             { prop: 'state', label: '状态' }
           ],
           tableData: [
-            // {
-            //   tenant: '拓源科技',
-            //   start: '2019/11/11',
-            //   end: '2020/11/10',
-            //   price: '3.00元/㎡·天',
-            //   state: '新建待审核'
-            // }
           ]
         }
       },
@@ -520,6 +513,13 @@ export default {
   computed: {
     roomFloor () {
       return this.$store.getters.roomFloor
+    }
+  },
+  watch: {
+    '$route' () {
+      this.buildId = Number(this.$route.query.buildId)
+      this.fetchRoomList()
+      this.fetchBuildList()
     }
   },
   methods: {
@@ -560,7 +560,7 @@ export default {
         page_no: 1,
         page_size: 20
       }).then(res => {
-        let list = res.list
+        let list = res
         let arr = []
         list.forEach(x => {
           if (arr.length) {
@@ -593,8 +593,6 @@ export default {
         pid: this.$store.state.form.activePark.domain_id,
         page_no: 1,
         page_size: 20
-      }).then(res => {
-        // console.log(res)
       })
     },
     fetchAddRoom (data) {
@@ -602,35 +600,9 @@ export default {
     }
   },
   mounted () {
+    this.buildId = Number(this.$route.query.buildId)
     this.fetchRoomList()
     this.fetchBuildList()
-  },
-  created () {
-    let fakerList = []
-    for (let i = 0; i < 6; i++) {
-      let arr = []
-      let allArea = 0
-      let randomLength = this.random(3, 8)
-      for (let j = 0; j < randomLength; j++) {
-        let area = this.random(150, 300)
-        allArea += area
-        let status = this.random(0, 5) % 5
-        arr.push({
-          area,
-          allArea,
-          status,
-          code: status + 1,
-          checked: false,
-          position: i + '-' + j,
-          isFind: false,
-          statusStr: this.statusList[status].str,
-          bgColor: this.statusList[status].color
-        })
-      }
-      fakerList.push(arr)
-    }
-    this.fakerList = fakerList
-    this.buildId = Number(this.$route.query.buildId)
   }
 }
 </script>

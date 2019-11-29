@@ -1,8 +1,9 @@
 // 空间管理
 
 // const baseUrl = 'https://service.iot1234.com:2443/api/'
-const domin = 'http://192.168.0.231:3000/'
-const baseUrl = domin + 'api/'
+const url = 'http://192.168.0.231'
+const domin = url + ':3000/'
+const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
 
 const api = {
@@ -13,6 +14,8 @@ const api = {
 
   // 上传文件
   upload: uploadUrl,
+  // 获取文件
+  fileUrl: url + '/images/',
   /* --------------- 资产管理模块 --------------- */
   // 园区模块
   park: {
@@ -22,6 +25,7 @@ const api = {
     get_list: `/assets.park.get_list`, // 获取园区
     modify: `/assets.park.modify`, // 修改园区
     remove: `/assets.park.remove`, //  删除园区
+    get_info2: `/assets.d_park.get_list`, // 获取园区信息
     get_info: `/assets.park.get_info` // 获取园区信息
   },
   // 楼宇模块管理
