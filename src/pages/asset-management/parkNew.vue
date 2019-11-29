@@ -7,7 +7,7 @@
       <div class="left-list">
         <div class="item" :class="{ active: item.domain_id === buildId}" :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.buildList">
           <div class="inner" @click="handleBuildClick(index, item)">
-            <img class="pic" :src="item.img">
+            <img class="pic" :src="$urls.fileUrl + item.attached.upload[0].url">
             <div class="cont">
               <div class="title">{{item.name}}</div>
               <div class="value">{{item.area}}㎡</div>

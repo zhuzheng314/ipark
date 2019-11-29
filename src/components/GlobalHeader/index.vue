@@ -125,6 +125,7 @@
 <script>
 import { Component, Prop, Vue } from 'vue-property-decorator'
 // import EllipsisText from 'vue-ellipsis-text'
+import md5 from 'md5'
 export default {
   name: 'GlobalHeader',
   components: {
@@ -204,7 +205,6 @@ export default {
         this.$message('新密码不能为空')
       }
       if (this.passwordForm.password1 && this.passwordForm.password2 && this.passwordForm.password3 && this.passwordForm.password2 === this.passwordForm.password3) {
-        var md5 = require('md5')
         let params = {
           user_id: 'business_admin',
           old_pass: md5(this.passwordForm.password1),
@@ -217,9 +217,22 @@ export default {
           this.$message(`${msg}`)
         })
       }
+    },
+    fakerLogin () {
+      let pass = md5('123456')
+      console.log(pass)
+      this.$https.post('/login', {
+        user: 'business_admin',
+        pass
+      }).then(res => {
+        if (res.code === 1000) {
+          this.$utils.storageSet('_token', res.access_token)
+        }
+      })
     }
   },
   created () {
+    this.fakerLogin()
     this.$store.dispatch('getParkList', {
       page_no: 1,
       page_size: 9999

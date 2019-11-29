@@ -16,7 +16,8 @@ const api = {
   // 上传文件
   upload: uploadUrl,
   // 获取文件
-  fileUrl: url + '/images/',
+  // fileUrl: url + '/images/',
+  fileUrl: 'http://service.iot1234.com/images/',
   /* --------------- 资产管理模块 --------------- */
   // 园区模块
   park: {
