@@ -78,6 +78,7 @@ const form = {
     },
     commitActivePark (state, park) {
       state.activePark = park
+      storageSet('activePark', park)
     }
   },
   actions: {
@@ -87,6 +88,7 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitParkList', res.list)
+          return res.list
         }
       })
     },
