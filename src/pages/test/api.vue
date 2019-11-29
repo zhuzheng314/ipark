@@ -22,7 +22,7 @@
                 <tr v-for="(item,index) in c.business" :key="index" >
                   <td>{{item.key}}</td>
                   <td>{{item.type}}</td>
-                  <td>{{item.required}}</td>
+                  <td>{{item.required ? '是' : '否'}}</td>
                   <td width="400px">{{item.description}}</td>
                 </tr>
               </div>
@@ -36,7 +36,7 @@
                 <tr v-for="(item,index) in c.return" :key="index" >
                   <td>{{item.key}}</td>
                   <td>{{item.type}}</td>
-                    <td>{{item.required}}</td>
+                    <td>{{item.required ? '是' : '否'}}</td>
                   <td width="400px">{{item.description}}</td>
                 </tr>
               </table>

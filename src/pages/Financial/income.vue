@@ -342,8 +342,9 @@ export default {
     handleAddContract () {
       this.addContractVisible = true
     },
-    financialState () {
+    financialState (row) {
       this.financialInfoState = true
+      this.fetchChargeGetInfo(row.customer_id)
     },
     handleClose () { },
     open (i) {
@@ -371,6 +372,15 @@ export default {
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
         // this.tableData = res.list
+      })
+    },
+    fetchChargeGetInfo (id) { // 获取财务收入信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.charge.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },
