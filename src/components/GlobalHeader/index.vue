@@ -159,7 +159,8 @@ export default {
       value: '',
       parkName: '请选择园区',
       addParkShow: false,
-      setPassWordVisible: false
+      setPassWordVisible: false,
+      form: ''
     }
   },
   methods: {

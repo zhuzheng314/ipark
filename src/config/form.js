@@ -227,53 +227,18 @@ const addRoomForm = [
       {
         type: 'select',
         label: '所属楼宇',
-        key: 'u',
+        key: 'pid',
         placeholder: '请选择',
-        options: [
-          {
-            label: '协力大厦1',
-            value: 's1'
-          },
-          {
-            label: '协力大厦2',
-            value: 's2'
-          },
-          {
-            label: '协力大厦3',
-            value: 's3'
-          }
-        ],
+        options: [],
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }
         ]
       },
       {
-        type: 'select',
+        type: 'input-num',
         label: '所属楼层',
-        key: 'u2',
-        placeholder: '请选择',
-        options: [
-          {
-            label: '一楼',
-            value: 's1'
-          },
-          {
-            label: '二楼',
-            value: 's2'
-          },
-          {
-            label: '三楼',
-            value: 's3'
-          },
-          {
-            label: '四楼',
-            value: 's4'
-          },
-          {
-            label: '五楼',
-            value: 's5'
-          }
-        ],
+        key: 'floor',
+        placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }
         ]
@@ -281,7 +246,7 @@ const addRoomForm = [
       {
         type: 'input',
         label: '房间号',
-        key: 'u3',
+        key: 'name',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -290,7 +255,7 @@ const addRoomForm = [
       {
         type: 'input',
         label: '面积',
-        key: 'u4',
+        key: 'area',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -299,28 +264,28 @@ const addRoomForm = [
       {
         type: 'select',
         label: '状态',
-        key: 'u5',
+        key: 'state',
         placeholder: '请选择',
         options: [
           {
             label: '在租',
-            value: 's1'
+            value: 0
           },
           {
             label: '待招商',
-            value: 's2'
+            value: 1
           },
           {
             label: '自用',
-            value: 's3'
-          },
-          {
-            label: '锁定',
-            value: 's4'
+            value: 2
           },
           {
             label: '未分配',
-            value: 's5'
+            value: 3
+          },
+          {
+            label: '锁定',
+            value: 4
           }
         ],
         rule: [
@@ -330,7 +295,7 @@ const addRoomForm = [
       {
         type: 'input',
         label: '联系人',
-        key: 'u6',
+        key: 'contacter',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -339,7 +304,7 @@ const addRoomForm = [
       {
         type: 'input',
         label: '联系人电话',
-        key: 'u7',
+        key: 'contact',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -348,7 +313,7 @@ const addRoomForm = [
       {
         type: 'textarea',
         label: '房间描述',
-        key: 'u8',
+        key: 'memo',
         placeholder: '请输入',
         rule: [
           // { required: true, message: '请输入', trigger: 'blur' },
@@ -358,7 +323,7 @@ const addRoomForm = [
       {
         type: 'upload-img',
         label: '房间图片',
-        key: 'u1',
+        key: 'attached',
         placeholder: '请输入'
         // rule: [
         //   { required: true, message: '请输入', trigger: 'blur' },
