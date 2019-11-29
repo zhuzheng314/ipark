@@ -11,13 +11,13 @@
           <div  v-for="(a, ai) in testData" :key="ai">
             <el-submenu :index="ai">
               <template slot="title">
-                <a :href="'#'+a.title">{{a.index}}.{{a.title}}</a>
+                <a @click="returnCom(a.title)">{{a.index}}.{{a.title}}</a>
               </template>
               <div v-for="(b, bi) in a.content" :key="bi">
                 <span style="padding-left:32px;">{{a.index}}.{{bi + 1}}.{{b.title}}</span>
                 <div v-for="(c, ci) in b.content" :key="ci">
                   <el-menu-item style="height:28px;line-height: 28px;padding-left:48px;" :index="c.title">
-                    <a :href="'#'+c.title">{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}</a>
+                    <a @click="returnCom(c.title)">{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}</a>
                   </el-menu-item>
                   <!-- <el-submenu index="1-4">
                     <span slot="title">{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}</span>
@@ -29,7 +29,7 @@
         </el-menu>
       </el-card>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="10">
       <el-card class="content">
         <div v-for="(a, ai) in testData" :key="ai">
           <h1 :id="a.title">{{a.index+ '.' +a.title}}</h1>
@@ -90,6 +90,15 @@
         </div>
       </el-card>
     </el-col>
+    <el-col :span="6">
+      <el-card class="test">
+        <el-input v-model="API_input" placeholder="请输入API"></el-input>
+        <el-input type="textarea"  rows="10" placeholder="请输入要传的参数" v-model="API_textarea2"></el-input>
+        <el-button style="margin-bottom: 10px;" size="small"
+        type="primary" @click="API_test">API测试</el-button>
+        <el-input type="textarea" rows="22" placeholder="返回数据,默认显示所有园区树" v-model="API_textarea"></el-input>
+      </el-card>
+    </el-col>
   </el-row>
 </div>
 </template>
@@ -102,7 +111,10 @@ export default {
   data () {
     return {
       testData: '',
-      isCollapse: false
+      isCollapse: false,
+      API_input: '',
+      API_textarea: '',
+      API_textarea2: ''
     }
   },
   mounted () {
@@ -4693,7 +4705,7 @@ export default {
         },
         {
           title: '获取字典类型信息',
-          api: 'model.dictype.get_list',
+          api: 'model.dictype.get_info',
           business: [
             {
               key: 'type_id',
@@ -4962,15 +4974,99 @@ export default {
         content: [zidmkgl, zidgl]
       }
     ]
+
+    console.log(this.$route)
   },
   watch: {
   },
   methods: {
     handleOpen (key, keyPath) {
-      console.log(key, keyPath)
+      // console.log(key, keyPath)
     },
     handleClose (key, keyPath) {
-      console.log(key, keyPath)
+      // console.log(key, keyPath)
+    },
+    returnCom (id) {
+      const returnEle = document.getElementById(id)
+      if (returnEle) {
+        returnEle.scrollIntoView(true)
+      }
+    },
+    // API接口测试
+    API_test () {
+      let api = this.$urls.park.get_tree_list
+      let params1 = {
+        page_size: 999,
+        page_no: 1
+      }
+      let params2 = {
+        // domain_id: 317,
+        address: '协力大厦',
+        estate_property: '1',
+        usage: '1',
+        complete_ts: '2019-11-07T04:55:20.176Z',
+        acquire_way: 1,
+        capital: 1,
+        detail: '1',
+        attached: {},
+        memo: '1',
+        name: '西岗2',
+        built_area: 10000,
+        total_invest: 8000,
+        property: '',
+        contacter: '',
+        contact: '',
+        state: 1,
+        cover_area: 12000,
+        actual_invest: 9000
+
+      }
+      let params3 = {
+        domain_id: 464
+      }
+      let params4 = {
+        pid: 454,
+        name: '测试房间1',
+        info: {},
+        code: 111,
+        domain_memo: '',
+        room_property: 1,
+        is_rentable: false,
+        state: 1,
+        room_usage: 0,
+        decoration_standard: 0,
+        area: 300,
+        direction: 2,
+        estate_property: '1',
+        usage: '1',
+        acquire_way: '1',
+        acquire_ts: '2019-11-07T04:55:20.176Z',
+        is_flue: false,
+        floor_height: 10,
+        bearing: 10000,
+        attached: {},
+        memo: ''
+      }
+      let params = params1
+      if (this.API_input) {
+        api = '/' + this.API_input
+      }
+      if (this.API_textarea2) {
+        params = JSON.parse(this.API_textarea2)
+      }
+
+      this.$https.post(api, params).then((res) => {
+        this.$message(res.msg)
+        this.API_textarea = JSON.stringify(res, null, 2)
+        if (res.code !== 1000) {
+          this.API_textarea = JSON.stringify({
+            err: res.err,
+            msg: res.msg,
+            track: res.track
+          })
+        }
+        // console.log(this.API_textarea)
+      })
     }
   }
 }
@@ -4993,12 +5089,7 @@ export default {
   a{
     color: #333;
   }
-  .menu{
-    height: 88vh;
-    overflow: auto;
-  }
-  .content{
-    width: 800px;
+  .menu,.content,.test{
     height: 88vh;
     overflow: auto;
   }
