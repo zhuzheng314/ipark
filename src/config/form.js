@@ -603,7 +603,7 @@ const addContractForm = [
   {
     title: '基础信息',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',
@@ -729,7 +729,7 @@ const addContractForm = [
   {
     title: '租户信息',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',
@@ -793,7 +793,7 @@ const addContractForm = [
   {
     title: '开票信息',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     children: [
       {
         type: 'input',
@@ -850,7 +850,7 @@ const addContractForm = [
   {
     title: '工商信息',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     children: [
       {
         type: 'input',
@@ -1045,7 +1045,7 @@ const addContractForm = [
   {
     title: '基础条款',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',
@@ -1168,7 +1168,7 @@ const addContractForm = [
   {
     title: '房源租期条款',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',
@@ -1226,7 +1226,7 @@ const addContractForm = [
   {
     title: '物业费基础条款',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',
@@ -1322,7 +1322,7 @@ const addContractForm = [
   {
     title: '物业费条款',
     span: 24,
-    itemSpan: 6,
+    itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',

@@ -9,7 +9,7 @@
              :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
              :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.parkList">
           <div class="inner" @click="handleParkClick(index, item)">
-            <img class="pic" :src="$urls.fileUrl + item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url">
+            <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
             <div class="cont">
               <div class="title">{{item.name || '-'}}</div>
               <div class="value">{{item.cover_area || '-'}}㎡</div>
@@ -60,20 +60,6 @@
             prefix-icon="el-icon-search"
             v-model="inputValue">
           </el-input>
-
-          <el-select
-            multiple
-            size="small"
-            style="width: 180px; margin-right: 15px"
-            v-model="value"
-            placeholder="出租率">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
 
           <el-button
             style="float: right;"
@@ -142,6 +128,16 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          style="text-align: right;margin-top: 20px"
+          layout="prev, pager, next"
+          :current-page="page.page_no"
+          :page-size="10"
+          @prev-click="handlePageClick"
+          @next-click="handlePageClick"
+          @current-change="handlePageClick"
+          :total="page.total">
+        </el-pagination>
       </el-card>
     </div>
     <el-dialog
@@ -311,7 +307,12 @@ export default {
       buildIndex: 0,
       parkList: [],
       buildingList: [],
-      activePark: ''
+      activePark: '',
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 10
+      }
     }
   },
   watch: {
@@ -373,6 +374,7 @@ export default {
         if (res.code === 1000) {
           this.addShowBuild = false
           this.$message.success('新增成功')
+          this.fetchBuildList()
           this.$refs.buildForm.resetForm()
         }
       })
@@ -522,14 +524,21 @@ export default {
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
-        domain_id: this.$store.state.form.activePark.domain_id,
-        page_no: 1,
-        page_size: 20
+        pid: this.$store.state.form.activePark.domain_id,
+        ...this.page
       }).then(res => {
-        // console.log(res)
+        this.page = {
+          ...this.page,
+          page_no: res.page_no,
+          total: res.total
+        }
       })
     },
 
+    handlePageClick (num) {
+      this.page.page_no = num
+      this.fetchBuildList()
+    },
     fetchTreeList () {
       this.$https.post(this.$urls.park.get_tree_list, {
         page_no: 1,
@@ -561,7 +570,9 @@ export default {
   },
   mounted () {
     this.fetchParkList()
+    this.fetchBuildList()
     this.fetchTreeList()
+    this.fetchParkInfo(this.$store.state.form.activePark)
   }
 }
 </script>

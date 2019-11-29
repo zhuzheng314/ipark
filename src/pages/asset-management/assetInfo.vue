@@ -78,7 +78,7 @@
           <div class="text">{{item.str}}</div>
         </div>
         <div style="float: right">
-          <el-button size="mini" @click="() => this.showType = !this.showType">切换</el-button>
+          <el-button size="mini" @click="() => this.showTrueArea = !this.showTrueArea">切换</el-button>
         </div>
       </div>
 
@@ -86,7 +86,7 @@
 
       <div class="list" :key="'list-' + index" v-for="(item, index) in roomFloor">
         <div class="list-header">
-          <div>{{item.floor_height}}楼</div>
+          <div>{{item.floor}}楼</div>
           <div>{{item.allArea}}㎡</div>
         </div>
         <div class="list-wrap">
@@ -95,9 +95,9 @@
               class="list-item"
               @click="roomInfo({index,subIndex})"
               :style="{
-                width: !showType ? 'calc(' + 100 / item.length + '% - 5px)'
+                width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
-                background: statusList[subItem.state].color }">
+                background: filterRoomColorByState(subItem) }">
               <div class="text">{{subItem.name}}</div>
               <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
               <div class="sub-text">2019-11-11到期</div>
@@ -178,7 +178,7 @@ export default {
   data () {
     return {
       buildId: null,
-      showType: true,
+      showTrueArea: true,
       options: [
         {
           value: '选项1',
@@ -507,7 +507,8 @@ export default {
         }
       },
       addRoomShow: false,
-      filterStatus: false
+      filterStatus: false,
+      filterData: ''
     }
   },
   computed: {
@@ -542,21 +543,24 @@ export default {
     },
     handleStatusClick (data) {
       this.filterStatus = !this.filterStatus
-      this.findRoomByStatus(data.code)
+      this.filterData = data
+      this.filterRoomColorByState()
     },
-    findRoomByStatus (code) {
-      this.fakerList.forEach(item => {
-        item.forEach(sub => {
-          sub.isFind = false
-          if (sub.code === code) {
-            sub.isFind = true
-          }
-        })
-      })
+    filterRoomColorByState (room) {
+      if (!room) return 'yellow'
+      if (!this.filterStatus) {
+        return this.statusList[room.state].color
+      } else {
+        if (this.filterData.code === room.state) {
+          return this.statusList[room.state].color
+        } else {
+          return '#dcdcdc'
+        }
+      }
     },
     fetchRoomList () {
       this.$store.dispatch('getRoomList', {
-        domain_id: this.buildId,
+        pid: this.buildId,
         page_no: 1,
         page_size: 20
       }).then(res => {
@@ -566,20 +570,20 @@ export default {
           if (arr.length) {
             let flag = false
             arr.forEach((y, yi) => {
-              if (y.floor === x.floor_height) {
+              if (y.floor === x.floor) {
                 flag = true
                 y.children.push(x)
               }
               if (yi === arr.length - 1 && !flag) {
                 arr.push({
-                  floor: x.floor_height,
+                  floor: x.floor,
                   children: [{ ...x }]
                 })
               }
             })
           } else {
             arr.push({
-              floor: x.floor_height,
+              floor: x.floor,
               children: [{
                 ...x
               }]
@@ -590,13 +594,20 @@ export default {
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
-        pid: this.$store.state.form.activePark.domain_id,
+        pid: this.$utils.storageGet('activePark').domain_id,
         page_no: 1,
         page_size: 20
       })
     },
     fetchAddRoom (data) {
-      this.$store.dispatch('addRoom', data)
+      this.$store.dispatch('addRoom', data).then(res => {
+        if (res.code === 1000) {
+          this.$message.success('新增成功')
+          this.addRoomShow = false
+          this.$refs.addRoomForm.resetForm()
+          this.fetchRoomList()
+        }
+      })
     }
   },
   mounted () {
