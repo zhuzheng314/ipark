@@ -94,18 +94,23 @@
             label="名称">
             <template  slot-scope="scope">
               <div class="tablecard">
-                <img class="img" :src="scope.row.img">
+                <img class="img" :src="$urls.fileUrl + scope.row.attached.upload[0].url">
                 <div class="right">
                   <div class="name">{{scope.row.name}}</div>
-                  <div class="value">{{scope.row.area}}</div>
+                  <div class="value">建筑面积：{{scope.row.area}}㎡</div>
                 </div>
               </div>
 
             </template>
           </el-table-column>
           <el-table-column
-            prop="can"
+            prop="rent_area"
             label="可招租面积">
+            <template  slot-scope="scope">
+              <span>
+                {{scope.row.rent_area}}㎡
+              </span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="price"
@@ -402,7 +407,7 @@ export default {
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
-        pid: this.$store.state.form.activePark.domain_id,
+        domain_id: this.$store.state.form.activePark.domain_id,
         page_no: 1,
         page_size: 20
       }).then(res => {
@@ -440,23 +445,6 @@ export default {
     }
   },
   mounted () {
-    [1, 1, 1, 1, 1].forEach((a, i) => {
-      this.tableData.push({
-        img: require('@/assets/img/park/build.png'),
-        date: '2016-05-02',
-        name: '协力大厦' + i,
-        can: '10000 ㎡',
-        price: '2.22元/㎡·天',
-        percent: '10%',
-        area: '建筑面积：12344 ㎡',
-        num: 10,
-        address: '上海市普陀区金沙江路 1518 弄',
-        tag: '家'
-      })
-    })
-    for (let i = 0; i < 10; i++) {
-      this.fakerList.push({ name: '新港.新界', img: require('@/assets/img/park/listhead.png'), value: 1000 })
-    }
     this.fetchParkList()
     this.fetchTreeList()
     // console.log(this.$store)
@@ -579,6 +567,7 @@ export default {
         height: 62px;
         float: left;
         margin-right: 10px;
+        border: 1px solid #dcdcdc;
       }
       .right{
         .name{

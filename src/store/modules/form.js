@@ -1,6 +1,6 @@
 import request from '@/plugins/axios'
 import { baseUrl, api } from '@/config/api'
-
+import { storageSet, storageGet } from '@/utils/utils'
 const form = {
   state: {
     parkList: [],
@@ -11,7 +11,7 @@ const form = {
   getters: {
     parkListOptions: state => {
       return {
-        pid: state.buildList.length ? state.parkList.map(x => {
+        pid: state.parkList.length ? state.parkList.map(x => {
           return {
             label: x.name,
             value: x.domain_id
@@ -82,7 +82,7 @@ const form = {
   },
   actions: {
     getParkList ({ commit }, data) {
-      return request.post(baseUrl + api.park.get_tree_list, {
+      return request.post(baseUrl + api.park.get_list, {
         ...data
       }).then(res => {
         if (res.code === 1000) {
@@ -96,6 +96,7 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitBuildList', res.list)
+          return res.list
         }
       })
     },
@@ -106,6 +107,7 @@ const form = {
         .then(res => {
           if (res.code === 1000) {
             commit('commitRoomList', res.list)
+            return res.list
           }
         })
     },
