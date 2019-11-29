@@ -6,7 +6,8 @@ const form = {
     parkList: [],
     activePark: {},
     buildList: [],
-    roomList: []
+    roomList: [],
+    contractList: []
   },
   getters: {
     parkListOptions: state => {
@@ -64,7 +65,18 @@ const form = {
         })
       })
       return arr
+    },
+    contractListOptions: state => {
+      return {
+        pid: state.contractList.length ? state.contractList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
+      }
     }
+
   },
   mutations: {
     commitParkList (state, list) {

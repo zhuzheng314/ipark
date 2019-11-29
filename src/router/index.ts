@@ -31,6 +31,7 @@ import Approval from '@/pages/Entry/approval.vue' // 进驻审批
 
 import Test from '@/pages/test/index.vue' // 测试
 import Api from '@/pages/test/api.vue' // 测试
+import Form from '@/pages/test/form.vue' // 测试
 
 Vue.use(VueRouter)
 
@@ -234,6 +235,11 @@ const routes = [
         path: 'api',
         name: 'api',
         component: Api
+      },
+      {
+        path: 'form',
+        name: 'form',
+        component: Form
       }
     ]
   }
