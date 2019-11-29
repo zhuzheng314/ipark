@@ -441,7 +441,7 @@ export default {
           page_no: 1,
           page_size: 20
         }).then(res => {
-          let buildId = res && res[0].domain_id
+          let buildId = res.list && res.list[0].domain_id
           this.$router.push(`/asset-management/build?buildId=${buildId}`)
         })
       }
