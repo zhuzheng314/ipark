@@ -342,12 +342,37 @@ export default {
     handleAddContract () {
       this.addContractVisible = true
     },
-    financialState () {
+    financialState (row) {
       this.financialInfoState = true
+      this.fetchChargeGetInfo(row.customer_id)
     },
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
+    },
+    fetchChargeAdd () { // 添加财务收入
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.charge.add, params).then((res) => {
+
+      })
+    },
+    fetchChargeRemove (id) { // 删除财务收入
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.charge.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchChargeModify (id) { // 修改财务收入
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.charge.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
     },
     fetchChargeInfo () { // 获取财务收入统计信息
       let params = {
@@ -370,7 +395,16 @@ export default {
       }
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
-        // this.tableData = res.list
+        this.tableData = res.list
+      })
+    },
+    fetchChargeGetInfo (id) { // 获取财务收入信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.charge.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },

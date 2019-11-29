@@ -584,13 +584,61 @@ export default {
     test (page) {
       console.log(page)
     },
+    fetchCustomerAdd () { // 添加客户
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.customer.add, params).then((res) => {
+
+      })
+    },
+    fetchCustomerRemove (id) { // 删除客户
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.customer.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchCustomerModify (id) { // 修改客户
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.customer.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchCustomerInfo () { // 获取客户管理统计信息
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.customer.info, params).then((res) => {
+        // console.log(res)
+        this.tableData = res.list
+        let data = res.data
+        this.finData.forEach(v => {
+          v.value = data[v.key]
+          v.chart = data[v.key + '_rate']
+        })
+      })
+    },
     fetchCustomerList () { // 获取客户列表
       let params = {
         page_no: 1,
         page_size: 999
       }
       this.$https.post(this.$urls.customer.get_list, params).then((res) => {
-        console.log(res)
+        // console.log(res)
+        this.tableData = res.list
+      })
+    },
+    fetchCustomerGetInfo (id) { // 获取客户信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.customer.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },

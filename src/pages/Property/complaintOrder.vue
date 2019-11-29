@@ -401,13 +401,61 @@ export default {
     workOrderState () {
       this.workOrderInfoState = true
     },
-    fetchComplaintList () { // 获取投诉管理列表
+    fetchComplaintAdd () { // 添加投诉工单
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.complaint.add, params).then((res) => {
+
+      })
+    },
+    fetchComplaintRemove (id) { // 删除投诉工单
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.complaint.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchComplaintModify (id) { // 修改投诉工单
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.complaint.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchComplaintInfo () { // 获取投诉工单统计信息
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.complaint.info, params).then((res) => {
+        // console.log(res)
+        this.tableData = res.list
+        let data = res.data
+        this.finData.forEach(v => {
+          v.value = data[v.key]
+          v.chart = data[v.key + '_rate']
+        })
+      })
+    },
+    fetchComplaintList () { // 获取投诉工单列表
       let params = {
         page_no: 1,
         page_size: 999
       }
       this.$https.post(this.$urls.complaint.get_list, params).then((res) => {
-        console.log(res)
+        // console.log(res)
+        this.tableData = res.list
+      })
+    },
+    fetchComplaintGetInfo (id) { // 获取投诉工单信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.complaint.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },

@@ -1,64 +1,96 @@
 <template>
 <div class="api">
-  <el-card style="width: 800px">
-    <div v-for="(a, ai) in testData" :key="ai">
-      <h1>{{a.index+ '.' +a.title}}</h1>
-      <div v-if="!a.content.length">-暂无API</div>
-      <div v-if="a.content.length">
-        <div v-for="(b, bi) in a.content" :key="bi" style="padding-left: 8px">
-          <h2>{{a.index}}.{{bi + 1}}.{{b.title}}</h2>
-          <ul style="padding-left: 16px;">
-            <li v-for="(c, ci) in b.content" :key="ci">
-              {{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}
-            </li>
-          </ul>
-          <div v-for="(c, ci) in b.content" :key="ci" style="padding-left: 8px">
-            <h3>{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}}</h3>
-            <div style="padding: 6px 0;">api: {{c.api}}</div>
-            <div>-业务参数:</div>
-            <table border="1" cellpadding="0" cellspacing="0" width="600px">
-              <div v-if="c.business.length">
-                <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
-                <tr v-for="(item,index) in c.business" :key="index" >
-                  <td>{{item.key}}</td>
-                  <td>{{item.type}}</td>
-                  <td>{{item.required}}</td>
-                  <td width="400px">{{item.description}}</td>
-                </tr>
+  <el-row :gutter="20">
+    <el-col :span="8">
+      <el-card class="menu">
+        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+          <el-radio-button :label="false">展开</el-radio-button>
+          <el-radio-button :label="true">收起</el-radio-button>
+        </el-radio-group>
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+          <div  v-for="(a, ai) in testData" :key="ai">
+            <el-submenu :index="ai">
+              <template slot="title">
+                <a :href="'#'+a.title">{{a.index}}.{{a.title}}</a>
+              </template>
+              <div v-for="(b, bi) in a.content" :key="bi">
+                <span style="padding-left:32px;">{{a.index}}.{{bi + 1}}.{{b.title}}</span>
+                <div v-for="(c, ci) in b.content" :key="ci">
+                  <el-menu-item style="height:28px;line-height: 28px;padding-left:48px;" :index="c.title">
+                    <a :href="'#'+c.title">{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}</a>
+                  </el-menu-item>
+                  <!-- <el-submenu index="1-4">
+                    <span slot="title">{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}</span>
+                  </el-submenu> -->
+                </div>
               </div>
-            </table>
-            <br/>
-            <div>-返回参数:</div>
-            <div v-if="!c.return.length">无</div>
-            <div v-if="c.return.length">
-              <table border="1" cellpadding="0" cellspacing="0" width="600px">
-                <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
-                <tr v-for="(item,index) in c.return" :key="index" >
-                  <td>{{item.key}}</td>
-                  <td>{{item.type}}</td>
-                    <td>{{item.required}}</td>
-                  <td width="400px">{{item.description}}</td>
-                </tr>
-              </table>
-            </div>
-            <br/>
-            <div v-if="c.explain.length">
-              <div>-list说明:</div>
+            </el-submenu>
+          </div>
+        </el-menu>
+      </el-card>
+    </el-col>
+    <el-col :span="16">
+      <el-card class="content">
+        <div v-for="(a, ai) in testData" :key="ai">
+          <h1 :id="a.title">{{a.index+ '.' +a.title}}</h1>
+          <div v-if="!a.content.length">-暂无API</div>
+          <div v-if="a.content.length">
+            <div v-for="(b, bi) in a.content" :key="bi" style="padding-left: 8px">
+              <h2>{{a.index}}.{{bi + 1}}.{{b.title}}</h2>
+              <ul style="padding-left: 16px;">
+                <li v-for="(c, ci) in b.content" :key="ci">
+                  {{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}} - {{c.api}}
+                </li>
+              </ul>
+              <div v-for="(c, ci) in b.content" :key="ci" style="padding-left: 8px">
+                <h3 :id="c.title">{{a.index}}.{{bi + 1}}.{{ ci + 1 }}.{{c.title}}</h3>
+                <div style="padding: 6px 0;">api: {{c.api}}</div>
+                <div>-业务参数:</div>
                 <table border="1" cellpadding="0" cellspacing="0" width="600px">
-                  <tr><th>参数名称</th><th>参数类型</th><th>参数描述</th></tr>
-                  <tr v-for="(item,index) in c.explain" :key="index">
-                    <td>{{item.key}}</td>
-                    <td>{{item.type}}</td>
-                    <td width="400px">{{item.description}}</td>
-                  </tr>
+                  <div v-if="c.business.length">
+                    <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+                    <tr v-for="(item,index) in c.business" :key="index" >
+                      <td>{{item.key}}</td>
+                      <td>{{item.type}}</td>
+                      <td>{{item.required ? '是' : '否'}}</td>
+                      <td width="400px">{{item.description}}</td>
+                    </tr>
+                  </div>
                 </table>
+                <br/>
+                <div>-返回参数:</div>
+                <div v-if="!c.return.length">无</div>
+                <div v-if="c.return.length">
+                  <table border="1" cellpadding="0" cellspacing="0" width="600px">
+                    <tr><th>参数名称</th><th>参数类型</th><th>是否必须</th><th>参数描述</th></tr>
+                    <tr v-for="(item,index) in c.return" :key="index" >
+                      <td>{{item.key}}</td>
+                      <td>{{item.type}}</td>
+                        <td>{{item.required ? '是' : '否'}}</td>
+                      <td width="400px">{{item.description}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <br/>
+                <div v-if="c.explain.length">
+                  <div>-list说明:</div>
+                    <table border="1" cellpadding="0" cellspacing="0" width="600px">
+                      <tr><th>参数名称</th><th>参数类型</th><th>参数描述</th></tr>
+                      <tr v-for="(item,index) in c.explain" :key="index">
+                        <td>{{item.key}}</td>
+                        <td>{{item.type}}</td>
+                        <td width="400px">{{item.description}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                <br>
               </div>
-            <br>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </el-card>
+      </el-card>
+    </el-col>
+  </el-row>
 </div>
 </template>
 
@@ -69,7 +101,8 @@ export default {
   },
   data () {
     return {
-      testData: ''
+      testData: '',
+      isCollapse: false
     }
   },
   mounted () {
@@ -1789,7 +1822,7 @@ export default {
       content: [
         {
           title: '获取园区统计信息',
-          api: 'assets.d_park.get_info',
+          api: 'assets.d_park.get_list',
           business: [
             {
               key: 'park_id',
@@ -2093,7 +2126,7 @@ export default {
           explain: []
         },
         {
-          title: '获取园区模块列表',
+          title: '获取园区信息',
           api: 'assets.park.get_info',
           business: [
             {
@@ -2448,7 +2481,7 @@ export default {
       content: [
         {
           title: '获取楼宇统计信息',
-          api: 'assets.d_building.get_info',
+          api: 'assets.d_building.get_list',
           business: [
             {
               key: 'building_id',
@@ -4933,6 +4966,12 @@ export default {
   watch: {
   },
   methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    }
   }
 }
 </script>
@@ -4950,5 +4989,17 @@ export default {
   h3{
     font-size: 20px;
     line-height: 30px;
+  }
+  a{
+    color: #333;
+  }
+  .menu{
+    height: 88vh;
+    overflow: auto;
+  }
+  .content{
+    width: 800px;
+    height: 88vh;
+    overflow: auto;
   }
 </style>

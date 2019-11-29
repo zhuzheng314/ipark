@@ -398,13 +398,61 @@ export default {
     workOrderState () {
       this.workOrderInfoState = true
     },
-    fetchRepairList () { // 获取报修管理列表
+    fetchRepairAdd () { // 添加报修工单
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.repair.add, params).then((res) => {
+
+      })
+    },
+    fetchRepairRemove (id) { // 删除报修工单
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.repair.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchRepairModify (id) { // 修改报修工单
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.repair.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchRepairInfo () { // 获取报修工单统计信息
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.repair.info, params).then((res) => {
+        // console.log(res)
+        this.tableData = res.list
+        let data = res.data
+        this.finData.forEach(v => {
+          v.value = data[v.key]
+          v.chart = data[v.key + '_rate']
+        })
+      })
+    },
+    fetchRepairList () { // 获取报修工单列表
       let params = {
         page_no: 1,
         page_size: 999
       }
       this.$https.post(this.$urls.repair.get_list, params).then((res) => {
-        console.log(res)
+        // console.log(res)
+        this.tableData = res.list
+      })
+    },
+    fetchRepairGetInfo (id) { // 获取报修工单信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.repair.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },
