@@ -228,7 +228,7 @@ export default {
       if (activePark) {
         this.$store.commit('commitActivePark', activePark)
       } else {
-        this.$store.commit('commitActivePark', res[0])
+        this.$store.commit('commitActivePark', res.list[0])
       }
     })
   }

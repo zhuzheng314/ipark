@@ -36,7 +36,7 @@ const form = {
         if (arr.length) {
           let flag = false
           arr.forEach((y, yi) => {
-            if (y.floor_height === x.floor_height) {
+            if (y.floor === x.floor) {
               flag = true
               y.children.push({
                 ...x
@@ -44,14 +44,14 @@ const form = {
             }
             if (yi === arr.length - 1 && !flag) {
               arr.push({
-                floor_height: x.floor_height,
+                floor: x.floor,
                 children: [{ ...x }]
               })
             }
           })
         } else {
           arr.push({
-            floor_height: x.floor_height,
+            floor: x.floor,
             children: [{
               ...x
             }]
@@ -100,7 +100,7 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitParkList', res.list)
-          return res.list
+          return res
         }
       })
     },
@@ -110,7 +110,7 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitBuildList', res.list)
-          return res.list
+          return res
         }
       })
     },
@@ -141,6 +141,8 @@ const form = {
     addRoom ({ commit }, data) {
       return request.post(baseUrl + api.room.add, {
         ...data
+      }).then(res => {
+        return res
       })
     }
   }
