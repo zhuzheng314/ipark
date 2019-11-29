@@ -106,12 +106,18 @@
       :visible.sync="addContractVisible"
     >
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <!-- <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm> -->
+        <ParkForm
+        @onSubmit="fetchAddContract"
+        :formList="$formsLabels.addContractForm"
+        :options="$store.getters.contractListOptions"
+        :itemList="[]"
+        ></ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
+      <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="addContractVisible = false">取 消</el-button>
         <el-button type="primary" @click="addContractVisible = false">确 定</el-button>
-      </span>
+      </span> -->
     </el-dialog>
 
 <!--  合同详情-->
@@ -1095,6 +1101,9 @@ export default {
       let dv = dataset.createView().source(data)
       chart.source(dv)
       chart.interval().position('name*value').color('#3adc21')
+    },
+    fetchAddContract (data) {
+      console.log(data)
     }
   },
   created () {

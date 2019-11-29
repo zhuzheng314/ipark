@@ -159,7 +159,7 @@ export default {
   methods: {
     // API接口测试
     API_test () {
-      let api = this.$urls.park.get_list
+      let api = this.$urls.park.get_tree_list
       let params1 = {
         page_size: 999,
         page_no: 1
