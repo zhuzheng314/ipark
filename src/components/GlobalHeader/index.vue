@@ -7,7 +7,7 @@
       <div class="park-dropdown">
         <el-dropdown  @command="handleSelectPark">
           <span class="el-dropdown-link" style="font-size: 16px">
-            {{$store.state.form.activePark && $store.state.form.activePark.name || '请选择园区'}}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{$store.state.form.activePark && $store.state.form.activePark.name || ''}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
@@ -159,17 +159,16 @@ export default {
       value: '',
       parkName: '请选择园区',
       addParkShow: false,
-      setPassWordVisible: false,
-      form: ''
+      setPassWordVisible: false
     }
   },
   methods: {
     handleSelectPark (item) {
-      // 1.activePark存session 2.修改parkList状态 3.下拉后刷新
       if (item === 'add') {
         this.addParkShow = true
       } else {
         this.$store.commit('commitActivePark', item)
+        window.location.reload()
       }
     },
     handleAddPark (data) {
@@ -211,9 +210,7 @@ export default {
           old_pass: md5(this.passwordForm.password1),
           pass: md5(this.passwordForm.password2)
         }
-        console.log(params)
         this.$https.post(this.$urls.reste_password, params).then((res) => {
-          console.log(res.code)
           // this.$message(res.code)
           this.setPassWordVisible = false
           let msg = res.code
@@ -225,7 +222,14 @@ export default {
   created () {
     this.$store.dispatch('getParkList', {
       page_no: 1,
-      page_size: 20
+      page_size: 9999
+    }).then(res => {
+      const activePark = this.$utils.storageGet('activePark')
+      if (activePark) {
+        this.$store.commit('commitActivePark', activePark)
+      } else {
+        this.$store.commit('commitActivePark', res[0])
+      }
     })
   }
 }

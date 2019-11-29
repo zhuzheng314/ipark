@@ -17,6 +17,7 @@ import 'echarts'
 import { tables } from './config/table'
 import { forms } from './config/form'
 import * as _ from 'lodash'
+import * as utils from './utils/utils'
 
 // 过滤器
 import { FilterFun } from './filters/FilterFun'
@@ -37,6 +38,7 @@ Vue.prototype.$urls = api
 Vue.prototype.$tableLabels = tables
 Vue.prototype._ = _
 Vue.prototype.$formsLabels = forms
+Vue.prototype.$utils = utils
 
 registerGlobalComponents(Vue) // 全局注册组件
 
