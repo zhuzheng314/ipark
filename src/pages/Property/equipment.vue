@@ -212,13 +212,61 @@ export default {
       this.equipmentInfoState = true
     },
     handleClose () {},
-    fetchEquipList () { // 获取四表集抄列表
+    fetchEquipAdd () { // 添加设备
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.equip.add, params).then((res) => {
+
+      })
+    },
+    fetchEquipRemove (id) { // 删除设备
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.equip.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchEquipModify (id) { // 修改设备信息
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.equip.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchEquipInfo () { // 获取四表集抄统计信息
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.equip.info, params).then((res) => {
+        // console.log(res)
+        this.tableData = res.list
+        let data = res.data
+        this.finData.forEach(v => {
+          v.value = data[v.key]
+          v.chart = data[v.key + '_rate']
+        })
+      })
+    },
+    fetchEquipList () { // 获取设备列表
       let params = {
         page_no: 1,
         page_size: 999
       }
       this.$https.post(this.$urls.equip.get_list, params).then((res) => {
-        console.log(res)
+        // console.log(res)
+        this.tableData = res.list
+      })
+    },
+    fetchEquipGetInfo (id) { // 获取设备信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.equip.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },

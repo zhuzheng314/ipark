@@ -350,6 +350,30 @@ export default {
     open (i) {
       this.$message('这里是' + i)
     },
+    fetchChargeAdd () { // 添加财务收入
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.charge.add, params).then((res) => {
+
+      })
+    },
+    fetchChargeRemove (id) { // 删除财务收入
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.charge.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchChargeModify (id) { // 修改财务收入
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.charge.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
     fetchChargeInfo () { // 获取财务收入统计信息
       let params = {
         id: this.parkId
@@ -371,7 +395,7 @@ export default {
       }
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
-        // this.tableData = res.list
+        this.tableData = res.list
       })
     },
     fetchChargeGetInfo (id) { // 获取财务收入信息

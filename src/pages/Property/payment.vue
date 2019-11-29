@@ -361,13 +361,60 @@ export default {
     open (i) {
       this.$message('这里是' + i)
     },
+    fetchPaymentAdd () { // 添加费用催缴
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.payment.add, params).then((res) => {
+
+      })
+    },
+    fetchPaymentRemove (id) { // 删除费用催缴
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.payment.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchPaymentModify (id) { // 修改费用催缴
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.payment.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+      })
+    },
+    fetchPaymentInfo () { // 获取费用催缴统计信息
+      let params = {
+        id: this.parkId
+      }
+      this.$https.post(this.$urls.payment.info, params).then((res) => {
+        // console.log(res)
+        let data = res.data
+        this.finData.forEach(v => {
+          v.value = data[v.key]
+          v.chart = data[v.key + '_rate']
+        })
+      })
+    },
     fetchPaymentList () { // 获取费用催缴列表
       let params = {
         page_no: 1,
         page_size: 999
       }
       this.$https.post(this.$urls.payment.get_list, params).then((res) => {
-        console.log(res)
+        // console.log(res)
+        this.tableData = res.list
+      })
+    },
+    fetchPaymentGetInfo (id) { // 获取费用催缴信息
+      let params = {
+        customer_id: id
+      }
+      // this.$message(`${id}`)
+      this.$https.post(this.$urls.payment.get_info, params).then((res) => {
+        // console.log(res)
       })
     }
   },
