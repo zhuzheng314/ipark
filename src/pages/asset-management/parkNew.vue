@@ -13,7 +13,7 @@
               <div class="value">{{item.area}}㎡</div>
             </div>
           </div>
-
+          <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
         </div>
       </div>
     </div>
@@ -499,6 +499,12 @@ export default {
           height:80px;
           width: 100%;
           background:rgba(255,255,255,1);
+          .el-icon-delete{
+            position: absolute;
+            right: 10px;
+            top: 45%;
+            display: none;
+          }
           .inner{
             margin: 0 auto;
             padding-top: 16px;

@@ -681,6 +681,11 @@ export default {
           }
         }
       }
+      .item:last-child{
+        .inner{
+          border: none;
+        }
+      }
     }
   }
   .right{

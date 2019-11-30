@@ -88,11 +88,6 @@
           :itemList="[]">
         </ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
-
     </el-dialog>
 
     <el-dialog
@@ -254,8 +249,8 @@ export default {
   width: 100%;
   height: 56px;
   background-color: white;
-  position: relative;
-  z-index: 2000;
+  /*position: relative;*/
+  /*z-index: 2000;*/
   box-shadow:0px 3px 8px rgba(0,0,0,0.1);
   overflow-x: hidden;
   .left{
