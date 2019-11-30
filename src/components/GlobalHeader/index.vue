@@ -215,30 +215,42 @@ export default {
     },
     fakerLogin () {
       let pass = md5('123456')
-      console.log(pass)
       this.$https.post('/login', {
         user: 'business_admin',
         pass
       }).then(res => {
         if (res.code === 1000) {
           this.$utils.storageSet('_token', res.access_token)
+
+          console.log(this.$utils.storageGet('_token'), 'storageGetstorageGetstorageGet')
+          this.$store.dispatch('getParkList', {
+            page_no: 1,
+            page_size: 9999
+          }).then(res => {
+            const activePark = this.$utils.storageGet('activePark')
+            if (activePark) {
+              this.$store.commit('commitActivePark', activePark)
+            } else {
+              this.$store.commit('commitActivePark', res.list[0])
+            }
+          })
         }
       })
     }
   },
   created () {
     this.fakerLogin()
-    this.$store.dispatch('getParkList', {
-      page_no: 1,
-      page_size: 9999
-    }).then(res => {
-      const activePark = this.$utils.storageGet('activePark')
-      if (activePark) {
-        this.$store.commit('commitActivePark', activePark)
-      } else {
-        this.$store.commit('commitActivePark', res.list[0])
-      }
-    })
+    // this.$store.dispatch('getParkList', {
+    //   page_no: 1,
+    //   page_size: 9999
+    // }).then(res => {
+    //   const activePark = this.$utils.storageGet('activePark')
+    //   if (activePark) {
+    //     this.$store.commit('commitActivePark', activePark)
+    //   } else {
+    //     this.$store.commit('commitActivePark', res.list[0])
+    //   }
+    // })
   }
 }
 </script>

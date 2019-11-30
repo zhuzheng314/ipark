@@ -434,6 +434,7 @@ export default {
       this.buildId = Number(this.$route.query.buildId)
       this.fetchRoomList()
       this.fetchBuildList()
+      this.fetchBuildingInfo()
     },
     buildId () {
       // this.fetchBuildingInfo()
@@ -514,7 +515,6 @@ export default {
         page_no: 1,
         page_size: 20
       })
-      this.fetchBuildingInfo()
     },
     fetchBuildingInfo () {
       let buildId = this.buildId

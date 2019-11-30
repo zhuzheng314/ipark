@@ -1,10 +1,12 @@
 <template>
   <div class="park">
     <div class="left">
-      <div class="left-btn" @click="handleAdd">
-        <i class="el-icon-plus"></i> 添加园区
-      </div>
-      {{infoBoxData}}
+      <el-button
+        icon="el-icon-plus"
+        @click="() => this.addShow = true"
+        style="width: 100%; height: 66px; margin-bottom: 10px">
+        添加园区
+      </el-button>
       <div class="left-list">
         <div class="item"
              :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
@@ -604,30 +606,14 @@ export default {
     height: 100%;
     margin-right: 10px;
     width: 250px;
-    /*padding: 0 10px;*/
-    &-btn{
-      width:100%;
-      height:50px;
-      background:rgba(255,255,255,1);
-      border:1px solid rgba(63,177,227,1);
-      box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
-      margin-bottom: 10px;
-      line-height: 50px;
-      color: rgba(63,177,227,1);
-      text-align: center;
-      font-size: 16px;
-      opacity:1;
-    }
-    &-btn:hover{
-      cursor: pointer;
-    }
+
     &-list{
       cursor: pointer;
       width: 100%;
-      height: calc(~"100% - 20px");
+      height: 100%;
+      background-color: white;
       border-radius: 6px;
       box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
-      overflow-y: scroll;
       .item{
         position: relative;
         height:80px;
@@ -696,7 +682,7 @@ export default {
       }
       .item:last-child{
         .inner{
-          border: none;
+          /*border: none;*/
         }
       }
     }

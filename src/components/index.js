@@ -11,6 +11,8 @@ import SideMenu from './SideMenu/index.vue'
 import HeaderInfo from './HeaderInfo/index.vue'
 import Comparison from './Comparison/index.vue'
 import GTable from './GTable'
+import ParkMenu from './ParkMenu'
+import None from './None'
 
 export default (Vue) => {
   Vue.component('BodyCard', BodyCard)
@@ -23,4 +25,6 @@ export default (Vue) => {
   Vue.component('HeaderInfo', HeaderInfo)
   Vue.component('Comparison', Comparison)
   Vue.component('GTable', GTable)
+  Vue.component('ParkMenu', ParkMenu)
+  Vue.component('None', None)
 }

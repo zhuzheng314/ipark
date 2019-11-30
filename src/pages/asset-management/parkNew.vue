@@ -1,20 +1,32 @@
 <template>
   <div class="parkNew">
     <div class="left">
-      <div class="left-btn" @click="() => this.addShowBuild = true">
-        <i class="el-icon-plus"></i> 添加楼宇
-      </div>
+      <el-button
+        icon="el-icon-plus"
+        @click="() => this.addShowBuild = true"
+        style="width: 100%; height: 66px; margin-bottom: 10px">
+        添加楼宇
+      </el-button>
       <div class="left-list">
-        <div class="item" :class="{ active: item.domain_id === buildId}" :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.buildList">
-          <div class="inner" @click="handleBuildClick(index, item)">
-            <img class="pic" :src="$urls.fileUrl + item.attached.upload[0].url">
-            <div class="cont">
-              <div class="title">{{item.name}}</div>
-              <div class="value">{{item.area}}㎡</div>
+        <div v-if="$store.state.form.buildList.length">
+          <div class="item"
+               :class="{ active: item.domain_id === buildId}"
+               :key="index + 'leftcard'"
+               v-for="(item, index) in $store.state.form.buildList">
+            <div class="inner" @click="handleBuildClick(index, item)">
+              <img class="pic" :src="$urls.fileUrl + item.attached.upload[0].url">
+              <div class="cont">
+                <div class="title">{{item.name}}</div>
+                <div class="value">{{item.area}}㎡</div>
+              </div>
             </div>
+            <i class="el-icon-delete" @click="handleRemoveBuild(item)"></i>
           </div>
-          <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
         </div>
+        <div v-else>
+          <None style="padding-top: 150px"></None>
+        </div>
+
       </div>
     </div>
     <div class="right">
@@ -52,6 +64,9 @@ export default {
     '$route' (newR) {
       this.fetchBuildList()
       this.buildId = Number(newR.query.buildId)
+    },
+    '$store.state.form.activePark' (newData) {
+      this.fetchBuildList()
     }
   },
   data () {
@@ -406,6 +421,7 @@ export default {
       this.addBuildShow = true
     },
     handleBuildClick (index, item) {
+      console.log('handleBuildClick')
       this.buildIndex = index
       this.$router.push(`/asset-management/build?buildId=${item.domain_id}`)
     },
@@ -445,6 +461,25 @@ export default {
           this.$router.push(`/asset-management/build?buildId=${buildId}`)
         })
       }
+    },
+    handleRemoveBuild (build) {
+      this.$confirm('此操作将永久删除该楼宇, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      })
+        .then(() => {
+          this.$https.post(this.$urls.building.remove, {
+            domain_id: build.domain_id
+          }).then(res => {
+            if (res.code === 1000) {
+              this.$message.success('删除成功')
+              this.$store.dispatch('getBuildList', { page_no: 1,
+                page_size: 20 }).then(res => {
+              })
+            }
+          })
+        })
     }
   },
   created () {
@@ -461,50 +496,26 @@ export default {
     box-sizing: border-box;
   }
   .parkNew{
+    width: 100%;
+    height: 100%;
     display: flex;
-    /*.left {*/
-    /*  width: 200px;*/
-    /*  margin-right: 10px;*/
-    /*}*/
     .left{
       height: 100%;
       margin-right: 10px;
       width: 250px;
-      /*padding: 0 10px;*/
-      &-btn{
-        width:100%;
-        height:50px;
-        background:rgba(255,255,255,1);
-        border:1px solid rgba(63,177,227,1);
-        box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
-        margin-bottom: 10px;
-        line-height: 50px;
-        color: rgba(63,177,227,1);
-        text-align: center;
-        font-size: 16px;
-        opacity:1;
-      }
-      &-btn:hover{
-        cursor: pointer;
-      }
+
       &-list{
         cursor: pointer;
         width: 100%;
-        height: calc(~"100% - 20px");
+        height: 100%;
+        background-color: white;
         border-radius: 6px;
         box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
-        overflow-y: scroll;
         .item{
           position: relative;
           height:80px;
           width: 100%;
           background:rgba(255,255,255,1);
-          .el-icon-delete{
-            position: absolute;
-            right: 10px;
-            top: 45%;
-            display: none;
-          }
           .inner{
             margin: 0 auto;
             padding-top: 16px;
@@ -533,6 +544,12 @@ export default {
               }
             }
           }
+          .el-icon-delete{
+            position: absolute;
+            right: 10px;
+            top: 45%;
+            display: none;
+          }
         }
         .item:hover{
           background-color:  rgba(63,177,227,.5);
@@ -544,6 +561,10 @@ export default {
               color: white;
             }
           }
+          .el-icon-delete{
+            color: white;
+            display: block;
+          }
         }
         .active.item{
           background-color: rgba(63,177,227,1);
@@ -554,6 +575,11 @@ export default {
             .title, .value{
               color: white !important;
             }
+          }
+        }
+        .item:last-child{
+          .inner{
+            /*border: none;*/
           }
         }
       }
