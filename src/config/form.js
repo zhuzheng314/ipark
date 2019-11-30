@@ -309,6 +309,11 @@ const addRoomForm = [
         ]
       },
       {
+        type: 'switch',
+        label: '是否可租',
+        key: 'is_rentable'
+      },
+      {
         type: 'input',
         label: '联系人',
         key: 'contacter',
