@@ -4,6 +4,7 @@
       <div class="left-btn" @click="handleAdd">
         <i class="el-icon-plus"></i> 添加园区
       </div>
+      {{infoBoxData}}
       <div class="left-list">
         <div class="item"
              :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
@@ -185,7 +186,7 @@ export default {
       addShowBuild: false,
       fakerList: [],
       tableData: [],
-      infoBoxData: [
+      infoBoxData1: [
         {
           title: {
             name: '管理面积',
@@ -271,6 +272,7 @@ export default {
           }
         }
       ],
+      infoBoxData: [],
       parkInfo: [
         { name: '产权', value: '', key: 'capital', unit: '' },
         { name: '地理位置', value: '', key: 'address', unit: '' },
@@ -416,6 +418,7 @@ export default {
         page_size: 999
       }).then(res => {
         if (res.code === 1000) {
+          console.log(11111111111111)
           let obj = res.list[0]
           let infoBoxData = [
             {
@@ -504,18 +507,28 @@ export default {
             }
           ]
           // rent_area: 200 // 出租面积
-          // rent_rate: null // 可招商面积
+          // rent_rate: null // 可招商面积-
           // rent_rooms: null // 可招商房间
-          // total_area: 200 // 管理面积
+          // total_area: 200 // 管理面积-
           // total_rooms: null// 总房源数量:22间
           // unit_type: 1 // 实时均价单位
           Object.keys(obj).forEach(key => {
+            if (key === 'total_area') {
+              infoBoxData[0].value.value = obj[key]
+            }
             if (key === 'avg_unit_price') {
-              this.infoBoxData[2].value.value = obj[key]
+              infoBoxData[2].value.value = obj[key]
+            }
+            if (key === 'unit_type') {
+              infoBoxData[2].value.unit = obj[key]
+            }
+            if (key === 'rent_rate') {
+              infoBoxData[3].value.value = obj[key]
             }
             if (key === 'pay_rate') {
-              this.infoBoxData[5].value.value = obj[key]
+              infoBoxData[4].value.value = obj[key]
             }
+            console.log(key)
           })
           this.infoBoxData = infoBoxData
           // this.$forceUpdate()
