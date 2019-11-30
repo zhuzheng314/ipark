@@ -80,7 +80,7 @@
           <el-table-column
             prop="name"
             width="300"
-            label="名称">
+            label="楼宇名称">
             <template  slot-scope="scope">
               <div class="tablecard">
                 <img class="img" :src="$urls.fileUrl + scope.row.attached.upload[0].url">

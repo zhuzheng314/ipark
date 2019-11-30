@@ -2,7 +2,7 @@
   <div class="assetInfo">
     <el-card style="margin-bottom: 10px">
       <div slot="header" class="clearfix">
-        <el-page-header @back="goBack" content="协力大厦">
+        <el-page-header @back="goBack" :content="buildInfo.name">
         </el-page-header>
       </div>
       <div>
@@ -22,14 +22,6 @@
         <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
           <el-option
             v-for="item in requirement.area.areaList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.state.value" placeholder="进退驻状态">
-          <el-option
-            v-for="item in requirement.state.stateList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -178,6 +170,7 @@ export default {
     return {
       buildId: null,
       showTrueArea: true,
+      buildInfo: {},
       options: [
         {
           value: '选项1',
@@ -525,6 +518,7 @@ export default {
       }).then(res => {
         let data = res.list[0]
         // this.$message(`${buildId}`)
+        this.buildInfo = data
         let infoBoxData = [
           {
             type: 0,
@@ -631,9 +625,10 @@ export default {
   },
   mounted () {
     this.buildId = Number(this.$route.query.buildId)
+    console.log(4565465)
     this.fetchBuildingInfo()
     this.fetchRoomList()
-    this.fetchBuildList()
+    // this.fetchBuildList()
   }
 }
 </script>
