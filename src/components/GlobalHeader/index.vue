@@ -88,11 +88,6 @@
           :itemList="[]">
         </ParkForm>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="test(222)">确定</el-button>
-      </span>
-
     </el-dialog>
 
     <el-dialog
@@ -220,30 +215,42 @@ export default {
     },
     fakerLogin () {
       let pass = md5('123456')
-      console.log(pass)
       this.$https.post('/login', {
         user: 'business_admin',
         pass
       }).then(res => {
         if (res.code === 1000) {
           this.$utils.storageSet('_token', res.access_token)
+
+          console.log(this.$utils.storageGet('_token'), 'storageGetstorageGetstorageGet')
+          this.$store.dispatch('getParkList', {
+            page_no: 1,
+            page_size: 9999
+          }).then(res => {
+            const activePark = this.$utils.storageGet('activePark')
+            if (activePark) {
+              this.$store.commit('commitActivePark', activePark)
+            } else {
+              this.$store.commit('commitActivePark', res.list[0])
+            }
+          })
         }
       })
     }
   },
   created () {
     this.fakerLogin()
-    this.$store.dispatch('getParkList', {
-      page_no: 1,
-      page_size: 9999
-    }).then(res => {
-      const activePark = this.$utils.storageGet('activePark')
-      if (activePark) {
-        this.$store.commit('commitActivePark', activePark)
-      } else {
-        this.$store.commit('commitActivePark', res.list[0])
-      }
-    })
+    // this.$store.dispatch('getParkList', {
+    //   page_no: 1,
+    //   page_size: 9999
+    // }).then(res => {
+    //   const activePark = this.$utils.storageGet('activePark')
+    //   if (activePark) {
+    //     this.$store.commit('commitActivePark', activePark)
+    //   } else {
+    //     this.$store.commit('commitActivePark', res.list[0])
+    //   }
+    // })
   }
 }
 </script>
@@ -254,8 +261,8 @@ export default {
   width: 100%;
   height: 56px;
   background-color: white;
-  position: relative;
-  z-index: 2000;
+  /*position: relative;*/
+  /*z-index: 2000;*/
   box-shadow:0px 3px 8px rgba(0,0,0,0.1);
   overflow-x: hidden;
   .left{
