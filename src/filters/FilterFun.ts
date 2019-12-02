@@ -4,6 +4,7 @@ export class FilterFun {
     this.funs.set('NumFormat', this.NumFormat)
     this.funs.set('Percent', this.Percent)
     this.funs.set('NumOrFalse', this.NumOrFalse)
+    this.funs.set('StringStr', this.StringStr)
   }
   // 数字格式
   NumFormat (value: any, n = 0): any {
@@ -48,6 +49,15 @@ export class FilterFun {
       } else {
         return '-'
       }
+    } else {
+      return value
+    }
+  }
+
+  StringStr (value: any, num: number): string {
+    if (!value) return '-'
+    if (value.length > num) {
+      return value.substr(0, num) + '...'
     } else {
       return value
     }
