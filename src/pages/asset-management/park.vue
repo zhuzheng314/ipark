@@ -14,7 +14,7 @@
           <div class="inner" @click="handleParkClick(index, item)">
             <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
             <div class="cont">
-              <div class="title">{{item.name || '-'}}</div>
+              <div class="title">{{item.name | StringStr(6) }}</div>
               <div class="value">{{item.cover_area || '-'}}㎡</div>
             </div>
           </div>
@@ -85,7 +85,7 @@
               <div class="tablecard">
                 <img class="img" :src="$urls.fileUrl + scope.row.attached.upload[0].url">
                 <div class="right">
-                  <div class="name">{{scope.row.name}}</div>
+                  <div class="name">{{scope.row.name }}</div>
                   <div class="value">建筑面积：{{scope.row.area}}㎡</div>
                 </div>
               </div>
