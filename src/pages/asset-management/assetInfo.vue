@@ -149,6 +149,7 @@
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
+          :defaultValue="{}"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -168,6 +169,7 @@ export default {
   },
   data () {
     return {
+      // defaultValueTest: { 'pid': 487, 'floor': 20, 'name': '456', 'area': '777', 'state': 0, 'contacter': '朱政', 'contact': '89789798797987', 'memo': '、、787', 'attached': { 'upload': [{ 'name': '00ebe5440ec9e323f06a8a388e3f2abc_t.gif', 'url': '1575298931345/94918b9e387a02b08e70f6ee8df47c0a.gif' }] }, 'access_token': 'C8B2EBF2-31B0-0001-588B-18D01BB2EBA0', 'v': '1.0', 'app_id': 'C767115F-0ED0-0001-3451-1DC0D520ECB0', 'app_key': '9aaa8e3fea97081839f7515cb3426359' },
       buildId: null,
       showTrueArea: true,
       buildInfo: {},
@@ -628,7 +630,7 @@ export default {
     console.log(4565465)
     this.fetchBuildingInfo()
     this.fetchRoomList()
-    // this.fetchBuildList()
+    this.fetchBuildList()
   }
 }
 </script>
