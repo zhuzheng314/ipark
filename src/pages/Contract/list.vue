@@ -31,65 +31,11 @@
       <div slot="header" class="clearfix">
         <span>到期监控图</span>
       </div>
-      <g2-column
-        :option="customOption"
-        :is-bar="false"
-        :data="yearList"
-        style="width: 100%"
-        :height="300"
-        :axis-name="{name:'月份', value:'到期合同数（份）'}">
-      </g2-column>
+      <div class="chart">
+        <v-chart style="width:100%;height: 300px;" :options="barOptions"></v-chart>
+      </div>
     </el-card>
     <el-card>
-<!--      <el-table-->
-<!--        :data="tableData"-->
-<!--        @row-click="contractState"-->
-<!--        style="width: 100%">-->
-<!--        <el-table-column-->
-<!--          prop="a"-->
-<!--          label="合同序号">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="b"-->
-<!--          label="楼宇名称">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="c"-->
-<!--          label="客户名称">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="e"-->
-<!--          sortable-->
-<!--          label="截止时间">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="d"-->
-<!--          sortable-->
-<!--          label="签订日">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="f"-->
-<!--          sortable-->
-<!--          label="合同状态">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="g"-->
-<!--          label="租赁数目">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="h"-->
-<!--          label="跟进人">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="j"-->
-<!--          sortable-->
-<!--          label="合同金额">-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
-<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
-<!--      </div>-->
-
       <GTable
         @row-click="contractState"
         :tableLabel="$tableLabels.contractList"
@@ -103,8 +49,7 @@
       width="950px"
       style="overflow-y: scroll"
       :style="{height: dialogHeight + 'px'}"
-      :visible.sync="addContractVisible"
-    >
+      :visible.sync="addContractVisible">
       <div>
         <!-- <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm> -->
         <ParkForm
@@ -173,6 +118,7 @@ export default {
     return {
       tableData: [],
       activeName: 'first',
+      dialogHeight: '',
       yearList: [
       ],
       options: [
@@ -1066,7 +1012,15 @@ export default {
           { name: '支付类型', value: '3月一付' }
         ]
       },
-      dialogHeight: 700
+      publicOptions: {
+        color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
+        grid: {
+          left: '80px',
+          right: '40px'
+        },
+        barWidth: '20'
+      },
+      barOptions: {}
     }
   },
   methods: {
@@ -1097,11 +1051,6 @@ export default {
     open (i) {
       this.$message('这里是' + i)
     },
-    customOption (chart, dataset, data) {
-      let dv = dataset.createView().source(data)
-      chart.source(dv)
-      chart.interval().position('name*value').color('#3adc21')
-    },
     fetchAddContract (data) {
       console.log(data)
     }
@@ -1129,11 +1078,40 @@ export default {
         value: (Math.random() * 100)
       })
     }
-    // console.log(this.yearList)
   },
   mounted () {
     this.dialogHeight = document.documentElement.clientHeight
-    console.log(document.documentElement.clientHeight, 'document.documentElement.clientHeight')
+    let xAxisData = []
+    let seriesData = []
+    this.yearList.forEach(v => {
+      xAxisData.push(v.name)
+      seriesData.push(v.value)
+    })
+    this.barOptions = {
+      color: this.publicOptions.color,
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} 个'
+      },
+      grid: {
+        top: '20px',
+        left: '50px',
+        right: '20px'
+      },
+      xAxis: {
+        type: 'category',
+        data: xAxisData
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        name: '到期数量',
+        data: seriesData,
+        type: 'bar',
+        barWidth: this.publicOptions.barWidth
+      }]
+    }
   }
 }
 </script>
