@@ -18,6 +18,7 @@
               <div class="value">{{item.cover_area || '-'}}㎡</div>
             </div>
           </div>
+          <i class="el-icon-edit" @click="handleEditParkClick(item)"></i>
           <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
         </div>
       </div>
@@ -144,6 +145,7 @@
       </el-card>
     </div>
     <el-dialog
+      destroy-on-close
       title="添加园区"
       :visible.sync="addShow"
       width="600px"
@@ -159,6 +161,25 @@
 
     </el-dialog>
     <el-dialog
+      :destroy-on-close="true"
+      title="修改园区信息"
+      :visible.sync="editParkShow"
+      width="600px"
+    >
+      <div v-if="editParkShow">
+        <ParkForm
+          ref="parkForm"
+          @onSubmit="handleEditPark"
+          :formList="$formsLabels.addParkForm"
+          :options="$store.getters.parkListOptions"
+          :default-value="modifyParkDefaultValue"
+          :itemList="[]">
+        </ParkForm>
+      </div>
+
+    </el-dialog>
+    <el-dialog
+      :destroy-on-close="true"
       title="添加楼宇"
       :visible.sync="addShowBuild"
       width="600px"
@@ -316,7 +337,9 @@ export default {
         page_no: 1,
         total: 0,
         page_size: 10
-      }
+      },
+      editParkShow: false,
+      modifyParkDefaultValue: {}
     }
   },
   watch: {
@@ -337,6 +360,31 @@ export default {
       this.$store.commit('commitActivePark', park)
       this.fetchParkInfo(park)
       this.fetchBuildList(park)
+    },
+    handleEditParkClick (park) {
+      this.modifyParkDefaultValue = {}
+      this.$https.post(this.$urls.park.get_info, {
+        domain_id: park.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.modifyParkDefaultValue = res
+          this.editParkShow = true
+        }
+      })
+    },
+    handleEditPark (data) {
+      this.$https.post(this.$urls.park.modify, {
+        ...data,
+        domain_id: this.modifyParkDefaultValue.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.$store.dispatch('getParkList', { page_no: 1,
+            page_size: 999 }).then(res => {
+          })
+          this.$message.success('修改园区成功')
+          this.editParkShow = false
+        }
+      })
     },
     handleAddPark (data) {
       this.$https.post(this.$urls.park.add, {
@@ -730,7 +778,13 @@ export default {
         .el-icon-delete{
           position: absolute;
           right: 10px;
-          top: 45%;
+          bottom: 20px;
+          display: none;
+        }
+        .el-icon-edit{
+          position: absolute;
+          right: 30px;
+          bottom: 20px;
           display: none;
         }
       }
@@ -744,7 +798,7 @@ export default {
             color: white;
           }
         }
-        .el-icon-delete{
+        .el-icon-delete, .el-icon-edit{
           color: white;
           display: block;
         }
