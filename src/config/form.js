@@ -354,7 +354,24 @@ const addRoomForm = [
     ]
   }
 ]
-
+const addRoomForm1 = [
+  {
+    title: '房间信息',
+    children: [
+      {
+        type: 'switch',
+        label: '是否可租',
+        key: 'is_rentable'
+      },
+      {
+        type: 'upload-img',
+        label: '房间图片',
+        key: 'attached',
+        placeholder: '请输入'
+      }
+    ]
+  }
+]
 /* -------------------- 招商管理 -------------------- */
 // 新增客户
 const addCustomerForm = [

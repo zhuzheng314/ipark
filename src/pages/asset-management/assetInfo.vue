@@ -19,7 +19,7 @@
 
     <el-card>
       <div>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple v-model="requirement.area.value" placeholder="面积选择" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.area.areaList"
             :key="item.value"
@@ -27,7 +27,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.timeLimit.value" placeholder="合同期限" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.timeLimit.timeLimitList"
             :key="item.value"
@@ -35,7 +35,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.source.value" placeholder="招商类别">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.source.sourceList"
             :key="item.value"
@@ -43,7 +43,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.empty.value" placeholder="空置状态">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.empty.emptyList"
             :key="item.value"
@@ -84,7 +84,7 @@
           <div v-for="(subItem, subIndex) in item.children" :key="'listItem' + subIndex" >
             <div
               class="list-item"
-              @click="roomInfo({index,subIndex})"
+              @click="handleRoomClick(subItem)"
               :style="{
                 width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
@@ -149,6 +149,25 @@
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
+          :defaultValue="{}"
+          :itemList="[]">
+        </ParkForm>
+      </div>
+
+    </el-dialog>
+    <el-dialog
+      title="修改房间信息"
+      :visible.sync="modifyShow"
+      destroy-on-close
+      width="600px"
+    >
+      <div>
+        <ParkForm
+          ref="addRoomForm"
+          @onSubmit="fetchModifyRoom"
+          :formList="$formsLabels.addRoomForm"
+          :options="$store.getters.buildListOptions"
+          :defaultValue="defaultValue"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -168,8 +187,10 @@ export default {
   },
   data () {
     return {
+      // defaultValueTest: { 'pid': 487, 'floor': 20, 'name': '456', 'area': '777', 'state': 0, 'contacter': '朱政', 'contact': '89789798797987', 'memo': '、、787', 'attached': { 'upload': [{ 'name': '00ebe5440ec9e323f06a8a388e3f2abc_t.gif', 'url': '1575298931345/94918b9e387a02b08e70f6ee8df47c0a.gif' }] }, 'access_token': 'C8B2EBF2-31B0-0001-588B-18D01BB2EBA0', 'v': '1.0', 'app_id': 'C767115F-0ED0-0001-3451-1DC0D520ECB0', 'app_key': '9aaa8e3fea97081839f7515cb3426359' },
       buildId: null,
       showTrueArea: true,
+      modifyShow: false,
       buildInfo: {},
       options: [
         {
@@ -343,8 +364,7 @@ export default {
         button: [
           {
             name: '编辑',
-            icon: '&#xe62a;',
-            function: 'click1'
+            icon: '&#xe62a;'
           },
           {
             name: '附件',
@@ -414,7 +434,13 @@ export default {
       },
       addRoomShow: false,
       filterStatus: false,
-      filterData: ''
+      filterData: '',
+      roomInfo: {},
+      defaultValue: {},
+      roomParams: {
+        area: null
+
+      }
     }
   },
   computed: {
@@ -440,13 +466,21 @@ export default {
     random (min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min)
     },
-    roomInfo (id) {
+    // roomInfo (id) {
+    //   this.roomInfoState = true
+    //   // console.log(id.index,id.subIndex);
+    //   this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
+    // },
+    handleRoomClick (room) {
       this.roomInfoState = true
-      // console.log(id.index,id.subIndex);
-      this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
+      this.roomInfo = room
     },
     open (i) {
       this.$message('这里是' + i)
+      if (i === '编辑') {
+        // this.modifyShow = true
+        this.fetchRoomInfo()
+      }
     },
     goBack () {
       this.$router.go(-1) // 后退
@@ -468,39 +502,37 @@ export default {
         }
       }
     },
+    fetchModifyRoom (data) {
+      this.$https.post(this.$urls.room.modify, {
+        domain_id: this.roomInfo.domain_id,
+        ...data
+      }).then(res => {
+        if (res.code === 1000) {
+          console.log(res, 'modify')
+        }
+      })
+    },
+    fetchRoomInfo () {
+      this.$https.post(this.$urls.room.get_info, {
+        domain_id: this.roomInfo.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.defaultValue = res
+          this.modifyShow = true
+        }
+      })
+    },
     fetchRoomList () {
-      this.$store.dispatch('getRoomList', {
+      let params = {
         pid: this.buildId,
         page_no: 1,
         page_size: 20
-      }).then(res => {
-        let list = res
-        let arr = []
-        list.forEach(x => {
-          if (arr.length) {
-            let flag = false
-            arr.forEach((y, yi) => {
-              if (y.floor === x.floor) {
-                flag = true
-                y.children.push(x)
-              }
-              if (yi === arr.length - 1 && !flag) {
-                arr.push({
-                  floor: x.floor,
-                  children: [{ ...x }]
-                })
-              }
-            })
-          } else {
-            arr.push({
-              floor: x.floor,
-              children: [{
-                ...x
-              }]
-            })
-          }
-        })
-      })
+      }
+      // if(this.requirement.area.value && this.requirement.area.value.length) params.area = this.requirement.area.value;
+      // if(this.requirement.timeLimit.value && this.requirement.timeLimit.value.length) params.timeLimit = this.requirement.timeLimit.value;
+      // if(this.requirement.source.value && this.requirement.source.value.length) params.asourcerea = this.requirement.source.value;
+      // if(this.requirement.empty.value && this.requirement.empty.value.length) params.empty = this.requirement.empty.value;
+      this.$store.dispatch('getRoomList', params)
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
@@ -628,7 +660,7 @@ export default {
     console.log(4565465)
     this.fetchBuildingInfo()
     this.fetchRoomList()
-    // this.fetchBuildList()
+    this.fetchBuildList()
   }
 }
 </script>
