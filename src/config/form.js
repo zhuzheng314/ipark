@@ -606,7 +606,7 @@ const addCustomerForm = [
 // 新增合同
 const addContractForm = [
   {
-    title: '基础信息',
+    title: '合同基础信息',
     span: 24,
     itemSpan: 8,
     minHeight: 150,
@@ -616,7 +616,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '合同编号',
-        key: 'i',
+        key: 'contract_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' },
@@ -626,7 +626,7 @@ const addContractForm = [
       {
         type: 'select',
         label: '客户业态',
-        key: 'tamplate',
+        key: 'business_format',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -644,7 +644,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '跟进商务',
-        key: 'i',
+        key: 'follow_business',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -654,7 +654,7 @@ const addContractForm = [
       {
         type: 'select',
         label: '合同类型',
-        key: 'tamplate',
+        key: 'contract_type',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -677,7 +677,7 @@ const addContractForm = [
       {
         type: 'cascader',
         label: '房源信息',
-        key: 'fangyxx',
+        key: 'room',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -742,7 +742,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '品牌名称',
-        key: 'i',
+        key: 'brand',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' },
@@ -752,7 +752,7 @@ const addContractForm = [
       {
         type: 'select',
         label: '经营范围',
-        key: 'tamplatecccc',
+        key: 'scope',
         placeholder: '请输入',
         options: [
           {
@@ -767,7 +767,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '联系人',
-        key: 'i',
+        key: 'contacter',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -777,7 +777,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '联系电话',
-        key: 'i',
+        key: 'contact',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -787,7 +787,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '联系邮箱',
-        key: 'emil',
+        key: 'email',
         placeholder: '请输入',
         rule: [
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
@@ -803,7 +803,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '开户银行',
-        key: 'tenantName',
+        key: 'bank',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -813,7 +813,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '账号',
-        key: 'tenantName',
+        key: 'bank_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -823,7 +823,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '电话',
-        key: 'tenantName',
+        key: 'contact',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -833,7 +833,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '纳税人识别号',
-        key: 'tenantName',
+        key: 'taxpayer_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -843,7 +843,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '开票地址',
-        key: 'tenantName',
+        key: 'invoice_address',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -860,7 +860,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '统一社会信用代码',
-        key: 'tenantName',
+        key: 'social_credit_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -870,7 +870,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '纳税人识别号',
-        key: 'tenantName',
+        key: 'taxpayer_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -880,7 +880,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '注册号',
-        key: 'tenantName',
+        key: 'regist_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -890,7 +890,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '组织机构代码',
-        key: 'tenantName',
+        key: 'organiz_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -900,7 +900,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '法定代表人',
-        key: 'tenantName',
+        key: 'representative',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -910,7 +910,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '国籍',
-        key: 'tenantName',
+        key: 'nationality',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -920,7 +920,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '注册资本/万',
-        key: 'tenantName',
+        key: 'regist_fund',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -930,7 +930,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '经营状态',
-        key: 'tenantName',
+        key: 'operate_state',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -940,7 +940,7 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '成立日期',
-        key: 'date3',
+        key: 'establish_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -949,7 +949,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '公司类型',
-        key: 'tenantName',
+        key: 'company_type',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -958,7 +958,7 @@ const addContractForm = [
       }, {
         type: 'input',
         label: '人员规模',
-        key: 'tenantName',
+        key: 'staff_size',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -968,7 +968,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '营业期限',
-        key: 'tenantName',
+        key: 'operate_term',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -978,7 +978,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '登记机关',
-        key: 'tenantName',
+        key: 'issuance',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -988,7 +988,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '核准日期',
-        key: 'tenantName',
+        key: 'authentic_ts',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -998,7 +998,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '英文名',
-        key: 'tenantName',
+        key: 'en_name',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1008,7 +1008,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '所属地区',
-        key: 'tenantName',
+        key: 'region',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1018,7 +1018,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '所属行业',
-        key: 'tenantName',
+        key: 'trade',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1028,7 +1028,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '注册地址',
-        key: 'tenantName',
+        key: 'address',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1038,7 +1038,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '经营范围',
-        key: 'tenantName',
+        key: 'scope',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1048,7 +1048,7 @@ const addContractForm = [
     ]
   },
   {
-    title: '基础条款',
+    title: '合同基础条款',
     span: 24,
     itemSpan: 8,
     minHeight: 150,
@@ -1058,7 +1058,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '租赁面积',
-        key: 'i',
+        key: 'rent_area',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' },
@@ -1068,7 +1068,7 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '签订时间',
-        key: 'date3',
+        key: 'sign_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1077,14 +1077,14 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '计租时间',
-        key: 'date3',
+        key: 'fee_start_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
-        type: 'date-picker',
+        type: 'date-fee_end_ts',
         label: '结束时间',
         key: 'date3',
         placeholder: '请选择日期',
@@ -1095,7 +1095,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '押金设置(元)',
-        key: 'i',
+        key: 'deposit',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1105,7 +1105,7 @@ const addContractForm = [
       {
         type: 'select',
         label: '租期划分',
-        key: 'tamplate',
+        key: 'tenancy_divide',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1123,7 +1123,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '付款周期(月)',
-        key: 'i',
+        key: 'pay_cycle',
         placeholder: '几月一付',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1133,7 +1133,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '收款日',
-        key: 'i',
+        key: 'pay_date',
         placeholder: '每月收款日',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1143,7 +1143,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '提前收租(月)',
-        key: 'i',
+        key: 'prepaid',
         placeholder: '提前几个月收租金',
         rule: [
           { required: true, message: '请输入合同编号', trigger: 'blur' },
@@ -1153,7 +1153,7 @@ const addContractForm = [
       {
         type: 'select',
         label: '计费类型',
-        key: 'tamplate',
+        key: 'charge_type',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1181,7 +1181,7 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '开始时间',
-        key: 'date3',
+        key: 'fee_start_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1190,7 +1190,7 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '结束时间',
-        key: 'date3',
+        key: 'fee_end_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1199,7 +1199,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '合同单价(元/㎡·天)',
-        key: 'i',
+        key: 'unit_price',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' },
@@ -1209,7 +1209,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '年租金',
-        key: 'i',
+        key: 'year_rent',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' },
@@ -1219,7 +1219,7 @@ const addContractForm = [
       {
         type: 'input',
         label: '月租金',
-        key: 'i',
+        key: 'month_rent',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' },

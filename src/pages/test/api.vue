@@ -9,7 +9,7 @@
         </el-radio-group>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
           <div  v-for="(a, ai) in testData" :key="ai">
-            <el-submenu :index="ai">
+            <el-submenu :index="ai+''">
               <template slot="title">
                 <a @click="returnCom(a.title)">{{a.index}}.{{a.title}}</a>
               </template>
@@ -392,7 +392,7 @@ export default {
       content: [
         {
           title: '获取报修管理模块统计信息',
-          api: 'assets.d_repair.get_list',
+          api: 'assets.d_repair.get_info',
           business: [
             {
               key: 'domain_id',
@@ -720,6 +720,12 @@ export default {
               type: 'int',
               required: true,
               description: `工单评价`
+            },
+            {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: '地址'
             }
 
           ],
@@ -733,7 +739,7 @@ export default {
       content: [
         {
           title: '获取投诉管理模块统计信息',
-          api: 'assets.d_complaint.get_list',
+          api: 'assets.d_complaint.get_info',
           business: [
             {
               key: 'domain_id',
@@ -1007,6 +1013,12 @@ export default {
               description: '联系电话'
             },
             {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: '地址'
+            },
+            {
               key: 'reserve_ts',
               type: 'timestamp',
               required: true,
@@ -1091,6 +1103,12 @@ export default {
               type: 'timestamp',
               required: true,
               description: '预约时间'
+            },
+            {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: '地址'
             },
             {
               key: 'park',
@@ -1277,9 +1295,95 @@ export default {
               description: '备注'
             },
             {
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: '跟进人'
+            },
+            {
               key: 'domain_id',
               type: 'int',
               required: true,
+              description: '房间id'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改催缴',
+          api: 'assets.payment.modify',
+          business: [
+            {
+              key: 'contract_code',
+              type: 'string',
+              required: true,
+              description: '关联合同'
+            },
+            {
+              key: 'payer',
+              type: 'string',
+              required: false,
+              description: '付款方'
+            },
+            {
+              key: 'contacter',
+              type: 'string',
+              required: false,
+              description: '联系人'
+            },
+            {
+              key: 'type',
+              type: 'int',
+              required: false,
+              description: '费用类型'
+            },
+            {
+              key: 'currency',
+              type: 'int',
+              required: false,
+              description: '币种'
+            },
+            {
+              key: 'money',
+              type: 'decimal',
+              required: false,
+              description: `催缴金额`
+            },
+            {
+              key: 'overdue_ts',
+              type: 'timestamp',
+              required: false,
+              description: `逾期天数`
+            },
+            {
+              key: 'start_ts',
+              type: 'timestamp',
+              required: false,
+              description: '计费周期开始'
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: false,
+              description: '计费周期结束'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注'
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: '跟进人'
+            },
+            {
+              key: 'domain_id',
+              type: 'int',
+              required: false,
               description: '房间id'
             }
           ],
@@ -1369,6 +1473,12 @@ export default {
               description: `跟进人`
             },
             {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: `地址`
+            },
+            {
               key: 'create_ts',
               type: 'timestamp',
               required: true,
@@ -1381,13 +1491,62 @@ export default {
           api: 'assets.payment.get_info',
           business: [
             {
-              key: 'payment_code',
+              key: 'id',
               type: 'int',
-              required: false,
-              description: '序号id'
+              required: true,
+              description: '缴费id'
             }
           ],
-          return: [],
+          return: [
+            {
+              key: 'park',
+              type: 'json',
+              required: true,
+              description: `房间`
+            },
+            {
+              key: 'customer',
+              type: 'string',
+              required: true,
+              description: `客户名称`
+            },
+            {
+              key: 'type',
+              type: 'int',
+              required: true,
+              description: `费用类型`
+            },
+            {
+              key: 'money',
+              type: 'decimal',
+              required: true,
+              description: `催缴金额`
+            },
+            {
+              key: 'overdue_ts',
+              type: 'timestamp',
+              required: true,
+              description: `逾期天数`
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: `跟进人`
+            },
+            {
+              key: 'address',
+              type: 'string',
+              required: true,
+              description: `地址`
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: true,
+              description: `最近一次催缴时间`
+            }
+          ],
           explain: []
         }
       ]
@@ -1470,10 +1629,16 @@ export default {
               description: '联系方式'
             },
             {
-              key: 'info_source',
+              key: 'receiver',
+              type: 'string',
+              required: true,
+              description: '跟进人'
+            },
+            {
+              key: 'state',
               type: 'int',
               required: true,
-              description: '客户信息来源'
+              description: '进度阶段'
             },
             {
               key: 'status',
@@ -1482,28 +1647,22 @@ export default {
               description: '行业性质'
             },
             {
-              key: 'memo',
-              type: 'string',
-              required: true,
-              description: '备注'
-            },
-            {
               key: 'create_ts',
               type: 'timestamp',
               required: true,
               description: '来访时间'
             },
             {
-              key: 'receiver',
-              type: 'string',
+              key: 'info_source',
+              type: 'int',
               required: true,
-              description: '跟进人'
+              description: '客户来源'
             },
             {
-              key: 'email',
+              key: 'memo',
               type: 'string',
-              required: false,
-              description: '邮箱'
+              required: true,
+              description: '备注'
             },
             {
               key: 'demand_area',
@@ -1524,28 +1683,16 @@ export default {
               description: '预计签约时间'
             },
             {
-              key: 'domain',
-              type: 'int',
-              required: true,
-              description: '房源信息'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: true,
-              description: '客户id'
-            },
-            {
               key: 'room',
               type: '数组',
               required: true,
               description: 'json数组'
             },
             {
-              key: 'state',
-              type: 'int',
-              required: true,
-              description: '进度阶段'
+              key: 'email',
+              type: 'string',
+              required: false,
+              description: '邮箱'
             }
           ],
           return: [],
@@ -1559,7 +1706,7 @@ export default {
               key: 'id',
               type: 'int',
               required: true,
-              description: '主键'
+              description: '客户或者企业的id'
             },
             {
               key: 'name',
@@ -1569,7 +1716,7 @@ export default {
             },
             {
               key: 'contacter',
-              type: 'string',
+              type: 'int',
               required: false,
               description: '联系人'
             },
@@ -1580,10 +1727,16 @@ export default {
               description: '联系方式'
             },
             {
-              key: 'info_source',
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: '跟进人'
+            },
+            {
+              key: 'state',
               type: 'int',
               required: false,
-              description: '客户信息来源'
+              description: '进度阶段'
             },
             {
               key: 'status',
@@ -1592,28 +1745,22 @@ export default {
               description: '行业性质'
             },
             {
-              key: 'memo',
-              type: 'string',
-              required: false,
-              description: '备注'
-            },
-            {
               key: 'create_ts',
               type: 'timestamp',
               required: false,
               description: '来访时间'
             },
             {
-              key: 'receiver',
-              type: 'string',
+              key: 'info_source',
+              type: 'int',
               required: false,
-              description: '跟进人'
+              description: '客户来源'
             },
             {
-              key: 'email',
+              key: 'memo',
               type: 'string',
               required: false,
-              description: '邮箱'
+              description: '备注'
             },
             {
               key: 'demand_area',
@@ -1637,19 +1784,7 @@ export default {
               key: 'room',
               type: '数组',
               required: false,
-              description: '房源信息'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: false,
-              description: '客户id'
-            },
-            {
-              key: 'state',
-              type: 'int',
-              required: false,
-              description: '进度阶段'
+              description: 'json数组'
             }
           ],
           return: [],
@@ -1663,7 +1798,7 @@ export default {
               key: 'id',
               type: 'int',
               required: true,
-              description: '主键'
+              description: '客户或者企业的id'
             }
           ],
           return: [],
@@ -1686,24 +1821,83 @@ export default {
               description: '页面显示行数'
             },
             {
+              key: 'id',
+              type: 'int',
+              required: true,
+              description: '客户或者企业的id'
+            },
+            {
               key: 'name',
               type: 'string',
               required: false,
               description: '客户或企业名称'
             },
             {
-              key: 'info_source',
+              key: 'contacter',
               type: 'int',
               required: false,
-              description: '客户信息来源'
+              description: '联系人'
+            },
+            {
+              key: 'contact',
+              type: 'string',
+              required: false,
+              description: '联系方式'
+            },
+            {
+              key: 'receiver',
+              type: 'string',
+              required: false,
+              description: '跟进人'
             },
             {
               key: 'state',
               type: 'int',
               required: false,
               description: '进度阶段'
+            },
+            {
+              key: 'status',
+              type: 'int',
+              required: false,
+              description: '行业性质'
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: false,
+              description: '来访时间'
+            },
+            {
+              key: 'info_source',
+              type: 'int',
+              required: false,
+              description: '客户来源'
+            },
+            {
+              key: 'memo',
+              type: 'string',
+              required: false,
+              description: '备注'
+            },
+            {
+              key: 'demand_area',
+              type: 'decimal',
+              required: false,
+              description: '需求面积'
+            },
+            {
+              key: 'work_station',
+              type: 'int',
+              required: false,
+              description: '需求工位'
+            },
+            {
+              key: 'demand_ts',
+              type: 'timestamp',
+              required: false,
+              description: '预计签约时间'
             }
-
           ],
           return: [
             {
@@ -1715,100 +1909,88 @@ export default {
           ],
           explain: [
             {
+              key: 'id',
+              type: 'int',
+              required: true,
+              description: '客户或者企业的id'
+            },
+            {
               key: 'name',
               type: 'string',
-              required: true,
+              required: false,
               description: '客户或企业名称'
             },
             {
               key: 'contacter',
-              type: 'string',
-              required: true,
+              type: 'int',
+              required: false,
               description: '联系人'
             },
             {
               key: 'contact',
               type: 'string',
-              required: true,
+              required: false,
               description: '联系方式'
-            },
-            {
-              key: 'info_source',
-              type: 'int',
-              required: true,
-              description: '客户信息来源'
-            },
-            {
-              key: 'status',
-              type: 'int',
-              required: true,
-              description: '行业性质'
-            },
-            {
-              key: 'memo',
-              type: 'string',
-              required: true,
-              description: '备注'
-            },
-            {
-              key: 'create_ts',
-              type: 'timestamp',
-              required: true,
-              description: '来访时间'
-            },
-            {
-              key: 'update_ts',
-              type: 'timestamp',
-              required: true,
-              description: '最近联络时间'
             },
             {
               key: 'receiver',
               type: 'string',
-              required: true,
+              required: false,
               description: '跟进人'
             },
             {
-              key: 'email',
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '进度阶段'
+            },
+            {
+              key: 'status',
+              type: 'int',
+              required: false,
+              description: '行业性质'
+            },
+            {
+              key: 'create_ts',
+              type: 'timestamp',
+              required: false,
+              description: '来访时间'
+            },
+            {
+              key: 'info_source',
+              type: 'int',
+              required: false,
+              description: '客户来源'
+            },
+            {
+              key: 'memo',
               type: 'string',
               required: false,
-              description: '邮箱'
+              description: '备注'
             },
             {
               key: 'demand_area',
               type: 'decimal',
-              required: true,
+              required: false,
               description: '需求面积'
             },
             {
               key: 'work_station',
               type: 'int',
-              required: true,
+              required: false,
               description: '需求工位'
             },
             {
               key: 'demand_ts',
               type: 'timestamp',
-              required: true,
+              required: false,
               description: '预计签约时间'
-            },
-            {
-              key: 'customer_id',
-              type: 'int',
-              required: true,
-              description: '客户id'
             },
             {
               key: 'room',
               type: '数组',
-              required: true,
-              description: '房间id拼成的数组'
-            },
-            {
-              key: 'state',
-              type: 'int',
-              required: true,
-              description: '进度阶段'
+              required: false,
+              description: 'json数组'
             }
           ]
         },
@@ -2138,7 +2320,7 @@ export default {
           explain: []
         },
         {
-          title: '获取园区信息',
+          title: '获取园区模块列表',
           api: 'assets.park.get_info',
           business: [
             {
@@ -4705,7 +4887,7 @@ export default {
         },
         {
           title: '获取字典类型信息',
-          api: 'model.dictype.get_info',
+          api: 'model.dictype.get_list',
           business: [
             {
               key: 'type_id',
@@ -4910,7 +5092,7 @@ export default {
         },
         {
           title: '获取字典信息',
-          api: 'model.dicinfo.get_list',
+          api: 'model.dicinfo.get_info',
           business: [
             { key: 'id', type: 'int', required: true, description: '字典ID' }
           ],
@@ -4975,7 +5157,34 @@ export default {
       }
     ]
 
-    console.log(this.$route)
+    // 字典
+    let arr = [
+      {
+        type_code: 'acquire_way',
+        type_name: '取得方式',
+        data: [
+          { dic_code: 'other', dic_info: '其他', order_num: 0 },
+          { dic_code: 'build_oneself', dic_info: '自建', order_num: 1 },
+          { dic_code: 'purchase', dic_info: '购置', order_num: 2 },
+          { dic_code: 'transfer', dic_info: '划拨', order_num: 3 }
+        ]
+      },
+      {
+        type_code: 'nature_of_property',
+        type_name: '房产性质',
+        data: [
+          { dic_code: 'other', dic_info: '其他', order_num: 0 },
+          { dic_code: 'commercial_premises', dic_info: '商业用房', order_num: 1 },
+          { dic_code: 'production_room', dic_info: '生产用房', order_num: 2 },
+          { dic_code: 'house', dic_info: '住宅', order_num: 3 }
+        ]
+      }
+    ]
+    // for(let i =0;i<arr.length;i++){
+    //   this.dictypeAdd(arr[i]).then((res) => {
+    //     this.dicinfoAdd(res)
+    //   })
+    // }
   },
   watch: {
   },
@@ -5047,6 +5256,7 @@ export default {
         attached: {},
         memo: ''
       }
+
       let params = params1
       if (this.API_input) {
         api = '/' + this.API_input
@@ -5056,18 +5266,68 @@ export default {
       }
 
       this.$https.post(api, params).then((res) => {
-        this.$message(res.msg)
-        this.API_textarea = JSON.stringify(res, null, 2)
         if (res.code !== 1000) {
-          this.API_textarea = JSON.stringify({
-            err: res.err,
-            msg: res.msg,
-            track: res.track
-          })
+          this.$message.error(res.msg)
+          this.API_textarea = JSON.stringify(res, null, 2)
+        } else {
+          this.$message.success(res.msg)
+          this.API_textarea = JSON.stringify(res, null, 2)
         }
         // console.log(this.API_textarea)
       })
+    },
+    // 添加字典类型，返回id
+    dictypeAdd (obj) {
+      return new Promise((resolve, reject) => {
+        let params = {
+          type_code: obj.type_code,
+          type_name: obj.type_name
+        }
+        this.$https.post('/model.dictype.get_list', { type_code: obj.type_code, page_size: 999, page_no: 1 }).then((res) => {
+          if (res.code === 1000) {
+            if (!res.list.length) {
+              this.$https.post('/model.dictype.add', params)
+                .then(res => {
+                  this.$https.post('/model.dictype.get_list', { type_code: obj.type_code, page_size: 999, page_no: 1 }).then(res => {
+                    obj.id = res.list[0].type_id
+                    resolve(obj)
+                  })
+                })
+            } else {
+              this.$message.error(`已存在${obj.type_code}`)
+              console.log(`已存在字典类型${obj.type_code}`)
+            }
+          } else {
+            console.log(res)
+          }
+        })
+      })
+    },
+    // 添加字典信息
+    dicinfoAdd (obj) {
+      for (let i = 0; i < obj.data.length; i++) {
+        let params = {
+          type_id: obj.id,
+          dic_code: obj.data[i].dic_code,
+          dic_info: obj.data[i].dic_info,
+          order_num: i
+        }
+        this.$https.post('/model.dicinfo.get_list', { dic_code: obj.data[i].dic_code, page_size: 999, page_no: 1 })
+          .then((res) => {
+            if (res.code === 1000) {
+              if (!res.list.length) {
+                this.$https.post('/model.dicinfo.add', params)
+              } else {
+                this.$message.error(`已存在${obj.data[i].dic_code}`)
+                console.log(`已存在字典${obj.data[i].dic_code}`)
+              }
+            } else {
+              console.log(res)
+            }
+          })
+      }
     }
+
   }
 }
 </script>

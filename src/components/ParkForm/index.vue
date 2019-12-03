@@ -97,9 +97,8 @@
                     <!--          cascader-->
                     <el-cascader
                       v-model="form[item.key]"
-                      v-if="item.type === 'cascader'"
+                      v-if="item.type==='cascader'"
                       :props="{ multiple: true }"
-                      collapse-tags
                       :options="item.options"
                     ></el-cascader>
 
@@ -158,8 +157,7 @@
           v-for="(item, index) in itemList"
           :key="'form' + index"
           :label="item.label"
-          :prop="item.key"
-        >
+          :prop="item.key">
           <!-- input -->
           <el-input
             v-if="item.type === 'input'"
