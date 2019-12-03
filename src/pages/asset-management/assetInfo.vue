@@ -19,7 +19,7 @@
 
     <el-card>
       <div>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.area.value" placeholder="面积选择">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple v-model="requirement.area.value" placeholder="面积选择" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.area.areaList"
             :key="item.value"
@@ -27,7 +27,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.timeLimit.value" placeholder="合同期限">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.timeLimit.value" placeholder="合同期限" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.timeLimit.timeLimitList"
             :key="item.value"
@@ -35,7 +35,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.source.value" placeholder="招商类别">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.source.sourceList"
             :key="item.value"
@@ -43,7 +43,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" v-model="requirement.empty.value" placeholder="空置状态">
+        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">
           <el-option
             v-for="item in requirement.empty.emptyList"
             :key="item.value"
@@ -436,7 +436,11 @@ export default {
       filterStatus: false,
       filterData: '',
       roomInfo: {},
-      defaultValue: {}
+      defaultValue: {},
+      roomParams: {
+        area: null
+
+      }
     }
   },
   computed: {
@@ -519,38 +523,16 @@ export default {
       })
     },
     fetchRoomList () {
-      this.$store.dispatch('getRoomList', {
+      let params = {
         pid: this.buildId,
         page_no: 1,
         page_size: 20
-      }).then(res => {
-        let list = res
-        let arr = []
-        list.forEach(x => {
-          if (arr.length) {
-            let flag = false
-            arr.forEach((y, yi) => {
-              if (y.floor === x.floor) {
-                flag = true
-                y.children.push(x)
-              }
-              if (yi === arr.length - 1 && !flag) {
-                arr.push({
-                  floor: x.floor,
-                  children: [{ ...x }]
-                })
-              }
-            })
-          } else {
-            arr.push({
-              floor: x.floor,
-              children: [{
-                ...x
-              }]
-            })
-          }
-        })
-      })
+      }
+      // if(this.requirement.area.value && this.requirement.area.value.length) params.area = this.requirement.area.value;
+      // if(this.requirement.timeLimit.value && this.requirement.timeLimit.value.length) params.timeLimit = this.requirement.timeLimit.value;
+      // if(this.requirement.source.value && this.requirement.source.value.length) params.asourcerea = this.requirement.source.value;
+      // if(this.requirement.empty.value && this.requirement.empty.value.length) params.empty = this.requirement.empty.value;
+      this.$store.dispatch('getRoomList', params)
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {

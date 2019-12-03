@@ -3,17 +3,19 @@
     <el-card style="width: 100%">
       <div slot="header">
 
-        <el-radio-group v-model="listType" size="small">
+        <!-- <el-radio-group v-model="listType" size="small">
           <el-radio-button label="top">收款</el-radio-button>
           <el-radio-button label="right">付款</el-radio-button>
-        </el-radio-group>
+        </el-radio-group> -->
 
         <el-select
-          style="width: 220px; margin-left: 15px"
+          style="width: 220px;"
           size="small"
-                    multiple
-                    v-model="value1"
-                    placeholder="列支方向">
+          multiple
+          v-model="value1"
+          clearable
+          @change="fetchCostList"
+          placeholder="列支方向">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -26,6 +28,8 @@
           size="small"
           multiple
           v-model="value2"
+          clearable
+          @change="fetchCostList"
           placeholder="状态">
           <el-option
             v-for="item in options1"
@@ -34,12 +38,13 @@
             :value="item.value">
           </el-option>
         </el-select>
-
         <el-input
           placeholder="搜索"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
+          clearable
+          @change="fetchCostList"
           v-model="value3">
         </el-input>
 
@@ -196,6 +201,11 @@ export default {
       value1: '',
       value2: '',
       value3: '',
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 10
+      },
       addContractVisible: false,
       tamplateFormList: [
         {
@@ -431,12 +441,19 @@ export default {
       })
     },
     fetchCostList () { // 获取费用列支列表
+      let search = {
+        log_type: this.value1,
+        state: this.value2,
+        like: this.value3
+      }
       let params = {
-        page_no: 1,
-        page_size: 999
+        park_id: this.$store.state.form.activePark.domain_id,
+        ...this.page,
+        ...search
       }
       this.$https.post(this.$urls.cost.get_list, params).then((res) => {
         // console.log(res)
+        this.tableData = []
         this.tableData = res.list
       })
     },

@@ -62,6 +62,8 @@
             placeholder="搜索楼宇"
             style="width: 180px; margin-right: 15px"
             prefix-icon="el-icon-search"
+            clearable
+            @change="fetchBuildList"
             v-model="inputValue">
           </el-input>
 
@@ -657,7 +659,7 @@ export default {
             if (key === 'pay_rate') {
               infoBoxData[4].value.value = obj[key]
             }
-            console.log(key)
+            // console.log(key)
           })
           this.infoBoxData = []
           this.infoBoxData = infoBoxData
@@ -666,10 +668,12 @@ export default {
       })
     },
     fetchBuildList () {
-      this.$store.dispatch('getBuildList', {
+      let params = {
         pid: this.$store.state.form.activePark.domain_id,
         ...this.page
-      }).then(res => {
+      }
+      if (this.inputValue) params.name = this.inputValue
+      this.$store.dispatch('getBuildList', params).then(res => {
         this.page = {
           ...this.page,
           page_no: res.page_no,
@@ -677,7 +681,6 @@ export default {
         }
       })
     },
-
     handlePageClick (num) {
       this.page.page_no = num
       this.fetchBuildList()
