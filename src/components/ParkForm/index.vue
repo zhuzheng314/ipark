@@ -35,9 +35,10 @@
                     <el-input-number
                       v-if="item.type === 'input-num'"
                       v-model="form[item.key]"
-                      style="width: 50%"
+                      style="width: 100%"
                       controls-position="right"
-                    ></el-input-number>
+                    >
+                    </el-input-number>
 
                     <!-- textarea -->
                     <el-input
@@ -110,6 +111,7 @@
                       :before-upload="handleBeforeUpload"
                       :on-success="handleUploadImgSuccess"
                       :on-remove="handleUploadImgRemove"
+                      :fileList="imgFileList"
                       v-if="item.type === 'upload-img'"
                       multiple
                       :limit="3">
@@ -120,6 +122,7 @@
                     <el-upload
                       class="upload-demo"
                       :action="$urls.upload"
+                      :fileList="fileList"
                       :on-success="handleUploadFileSuccess"
                       :on-remove="handleUploadFileRemove"
                       v-if="item.type === 'upload-file'"
@@ -238,10 +241,16 @@ export default {
   props: {
     formList: [String, Number, Array, Object],
     itemList: [String, Number, Array, Object],
-    options: [String, Number, Array, Object]
+    options: [String, Number, Array, Object],
+    defaultValue: [String, Number, Array, Object]
+  },
+  computed: {
+  },
+  watch: {
   },
   data () {
     return {
+      imgFileList: [],
       fileList: [],
       form: {
       },
@@ -250,39 +259,56 @@ export default {
       formList1: [
       ],
       uploadImgKey: '',
-      uploadFileKey: ''
+      uploadFileKey: '',
+      uploadUrls: []
     }
   },
   methods: {
     handleBeforeUpload (file) {
-      console.log(file)
-      // return false
     },
     handleUploadImgSuccess (response, file, fileList) {
+      this.imgFileList = this.filterFormFileList(this._.cloneDeep(fileList))
       this.form[this.uploadImgKey] = {
-        upload: this.filterFileList(fileList)
+        upload: this.filterFinFileList(this._.cloneDeep(fileList))
       }
     },
     handleUploadImgRemove (file, fileList) {
+      this.imgFileList = this.filterFormFileList(this._.cloneDeep(fileList))
       this.form[this.uploadImgKey] = {
-        upload: this.filterFileList(fileList)
+        upload: this.filterFinFileList(this._.cloneDeep(fileList))
       }
     },
     handleUploadFileSuccess (response, file, fileList) {
       this.form[this.uploadFileKey] = {
-        upload: this.filterFileList(fileList)
+        upload: this.filterFinFileList(fileList)
       }
     },
     handleUploadFileRemove (file, fileList) {
       this.form[this.uploadFileKey] = {
-        upload: this.filterFileList(fileList)
+        upload: this.filterFinFileList(fileList)
       }
     },
-    filterFileList (fileList) {
+    filterFinFileList (fileList) { // 最终要提交的fileList
       let arr = []
       fileList && fileList.forEach(item => {
-        if (item.response.code === 1000) {
+        if (item.response && item.response.code === 1000) {
           arr.push(item.response.urls[0])
+        } else {
+          let path = this.$urls.fileUrl
+          // item.url = item.url.replace(path, '')
+          arr.push(item)
+        }
+      })
+      return arr
+    },
+    filterFormFileList (fileList) { // 挂载到form上的fileList
+      let arr = []
+      fileList && fileList.forEach(item => {
+        if (!item.response && !item.url.includes('http')) {
+          item.url = this.$urls.fileUrl + item.url
+          arr.push(item)
+        } else {
+          arr.push(item)
         }
       })
       return arr
@@ -292,13 +318,14 @@ export default {
         if (valid) {
           alert('submit!')
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
     resetForm () {
       this.$refs['form'].resetFields()
+      this.imgFileList = []
+      this.fileList = []
       this.$emit('resetForm')
     },
     onSubmit () {
@@ -323,7 +350,7 @@ export default {
         if (item.type === 'checkbox') { // checkbox 初始值为空数组
           formInitValue = []
         }
-        if (item.type === 'switch ') { // switch c初始值是布尔
+        if (item.type === 'switch') { // switch c初始值是布尔
           formInitValue = false
         }
         if (item.type === 'upload-img') { // 如果是图片，要拿到他的key TODO
@@ -335,15 +362,34 @@ export default {
         form[item.key] = formInitValue // form初始化
       })
       this.rules = rules
-      this.form = form
+      this.form = this._.cloneDeep(form)
+    },
+    setDefaultValue () { // 设置默认值
+      Object.keys(this.defaultValue).forEach(x => {
+        Object.keys(this.form).forEach(y => {
+          if (x === y) {
+            this.form[x] = this.defaultValue[x]
+          }
+          if (this.uploadImgKey === y) {
+            this.imgFileList = this.filterFormFileList(this.defaultValue[y].upload)
+          }
+          if (this.uploadFileKey === y) {
+            this.fileList = this.filterFormFileList(this.defaultValue[y].upload)
+          }
+        })
+      })
     },
     init () { // 将form 和rules根据传入的值初始化掉
-      if (this.formList.length) { // 卡片式内容
+      if (this.formList.length) { // 卡片式内容初始化为空
         let itemList = []
         this.formList.forEach(item => {
           itemList.push(...item.children)
         })
         this.initItemList(itemList)
+
+        if (this.defaultValue) { // 如果有默认值再次赋予默认值
+          this.setDefaultValue()
+        }
       }
       if (this.itemList.length) { // 没有卡片
         this.initItemList(this.itemList)
