@@ -5283,12 +5283,20 @@ export default {
           type_code: obj.type_code,
           type_name: obj.type_name
         }
-        this.$https.post('/model.dictype.get_list', { type_code: obj.type_code, page_size: 999, page_no: 1 }).then((res) => {
+        this.$https.post('/model.dictype.get_list', {
+          type_code: obj.type_code,
+          page_size: 999,
+          page_no: 1
+        }).then((res) => {
           if (res.code === 1000) {
             if (!res.list.length) {
               this.$https.post('/model.dictype.add', params)
                 .then(res => {
-                  this.$https.post('/model.dictype.get_list', { type_code: obj.type_code, page_size: 999, page_no: 1 }).then(res => {
+                  this.$https.post('/model.dictype.get_list', {
+                    type_code: obj.type_code,
+                    page_size: 999,
+                    page_no: 1
+                  }).then(res => {
                     obj.id = res.list[0].type_id
                     resolve(obj)
                   })
@@ -5312,7 +5320,12 @@ export default {
           dic_info: obj.data[i].dic_info,
           order_num: i
         }
-        this.$https.post('/model.dicinfo.get_list', { dic_code: obj.data[i].dic_code, page_size: 999, page_no: 1 })
+        this.$https.post('/model.dicinfo.get_list', {
+          type_id: obj.id,
+          dic_code: obj.data[i].dic_code,
+          page_size: 999,
+          page_no: 1
+        })
           .then((res) => {
             if (res.code === 1000) {
               if (!res.list.length) {

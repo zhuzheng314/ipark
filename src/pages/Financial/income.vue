@@ -376,7 +376,7 @@ export default {
       }
       this.$https.post(this.$urls.charge.info, params).then((res) => {
         // console.log(res)
-        this.tableData = res.list
+        // this.tableData = res.list
         let data = res.data
         this.finData.forEach(v => {
           v.value = data[v.key]
