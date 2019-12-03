@@ -380,7 +380,6 @@ export default {
           }
         })
       })
-      console.log(456465, this.defaultValue, this.form, this.imgFileList)
     },
     init () { // 将form 和rules根据传入的值初始化掉
       if (this.formList.length) { // 卡片式内容初始化为空
