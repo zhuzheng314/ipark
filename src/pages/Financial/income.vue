@@ -8,10 +8,11 @@
       <div slot="header">
 
         <el-select  size="small"
-                    multiple
-                    v-model="value1"
-                    placeholder="缴费状态">
-
+        multiple
+        v-model="value1"
+        clearable
+        @change="fetchChargeList"
+        placeholder="缴费状态">
           <el-option
             v-for="item in stateOptions"
             :key="item.value"
@@ -24,7 +25,9 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value2">
+          v-model="value2"
+          clearable
+          @change="fetchChargeList">
         </el-input>
         <el-date-picker
           v-model="value3"
@@ -32,6 +35,8 @@
           style="margin-left: 15px"
           type="daterange"
           range-separator="至"
+          clearable
+          @change="fetchChargeList"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
@@ -204,6 +209,11 @@ export default {
       value1: '',
       value2: '',
       value3: '',
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 10
+      },
       addContractVisible: false,
       tamplateFormList: [
         {
@@ -376,7 +386,7 @@ export default {
       }
       this.$https.post(this.$urls.charge.info, params).then((res) => {
         // console.log(res)
-        this.tableData = res.list
+        // this.tableData = res.list
         let data = res.data
         this.finData.forEach(v => {
           v.value = data[v.key]
@@ -386,9 +396,14 @@ export default {
     },
     fetchChargeList () { // 获取财务收入列表
       let params = {
-        page_no: 1,
-        page_size: 999
+        park_id: this.$store.state.form.activePark.domain_id,
+        ...this.page
       }
+      if (this.value1.length) params.state = this.value1
+      if (this.value2) params.like = this.value2
+      if (this.value3 && this.value3.length) params.date = this.value3
+      console.log(params)
+
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
         this.tableData = res.list
