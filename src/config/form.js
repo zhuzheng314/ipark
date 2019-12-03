@@ -57,7 +57,7 @@ const addParkForm = [
         key: 'total_invest',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -67,7 +67,7 @@ const addParkForm = [
         key: 'actual_invest',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -77,6 +77,7 @@ const addParkForm = [
         key: 'property',
         placeholder: '请输入',
         rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -86,7 +87,7 @@ const addParkForm = [
         key: 'contacter',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -96,7 +97,7 @@ const addParkForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -124,6 +125,8 @@ const addParkForm = [
           }
         ],
         rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -150,6 +153,8 @@ const addParkForm = [
           }
         ],
         rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -166,7 +171,11 @@ const addParkForm = [
         type: 'upload-img',
         label: '园区图片',
         key: 'attached',
-        placeholder: '请输入'
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请上传图片', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
       }
     ]
   }

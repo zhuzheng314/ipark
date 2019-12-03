@@ -288,14 +288,15 @@ export default {
         upload: this.filterFinFileList(fileList)
       }
     },
-    filterFinFileList (fileList) { // 最终要提交的fileList
+    filterFinFileList (_fileList) { // 最终要提交的fileList
       let arr = []
+      let fileList = this._.cloneDeep(_fileList)
       fileList && fileList.forEach(item => {
         if (item.response && item.response.code === 1000) {
           arr.push(item.response.urls[0])
         } else {
           let path = this.$urls.fileUrl
-          // item.url = item.url.replace(path, '')
+          item.url = item.url.replace(path, '')
           arr.push(item)
         }
       })
@@ -331,7 +332,7 @@ export default {
     onSubmit () {
       this.$refs['form'].validate((valid, value) => {
         if (valid) {
-          this.$emit('onSubmit', this.$refs['form'].model)
+          this.$emit('onSubmit', this.form)
         } else {
           console.log('error submit!!')
           return false
@@ -355,9 +356,11 @@ export default {
         }
         if (item.type === 'upload-img') { // 如果是图片，要拿到他的key TODO
           this.uploadImgKey = item.key
+          formInitValue = {}
         }
         if (item.type === 'upload-file') { // 如果是文件，要拿到他的key TODO
           this.uploadFileKey = item.key
+          formInitValue = {}
         }
         form[item.key] = formInitValue // form初始化
       })
@@ -371,10 +374,10 @@ export default {
             this.form[x] = this.defaultValue[x]
           }
           if (this.uploadImgKey === y) {
-            this.imgFileList = this.filterFormFileList(this.defaultValue[y].upload)
+            this.imgFileList = this.filterFormFileList(this._.cloneDeep(this.defaultValue[y].upload))
           }
           if (this.uploadFileKey === y) {
-            this.fileList = this.filterFormFileList(this.defaultValue[y].upload)
+            this.fileList = this.filterFormFileList(this._.cloneDeep(this.defaultValue[y].upload))
           }
         })
       })
@@ -391,12 +394,12 @@ export default {
           this.setDefaultValue()
         }
       }
-      if (this.itemList.length) { // 没有卡片
+      if (this.itemList && this.itemList.length) { // 没有卡片
         this.initItemList(this.itemList)
       }
     }
   },
-  created () {
+  mounted () {
     this.init()
   }
 }
