@@ -1,143 +1,150 @@
 <template>
   <div class="assetInfo">
-    <el-card style="margin-bottom: 10px">
-      <div slot="header" class="clearfix">
-        <el-page-header @back="goBack" :content="buildInfo.name">
-        </el-page-header>
-      </div>
-      <div>
-        <InfoBox
-          style="float: left; margin:0 40px 10px 15px"
-          v-for="(item, index) in infoBoxData" :type='item.type'
-          :key="'info' + index"
-          :data="item"
-        ></InfoBox>
-        <div style="clear:both"></div>
-      </div>
-
-    </el-card>
-
-    <el-card>
-      <div>
-        <el-select size="small" style="width: 150px" class="mr-10" multiple v-model="requirement.area.value" placeholder="面积选择" clearable @change="fetchRoomList">
-          <el-option
-            v-for="item in requirement.area.areaList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.timeLimit.value" placeholder="合同期限" clearable @change="fetchRoomList">
-          <el-option
-            v-for="item in requirement.timeLimit.timeLimitList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">
-          <el-option
-            v-for="item in requirement.source.sourceList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">
-          <el-option
-            v-for="item in requirement.empty.emptyList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button
-          size="small"
-          type="primary"
-          style="float: right"
-          @click="() => this.addRoomShow = true"
-          icon="el-icon-plus">
-          新增房间
-        </el-button>
-      </div>
-      <el-divider></el-divider>
-
-<!--      状态-->
-      <div style="margin-bottom: 10px;cursor: pointer">
-        <div class="typeWrap" @click="handleStatusClick(item)" v-for="item in statusList" :key="item.str">
-          <div class="status" :style="{background: item.color}"></div>
-          <div class="text">{{item.str}}</div>
+    <div v-if="buildId">
+      <el-card style="margin-bottom: 10px">
+        <div slot="header" class="clearfix">
+          <el-page-header @back="goBack" :content="buildInfo.name">
+          </el-page-header>
         </div>
-        <div style="float: right">
-          <el-button size="mini" @click="() => this.showTrueArea = !this.showTrueArea">切换</el-button>
+        <div>
+          <InfoBox
+            style="float: left; margin:0 40px 10px 15px"
+            v-for="(item, index) in infoBoxData" :type='item.type'
+            :key="'info' + index"
+            :data="item"
+          ></InfoBox>
+          <div style="clear:both"></div>
         </div>
-      </div>
 
-<!--      楼宇列表-->
+      </el-card>
 
-      <div class="list" :key="'list-' + index" v-for="(item, index) in roomFloor">
-        <div class="list-header">
-          <div>{{item.floor}}楼</div>
-          <div>{{item.allArea}}㎡</div>
+      <el-card>
+        <div>
+          <el-select size="small" style="width: 150px" class="mr-10" multiple v-model="requirement.area.value" placeholder="面积选择" clearable @change="fetchRoomList">
+            <el-option
+              v-for="item in requirement.area.areaList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.timeLimit.value" placeholder="合同期限" clearable @change="fetchRoomList">
+            <el-option
+              v-for="item in requirement.timeLimit.timeLimitList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">
+            <el-option
+              v-for="item in requirement.source.sourceList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">
+            <el-option
+              v-for="item in requirement.empty.emptyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-button
+            size="small"
+            type="primary"
+            style="float: right"
+            @click="() => this.addRoomShow = true"
+            icon="el-icon-plus">
+            新增房间
+          </el-button>
         </div>
-        <div class="list-wrap">
-          <div v-for="(subItem, subIndex) in item.children" :key="'listItem' + subIndex" >
-            <div
-              class="list-item"
-              @click="handleRoomClick(subItem)"
-              :style="{
+        <el-divider></el-divider>
+
+        <!--      状态-->
+        <div style="margin-bottom: 10px;cursor: pointer">
+          <div class="typeWrap" @click="handleStatusClick(item)" v-for="item in statusList" :key="item.str">
+            <div class="status" :style="{background: item.color}"></div>
+            <div class="text">{{item.str}}</div>
+          </div>
+          <div style="float: right">
+            <el-button size="mini" @click="() => this.showTrueArea = !this.showTrueArea">切换</el-button>
+          </div>
+        </div>
+
+        <!--      楼宇列表-->
+
+        <div class="list" :key="'list-' + index" v-for="(item, index) in roomFloor">
+          <div class="list-header">
+            <div>{{item.floor}}楼</div>
+            <div>{{item.allArea}}㎡</div>
+          </div>
+          <div class="list-wrap">
+            <div v-for="(subItem, subIndex) in item.children" :key="'listItem' + subIndex" >
+              <div
+                class="list-item"
+                @click="handleRoomClick(subItem)"
+                :style="{
                 width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
                 background: filterRoomColorByState(subItem) }">
-              <div class="text">{{subItem.name}}</div>
-              <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-              <div class="sub-text">2019-11-11到期</div>
-              <div class="status">{{statusList[subItem.state].str}}</div>
+                <div class="text">{{subItem.name}}</div>
+                <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
+                <div class="sub-text">2019-11-11到期</div>
+                <div class="status">{{statusList[subItem.state].str}}</div>
+              </div>
             </div>
-          </div>
 
+          </div>
+          <div class="clear"></div>
         </div>
-        <div class="clear"></div>
-      </div>
 
-<!--      房间信息-->
-       <el-drawer
-        title="房间详情"
-        custom-class="drawer-r"
-        :visible.sync="roomInfoState"
-        size="1186px"
-        direction="rtl">
-        <HeaderCard :data="roomInfo_header">
-          <template #headerCardBtns>
-          <div class="btnBox" v-for="(item,i) in roomInfo_header.button" :key="(item,i)" @click="open(item.name)">
-            <i class="iconfont" v-html="item.icon"></i>
-            <span class="headerCard-btn-name">{{item.name}}</span>
-          </div>
-        </template>
-        </HeaderCard>
-        <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
-        <div class="drawer-body" style="height: 500px;">
-          <BodyCard type=2 :data="roomInfo_body_table1">
-            <template #btn>
-              <el-button
-                :style="{height: '80%',margin: 'auto 8px'}"
-                size="mini"
-              >新建合同</el-button>
+        <!--      房间信息-->
+        <el-drawer
+          title="房间详情"
+          custom-class="drawer-r"
+          :visible.sync="roomInfoState"
+          size="1186px"
+          direction="rtl">
+          <HeaderCard :data="roomInfo_header">
+            <template #headerCardBtns>
+              <div class="btnBox" v-for="(item,i) in roomInfo_header.button" :key="(item,i)" @click="open(item.name)">
+                <i class="iconfont" v-html="item.icon"></i>
+                <span class="headerCard-btn-name">{{item.name}}</span>
+              </div>
             </template>
-          </BodyCard>
-          <BodyCard type=2 :data="roomInfo_body_table2">
-            <!-- <template #btn>
-              <el-button
-                :style="{height: '80%',margin: 'auto 8px'}"
-                icon="el-icon-plus"
-                size="mini"
-              >客户 </el-button>
-            </template> -->
-          </BodyCard>
-        </div>
-      </el-drawer>
-    </el-card>
+          </HeaderCard>
+          <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
+          <div class="drawer-body" style="height: 500px;">
+            <BodyCard type=2 :data="roomInfo_body_table1">
+              <template #btn>
+                <el-button
+                  :style="{height: '80%',margin: 'auto 8px'}"
+                  size="mini"
+                >新建合同</el-button>
+              </template>
+            </BodyCard>
+            <BodyCard type=2 :data="roomInfo_body_table2">
+              <!-- <template #btn>
+                <el-button
+                  :style="{height: '80%',margin: 'auto 8px'}"
+                  icon="el-icon-plus"
+                  size="mini"
+                >客户 </el-button>
+              </template> -->
+            </BodyCard>
+          </div>
+        </el-drawer>
+      </el-card>
+    </div>
 
+    <div v-if="!buildId">
+      <el-card>
+        <None></None>
+      </el-card>
+    </div>
     <el-dialog
       title="添加房间"
       :visible.sync="addRoomShow"
@@ -185,9 +192,9 @@ export default {
     ElDivider,
     InfoBox
   },
+  props: ['propBuildId'],
   data () {
     return {
-      // defaultValueTest: { 'pid': 487, 'floor': 20, 'name': '456', 'area': '777', 'state': 0, 'contacter': '朱政', 'contact': '89789798797987', 'memo': '、、787', 'attached': { 'upload': [{ 'name': '00ebe5440ec9e323f06a8a388e3f2abc_t.gif', 'url': '1575298931345/94918b9e387a02b08e70f6ee8df47c0a.gif' }] }, 'access_token': 'C8B2EBF2-31B0-0001-588B-18D01BB2EBA0', 'v': '1.0', 'app_id': 'C767115F-0ED0-0001-3451-1DC0D520ECB0', 'app_key': '9aaa8e3fea97081839f7515cb3426359' },
       buildId: null,
       showTrueArea: true,
       modifyShow: false,
@@ -372,7 +379,7 @@ export default {
             function: 'click1'
           },
           {
-            name: '备注',
+            name: '删除',
             icon: '&#xe7d1;',
             function: 'click1'
           },
@@ -449,10 +456,10 @@ export default {
     }
   },
   watch: {
-    '$route' () {
-      this.buildId = Number(this.$route.query.buildId)
+    'propBuildId' (newData, oldData) {
+      this.buildId = newData
       this.fetchRoomList()
-      this.fetchBuildList()
+      // this.fetchBuildList()
       this.fetchBuildingInfo()
     },
     buildId () {
@@ -476,10 +483,12 @@ export default {
       this.roomInfo = room
     },
     open (i) {
-      this.$message('这里是' + i)
       if (i === '编辑') {
         // this.modifyShow = true
         this.fetchRoomInfo()
+      }
+      if (i === '删除') {
+        this.fetchDelRoom()
       }
     },
     goBack () {
@@ -508,7 +517,9 @@ export default {
         ...data
       }).then(res => {
         if (res.code === 1000) {
-          console.log(res, 'modify')
+          this.$message.success('修改成功')
+          this.fetchRoomList()
+          this.modifyShow = false
         }
       })
     },
@@ -522,17 +533,29 @@ export default {
         }
       })
     },
+    fetchDelRoom () {
+      this.$https.post(this.$urls.room.remove, {
+        domain_id: this.roomInfo.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.$message.success('删除成功')
+          this.fetchRoomList()
+        } else {
+          this.$message.warning('删除失败')
+        }
+      })
+    },
     fetchRoomList () {
-      let params = {
-        pid: this.buildId,
-        page_no: 1,
-        page_size: 20
+      if (!this.buildId) {
+
+      } else {
+        let params = {
+          pid: this.buildId,
+          page_no: 1,
+          page_size: 20
+        }
+        this.$store.dispatch('getRoomList', params)
       }
-      // if(this.requirement.area.value && this.requirement.area.value.length) params.area = this.requirement.area.value;
-      // if(this.requirement.timeLimit.value && this.requirement.timeLimit.value.length) params.timeLimit = this.requirement.timeLimit.value;
-      // if(this.requirement.source.value && this.requirement.source.value.length) params.asourcerea = this.requirement.source.value;
-      // if(this.requirement.empty.value && this.requirement.empty.value.length) params.empty = this.requirement.empty.value;
-      this.$store.dispatch('getRoomList', params)
     },
     fetchBuildList () {
       this.$store.dispatch('getBuildList', {
@@ -656,11 +679,9 @@ export default {
     }
   },
   mounted () {
-    this.buildId = Number(this.$route.query.buildId)
-    console.log(4565465)
+    this.buildId = this.propBuildId
     this.fetchBuildingInfo()
     this.fetchRoomList()
-    this.fetchBuildList()
   }
 }
 </script>

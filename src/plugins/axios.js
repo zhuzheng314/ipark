@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { baseUrl } from './../config/api'
-
-let loadingInstance
+import store from '../store/index'
+// import {Loading} from 'element-ui'
 
 const codeMessage = {
   1000: '成功',
@@ -35,6 +35,7 @@ const body = {
 
 request.interceptors.request.use(
   config => {
+    // store.commit('setLoading', true)
     config.data = {
       ...config.data,
       access_token: JSON.parse(sessionStorage.getItem('_token')),
@@ -49,11 +50,12 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   config => {
+    // store.commit('setLoading', false)
     const code = config.data.code
     const msg = codeMessage[code]
     if (code === 1100 || code === 1102 || code === 1103) {
       // window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
-      this.$store.commit('clearSession')
+      store.commit('loginOut')
     }
     config.data.msg = code + ':' + msg
     return config.data

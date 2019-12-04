@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="right">
-      <el-card style="margin-bottom: 10px">
+      <el-card v-loading="$store.state.loading" style="margin-bottom: 10px">
         <div style="color: #666; font-size: 16px;" slot="header">{{$store.state.form.activePark.name}}</div>
         <div>
           <InfoBox
@@ -352,7 +352,7 @@ export default {
   },
   methods: {
     handleRowClick (row) {
-      this.$router.push(`/asset-management/assetInfo?buildId=${row.domain_id}`)
+      this.$router.push(`/park/build?buildId=${row.domain_id}`)
     },
     handleAdd () {
       this.addShow = true

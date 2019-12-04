@@ -6,18 +6,18 @@ const menuList = [
       // {
       //   name: '园区管理',
       //   icon: '',
-      //   path: '/asset-management/assetInfo'
+      //   path: '/Park/assetInfo'
       // },
       {
         name: '园区',
         icon: '',
-        path: '/asset-management/park'
+        path: '/park/park'
+      },
+      {
+        name: '楼宇',
+        icon: '',
+        path: '/park/build'
       }
-      // {
-      //   name: '楼宇',
-      //   icon: '',
-      //   path: '/asset-management/build'
-      // }
     ]
   },
   {
