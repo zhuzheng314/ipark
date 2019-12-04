@@ -119,7 +119,7 @@ export default {
     },
     fetchModify (data) {
       this.$https.post(this.$urls.building.modify, {
-        domain_id: this.buildId,
+        domain_id: this.modifyDefaultValue.domain_id,
         ...data
       }).then(res => {
         if (res.code === 1000) {
