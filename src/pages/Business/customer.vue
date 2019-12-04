@@ -116,7 +116,7 @@
       :visible.sync="addContractVisible"
       width="600px">
       <div>
-        <ParkForm :formList="$formsLabels.addCustomerForm" :itemList="[]"></ParkForm>
+        <ParkForm v-if="addContractVisible" :formList="$formsLabels.addCustomerForm" :itemList="[]"></ParkForm>
       </div>
     </el-dialog>
 <!--  客户详情-->

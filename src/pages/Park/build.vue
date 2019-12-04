@@ -78,13 +78,6 @@ export default {
     Room
   },
   watch: {
-    // '$route' (newR) {
-    //   this.fetchBuildList()
-    //   this.buildId = Number(newR.query.buildId)
-    // },
-    // '$store.state.form.activePark' (newData) {
-    //   this.fetchBuildList()
-    // }
   },
   data () {
     return {
