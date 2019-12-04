@@ -3,9 +3,10 @@
     <el-card style="width: 100%">
       <div>
         <el-select  size="small"
-                    multiple
-                    v-model="value1"
-                    placeholder="进度阶段">
+        v-model="value1"
+        clearable
+        @change="fetchList2"
+        placeholder="进度阶段">
           <el-option
             v-for="item in options1"
             :key="item.value"
@@ -14,9 +15,10 @@
           </el-option>
         </el-select>
         <el-select  size="small"
-                    multiple
-                    v-model="value2"
-                    placeholder="来源渠道">
+        v-model="value2"
+        clearable
+        @change="fetchList2"
+        placeholder="来源渠道">
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -30,6 +32,8 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
+          clearable
+          @change="fetchList2"
           v-model="value3">
         </el-input>
         <el-button
@@ -37,7 +41,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          @click="handleAddContract"
+          @click="handleAddCustomer"
         >客户</el-button>
       </div>
     </el-card>
@@ -54,76 +58,36 @@
 
     </el-card>
     <el-card>
-<!--      <el-table-->
-<!--        :data="tableData"-->
-<!--        @row-click="customerState"-->
-<!--        style="width: 100%">-->
-<!--        <el-table-column-->
-<!--          prop="a"-->
-<!--          label="客户名称">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="b"-->
-<!--          label="进度阶段">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="c"-->
-<!--          label="来源渠道">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="d"-->
-<!--          label="需求面积段">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="e"-->
-<!--          label="行业">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="f"-->
-<!--          label="最近联络时间">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="g"-->
-<!--          label="联络人">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="h"-->
-<!--          label="联系方式">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="i"-->
-<!--          label="预计签约时间">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="j"-->
-<!--          label="跟进人">-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-
-<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
-<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
-<!--      </div>-->
-
       <GTable
         @row-click="customerState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
         :tableLabel="$tableLabels.businessCustomer"
-        :tableData="tableData">
+        :tableData="tableData"
+        :page="page">
       </GTable>
     </el-card>
 
     <el-dialog
       title="新建客户"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="600px">
       <div>
-        <ParkForm :formList="$formsLabels.addCustomerForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        :formList="$formsLabels.addCustomerForm"
+        :options="$store.getters.customerListOptions"
+        :defaultValue="defaultValue"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
 <!--  客户详情-->
     <el-drawer
       title="客户详情"
       custom-class="drawer-r"
-      :visible.sync="customerInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="customerInfo_header">
@@ -169,294 +133,50 @@ export default {
       yearList: [
       ],
       finData: [
-        { name: '初次接触', value: 134, chart: '0.23', type: 'arrow' },
-        { name: '成交客户', value: 45, chart: '0.15', type: 'arrow' },
-        { name: '流失客户', value: 12, chart: '-0.85', type: 'arrow' }
+        { name: '初次接触', value: '', chart: '', type: 'arrow' },
+        { name: '成交客户', value: '', chart: '', type: 'arrow' },
+        { name: '流失客户', value: '', chart: '', type: 'arrow' }
       ],
       options1: [
         {
-          value: '选项1',
+          value: 0,
           label: '全部'
         }, {
-          value: '选项2',
+          value: 1,
           label: '初次来访'
         }, {
-          value: '选项3',
+          value: 2,
           label: '意向客户'
         }, {
-          value: '选项4',
+          value: 3,
           label: '成交客户'
         }, {
-          value: '选项5',
+          value: 4,
           label: '休眠客户'
         }
       ],
       options2: [
         {
-          value: '选项1',
+          value: 0,
           label: '全部'
         }, {
-          value: '选项2',
+          value: 1,
           label: '广告媒体'
         }, {
-          value: '选项3',
+          value: 2,
           label: '中介'
         }, {
-          value: '选项4',
+          value: 3,
           label: '客户自访'
         }, {
-          value: '选项5',
+          value: 4,
           label: '其他'
         }
       ],
       value1: '',
       value2: '',
       value3: '',
-      addContractVisible: false,
-      // addContractFormList: [
-      //   {
-      //     title: '客户信息',
-      //     span: 24,
-      //     // minHeight: 500,
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '客户(企业名称)',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '该项为必填', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '联系人',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '该项为必填', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '联系方式',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '该项为必填', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '跟进人',
-      //         key: 'i',
-      //         placeholder: '请输入租客名称',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '进度阶段',
-      //         key: 'tamplate',
-      //         placeholder: '请选择',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '初次来访',
-      //             value: 's1'
-      //           }, {
-      //             label: '意向客户',
-      //             value: 's2'
-      //           }, {
-      //             label: '成交客户',
-      //             value: 's3'
-      //           }, {
-      //             label: '休眠客户',
-      //             value: 's4'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '行业',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'date-picker',
-      //         label: '来访时间',
-      //         key: 'i',
-      //         placeholder: '请输入租客名称',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '客户来源',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '上门',
-      //             value: 's1'
-      //           }, {
-      //             label: '官网',
-      //             value: '官网'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'textarea',
-      //         label: '备注',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '房源信息',
-      //     span: 24,
-      //     children: [
-      //       {
-      //         type: 'cascader',
-      //         label: '需求面积',
-      //         key: 'xuqmj',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             value: 1,
-      //             label: '100㎡以内'
-      //           }, {
-      //             value: 2,
-      //             label: '100-200㎡'
-      //           }, {
-      //             value: 3,
-      //             label: '200-300㎡'
-      //           }, {
-      //             value: 4,
-      //             label: '300㎡以上'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'cascader',
-      //         label: '需求工位',
-      //         key: 'fangyxx',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             value: 1,
-      //             label: '1-20个'
-      //           }, {
-      //             value: 2,
-      //             label: '21-50个'
-      //           }, {
-      //             value: 3,
-      //             label: '51-100个'
-      //           }, {
-      //             value: 4,
-      //             label: '100个以上'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'date-picker',
-      //         label: '预计签约时间',
-      //         key: 'i',
-      //         placeholder: '请输入租客名称',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'change' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'cascader',
-      //         label: '房源信息',
-      //         key: 'fangyxx',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [{
-      //           value: 1,
-      //           label: '梦想小镇',
-      //           children: [{
-      //             value: 2,
-      //             label: '1幢',
-      //             children: [
-      //               { value: 3, label: '101' },
-      //               { value: 4, label: '201' },
-      //               { value: 5, label: '205' }
-      //             ]
-      //           }, {
-      //             value: 7,
-      //             label: '3幢',
-      //             children: [
-      //               { value: 8, label: '101' },
-      //               { value: 9, label: '103' },
-      //               { value: 10, label: '503' }
-      //             ]
-      //           }, {
-      //             value: 12,
-      //             label: '8幢',
-      //             children: [
-      //               { value: 13, label: '202' },
-      //               { value: 14, label: '503' },
-      //               { value: 15, label: '603' }
-      //             ]
-      //           }]
-      //         }, {
-      //           value: 17,
-      //           label: '人工智能小镇',
-      //           children: [{
-      //             value: 18,
-      //             label: '16幢',
-      //             children: [
-      //               { value: 19, label: '501' },
-      //               { value: 20, label: '505' }
-      //             ]
-      //           }, {
-      //             value: 21,
-      //             label: '19幢',
-      //             children: [
-      //               { value: 22, label: '103' },
-      //               { value: 23, label: '105' }
-      //             ]
-      //           }]
-      //         }]
-      //       }
-      //     ]
-      //   }
-      // ],
+      addVisible: false,
       tamplateFormList: [
         {
           type: 'select',
@@ -504,34 +224,44 @@ export default {
           ]
         }
       ],
-      customerInfoState: false,
+      InfoState: false,
+      id: '',
       customerInfo_header: {
-        title: '杨晓明',
+        title: '-',
         button: [
+          {
+            name: '编辑',
+            icon: '&#xe62a;'
+          },
           {
             name: '附件',
             icon: '&#xe655;',
-            function: 'open'
+            function: 'click1'
           },
+          // {
+          //   name: '删除',
+          //   icon: '&#xe7d1;',
+          //   function: 'click1'
+          // },
           {
-            name: '备注',
-            icon: '&#xe7d1;',
-            function: 'open'
+            name: '更多',
+            icon: '&#xe86d;',
+            function: 'click1'
           }
         ]
       },
       customerInfo_body_1: {
         title: '客户信息',
         info: [
-          { name: '名称', value: '杨晓明' },
-          { name: '来访时间', value: '2019-10-28' },
-          { name: '客户状态', value: '未签约' },
-          { name: '渠道', value: '中介' },
-          { name: '需求面积段', value: '300-400' },
-          { name: '需求工位段', value: '50-100' },
-          { name: '行业', value: '互联网' },
-          { name: '预计签约时间', value: '2019-12-06' },
-          { name: '跟进人', value: '杨晓明' }
+          { name: '名称', value: '-' },
+          { name: '来访时间', value: '-' },
+          { name: '客户状态', value: '-' },
+          { name: '渠道', value: '-' },
+          { name: '需求面积段', value: '-' },
+          { name: '需求工位段', value: '-' },
+          { name: '行业', value: '-' },
+          { name: '预计签约时间', value: '-' },
+          { name: '跟进人', value: '-' }
         ]
       },
       customerInfo_body_2: {
@@ -551,66 +281,114 @@ export default {
         title: '合同',
         info: {
           label: [
-            { prop: 'a', label: '合同编号' },
-            { prop: 'b', label: '楼宇/房间号' },
-            { prop: 'c', label: '租赁面积' },
-            { prop: 'd', label: '开始日' },
-            { prop: 'e', label: '结束日' },
-            { prop: 'f', label: '合同单价' },
-            { prop: 'g', label: '状态' },
-            { prop: 'h', label: '联系人方式' }
+            { prop: 'contract_code', label: '合同编号' },
+            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'rent_area', label: '租赁面积' },
+            { prop: 'start_ts', label: '开始日' },
+            { prop: 'end_ts', label: '结束日' },
+            { prop: 'unit_price', label: '合同单价' },
+            { prop: 'state', label: '状态' },
+            { prop: 'contacter', label: '联系人' },
+            { prop: 'contact', label: '联系人电话' }
           ],
           tableData: []
         }
+      },
+      defaultValue: {
+        contact: '15895642356',
+        contacter: '金',
+        create_ts: '2019-12-30T16:00:00.000Z',
+        demand_area: 1,
+        demand_ts: '2019-12-30T16:00:00.000Z',
+        email: '',
+        info_source: 0,
+        memo: '',
+        name: '客户丙',
+        receiver: '金',
+        room: [[17, 21, 23]],
+        state: 0,
+        status: 0,
+        work_station: 2
+      },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
 
     }
   },
   methods: {
-    handleAddContract () {
-      this.addContractVisible = true
+    handleAddCustomer () {
+      this.addVisible = true
     },
-    customerState () {
-      this.customerInfoState = true
+    customerState (data) { // 显示客户详情
+      this.id = data.id
+      this.fetchGetInfo(this.id)
+      this.InfoState = true
+      this.$https.post(this.$urls.contract.get_list, {
+        park_id: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 999,
+        customer_id: this.id
+      }).then(res => {
+        console.log(res.list.length)
+        this.customerInfo_body_table.info.tableData = res.list
+      })
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
+      if (i === '编辑') {
+        // this.modifyShow = true
+        this.fetchModify(this.id)
+      }
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
     test (page) {
       console.log(page)
     },
-    fetchCustomerAdd () { // 添加客户
+    fetchAdd (data) { // 添加客户
       let params = {
-        id: this.parkId
+        ...data
       }
-      this.$https.post(this.$urls.customer.add, params).then((res) => {
-
-      })
+      params.room = [489]
+      params.rooms = [489]
+      this.$https.post(this.$urls.customer.add, params)
+        .then(this.fetchList())
+        .then(this.addVisible = false)
     },
-    fetchCustomerRemove (id) { // 删除客户
+    fetchRemove (id) { // 删除客户
       let params = {
         id: id
       }
       this.$https.post(this.$urls.customer.remove, params).then((res) => {
         this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+        }
       })
     },
-    fetchCustomerModify (id) { // 修改客户
+    fetchModify (id) { // 修改客户
       let params = {
         id: id
       }
       this.$https.post(this.$urls.customer.modify, params).then((res) => {
         this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+        }
       })
     },
-    fetchCustomerInfo () { // 获取客户管理统计信息
+    fetchInfo () { // 获取客户管理统计信息
       let params = {
-        id: this.parkId
+        park_id: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
       }
       this.$https.post(this.$urls.customer.info, params).then((res) => {
-        // console.log(res)
-        this.tableData = res.list
         let data = res.data
         this.finData.forEach(v => {
           v.value = data[v.key]
@@ -618,28 +396,55 @@ export default {
         })
       })
     },
-    fetchCustomerList () { // 获取客户列表
+    fetchList () { // 获取客户列表
       let params = {
-        page_no: 1,
-        page_size: 999
+        ...this.page,
+        park_id: this.$store.state.form.activePark.domain_id,
+        state: this.value1,
+        info_source: this.value2,
+        name: this.value3
       }
       this.$https.post(this.$urls.customer.get_list, params).then((res) => {
         // console.log(res)
+        this.page.total = res.total
         this.tableData = res.list
       })
     },
-    fetchCustomerGetInfo (id) { // 获取客户信息
+    fetchList2 () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取客户信息
       let params = {
-        customer_id: id
+        id: id
       }
-      // this.$message(`${id}`)
       this.$https.post(this.$urls.customer.get_info, params).then((res) => {
-        // console.log(res)
+        // console.log(res);
+        let data = res
+        this.customerInfo_header.title = data.name
+        this.customerInfo_body_1.info = [
+          { name: '名称', value: data.name },
+          { name: '来访时间', value: data.create_ts },
+          { name: '客户状态', value: data.state },
+          { name: '渠道', value: data.info_source },
+          { name: '需求面积段', value: data.demand_area },
+          { name: '需求工位段', value: data.work_station },
+          { name: '行业', value: data.status },
+          { name: '预计签约时间', value: data.demand_ts },
+          { name: '跟进人', value: data.receiver }
+        ]
+        this.customerInfo_body_3.info = data.memo
       })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
+
   },
   created () {
-    this.fetchCustomerList()
+    this.fetchInfo()
+    this.fetchList()
   }
 }
 </script>

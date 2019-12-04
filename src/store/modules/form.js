@@ -7,7 +7,8 @@ const form = {
     activePark: {},
     buildList: [],
     roomList: [],
-    contractList: []
+    contractList: [],
+    customerList: []
   },
   getters: {
     parkListOptions: state => {
@@ -69,6 +70,16 @@ const form = {
     contractListOptions: state => {
       return {
         pid: state.contractList.length ? state.contractList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
+      }
+    },
+    customerListOptions: state => {
+      return {
+        pid: state.customerList.length ? state.customerList.map(x => {
           return {
             label: x.name,
             value: x.domain_id

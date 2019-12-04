@@ -1,9 +1,9 @@
+console.log(process)
 // 空间管理
-
-const url = 'https://service.iot1234.com'
-const domin = url + ':2443/'
-// const url = 'http://192.168.0.231'
-// const domin = url + ':3000/'
+// const url = 'https://service.iot1234.com'
+// const domin = url + ':2443/'
+const url = 'http://192.168.0.231'
+const domin = url + ':3000/'
 const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
 
@@ -75,8 +75,9 @@ const api = {
     get_info: `/assets.customer.get_info` // 获取客户信息
   },
   /* --------------- 合同管理模块 --------------- */
+  // 合同列表
   contract: {
-    info: `assets.d_contract.get_list`, // 获取合同统计信息
+    info: `assets.d_contract.get_info`, // 获取合同统计信息
     add: `/assets.contract.add`, // 添加合同
     modify: `/assets.contract.modify`, // 修改合同
     remove: `/assets.contract.remove`, // 删除合同
@@ -85,6 +86,15 @@ const api = {
     get_list_by_room: `/assets.contract.get_list_by_room` // 通过房间id获取合同列表
   },
   /* --------------- 企业进退驻管理模块 --------------- */
+  // 进驻管理
+  enter: {
+    info: `assets.d_enter.get_info`, // 获取进驻管理统计信息
+    add: `/assets.enter.add`, // 添加进驻
+    modify: `/assets.enter.modify`, // 修改进驻
+    remove: `/assets.enter.remove`, // 删除进驻
+    get_list: `/assets.enter.get_list`, // 获取进驻列表
+    get_info: `/assets.enter.get_info` // 获取进驻信息
+  },
 
   /* --------------- 物业服务模块 --------------- */
   // 四表集抄模块
