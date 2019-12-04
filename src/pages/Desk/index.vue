@@ -225,7 +225,7 @@ export default {
             { name: '建筑面积(㎡)', value: 3256 },
             { name: '总投资(万元)', value: 3245 }
           ],
-          router: '/asset-management/park'
+          router: '/Park/park'
         },
         {
           color: '#358DD7',
@@ -245,7 +245,7 @@ export default {
             { name: '房租费用(元)', value: 654821 },
             { name: '总金额(元)', value: 865624 }
           ],
-          router: '/asset-management/park'
+          router: '/Park/park'
         },
         {
           color: '#33add0',

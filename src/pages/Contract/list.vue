@@ -1174,9 +1174,9 @@ export default {
       }]
     }
     // this.fetchAddContract();
-    setTimeout(() => {
-      this.fetchList()
-    }, 300)
+    // setTimeout(() => {
+    this.fetchList()
+    // }, 300)
   }
 }
 </script>

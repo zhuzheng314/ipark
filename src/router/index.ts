@@ -20,11 +20,10 @@ import ComplaintOrder from '@/pages/Property/complaintOrder.vue' // 投诉
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 import FinancialIncome from '@/pages/Financial/income.vue' // 财务收入
 import PropertyPayment from '@/pages/Property/payment.vue' // 费用催缴
-import AssetInfo from '@/pages/asset-management/assetInfo.vue' // 资产管理
-import Park from '@/pages/asset-management/park.vue' // 园区
-import ParkNew from '@/pages/asset-management/parkNew.vue' // 新园区
-import Build from '@/pages/asset-management/building.vue' // 楼宇
-import Room from '@/pages/asset-management/room.vue' // 房间
+import Park from '@/pages/Park/park.vue' // 园区
+import Build from '@/pages/Park/build.vue' // 楼宇
+// import Build from '@/pages/Park/buildingOld.vue' // 楼宇
+import Room from '@/pages/Park/room.vue' // 房间
 import Apply from '@/pages/Entry/apply.vue' // 进驻申请
 import EntryLeave from '@/pages/Entry/leave.vue' // 退驻申请
 import Approval from '@/pages/Entry/approval.vue' // 进驻审批
@@ -63,14 +62,14 @@ const routes = [
     ]
   },
   {
-    path: '/asset-management', // 资产管理
+    path: '/Park', // 资产管理
     redirect: '',
     component: BasicLayout,
     children: [
       {
-        path: 'assetInfo',
+        path: 'room',
         name: 'assetInfo',
-        component: AssetInfo
+        component: Room
       },
       {
         path: 'park',
@@ -80,7 +79,7 @@ const routes = [
       {
         path: 'build',
         name: 'build',
-        component: ParkNew
+        component: Build
       },
       {
         path: 'room',

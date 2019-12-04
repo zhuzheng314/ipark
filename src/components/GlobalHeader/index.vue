@@ -221,8 +221,6 @@ export default {
       }).then(res => {
         if (res.code === 1000) {
           this.$utils.storageSet('_token', res.access_token)
-
-          console.log(this.$utils.storageGet('_token'), 'storageGetstorageGetstorageGet')
           this.$store.dispatch('getParkList', {
             page_no: 1,
             page_size: 9999
@@ -239,6 +237,10 @@ export default {
     }
   },
   created () {
+    const activePark = this.$utils.storageGet('activePark')
+    if (activePark) {
+      this.$store.commit('commitActivePark', activePark)
+    }
     this.fakerLogin()
     // this.$store.dispatch('getParkList', {
     //   page_no: 1,

@@ -1,9 +1,9 @@
 // 空间管理
 
-// const url = 'https://service.iot1234.com'
-// const domin = url + ':2443/'
-const url = 'http://192.168.0.231'
-const domin = url + ':3000/'
+const url = 'https://service.iot1234.com'
+const domin = url + ':2443/'
+// const url = 'http://192.168.0.231'
+// const domin = url + ':3000/'
 const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
 
