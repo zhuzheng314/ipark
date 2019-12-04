@@ -222,7 +222,7 @@ const addBuildForm = [
         options: [
         ],
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: ['change', 'blur'] }
         ]
       },
       {
@@ -359,24 +359,6 @@ const addRoomForm = [
         //   { required: true, message: '请输入', trigger: 'blur' },
         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         // ]
-      }
-    ]
-  }
-]
-const addRoomForm1 = [
-  {
-    title: '房间信息',
-    children: [
-      {
-        type: 'switch',
-        label: '是否可租',
-        key: 'is_rentable'
-      },
-      {
-        type: 'upload-img',
-        label: '房间图片',
-        key: 'attached',
-        placeholder: '请输入'
       }
     ]
   }

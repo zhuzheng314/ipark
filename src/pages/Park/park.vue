@@ -416,6 +416,8 @@ export default {
               this.$store.dispatch('getParkList', { page_no: 1,
                 page_size: 20 }).then(res => {
               })
+            } else {
+              this.$message.warning('删除失败，code:' + res.code)
             }
           })
         })
@@ -435,14 +437,14 @@ export default {
       this.$store.dispatch('getBuildList', {
         pid: this.$store.state.form.activePark.domain_id,
         page_no: 1,
-        page_size: 20
+        page_size: 99
       }).then(res => {
       })
     },
     fetchParkList (data) {
       this.$store.dispatch('getParkList', {
         page_no: 1,
-        page_size: 20
+        page_size: 99
       }).then(res => {
       })
     },

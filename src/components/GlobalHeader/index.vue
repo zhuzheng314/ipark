@@ -232,6 +232,8 @@ export default {
               this.$store.commit('commitActivePark', res.list[0])
             }
           })
+
+          this.$store.dispatch('getParkTreeList')
         }
       })
     }
@@ -242,17 +244,6 @@ export default {
       this.$store.commit('commitActivePark', activePark)
     }
     this.fakerLogin()
-    // this.$store.dispatch('getParkList', {
-    //   page_no: 1,
-    //   page_size: 9999
-    // }).then(res => {
-    //   const activePark = this.$utils.storageGet('activePark')
-    //   if (activePark) {
-    //     this.$store.commit('commitActivePark', activePark)
-    //   } else {
-    //     this.$store.commit('commitActivePark', res.list[0])
-    //   }
-    // })
   }
 }
 </script>

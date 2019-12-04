@@ -6,6 +6,7 @@
       :rules="rules"
       :model="form"
       label-width="auto"
+      :validate-on-rule-change="false"
     >
       <div v-if="formList.length">
         <el-row>
@@ -60,7 +61,12 @@
                     </el-radio-group>
 
                     <!--          日期-->
-                    <el-date-picker v-if="item.type === 'date-picker'" :placeholder="placeholder" v-model="form[item.key]" style="width: 100%;"></el-date-picker>
+                    <el-date-picker
+                      v-if="item.type === 'date-picker'"
+                      :placeholder="item.placeholder"
+                      v-model="form[item.key]"
+                      style="width: 100%;">
+                    </el-date-picker>
 
                     <el-date-picker
                       v-if="item.type === 'date-picker-range'"
@@ -99,8 +105,9 @@
                     <el-cascader
                       v-model="form[item.key]"
                       v-if="item.type==='cascader'"
-                      :props="{ multiple: true }"
-                      :options="item.options"
+                      style="width: 300px"
+                      :props="{ multiple: true, emitPath: false }"
+                      :options="options && options[item.key] && options[item.key].length ? options[item.key] : item.options"
                     ></el-cascader>
 
                     <!--            upload-->
@@ -160,12 +167,12 @@
           v-for="(item, index) in itemList"
           :key="'form' + index"
           :label="item.label"
-          :prop="item.key">
+        >
           <!-- input -->
           <el-input
             v-if="item.type === 'input'"
             v-model="form[item.key]"
-            :placeholder="item.placeholder"
+            :placeholder="item.placeholder || ''"
           >
           </el-input>
 
@@ -174,7 +181,7 @@
             v-if="item.type === 'textarea'"
             type="textarea"
             v-model="form[item.key]"
-            :placeholder="item.placeholder"
+            :placeholder="item.placeholder || ''"
           >
           </el-input>
 
@@ -199,7 +206,7 @@
           </el-checkbox-group>
 
           <!-- select -->
-          <el-select v-if="item.type === 'select'" v-model="form[item.key]" placeholder="请选择活动区域">
+          <el-select v-if="item.type === 'select'" v-model="form[item.key]" placeholder="item.placeholder">
             <el-option
               v-for="(subItem) in item.options"
               :label="subItem.label"
@@ -314,15 +321,15 @@ export default {
       })
       return arr
     },
-    // handleValidate () {
-    //   this.$refs['form'].validate((valid) => {
-    //     if (valid) {
-    //       alert('submit!')
-    //     } else {
-    //       return false
-    //     }
-    //   })
-    // },
+    handleValidate () {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          return false
+        }
+      })
+    },
     resetForm () {
       this.$refs['form'].resetFields()
       this.imgFileList = []
@@ -364,8 +371,8 @@ export default {
         }
         form[item.key] = formInitValue // form初始化
       })
-      this.rules = rules
       this.form = form
+      this.rules = rules
     },
     setDefaultValue () { // 设置默认值
       Object.keys(this.defaultValue).forEach(x => {
@@ -399,8 +406,11 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.init()
+  },
+  mounted () {
+    this.$refs['form'].clearValidate()
   }
 }
 </script>

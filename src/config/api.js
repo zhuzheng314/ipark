@@ -1,9 +1,11 @@
-console.log(process)
 // 空间管理
 // const url = 'https://service.iot1234.com'
+// const fileUrl = 'http://service.iot1234.com/images/'
 // const domin = url + ':2443/'
 const url = 'http://192.168.0.231'
 const domin = url + ':3000/'
+const fileUrl = 'http://192.168.0.231/images/'
+
 const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
 
@@ -17,11 +19,11 @@ const api = {
   upload: uploadUrl,
   // 获取文件
   // fileUrl: url + '/images/',
-  fileUrl: 'http://service.iot1234.com/images/',
+  fileUrl,
   /* --------------- 资产管理模块 --------------- */
   // 园区模块
   park: {
-    get_tree_list: `assets.park.get_tree_list`, // 获取园区树
+    get_tree_list: `/assets.park.get_tree_list`, // 获取园区树
     info: `/assets.park.get_info`, // 获取园区统计信息
     add: `/assets.park.add`, // 添加园区
     get_list: `/assets.park.get_list`, // 获取园区
