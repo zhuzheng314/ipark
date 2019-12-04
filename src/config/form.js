@@ -640,16 +640,6 @@ const addContractForm = [
     margin: '',
     children: [
       {
-        type: 'input',
-        label: '合同编号',
-        key: 'contract_code',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
         type: 'select',
         label: '客户业态',
         key: 'business_format',
@@ -660,10 +650,10 @@ const addContractForm = [
         options: [
           {
             label: '商业',
-            value: 's1'
+            value: 1
           }, {
             label: '商业',
-            value: 's2'
+            value: 2
           }
         ]
       },
@@ -673,8 +663,8 @@ const addContractForm = [
         key: 'follow_business',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -688,10 +678,10 @@ const addContractForm = [
         options: [
           {
             label: '租房合同模板',
-            value: 's1'
+            value: 1
           }, {
             label: '车位合同模板',
-            value: 's2'
+            value: 2
           }
         ]
       }
@@ -771,8 +761,8 @@ const addContractForm = [
         key: 'brand',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -783,10 +773,10 @@ const addContractForm = [
         options: [
           {
             label: '互联网',
-            value: 's1'
+            value: 1
           }, {
             label: '金融',
-            value: 's2'
+            value: 2
           }
         ]
       },
@@ -796,8 +786,8 @@ const addContractForm = [
         key: 'contacter',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -806,8 +796,8 @@ const addContractForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -816,7 +806,7 @@ const addContractForm = [
         key: 'email',
         placeholder: '请输入',
         rule: [
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -832,8 +822,8 @@ const addContractForm = [
         key: 'bank',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -842,8 +832,8 @@ const addContractForm = [
         key: 'bank_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -852,8 +842,8 @@ const addContractForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -862,8 +852,8 @@ const addContractForm = [
         key: 'taxpayer_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -872,8 +862,8 @@ const addContractForm = [
         key: 'invoice_address',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -889,8 +879,8 @@ const addContractForm = [
         key: 'social_credit_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -899,8 +889,8 @@ const addContractForm = [
         key: 'taxpayer_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -909,8 +899,8 @@ const addContractForm = [
         key: 'regist_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -919,8 +909,8 @@ const addContractForm = [
         key: 'organiz_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -929,8 +919,8 @@ const addContractForm = [
         key: 'representative',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -939,28 +929,28 @@ const addContractForm = [
         key: 'nationality',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '注册资本/万',
         key: 'regist_fund',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '经营状态',
         key: 'operate_state',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -973,22 +963,22 @@ const addContractForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '公司类型',
         key: 'company_type',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }, {
-        type: 'input',
+        type: 'input-num',
         label: '人员规模',
         key: 'staff_size',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -997,8 +987,8 @@ const addContractForm = [
         key: 'operate_term',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1007,8 +997,8 @@ const addContractForm = [
         key: 'issuance',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1017,8 +1007,8 @@ const addContractForm = [
         key: 'authentic_ts',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1027,8 +1017,8 @@ const addContractForm = [
         key: 'en_name',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1037,8 +1027,8 @@ const addContractForm = [
         key: 'region',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1047,8 +1037,8 @@ const addContractForm = [
         key: 'trade',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1057,18 +1047,8 @@ const addContractForm = [
         key: 'address',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '经营范围',
-        key: 'scope',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -1082,13 +1062,13 @@ const addContractForm = [
     margin: '',
     children: [
       {
-        type: 'input',
+        type: 'input-num',
         label: '租赁面积',
         key: 'rent_area',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1110,22 +1090,22 @@ const addContractForm = [
         ]
       },
       {
-        type: 'date-fee_end_ts',
+        type: 'date-picker',
         label: '结束时间',
-        key: 'date3',
+        key: 'fee_end_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '押金设置(元)',
         key: 'deposit',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1139,41 +1119,41 @@ const addContractForm = [
         options: [
           {
             label: '按起始日划分',
-            value: 's1'
+            value: 1
           }, {
             label: '商业',
-            value: 's2'
+            value: 2
           }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '付款周期(月)',
         key: 'pay_cycle',
         placeholder: '几月一付',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '收款日',
         key: 'pay_date',
         placeholder: '每月收款日',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '提前收租(月)',
         key: 'prepaid',
         placeholder: '提前几个月收租金',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -1187,10 +1167,10 @@ const addContractForm = [
         options: [
           {
             label: '按实际天数计费',
-            value: 's1'
+            value: 1
           }, {
             label: '车位合同模板',
-            value: 's2'
+            value: 2
           }
         ]
       }
@@ -1223,33 +1203,33 @@ const addContractForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '合同单价(元/㎡·天)',
         key: 'unit_price',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '年租金',
         key: 'year_rent',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '月租金',
         key: 'month_rent',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -1263,18 +1243,18 @@ const addContractForm = [
     margin: '',
     children: [
       {
-        type: 'input',
+        type: 'input-num',
         label: '管理面积',
-        key: 'i',
+        key: 'manage_area',
         placeholder: '请输入',
         rule: [
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'date-picker',
         label: '签订时间',
-        key: 'date3',
+        key: 'property_sign_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1283,7 +1263,7 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '计费时间',
-        key: 'date3',
+        key: 'property_fee_start_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1292,60 +1272,50 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '结束时间',
-        key: 'date3',
+        key: 'property_fee_end_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '押金(元)',
-        key: 'i',
+        key: 'property_deposit',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '付款周期(月)',
-        key: 'i',
+        key: 'property_pay_cycle',
         placeholder: '几月一付',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'input',
         label: '收款日',
-        key: 'i',
+        key: 'property_pay_date',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
-        label: '收款日',
-        key: 'i',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
+        type: 'input-num',
         label: '提前收费(月)',
-        key: 'i',
+        key: 'property_prepaid',
         placeholder: '提前几个月收物业费',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -1361,7 +1331,7 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '开始时间',
-        key: 'date3',
+        key: 'property_start_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1370,40 +1340,40 @@ const addContractForm = [
       {
         type: 'date-picker',
         label: '结束时间',
-        key: 'date3',
+        key: 'property_end_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '合同单价(元/㎡·天)',
-        key: 'i',
+        key: 'property_unit_price',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '年物业费',
-        key: 'i',
+        key: 'property_year_rent',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '月物业费',
-        key: 'i',
+        key: 'property_month_rent',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
