@@ -6845,7 +6845,7 @@ export default {
     // 字典
     let arr = [
       {
-        type_code: 'acquire_way',
+        type_code: 'room_acquire_way',
         type_name: '取得方式',
         data: [
           { dic_code: 'other', dic_info: '其他', order_num: 0 },

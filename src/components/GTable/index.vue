@@ -30,7 +30,9 @@
         @prev-click="handlePrevClick"
         @next-click="handleNextClick"
         layout="prev, pager, next"
-        :total="1000"
+        :total="page.total"
+        :current-page="page.page_no"
+        :page-size="page.page_size"
       > </el-pagination>
     </div>
   </div>
@@ -58,6 +60,12 @@ export default {
       }
     },
     tableOption: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    page: {
       type: Object,
       default: () => {
         return {}

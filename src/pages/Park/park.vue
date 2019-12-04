@@ -557,7 +557,7 @@ export default {
         page_no: 1,
         page_size: 999
       }).then(res => {
-        if (res.code === 1000) {
+        if (res.code === 1000 && res.list.length) {
           let obj = res.list[0]
           let infoBoxData = [
             {

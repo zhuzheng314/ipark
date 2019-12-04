@@ -59,6 +59,7 @@
           room: [497,491]
         }"
         :itemList="[]"
+        :defaultValue="defaultValue"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -1023,40 +1024,8 @@ export default {
         },
         barWidth: '20'
       },
-      barOptions: {}
-    }
-  },
-  methods: {
-    handleAddContract () {
-      this.addContractVisible = true
-    },
-    contractState (row) {
-      this.contractInfoState = true
-      this.contractInfo_header.data = row
-      this.contractInfo_body_contract = {
-        title: '合同信息',
-        info: [
-          { name: '合同编号', value: row.c },
-          { name: '跟进人', value: '-' },
-          { name: '合同租赁数', value: row.g + '㎡' },
-          { name: '合同签订日', value: row.d },
-          { name: '合同起租日', value: row.e },
-          { name: '合同失效日', value: '2017-01-01' },
-          { name: '单位保留小数', value: '2' },
-          { name: '计算精度', value: '精确计算结果保留两位小数' },
-          { name: '原合同失效日', value: '-' },
-          { name: '合同标签', value: '-' }
-
-        ]
-      }
-    },
-    handleClose () { },
-    open (i) {
-      this.$message('这里是' + i)
-    },
-    fetchAddContract (data) {
-      console.log(data)
-      let params = {
+      barOptions: {},
+      defaultValue: {
         customer_id: 8,
         address: '123',
         authentic_ts: '2019-12-24T16:00:00.000Z',
@@ -1117,6 +1086,103 @@ export default {
         v: '1.0',
         year_rent: 123
       }
+    }
+  },
+  methods: {
+    handleAddContract () {
+      this.addContractVisible = true
+    },
+    contractState (row) {
+      this.contractInfoState = true
+      this.contractInfo_header.data = row
+      this.contractInfo_body_contract = {
+        title: '合同信息',
+        info: [
+          { name: '合同编号', value: row.c },
+          { name: '跟进人', value: '-' },
+          { name: '合同租赁数', value: row.g + '㎡' },
+          { name: '合同签订日', value: row.d },
+          { name: '合同起租日', value: row.e },
+          { name: '合同失效日', value: '2017-01-01' },
+          { name: '单位保留小数', value: '2' },
+          { name: '计算精度', value: '精确计算结果保留两位小数' },
+          { name: '原合同失效日', value: '-' },
+          { name: '合同标签', value: '-' }
+
+        ]
+      }
+    },
+    handleClose () { },
+    open (i) {
+      this.$message('这里是' + i)
+    },
+    fetchAddContract (data) {
+      let params = { ...data }
+      params.room = [489]
+      params.rooms = [489]
+      params.customer_id = 10
+      console.log(data)
+      // let params = {
+      //   customer_id: 8,
+      //   address: '123',
+      //   authentic_ts: '2019-12-24T16:00:00.000Z',
+      //   bank: '132',
+      //   bank_code: '123',
+      //   brand: '123',
+      //   business_format: 1,
+      //   charge_type: 1,
+      //   company_type: 1,
+      //   contact: '123',
+      //   contacter: '123',
+      //   contract_code: '122',
+      //   contract_type: 1,
+      //   deposit: 1,
+      //   email: '123',
+      //   en_name: '123',
+      //   establish_ts: '2019-12-24T16:00:00.000Z',
+      //   fee_end_ts: '2019-12-04T16:00:00.000Z',
+      //   fee_start_ts: '2019-12-09T16:00:00.000Z',
+      //   follow_business: '122',
+      //   invoice_address: '132',
+      //   issuance: '123',
+      //   manage_area: 1,
+      //   month_rent: 1,
+      //   nationality: '123',
+      //   operate_state: 123,
+      //   operate_term: '2019-12-24T16:00:00.000Z',
+      //   organiz_code: '123',
+      //   pay_cycle: 1,
+      //   pay_date: 1,
+      //   prepaid: 1,
+      //   property_deposit: 1,
+      //   property_end_ts: '2019-12-18T16:00:00.000Z',
+      //   property_fee_end_ts: '2019-12-17T16:00:00.000Z',
+      //   property_fee_start_ts: '2019-11-25T16:00:00.000Z',
+      //   property_month_rent: 1,
+      //   property_pay_cycle: 1,
+      //   property_pay_date: '123',
+      //   property_prepaid: 1,
+      //   property_sign_ts: '2019-12-10T16:00:00.000Z',
+      //   property_start_ts: '2019-12-27T16:00:00.000Z',
+      //   property_unit_price: 1,
+      //   property_year_rent: 1,
+      //   region: '123',
+      //   regist_code: '123',
+      //   regist_fund: 123,
+      //   rent_area: 1,
+      //   representative: '123',
+      //   rooms: [489, 491],
+      //   scope: 1,
+      //   sign_ts: '2019-12-03T16:00:00.000Z',
+      //   social_credit_code: '123',
+      //   staff_size: 1,
+      //   taxpayer_code: '222',
+      //   tenancy_divide: 1,
+      //   trade: '132',
+      //   unit_price: 123,
+      //   v: '1.0',
+      //   year_rent: 123
+      // }
       this.$https.post(this.$urls.contract.add, params)
     },
     fetchList () { // 获取合同列表
@@ -1172,9 +1238,7 @@ export default {
       }]
     }
     // this.fetchAddContract();
-    // setTimeout(() => {
     this.fetchList()
-    // }, 300)
   }
 }
 </script>
