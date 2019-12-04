@@ -314,15 +314,15 @@ export default {
       })
       return arr
     },
-    handleValidate () {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          return false
-        }
-      })
-    },
+    // handleValidate () {
+    //   this.$refs['form'].validate((valid) => {
+    //     if (valid) {
+    //       alert('submit!')
+    //     } else {
+    //       return false
+    //     }
+    //   })
+    // },
     resetForm () {
       this.$refs['form'].resetFields()
       this.imgFileList = []
@@ -365,7 +365,7 @@ export default {
         form[item.key] = formInitValue // form初始化
       })
       this.rules = rules
-      this.form = this._.cloneDeep(form)
+      this.form = form
     },
     setDefaultValue () { // 设置默认值
       Object.keys(this.defaultValue).forEach(x => {

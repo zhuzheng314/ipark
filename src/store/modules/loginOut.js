@@ -4,8 +4,9 @@ const loginOut = {
   getters: {
   },
   mutations: {
-    clearSession () {
+    loginOut () {
       sessionStorage.clear()
+      localStorage.clear()
       window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
     }
   },
