@@ -5687,12 +5687,8 @@ export default {
           title: '添加合同',
           api: 'assets.contract.add',
           business: [
-            { key: 'customer_id', type: '用户id', description: 'int' },
-            {
-              key: 'organiz_code',
-              type: 'string',
-              description: '组织机构代码'
-            },
+            { key: 'customer_id', type: 'int', description: '用户id' },
+            { key: 'organiz_code', type: 'string', description: '组织机构代码' },
             { key: 'company_type', type: 'int', description: '公司类别' },
             { key: 'company_name', type: 'string', description: '公司名称' },
             { key: 'customer_id', type: 'int', description: '来访客户id' },

@@ -44,15 +44,15 @@ const businessCustomer = [
 // 合同管理
 const contractList = [
   {
-    prop: 'a',
-    label: '合同序号'
+    prop: 'contract_code',
+    label: '合同编号'
   },
   {
-    prop: 'b',
+    prop: 'building_name',
     label: '楼宇名称'
   },
   {
-    prop: 'c',
+    prop: 'customer_name',
     label: '客户名称'
   },
   {

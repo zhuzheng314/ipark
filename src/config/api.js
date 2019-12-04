@@ -75,7 +75,15 @@ const api = {
     get_info: `/assets.customer.get_info` // 获取客户信息
   },
   /* --------------- 合同管理模块 --------------- */
-
+  contract: {
+    info: `assets.d_contract.get_list`, // 获取合同统计信息
+    add: `/assets.contract.add`, // 添加合同
+    modify: `/assets.contract.modify`, // 修改合同
+    remove: `/assets.contract.remove`, // 删除合同
+    get_list: `/assets.contract.get_list`, // 获取合同列表
+    get_info: `/assets.contract.get_info`, // 获取合同信息
+    get_list_by_room: `/assets.contract.get_list_by_room` // 通过房间id获取合同列表
+  },
   /* --------------- 企业进退驻管理模块 --------------- */
 
   /* --------------- 物业服务模块 --------------- */
