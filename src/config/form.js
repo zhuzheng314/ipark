@@ -392,7 +392,7 @@ const addCustomerForm = [
       {
         type: 'input',
         label: '客户(企业名称)',
-        key: 'i',
+        key: 'name',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -401,37 +401,37 @@ const addCustomerForm = [
       {
         type: 'input',
         label: '联系人',
-        key: 'i',
+        key: 'contacter',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'input',
         label: '联系方式',
-        key: 'i',
+        key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'input',
         label: '跟进人',
-        key: 'i',
+        key: 'receiver',
         placeholder: '请输入租客名称',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'select',
         label: '进度阶段',
-        key: 'tamplate',
+        key: 'state',
         placeholder: '请选择',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -439,73 +439,83 @@ const addCustomerForm = [
         options: [
           {
             label: '初次来访',
-            value: 's1'
+            value: 0
           }, {
             label: '意向客户',
-            value: 's2'
+            value: 1
           }, {
             label: '成交客户',
-            value: 's3'
+            value: 2
           }, {
             label: '休眠客户',
-            value: 's4'
+            value: 3
           }
         ]
       },
       {
         type: 'select',
         label: '行业',
-        key: 'tamplate',
+        key: 'status',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
           {
-            label: '美食',
-            value: 's1'
+            label: '互联网',
+            value: 0
           }, {
-            label: '美食美食',
-            value: 's2'
+            label: '电商',
+            value: 1
           }
         ]
       },
       {
         type: 'date-picker',
         label: '来访时间',
-        key: 'i',
-        placeholder: '请输入租客名称',
+        key: 'create_ts',
+        placeholder: '请选择来访时间',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请选择来访时间', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'select',
         label: '客户来源',
-        key: 'tamplate',
-        placeholder: '请输入',
+        key: 'info_source',
+        placeholder: '请选择客户来源',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
           {
             label: '上门',
-            value: 's1'
+            value: 0
           }, {
             label: '官网',
-            value: '官网'
+            value: 1
           }
+        ]
+      },
+      {
+        type: 'input',
+        label: '邮箱',
+        key: 'email',
+        placeholder: '请输入邮箱',
+        rule: [
+          // { required: true, message: '请输入租客名称', trigger: 'blur' },
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'textarea',
         label: '备注',
-        key: 'i',
+        key: 'memo',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          // { required: true, message: '请输入', trigger: 'blur' },
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -515,9 +525,9 @@ const addCustomerForm = [
     span: 24,
     children: [
       {
-        type: 'cascader',
+        type: 'select',
         label: '需求面积',
-        key: 'xuqmj',
+        key: 'demand_area',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -538,9 +548,9 @@ const addCustomerForm = [
         ]
       },
       {
-        type: 'cascader',
+        type: 'select',
         label: '需求工位',
-        key: 'fangyxx',
+        key: 'work_station',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -563,16 +573,16 @@ const addCustomerForm = [
       {
         type: 'date-picker',
         label: '预计签约时间',
-        key: 'i',
-        placeholder: '请输入租客名称',
+        key: 'demand_ts',
+        placeholder: '请选择',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'change' }
+          { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
         type: 'cascader',
         label: '房源信息',
-        key: 'fangyxx',
+        key: 'room',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -698,49 +708,20 @@ const addContractForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [{
-          value: 1,
-          label: '梦想小镇',
-          children: [{
-            value: 2,
-            label: '1幢',
-            children: [
-              { value: 3, label: '101' },
-              { value: 4, label: '201' },
-              { value: 5, label: '205' }
-            ]
-          }, {
-            value: 7,
-            label: '3幢',
-            children: [
-              { value: 8, label: '101' },
-              { value: 9, label: '103' },
-              { value: 10, label: '503' }
-            ]
-          }, {
-            value: 12,
-            label: '8幢',
-            children: [
-              { value: 13, label: '202' },
-              { value: 14, label: '503' },
-              { value: 15, label: '603' }
-            ]
-          }]
-        }, {
-          value: 17,
+          value: 485,
           label: '人工智能小镇',
           children: [{
-            value: 18,
-            label: '16幢',
+            value: 487,
+            label: '协力大厦',
             children: [
-              { value: 19, label: '501' },
-              { value: 20, label: '505' }
+              { value: 489, label: '3-302' },
+              { value: 491, label: '301' },
+              { value: 497, label: '101' }
             ]
           }, {
-            value: 21,
-            label: '19幢',
+            value: 525,
+            label: '共赢大厦',
             children: [
-              { value: 22, label: '103' },
-              { value: 23, label: '105' }
             ]
           }]
         }]
