@@ -8,6 +8,7 @@ const form = {
     buildList: [],
     roomList: [],
     contractList: [],
+    parkTreeList: [],
     customerList: []
   },
   getters: {
@@ -67,7 +68,7 @@ const form = {
       })
       return arr
     },
-    contractListOptions: state => {
+    contractListOptions: (state, getters) => {
       return {
         pid: state.contractList.length ? state.contractList.map(x => {
           return {
@@ -84,10 +85,42 @@ const form = {
             label: x.name,
             value: x.domain_id
           }
-        }) : []
+        }) : [],
+        room: getters.parkTreeOptions
+      }
+    },
+    parkTreeOptions: state => {
+      const filterList = (list) => {
+        return list.map(item => {
+          if (!item) {
+            return {
+              label: '暂无',
+              disabled: true
+            }
+          }
+
+          let children = item.children && item.children.length ? filterList(item.children) : null
+          let disabled = false
+          if (item.path.split('.').length !== 4) {
+            if (!item.children || !item.children.length) {
+              disabled = true
+            }
+          }
+          return {
+            label: item.name,
+            value: item.domain_id,
+            path: item.path,
+            children,
+            disabled
+          }
+        })
+      }
+      if (state.parkTreeList) {
+        return filterList(state.parkTreeList)
+      } else {
+        return []
       }
     }
-
   },
   mutations: {
     commitParkList (state, list) {
@@ -102,6 +135,9 @@ const form = {
     commitActivePark (state, park) {
       state.activePark = park
       storageSet('activePark', park)
+    },
+    commitParkTreeList (state, list) {
+      state.parkTreeList = list
     }
   },
   actions: {
@@ -154,6 +190,16 @@ const form = {
         ...data
       }).then(res => {
         return res
+      })
+    },
+    getParkTreeList ({ commit }, data) {
+      return request.post(baseUrl + api.park.get_tree_list, {
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          commit('commitParkTreeList', res.list)
+        }
       })
     }
   }

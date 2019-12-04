@@ -51,19 +51,17 @@
       :style="{height: dialogHeight + 'px'}"
       :visible.sync="addContractVisible">
       <div>
-        <!-- <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm> -->
         <ParkForm
         @onSubmit="fetchAddContract"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
+        :default-value="{
+          room: [497,491]
+        }"
         :itemList="[]"
         :defaultValue="defaultValue"
         ></ParkForm>
       </div>
-      <!-- <span slot="footer" class="dialog-footer">
-        <el-button @click="addContractVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addContractVisible = false">确 定</el-button>
-      </span> -->
     </el-dialog>
 
 <!--  合同详情-->
