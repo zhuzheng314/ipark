@@ -38,6 +38,10 @@
     <el-card>
       <GTable
         @row-click="contractState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.contractList"
         :tableData="tableData">
       </GTable>
@@ -55,11 +59,9 @@
         @onSubmit="fetchAddContract"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
-        :default-value="{
-          room: [497,491]
-        }"
+        :default-value="{}"
         :itemList="[]"
-        :defaultValue="defaultValue"
+        :defaultValue="{}"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -137,11 +139,6 @@ export default {
       ],
       value1: '',
       value2: '',
-      page: {
-        page_no: 1,
-        total: 0,
-        page_size: 10
-      },
       addContractVisible: false,
       addContractFormList: [
         {
@@ -1085,6 +1082,11 @@ export default {
         unit_price: 123,
         v: '1.0',
         year_rent: 123
+      },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
     }
   },
@@ -1118,10 +1120,10 @@ export default {
     },
     fetchAddContract (data) {
       let params = { ...data }
-      params.room = [489]
-      params.rooms = [489]
-      params.customer_id = 10
-      console.log(data)
+      params.room = data.room
+      params.rooms = data.room
+      // params.customer_id = 10
+      // console.log(data)
       // let params = {
       //   customer_id: 8,
       //   address: '123',
@@ -1194,6 +1196,10 @@ export default {
         console.log(res)
         this.tableData = res.list
       })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {

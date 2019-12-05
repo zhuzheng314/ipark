@@ -3,9 +3,10 @@
     <el-card>
       <div slot="header">
         <el-select  size="small"
-                    multiple
-                    v-model="value1"
-                    placeholder="费用类型">
+        v-model="value1"
+        clearable
+        @change="fetchListSearch"
+        placeholder="费用类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -17,6 +18,8 @@
         <el-input
           placeholder="搜索"
           size="small"
+          clearable
+          @change="fetchListSearch"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
           v-model="value2">
@@ -39,48 +42,12 @@
 
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="financialState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="楼宇名称">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="房间号">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="客户名称">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="费用类型">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="催缴金额">
-        </el-table-column>
-        <el-table-column
-          prop="num"
-          label="逾期天数">
-        </el-table-column>
-        <el-table-column
-          prop="person"
-          label="跟进人">
-        </el-table-column>
-        <el-table-column
-          prop="day"
-          label="最近一次催缴时间">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div> -->
       <GTable
         @row-click="financialState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.paymentList"
         :tableData="tableData">
       </GTable>
@@ -88,17 +55,24 @@
 
     <el-dialog
       title="新建收付款账单"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="600px">
       <div>
-        <ParkForm :formList="$formsLabels.paymentForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        v-if="addVisible"
+        :formList="$formsLabels.paymentForm"
+        :options="$store.getters.paymentListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
     <!--  账单详情-->
     <el-drawer
       title="账单详情"
       custom-class="drawer-r"
-      :visible.sync="financialInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="financialInfo_header">
@@ -151,16 +125,16 @@ export default {
       ],
       options: [
         {
-          value: '选项2',
+          value: 1,
           label: '租金'
         }, {
-          value: '选项3',
+          value: 2,
           label: '物业费用'
         }
       ],
       value1: '',
       value2: '',
-      addContractVisible: false,
+      addVisible: false,
       tamplateFormList: [
         {
           type: 'select',
@@ -208,27 +182,17 @@ export default {
           ]
         }
       ],
-      financialInfoState: false,
+      InfoState: false,
+      id: '',
       financialInfo_header: {
-        title: '收款方：杨',
+        title: '收款方：-',
         button: [
           {
-            name: '王晓丹',
-            icon: '&#xe607;',
-            function: 'click1'
+            name: '编辑',
+            icon: '&#xe62a;'
           },
           {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '打印',
-            icon: '&#xe617;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
+            name: '删除',
             icon: '&#xe7d1;',
             function: 'click1'
           }
@@ -342,38 +306,79 @@ export default {
           ],
           tableData: []
         }
+      },
+      defaultValue: {
+        contact: '15895642356',
+        contacter: '金',
+        create_ts: '2019-12-30T16:00:00.000Z',
+        demand_area: 1,
+        demand_ts: '2019-12-30T16:00:00.000Z',
+        email: '',
+        info_source: 0,
+        memo: '',
+        name: '客户丙',
+        receiver: '金',
+        room: [[17, 21, 23]],
+        state: 0,
+        status: 0,
+        work_station: 2
+      },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
 
     }
   },
   methods: {
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
     },
-    financialState () {
-      this.financialInfoState = true
+    financialState (row) {
+      this.id = row.id
+      this.fetchGetInfo(this.id)
+      this.InfoState = true
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
-    },
-    fetchPaymentAdd () { // 添加费用催缴
-      let params = {
-        id: this.parkId
+      if (i === '编辑') {
+        // this.modifyShow = true
+        // this.fetchModify(this.id)
       }
-      this.$https.post(this.$urls.payment.add, params).then((res) => {
-
-      })
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
-    fetchPaymentRemove (id) { // 删除费用催缴
+    fetchAdd (data) { // 添加费用催缴
+      let params = {
+        ...data
+      }
+      params.domain_id = params.domain_id[0]
+      this.$https.post(this.$urls.payment.add, params)
+      if (res.code === 1000) {
+        this.fetchList()
+        this.addVisible = false
+        this.$message.success('添加成功')
+      } else {
+        this.$message.error('添加失败')
+      }
+    },
+    fetchRemove (id) { // 删除费用催缴
       let params = {
         id: id
       }
       this.$https.post(this.$urls.payment.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
       })
     },
-    fetchPaymentModify (id) { // 修改费用催缴
+    fetchModify (id) { // 修改费用催缴
       let params = {
         id: id
       }
@@ -381,7 +386,7 @@ export default {
         this.$message(`${res.msg}`)
       })
     },
-    fetchPaymentInfo () { // 获取费用催缴统计信息
+    fetchInfo () { // 获取费用催缴统计信息
       let params = {
         id: this.parkId
       }
@@ -394,17 +399,22 @@ export default {
         })
       })
     },
-    fetchPaymentList () { // 获取费用催缴列表
+    fetchList () { // 获取费用催缴列表
       let params = {
-        page_no: 1,
-        page_size: 999
+        ...this.page,
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.payment.get_list, params).then((res) => {
         // console.log(res)
+        this.page.total = res.total
         this.tableData = res.list
       })
     },
-    fetchPaymentGetInfo (id) { // 获取费用催缴信息
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取费用催缴信息
       let params = {
         customer_id: id
       }
@@ -415,7 +425,7 @@ export default {
     }
   },
   created () {
-    this.fetchPaymentList()
+    this.fetchList()
     // console.log(this.yearList)
   }
 }

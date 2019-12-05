@@ -9,7 +9,12 @@ const form = {
     roomList: [],
     contractList: [],
     parkTreeList: [],
-    customerList: []
+    customerList: [],
+    repairList: [],
+    complaintList: [],
+    paymentList: [],
+    financialList: [],
+    incomeList: []
   },
   getters: {
     parkListOptions: state => {
@@ -68,28 +73,6 @@ const form = {
       })
       return arr
     },
-    contractListOptions: (state, getters) => {
-      return {
-        pid: state.contractList.length ? state.contractList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
-        room: getters.parkTreeOptions
-      }
-    },
-    customerListOptions: (state, getters) => {
-      return {
-        pid: state.customerList.length ? state.customerList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
-        room: getters.parkTreeOptions
-      }
-    },
     parkTreeOptions: state => {
       const filterList = (list) => {
         return list.map(item => {
@@ -119,6 +102,81 @@ const form = {
         return filterList(state.parkTreeList)
       } else {
         return []
+      }
+    },
+    contractListOptions: (state, getters) => {
+      return {
+        pid: state.contractList.length ? state.contractList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        room: getters.parkTreeOptions
+      }
+    },
+    customerListOptions: (state, getters) => {
+      return {
+        pid: state.customerList.length ? state.customerList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        room: getters.parkTreeOptions
+      }
+    },
+    repairListOptions: (state, getters) => {
+      return {
+        pid: state.repairList.length ? state.repairList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        domain_id: getters.parkTreeOptions
+      }
+    },
+    complaintListOptions: (state, getters) => {
+      return {
+        pid: state.complaintList.length ? state.complaintList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        domain_id: getters.parkTreeOptions
+      }
+    },
+    paymentListOptions: (state, getters) => {
+      return {
+        pid: state.paymentList.length ? state.paymentList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        domain_id: getters.parkTreeOptions
+      }
+    },
+    financialListOptions: (state, getters) => {
+      return {
+        pid: state.financialList.length ? state.financialList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
+      }
+    },
+    incomeListOptions: (state, getters) => {
+      return {
+        pid: state.incomeList.length ? state.incomeList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
       }
     }
   },

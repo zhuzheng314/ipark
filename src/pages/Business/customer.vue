@@ -80,7 +80,7 @@
         v-if="addVisible"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"
-        :defaultValue="defaultValue"
+        :defaultValue="{}"
         :itemList="[]"
         ></ParkForm>
       </div>
@@ -355,11 +355,18 @@ export default {
       let params = {
         ...data
       }
-      params.room = [489]
-      params.rooms = [489]
+      params.room = data.room
+      params.rooms = data.room
       this.$https.post(this.$urls.customer.add, params)
-        .then(this.fetchList())
-        .then(this.addVisible = false)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
     },
     fetchRemove (id) { // 删除客户
       let params = {
@@ -370,6 +377,9 @@ export default {
         if (res.code === 1000) {
           this.fetchList()
           this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
         }
       })
     },

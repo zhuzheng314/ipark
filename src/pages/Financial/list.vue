@@ -79,7 +79,14 @@
       width="600px"
     >
       <div>
-        <ParkForm :formList="$formsLabels.financialForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        v-if="addVisible"
+        :formList="$formsLabels.financialForm"
+        :options="$store.getters.financialListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
 <!--  账单详情-->
@@ -156,11 +163,6 @@ export default {
       value1: '',
       value2: '',
       value3: '',
-      page: {
-        page_no: 1,
-        total: 0,
-        page_size: 10
-      },
       addVisible: false,
       tamplateFormList: [
         {
@@ -215,22 +217,11 @@ export default {
         title: '收款方：杨',
         button: [
           {
-            name: '王晓丹',
-            icon: '&#xe607;',
-            function: 'click1'
+            name: '编辑',
+            icon: '&#xe62a;'
           },
           {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '打印',
-            icon: '&#xe617;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
+            name: '删除',
             icon: '&#xe7d1;',
             function: 'click1'
           }
@@ -344,6 +335,12 @@ export default {
           ],
           tableData: []
         }
+      },
+      defaultValue: { },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
 
     }
@@ -356,34 +353,44 @@ export default {
       this.id = data.id
       this.fetchGetInfo(this.id)
       this.InfoState = true
-      // this.$https.post(this.$urls.cost.get_list, {
-      //   park_id: this.$store.state.form.activePark.domain_id,
-      //   page_no: 1,
-      //   page_size: 999,
-      //   customer_id: this.id
-      // }).then(res => {
-      //   console.log(res.list.length)
-      //   this.customerInfo_body_table.info.tableData = res.list
-      // })
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
-    },
-    fetchAdd () { // 添加费用列支
-      let params = {
-        id: this.parkId
+      if (i === '编辑') {
+        // this.modifyShow = true
+        // this.fetchModify(this.id)
       }
-      this.$https.post(this.$urls.cost.add, params).then((res) => {
-
-      })
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
+    },
+    fetchAdd (data) { // 添加费用列支
+      let params = {
+        ...data
+      }
+      this.$https.post(this.$urls.cost.add, params)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
     },
     fetchRemove (id) { // 删除费用列支
       let params = {
         id: id
       }
       this.$https.post(this.$urls.cost.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
       })
     },
     fetchModify (id) { // 修改费用列支
@@ -439,6 +446,10 @@ export default {
       this.$https.post(this.$urls.cost.get_info, params).then((res) => {
         // console.log(res)
       })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {

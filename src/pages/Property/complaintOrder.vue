@@ -46,45 +46,12 @@
 
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="workOrderState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="租客名称">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="发起人">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="联系电话">
-        </el-table-column>
-        <el-table-column
-          prop="t"
-          label="发起时间">
-        </el-table-column>
-        <el-table-column
-          prop="adress"
-          label="地址">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="状态">
-          <el-tag size="mini">已解决</el-tag>
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="描述">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div> -->
       <GTable
         @row-click="workOrderState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.complaintList"
         :tableData="tableData">
       </GTable>
@@ -92,21 +59,35 @@
 
     <el-dialog
       title="新建投诉工单"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="$formsLabels.complaintForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        :formList="$formsLabels.complaintForm"
+        v-if="addVisible"
+        :options="$store.getters.complaintListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
 <!--      工单详情-->
       <el-drawer
       title="工单详情"
       custom-class="drawer-r"
-      :visible.sync="workOrderInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
-      <HeaderCard :data="workOrderInfo_header"></HeaderCard>
+      <HeaderCard :data="workOrderInfo_header">
+        <template #headerCardBtns>
+          <div class="btnBox" v-for="(item,i) in workOrderInfo_header.button" :key="(item,i)" @click="open(item.name)">
+            <i class="iconfont" v-html="item.icon"></i>
+            <span class="headerCard-btn-name">{{item.name}}</span>
+          </div>
+        </template>
+      </HeaderCard>
       <!-- <HeaderInfo type=1 :data="workOrderInfo_info"></HeaderInfo> -->
       <div class="drawer-body" style="height: 700px;">
         <BodyCard type=1 :data="workOrderInfo_body1"></BodyCard>
@@ -134,162 +115,37 @@ export default {
       ],
       options: [
         {
-          value: '选项1',
+          value: 0,
           label: '全部'
         }, {
-          value: '选项2',
+          value: 1,
           label: '维修'
         }, {
-          value: '选项3',
+          value: 2,
           label: '保洁'
         }, {
-          value: '选项4',
+          value: 3,
           label: '报事'
         }, {
-          value: '选项5',
+          value: 4,
           label: '投诉'
         }],
-      options2: [{
-        value: '选项1',
-        label: '全部'
-      }, {
-        value: '选项2',
-        label: '已解决'
-      }, {
-        value: '选项3',
-        label: '待解决'
-      }
+      options2: [
+        {
+          value: 0,
+          label: '全部'
+        },
+        {
+          value: 1,
+          label: '已解决'
+        }, {
+          value: 2,
+          label: '待解决'
+        }
       ],
       value1: '',
       value2: '',
-      addContractVisible: false,
-      // addContractFormList: [
-      //   {
-      //     title: '工单信息',
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '租客名称',
-      //         key: 'i',
-      //         placeholder: '请输入租客名称',
-      //         rule: [
-      //           { required: true, message: '请输入租客名称', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '发起人',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '联系电话',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'date-picker',
-      //         label: '预约服务时间',
-      //         key: 'fr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'textarea',
-      //         label: '描述',
-      //         key: 'fr',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'upload-img',
-      //         label: '图片',
-      //         key: 'ccc',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '房源信息',
-      //     children: [
-      //       {
-      //         type: 'cascader',
-      //         label: '房源信息',
-      //         key: 'fangyxx',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [{
-      //           value: 1,
-      //           label: '梦想小镇',
-      //           children: [{
-      //             value: 2,
-      //             label: '1幢',
-      //             children: [
-      //               { value: 3, label: '101' },
-      //               { value: 4, label: '201' },
-      //               { value: 5, label: '205' }
-      //             ]
-      //           }, {
-      //             value: 7,
-      //             label: '3幢',
-      //             children: [
-      //               { value: 8, label: '101' },
-      //               { value: 9, label: '103' },
-      //               { value: 10, label: '503' }
-      //             ]
-      //           }, {
-      //             value: 12,
-      //             label: '8幢',
-      //             children: [
-      //               { value: 13, label: '202' },
-      //               { value: 14, label: '503' },
-      //               { value: 15, label: '603' }
-      //             ]
-      //           }]
-      //         }, {
-      //           value: 17,
-      //           label: '人工智能小镇',
-      //           children: [{
-      //             value: 18,
-      //             label: '16幢',
-      //             children: [
-      //               { value: 19, label: '501' },
-      //               { value: 20, label: '505' }
-      //             ]
-      //           }, {
-      //             value: 21,
-      //             label: '19幢',
-      //             children: [
-      //               { value: 22, label: '103' },
-      //               { value: 23, label: '105' }
-      //             ]
-      //           }]
-      //         }]
-      //       }
-      //     ]
-      //   }
-      // ],
+      addVisible: false,
       tamplateFormList: [
         {
           type: 'select',
@@ -337,32 +193,20 @@ export default {
           ]
         }
       ],
-      workOrderInfoState: false,
+      InfoState: false,
+      id: '',
       workOrderInfo_header: {
         title: '维修工单',
         button: [
           {
             name: '编辑',
-            icon: '&#xe62a;',
-            function: 'click1'
-          },
-          {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe62a;'
           },
           {
             name: '删除',
-            icon: '&#xe64a;',
-            function: 'click1'
+            icon: '&#xe7d1;'
           }
-        ],
-        data: {}
+        ]
       },
       workOrderInfo_body1: {
         title: '工单信息',
@@ -392,34 +236,81 @@ export default {
         { name: '待解决', value: 13453, chart: '0.3432', type: 'arrow' },
         { name: '完成率', value: 13513, chart: '0.6356', type: 'arrow' },
         { name: '满意度', value: '134553', chart: '0.3564', type: 'arrow' }
-      ]
+      ],
+      defaultValue: {
+        contact: '15895642356',
+        contacter: '金',
+        create_ts: '2019-12-30T16:00:00.000Z',
+        demand_area: 1,
+        demand_ts: '2019-12-30T16:00:00.000Z',
+        email: '',
+        info_source: 0,
+        memo: '',
+        name: '客户丙',
+        receiver: '金',
+        room: [[17, 21, 23]],
+        state: 0,
+        status: 0,
+        work_station: 2
+      },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
+      }
 
     }
   },
   methods: {
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
     },
-    workOrderState () {
-      this.workOrderInfoState = true
+    workOrderState (row) {
+      this.id = row.complaint_code
+      this.fetchGetInfo(this.id)
+      this.InfoState = true
     },
-    fetchComplaintAdd () { // 添加投诉工单
-      let params = {
-        id: this.parkId
+    handleClose () { },
+    open (i) {
+      if (i === '编辑') {
+        // this.modifyShow = true
+        // this.fetchModify(this.id)
       }
-      this.$https.post(this.$urls.complaint.add, params).then((res) => {
-
-      })
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
-    fetchComplaintRemove (id) { // 删除投诉工单
+    fetchAdd (data) { // 添加投诉工单
       let params = {
-        id: id
+        ...data
+      }
+      params.domain_id = params.domain_id[0]
+      this.$https.post(this.$urls.complaint.add, params)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
+    },
+    fetchRemove (id) { // 删除投诉工单
+      let params = {
+        complaint_code: id
       }
       this.$https.post(this.$urls.complaint.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
       })
     },
-    fetchComplaintModify (id) { // 修改投诉工单
+    fetchModify (id) { // 修改投诉工单
       let params = {
         id: id
       }
@@ -427,7 +318,7 @@ export default {
         this.$message(`${res.msg}`)
       })
     },
-    fetchComplaintInfo () { // 获取投诉工单统计信息
+    fetchInfo () { // 获取投诉工单统计信息
       let params = {
         id: this.parkId
       }
@@ -441,17 +332,22 @@ export default {
         })
       })
     },
-    fetchComplaintList () { // 获取投诉工单列表
+    fetchList () { // 获取投诉工单列表
       let params = {
-        page_no: 1,
-        page_size: 999
+        ...this.page,
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.complaint.get_list, params).then((res) => {
         // console.log(res)
+        this.page.total = res.total
         this.tableData = res.list
       })
     },
-    fetchComplaintGetInfo (id) { // 获取投诉工单信息
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取投诉工单信息
       let params = {
         customer_id: id
       }
@@ -459,10 +355,14 @@ export default {
       this.$https.post(this.$urls.complaint.get_info, params).then((res) => {
         // console.log(res)
       })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {
-    this.fetchComplaintList()
+    this.fetchList()
     // console.log(this.yearList)
   }
 }

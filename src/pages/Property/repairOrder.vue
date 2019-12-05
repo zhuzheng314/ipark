@@ -65,7 +65,7 @@
         :formList="$formsLabels.repairForm"
         :itemList="[]"
         :options="$store.getters.repairListOptions"
-        :defaultValue="defaultValue"
+        :defaultValue="{}"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -76,7 +76,14 @@
       :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
-      <HeaderCard :data="workOrderInfo_header"></HeaderCard>
+      <HeaderCard :data="workOrderInfo_header">
+        <template #headerCardBtns>
+          <div class="btnBox" v-for="(item,i) in workOrderInfo_header.button" :key="(item,i)" @click="open(item.name)">
+            <i class="iconfont" v-html="item.icon"></i>
+            <span class="headerCard-btn-name">{{item.name}}</span>
+          </div>
+        </template>
+      </HeaderCard>
       <!-- <HeaderInfo type=1 :data="workOrderInfo_info"></HeaderInfo> -->
       <div class="drawer-body" style="height: 700px;">
         <BodyCard type=1 :data="workOrderInfo_body1"></BodyCard>
@@ -186,22 +193,11 @@ export default {
         button: [
           {
             name: '编辑',
-            icon: '&#xe62a;',
-            function: 'click1'
-          },
-          {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe62a;'
           },
           {
             name: '删除',
-            icon: '&#xe64a;',
+            icon: '&#xe7d1;',
             function: 'click1'
           }
         ],
@@ -258,34 +254,47 @@ export default {
       this.addVisible = true
     },
     workOrderState (data) { // 显示客户详情
-      this.id = data.id
+      this.id = data.repair_code
       this.fetchGetInfo(this.id)
       this.InfoState = true
-      // this.$https.post(this.$urls.contract.get_list, {
-      //   park_id: this.$store.state.form.activePark.domain_id,
-      //   page_no: 1,
-      //   page_size: 999,
-      //   customer_id: this.id
-      // }).then(res => {
-      //   console.log(res.list.length)
-      //   this.customerInfo_body_table.info.tableData = res.list
-      // })
+    },
+    open (i) {
+      if (i === '编辑') {
+        // this.modifyShow = true
+        // this.fetchModify(this.id)
+      }
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
     fetchAdd (data) { // 添加报修工单
       let params = {
         ...data
       }
-      params.domain_id = 489
+      params.domain_id = params.domain_id[0]
       this.$https.post(this.$urls.repair.add, params)
-        .then(this.fetchList())
-        .then(this.addVisible = false)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
     },
     fetchRemove (id) { // 删除报修工单
       let params = {
-        id: id
+        repair_code: id
       }
       this.$https.post(this.$urls.repair.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
       })
     },
     fetchModify (id) { // 修改报修工单
