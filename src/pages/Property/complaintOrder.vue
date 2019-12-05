@@ -2,8 +2,12 @@
   <div>
     <el-card style="width: 100%">
       <div slot="header">
-        <el-select  size="small"
-                    v-model="value1" placeholder="工单状态">
+        <el-select
+        size="small"
+        v-model="value1"
+        clearable
+        @change="fetchListSearch"
+        placeholder="工单状态">
           <el-option
             v-for="item in options2"
             :key="item.value"
@@ -14,6 +18,8 @@
 
         <el-input
           placeholder="搜索工单"
+          clearable
+          @change="fetchListSearch"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
