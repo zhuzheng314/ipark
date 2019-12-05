@@ -65,6 +65,7 @@
                       v-if="item.type === 'date-picker'"
                       :placeholder="item.placeholder"
                       v-model="form[item.key]"
+                      value-format="yyyy-MM-dd"
                       style="width: 100%;">
                     </el-date-picker>
 
@@ -88,7 +89,13 @@
                     </el-checkbox-group>
 
                     <!-- select -->
-                    <el-select style="width: 100%" v-if="item.type === 'select'" v-model="form[item.key]" :placeholder="form[item.placeholder]">
+                    <el-select
+                      style="width: 100%"
+                      v-if="item.type === 'select'"
+                      v-model="form[item.key]"
+                      :placeholder="form[item.placeholder]"
+                      :filterable="true"
+                    >
                       <el-option
                         v-for="(subItem) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
                         :label="subItem.label"
