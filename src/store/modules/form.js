@@ -70,12 +70,6 @@ const form = {
     },
     contractListOptions: (state, getters) => {
       return {
-        pid: state.contractList.length ? state.contractList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
         room: getters.parkTreeOptions
       }
     },
@@ -138,6 +132,15 @@ const form = {
     },
     commitParkTreeList (state, list) {
       state.parkTreeList = list
+    },
+    commitContractList (state, list) {
+      state.contractList = list.map(x => {
+        return {
+          ...x,
+          label: x.customer_name + '-' + x.contract_code,
+          value: x.contract_code
+        }
+      })
     }
   },
   actions: {
@@ -199,6 +202,17 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitParkTreeList', res.list)
+        }
+      })
+    },
+    getContractList ({ commit, state }, data) {
+      return request.post(baseUrl + api.contract.get_list, {
+        park_id: state.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          commit('commitContractList', res.list)
         }
       })
     }

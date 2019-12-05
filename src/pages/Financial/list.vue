@@ -79,7 +79,11 @@
       width="600px"
     >
       <div>
-        <ParkForm :formList="$formsLabels.financialForm" :itemList="[]"></ParkForm>
+        <ParkForm
+          :formList="$formsLabels.financialForm"
+          :itemList="[]"
+          :options="defaultOption"
+        ></ParkForm>
       </div>
     </el-dialog>
 <!--  账单详情-->
@@ -120,6 +124,13 @@ export default {
   components: {
     ElCard,
     ParkForm
+  },
+  computed: {
+    defaultOption () {
+      return {
+        contract_code: this.$store.state.form.contractList
+      }
+    }
   },
   data () {
     return {
