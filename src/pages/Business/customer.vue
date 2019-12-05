@@ -77,7 +77,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
-        v-if="addContractVisible"
+        v-if="addVisible"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"
         :defaultValue="defaultValue"

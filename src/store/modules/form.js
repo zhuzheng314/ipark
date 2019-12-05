@@ -75,10 +75,11 @@ const form = {
             label: x.name,
             value: x.domain_id
           }
-        }) : []
+        }) : [],
+        room: getters.parkTreeOptions
       }
     },
-    customerListOptions: state => {
+    customerListOptions: (state, getters) => {
       return {
         pid: state.customerList.length ? state.customerList.map(x => {
           return {
@@ -98,7 +99,6 @@ const form = {
               disabled: true
             }
           }
-
           let children = item.children && item.children.length ? filterList(item.children) : null
           let disabled = false
           if (item.path.split('.').length !== 4) {

@@ -689,24 +689,7 @@ const addContractForm = [
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
-        options: [{
-          value: 485,
-          label: '人工智能小镇',
-          children: [{
-            value: 487,
-            label: '协力大厦',
-            children: [
-              { value: 489, label: '3-302' },
-              { value: 491, label: '301' },
-              { value: 497, label: '101' }
-            ]
-          }, {
-            value: 525,
-            label: '共赢大厦',
-            children: [
-            ]
-          }]
-        }]
+        options: []
       }
     ]
   },
