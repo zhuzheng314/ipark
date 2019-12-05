@@ -234,6 +234,7 @@ export default {
           })
 
           this.$store.dispatch('getParkTreeList')
+          this.$store.dispatch('getContractList')
         }
       })
     }
