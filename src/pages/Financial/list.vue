@@ -11,10 +11,9 @@
         <el-select
           style="width: 220px;"
           size="small"
-          multiple
           v-model="value1"
           clearable
-          @change="fetchCostList"
+          @change="fetchListSearch"
           placeholder="列支方向">
           <el-option
             v-for="item in options"
@@ -26,10 +25,9 @@
         <el-select
           style="width: 220px; margin-left: 15px"
           size="small"
-          multiple
           v-model="value2"
           clearable
-          @change="fetchCostList"
+          @change="fetchListSearch"
           placeholder="状态">
           <el-option
             v-for="item in options1"
@@ -44,7 +42,7 @@
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
           clearable
-          @change="fetchCostList"
+          @change="fetchListSearch"
           v-model="value3">
         </el-input>
 
@@ -64,56 +62,12 @@
 
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="financialState"
-        style="width: 100%">
-        <el-table-column
-          prop="type"
-          label="列支方向">
-        </el-table-column>
-        <el-table-column
-          prop="status"
-          label="状态">
-        </el-table-column>
-        <el-table-column
-          prop="a"
-          label="关联合同">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="付款方">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="联系人">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="跟进人">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="客户">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="金额">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="时间">
-        </el-table-column>
-        <el-table-column
-          prop="moneyType"
-          label="费用类型">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div> -->
       <GTable
         @row-click="financialState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.financialList"
         :tableData="tableData">
       </GTable>
@@ -121,7 +75,7 @@
 
     <el-dialog
       title="新建费用列支"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="600px"
     >
       <div>
@@ -132,7 +86,7 @@
     <el-drawer
       title="账单详情"
       custom-class="drawer-r"
-      :visible.sync="financialInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="financialInfo_header">
@@ -182,19 +136,20 @@ export default {
       listType: 'top',
       options: [
         {
-          value: '选项1',
+          value: 0,
           label: '收款'
         }, {
-          value: '选项2',
+          value: 1,
           label: '付款'
         }
       ],
       options1: [
         {
-          value: '选项1',
+          value: 0,
           label: '已缴'
-        }, {
-          value: '选项2',
+        },
+        {
+          value: 1,
           label: '未缴'
         }
       ],
@@ -206,7 +161,7 @@ export default {
         total: 0,
         page_size: 10
       },
-      addContractVisible: false,
+      addVisible: false,
       tamplateFormList: [
         {
           type: 'select',
@@ -254,7 +209,8 @@ export default {
           ]
         }
       ],
-      financialInfoState: false,
+      InfoState: false,
+      id: '',
       financialInfo_header: {
         title: '收款方：杨',
         button: [
@@ -394,16 +350,27 @@ export default {
   },
   methods: {
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
     },
-    financialState () {
-      this.financialInfoState = true
+    financialState (data) { // 显示列支详情
+      this.id = data.id
+      this.fetchGetInfo(this.id)
+      this.InfoState = true
+      // this.$https.post(this.$urls.cost.get_list, {
+      //   park_id: this.$store.state.form.activePark.domain_id,
+      //   page_no: 1,
+      //   page_size: 999,
+      //   customer_id: this.id
+      // }).then(res => {
+      //   console.log(res.list.length)
+      //   this.customerInfo_body_table.info.tableData = res.list
+      // })
     },
     handleClose () { },
     open (i) {
       this.$message('这里是' + i)
     },
-    fetchCostAdd () { // 添加费用列支
+    fetchAdd () { // 添加费用列支
       let params = {
         id: this.parkId
       }
@@ -411,7 +378,7 @@ export default {
 
       })
     },
-    fetchCostRemove (id) { // 删除费用列支
+    fetchRemove (id) { // 删除费用列支
       let params = {
         id: id
       }
@@ -419,7 +386,7 @@ export default {
         this.$message(`${res.msg}`)
       })
     },
-    fetchCostModify (id) { // 修改费用列支
+    fetchModify (id) { // 修改费用列支
       let params = {
         id: id
       }
@@ -427,9 +394,11 @@ export default {
         this.$message(`${res.msg}`)
       })
     },
-    fetchCostInfo () { // 获取费用列支统计信息
+    fetchInfo () { // 获取费用列支统计信息
       let params = {
-        id: this.parkId
+        park_id: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
       }
       this.$https.post(this.$urls.cost.info, params).then((res) => {
         // console.log(res)
@@ -440,7 +409,7 @@ export default {
         })
       })
     },
-    fetchCostList () { // 获取费用列支列表
+    fetchList () { // 获取费用列支列表
       let search = {
         log_type: this.value1,
         state: this.value2,
@@ -453,11 +422,16 @@ export default {
       }
       this.$https.post(this.$urls.cost.get_list, params).then((res) => {
         // console.log(res)
+        this.page.total = res.total
         this.tableData = []
         this.tableData = res.list
       })
     },
-    fetchCostGetInfo (id) { // 获取费用列支信息
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取费用列支信息
       let params = {
         customer_id: id
       }
@@ -468,7 +442,7 @@ export default {
     }
   },
   created () {
-    this.fetchCostList()
+    this.fetchList()
     // console.log(this.yearList)
   }
 }

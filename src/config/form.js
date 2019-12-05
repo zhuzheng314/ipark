@@ -2120,61 +2120,61 @@ const repairForm = [
       {
         type: 'input',
         label: '租客名称',
-        key: 'i',
+        key: 'customer',
         placeholder: '请输入租客名称',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '发起人',
-        key: 'tenantName',
+        key: 'originator',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '联系电话',
-        key: 'tenantName',
+        key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'date-picker',
         label: '预约服务时间',
-        key: 'fr',
+        key: 'reserve_ts',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'textarea',
         label: '描述',
-        key: 'fr',
+        key: 'describe',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
         type: 'upload-img',
         label: '图片',
-        key: 'ccc',
+        key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -2185,7 +2185,7 @@ const repairForm = [
       {
         type: 'cascader',
         label: '房源信息',
-        key: 'fangyxx',
+        key: 'domain_id',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
