@@ -5,7 +5,7 @@
         <el-select  size="small"
         v-model="value1"
         clearable
-        @change="fetchList2"
+        @change="fetchListSearch"
         placeholder="进度阶段">
           <el-option
             v-for="item in options1"
@@ -17,7 +17,7 @@
         <el-select  size="small"
         v-model="value2"
         clearable
-        @change="fetchList2"
+        @change="fetchListSearch"
         placeholder="来源渠道">
           <el-option
             v-for="item in options2"
@@ -33,7 +33,7 @@
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
           clearable
-          @change="fetchList2"
+          @change="fetchListSearch"
           v-model="value3">
         </el-input>
         <el-button
@@ -63,9 +63,10 @@
         @current-change="handlePageClick"
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.businessCustomer"
         :tableData="tableData"
-        :page="page">
+        >
       </GTable>
     </el-card>
 
@@ -411,7 +412,7 @@ export default {
         this.tableData = res.list
       })
     },
-    fetchList2 () {
+    fetchListSearch () {
       this.page.page_no = 1
       this.fetchList()
     },

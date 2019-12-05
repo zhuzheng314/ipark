@@ -1,3 +1,4 @@
+// console.log(process.env)
 // 空间管理
 // const url = 'https://service.iot1234.com'
 // const fileUrl = 'http://service.iot1234.com/images/'
