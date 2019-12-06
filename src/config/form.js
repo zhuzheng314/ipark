@@ -2607,27 +2607,8 @@ const incomeForm = [
         ]
       },
       {
-        type: 'select',
-        label: '币种',
-        key: 'currency',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          {
-            label: '人民币',
-            value: 1
-          }, {
-            label: '美元',
-            value: 2
-          }
-        ]
-      },
-      {
         type: 'date-picker',
         label: '计费周期开始',
-        key: 'start_ts',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }

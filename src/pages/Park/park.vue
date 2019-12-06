@@ -26,9 +26,9 @@
     <div class="right">
       <el-card v-loading="$store.state.loading" style="margin-bottom: 10px">
         <div style="color: #666; font-size: 16px;" slot="header">{{$store.state.form.activePark.name}}</div>
-        <div>
+        <div class="top-card-wrap">
           <InfoBox
-            style="float: left; margin:0 40px 10px 15px"
+            style="float: left; margin:0 30px 10px 0px"
             v-for="(item, index) in infoBoxData" :type='item.type'
             :key="'info' + index"
             :data="item"
@@ -736,7 +736,7 @@ export default {
   }
   .left{
     float:left;
-    height: 100%;
+    height: 800px;
     margin-right: 10px;
     width: 250px;
 
@@ -829,6 +829,11 @@ export default {
   .right{
     // width: calc(~"100%-260px");
     flex: 1;
+    .top-card-wrap{
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
     .tablecard{
       .img{
         width: 96px;

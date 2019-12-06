@@ -6,14 +6,12 @@
           <el-page-header @back="goBack" :content="buildInfo.name">
           </el-page-header>
         </div>
-        <div>
+        <div class="top-card-wrap">
           <InfoBox
-            style="float: left; margin:0 40px 10px 15px"
             v-for="(item, index) in infoBoxData" :type='item.type'
             :key="'info' + index"
             :data="item"
           ></InfoBox>
-          <div style="clear:both"></div>
         </div>
 
       </el-card>
@@ -142,7 +140,7 @@
 
     <div v-if="!buildId">
       <el-card>
-        <None></None>
+        <None style="padding-top: 100px; height: 400px"></None>
       </el-card>
     </div>
     <el-dialog
@@ -695,6 +693,11 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+    .top-card-wrap{
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
     .box-card-title {
       position: relative;
       .back .el-icon-arrow-left{
