@@ -3,6 +3,7 @@
 // const url = 'https://service.iot1234.com'
 // const fileUrl = 'http://service.iot1234.com/images/'
 // const domin = url + ':2443/'
+
 const url = 'http://192.168.0.231'
 const domin = url + ':3000/'
 const fileUrl = 'http://192.168.0.231/images/'
@@ -108,7 +109,8 @@ const api = {
     remove: `/assets.company_enter.remove`, // 删除进驻
     get_list: `/assets.company_enter.get_list`, // 获取进驻列表
     get_info: `/assets.company_enter.get_info`, // 获取进驻信息
-    get_leave_info: '/assets.d_company_out.get_info'
+    get_leave_info: '/assets.d_company_out.get_info',
+    get_back: `/assets.company_enter.get_back`
   },
 
   /* --------------- 物业服务模块 --------------- */

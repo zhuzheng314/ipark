@@ -223,20 +223,20 @@ export default {
       workOrderInfo_body1: {
         title: '工单信息',
         info: [
-          { name: '工单类型', value: '维修工单' },
-          { name: '发起人', value: '王丽华' },
-          { name: '工单号', value: '5465489518XX' },
-          { name: '工单摘要', value: '门窗维修' },
-          { name: '工单状态', value: '已维修' },
-          { name: '预约时间', value: '2019-10-20' }
+          { name: '工单类型', value: '-' },
+          { name: '发起人', value: '-' },
+          { name: '工单号', value: '-' },
+          { name: '工单摘要', value: '-' },
+          { name: '工单状态', value: '-' },
+          { name: '预约时间', value: '-' }
         ]
       },
       workOrderInfo_body2: {
         title: '所属资产',
         info: [
-          { name: '楼宇名称', value: 'XXX1' },
-          { name: '楼层', value: '三楼' },
-          { name: '房间号', value: 'A304' }
+          { name: '楼宇名称', value: '-' },
+          { name: '楼层', value: '-' },
+          { name: '房间号', value: '-' }
         ]
       },
       workOrderInfo_body3: {
@@ -258,7 +258,6 @@ export default {
         total: 0,
         page_size: 5
       }
-
     }
   },
   methods: {
@@ -358,11 +357,25 @@ export default {
     },
     fetchGetInfo (id) { // 获取报修工单信息
       let params = {
-        customer_id: id
+        repair_code: id
       }
       // this.$message(`${id}`)
       this.$https.post(this.$urls.repair.get_info, params).then((res) => {
-        // console.log(res)
+        let data = res
+        this.workOrderInfo_body1.info = [
+          { name: '工单类型', value: data.type },
+          { name: '发起人', value: data.originator },
+          { name: '工单号', value: data.repair_code },
+          { name: '工单摘要', value: data.describe },
+          { name: '工单状态', value: data.state },
+          { name: '预约时间', value: data.reserve_ts }
+        ]
+        this.workOrderInfo_body2.info = [
+          { name: '楼宇名称', value: data.park_name },
+          { name: '楼层', value: data.building_name },
+          { name: '房间号', value: data.name }
+        ]
+        this.workOrderInfo_body3.info = data.evaluate
       })
     },
     fetchGetBack () {

@@ -157,11 +157,11 @@ export default {
           }
         })
     },
-    fetchRemove (id) { // 删除合同模板
+    fetchRemove (data) { // 删除合同模板
       let params = {
-        id: id
+        id: data.id
       }
-      this.$https.post(this.$urls.customer.remove, params).then((res) => {
+      this.$https.post(this.$urls.template.remove, params).then((res) => {
         if (res.code === 1000) {
           this.fetchList()
           this.InfoState = false

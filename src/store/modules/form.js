@@ -119,7 +119,7 @@ const form = {
     // 进驻
     applyListOptions: (state, getters) => {
       return {
-        company_id: state.customerList
+        contract_code: state.contractList
       }
     },
     // 客户
