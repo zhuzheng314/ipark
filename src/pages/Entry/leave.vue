@@ -45,13 +45,13 @@
           v-model="value3">
         </el-input>
 
-        <el-button
+        <!-- <el-button
           style="float: right;"
           type="primary"
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >新增</el-button>
+        >新增</el-button> -->
       </div>
     </el-card>
     <el-card style="margin-bottom: 20px">
@@ -75,24 +75,25 @@
     </el-card>
 
     <el-dialog
-      title="新建合同"
-      :visible.sync="addVisible"
+      title="修改进驻"
+      :visible.sync="modifyVisible"
       width="800px">
       <div>
         <ParkForm
-        :formList="$formsLabels.leaveForm"
-        :options="$store.getters.leaveListOptions"
-        :defaultValue="{}"
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
+        :formList="$formsLabels.applyForm"
+        :options="$store.getters.applyListOptions"
+        :defaultValue="defaultValue"
         :itemList="[]"
         ></ParkForm>
       </div>
     </el-dialog>
-
     <!--      租客详细信息-->
     <el-drawer
       title="租客详细信息"
       custom-class="drawer-r"
-      :visible.sync="tenantsInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="tenantsInfo_header">
@@ -149,382 +150,19 @@ export default {
       value2: '',
       value3: '',
       stackedAreaOptions: {},
-      addContractVisible: false,
-      // addContractFormList: [
-      //   {
-      //     title: '客户信息',
-      //     span: 12,
-      //     minHeight: 450,
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '租客名称',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '联系人',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '证件号码',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'select',
-      //         label: '行业分类',
-      //         key: 'tamplate',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ],
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 's1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 's2'
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '电话',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '邮箱',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '租客编码',
-      //         key: 'i',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   }, {
-      //     title: '开票信息',
-      //     span: 12,
-      //     minHeight: 450,
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '开户银行',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '账号',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '电话',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '纳税人识别号',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '开票地址',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'checkbox',
-      //         label: '标签选择',
-      //         key: 'c',
-      //         options: [
-      //           {
-      //             label: '美食',
-      //             value: 'vdd1'
-      //           }, {
-      //             label: '美食美食',
-      //             value: 'vdd2'
-      //           }
-      //         ]
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '工商信息',
-      //     span: 24,
-      //     itemSpan: 12,
-      //     children: [
-      //       {
-      //         type: 'input',
-      //         label: '统一社会信用代码',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '纳税人识别号',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '注册号',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '组织机构代码',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '法定代表人',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '国籍',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '注册资本/万',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '经营状态',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'date-picker',
-      //         label: '成立日期',
-      //         key: 'date3',
-      //         placeholder: '请选择日期',
-      //         rule: [
-      //           { required: true, message: '请选择', trigger: 'change' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '公司类型',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }, {
-      //         type: 'input',
-      //         label: '人员规模',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '营业期限',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '登记机关',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '核准日期',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '英文名',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '所属地区',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '所属行业',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '注册地址',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       },
-      //       {
-      //         type: 'input',
-      //         label: '经营范围',
-      //         key: 'tenantName',
-      //         placeholder: '请输入',
-      //         rule: [
-      //           { required: true, message: '请输入合同编号', trigger: 'blur' },
-      //           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //         ]
-      //       }
-      //     ]
-      //   }
-      // ],
-      tenantsInfoState: false,
+      addVisible: false,
+      InfoState: false,
+      modifyVisible: false,
       tenantsInfo_header: {
         title: '杭州拓源科技有限公司',
         button: [
           {
             name: '编辑',
-            icon: '&#xe62a;',
-            function: 'click1'
-          },
-          {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe62a;'
           },
           {
             name: '删除',
-            icon: '&#xe64a;',
-            function: 'click1'
+            icon: '&#xe64a;'
           }
         ],
         data: {}
@@ -586,19 +224,84 @@ export default {
             { a: '杭州拓源科技有限公司', b: '华润中心/701', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行' }
           ]
         }
-      }
+      },
+      defaultValue: {},
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
+      },
+      id: ''
     }
   },
   methods: {
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
     },
-    tenantsState () {
-      this.tenantsInfoState = true
+    tenantsState (data) {
+      this.id = data.contract_code
+      this.fetchGetInfo(this.id)
+      this.InfoState = true
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
+      if (i === '编辑') {
+        this.fetchGetBack()
+      }
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
+    },
+    fetchList () { // 获取退驻列表
+      let params = {
+        ...this.page,
+        state: 0,
+        park_id: this.$store.state.form.activePark.domain_id
+      }
+      this.$https.post(this.$urls.enter.get_list, params).then((res) => {
+        // console.log(res)
+        this.page.total = res.total
+        this.tableData = res.list
+      })
+    },
+    fetchGetInfo (id) { // 获取退驻信息
+      let params = {
+        contract_code: id
+      }
+      this.$https.post(this.$urls.enter.get_info, params).then((res) => {
+        // console.log(res);
+        let data = res
+      })
+    },
+    fetchModify (data) { // 修改退驻
+      let params = {
+        ...data,
+        contract_code: this.id
+      }
+      this.$https.post(this.$urls.enter.modify, params).then((res) => {
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        contract_code: this.id
+      }
+      this.$https.post(this.$urls.enter.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
     },
     // 折线面积图
     stackedAreaChart (data) {
@@ -683,26 +386,31 @@ export default {
         ]
       }
       return stackedAreaChartOption
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach((item, index) => {
-      this.tableData.push(
-        {
-          a: '阿里巴巴' + item,
-          b: 'xxxxxxxx' + item,
-          c: '互联网' + item,
-          d: '1000',
-          e: '入驻企业',
-          f: '400',
-          g: '302',
-          h: '审批中',
-          i: '',
-          date: '2019-11-11',
-          person: item % 2 === 0 ? '刘涛' : '赵阳'
-        }
-      )
-    })
+    this.fetchList()
+    // [1, 2, 3, 4, 5, 6, 7, 8].forEach((item, index) => {
+    //   this.tableData.push(
+    //     {
+    //       a: '阿里巴巴' + item,
+    //       b: 'xxxxxxxx' + item,
+    //       c: '互联网' + item,
+    //       d: '1000',
+    //       e: '入驻企业',
+    //       f: '400',
+    //       g: '302',
+    //       h: '审批中',
+    //       i: '',
+    //       date: '2019-11-11',
+    //       person: item % 2 === 0 ? '刘涛' : '赵阳'
+    //     }
+    //   )
+    // })
     for (let i = 0; i < 24; i++) {
       this.yearList.push({
         name: 'yue' + i,

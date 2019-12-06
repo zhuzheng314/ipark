@@ -456,9 +456,8 @@ export default {
     },
     fetchGetInfo (id) { // 获取费用催缴信息
       let params = {
-        customer_id: id
+        id: id
       }
-      // this.$message(`${id}`)
       this.$https.post(this.$urls.payment.get_info, params).then((res) => {
         // console.log(res)
       })

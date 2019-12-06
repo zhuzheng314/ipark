@@ -99,7 +99,7 @@
         v-if="modifyVisible"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"
-        :defaultValue="{}"
+        :defaultValue="defaultValue"
         :itemList="[]"
         ></ParkForm>
       </div>
@@ -259,7 +259,8 @@ export default {
         page_no: 1,
         total: 0,
         page_size: 5
-      }
+      },
+      id: ''
     }
   },
   methods: {
@@ -267,13 +268,18 @@ export default {
       this.addVisible = true
     },
     tenantsState (data) {
-      this.id = data.id
+      this.id = data.contract_code
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
+      if (i === '编辑') {
+        this.fetchGetBack()
+      }
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
     // 折线面积图
     stackedAreaChart (data) {
@@ -388,10 +394,9 @@ export default {
     },
     fetchRemove (id) { // 删除进驻
       let params = {
-        id: id
+        contract_code: id
       }
       this.$https.post(this.$urls.enter.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
         if (res.code === 1000) {
           this.fetchList()
           this.InfoState = false
@@ -401,14 +406,19 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改进驻
+    fetchModify (data) { // 修改进驻
       let params = {
-        id: id
+        ...data,
+        contract_code: this.id
       }
       this.$https.post(this.$urls.enter.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
         if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
           this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
         }
       })
     },
@@ -429,11 +439,25 @@ export default {
     },
     fetchGetInfo (id) { // 获取进驻信息
       let params = {
-        id: id
+        contract_code: id
       }
       this.$https.post(this.$urls.enter.get_info, params).then((res) => {
         // console.log(res);
         let data = res
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        contract_code: this.id
+      }
+      this.$https.post(this.$urls.enter.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
       })
     },
     handlePageClick (num) { // 点击页码时

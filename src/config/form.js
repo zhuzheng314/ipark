@@ -1742,11 +1742,11 @@ const applyForm = [
     children: [
       {
         type: 'select',
-        label: '租客名称',
-        key: 'company_id',
-        placeholder: '请选择租客名称',
+        label: '合同编号',
+        key: 'contract_code',
+        placeholder: '请选择合同编号',
         rule: [
-          { required: true, message: '请选择租客名称', trigger: 'change' }
+          { required: true, message: '请选择合同编号', trigger: 'change' }
         ],
         options: []
       },
