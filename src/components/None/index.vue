@@ -1,8 +1,10 @@
 <template>
 <div class="none">
   <div class="image-slot">
-    <img style="width: 180px" alt="图片" src="../../assets/img/none/none1.png">
-    <p>暂无数据</p>
+    <img v-if="type !== 'message'" style="width: 180px" alt="图片" src="../../assets/img/none/none1.png">
+    <img v-if="type === 'message'" style="width: 150px" alt="图片" src="../../assets/img/none/none2.png">
+    <p v-if="type === 'message'" style="margin-top: -10px">暂无消息</p>
+    <p v-if="type !== 'message'" style="margin-top: -5px">暂无数据</p>
   </div>
 </div>
 </template>
@@ -10,6 +12,7 @@
 <script>
 export default {
   name: 'index',
+  props: ['type'],
   data () {
     return {
     }

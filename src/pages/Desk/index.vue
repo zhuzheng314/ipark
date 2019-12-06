@@ -1,9 +1,9 @@
 <template>
 <div class="g-desk">
-  <el-card class="box-card statistic">
+  <div style="width: 100%">
     <Statistic v-for="(item,i) in statistic" :key="(item,i)" :data="item"></Statistic>
-  </el-card>
-  <el-row :gutter="16">
+  </div>
+  <el-row :gutter="24">
     <el-col :span="9">
       <div class="left">
         <!-- 园区产值 -->
