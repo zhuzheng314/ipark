@@ -634,21 +634,13 @@ const addContractForm = [
     children: [
       {
         type: 'select',
-        label: '客户业态',
-        key: 'business_format',
+        label: '客户',
+        key: 'customer_id',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
-        options: [
-          {
-            label: '商业',
-            value: 1
-          }, {
-            label: '商业',
-            value: 2
-          }
-        ]
+        options: []
       },
       {
         type: 'input',
@@ -2269,14 +2261,15 @@ const paymentForm = [
     title: '账单',
     children: [
       {
-        type: 'input',
+        type: 'select',
         label: '关联合同',
         key: 'contract_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
-        options: []
+        options: [
+        ]
       },
       {
         type: 'input',
@@ -2312,24 +2305,6 @@ const paymentForm = [
             value: 1
           }, {
             label: '车位',
-            value: 2
-          }
-        ]
-      },
-      {
-        type: 'select',
-        label: '币种',
-        key: 'currency',
-        placeholder: '请选择',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          {
-            label: '人民币',
-            value: 1
-          }, {
-            label: '美元',
             value: 2
           }
         ]
@@ -2398,13 +2373,6 @@ const financialForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
-          {
-            label: '合同1',
-            value: 'C8B3454C-2D50-0001-683B-EAD0F000A030'
-          }, {
-            label: '合同2',
-            value: 2
-          }
         ]
       },
       {
@@ -2551,7 +2519,7 @@ const incomeForm = [
     title: '账单',
     children: [
       {
-        type: 'input',
+        type: 'select',
         label: '关联合同',
         key: 'contract_code',
         placeholder: '请输入',
@@ -2559,13 +2527,6 @@ const incomeForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
-          {
-            label: '美食',
-            value: 1
-          }, {
-            label: '美食美食',
-            value: 2
-          }
         ]
       },
       {
