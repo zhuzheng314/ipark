@@ -80,11 +80,11 @@
       :before-close="handleClose">
       <div>
         <ParkForm
-        @onSubmit="fetchAdd"
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
         :formList="$formsLabels.complaintForm"
-        v-if="addVisible"
         :options="$store.getters.complaintListOptions"
-        :defaultValue="{}"
+        :defaultValue="defaultValue"
         :itemList="[]"
         ></ParkForm>
       </div>
@@ -210,6 +210,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       id: '',
       workOrderInfo_header: {
         title: '维修工单',
@@ -254,20 +255,20 @@ export default {
         { name: '满意度', value: '134553', chart: '0.3564', type: 'arrow' }
       ],
       defaultValue: {
-        contact: '15895642356',
-        contacter: '金',
-        create_ts: '2019-12-30T16:00:00.000Z',
-        demand_area: 1,
-        demand_ts: '2019-12-30T16:00:00.000Z',
-        email: '',
-        info_source: 0,
-        memo: '',
-        name: '客户丙',
-        receiver: '金',
-        room: [[17, 21, 23]],
-        state: 0,
-        status: 0,
-        work_station: 2
+        // contact: '15895642356',
+        // contacter: '金',
+        // create_ts: '2019-12-30T16:00:00.000Z',
+        // demand_area: 1,
+        // demand_ts: '2019-12-30T16:00:00.000Z',
+        // email: '',
+        // info_source: 0,
+        // memo: '',
+        // name: '客户丙',
+        // receiver: '金',
+        // room: [[17, 21, 23]],
+        // state: 0,
+        // status: 0,
+        // work_station: 2
       },
       page: {
         page_no: 1,
@@ -288,8 +289,7 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        // this.fetchModify(this.id)
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -325,12 +325,18 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改投诉工单
+    fetchModify (data) { // 修改投诉工单
       let params = {
-        id: id
+        ...data,
+        complaint_code: this.id
       }
       this.$https.post(this.$urls.complaint.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
       })
     },
     fetchInfo () { // 获取投诉工单统计信息
@@ -369,6 +375,20 @@ export default {
       // this.$message(`${id}`)
       this.$https.post(this.$urls.complaint.get_info, params).then((res) => {
         // console.log(res)
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        complaint_code: this.id
+      }
+      this.$https.post(this.$urls.complaint.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
       })
     },
     handlePageClick (num) { // 点击页码时

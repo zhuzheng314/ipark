@@ -68,6 +68,21 @@
         ></ParkForm>
       </div>
     </el-dialog>
+    <el-dialog
+      title="修改收付款账单"
+      :visible.sync="modifyVisible"
+      width="600px">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
+        :formList="$formsLabels.paymentForm"
+        :options="$store.getters.paymentListOptions"
+        :defaultValue="defaultValue"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
     <!--  账单详情-->
     <el-drawer
       title="账单详情"
@@ -183,6 +198,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       id: '',
       financialInfo_header: {
         title: '收款方：-',
@@ -308,20 +324,20 @@ export default {
         }
       },
       defaultValue: {
-        contact: '15895642356',
-        contacter: '金',
-        create_ts: '2019-12-30T16:00:00.000Z',
-        demand_area: 1,
-        demand_ts: '2019-12-30T16:00:00.000Z',
-        email: '',
-        info_source: 0,
-        memo: '',
-        name: '客户丙',
-        receiver: '金',
-        room: [[17, 21, 23]],
-        state: 0,
-        status: 0,
-        work_station: 2
+        // contact: '15895642356',
+        // contacter: '金',
+        // create_ts: '2019-12-30T16:00:00.000Z',
+        // demand_area: 1,
+        // demand_ts: '2019-12-30T16:00:00.000Z',
+        // email: '',
+        // info_source: 0,
+        // memo: '',
+        // name: '客户丙',
+        // receiver: '金',
+        // room: [[17, 21, 23]],
+        // state: 0,
+        // status: 0,
+        // work_station: 2
       },
       page: {
         page_no: 1,
@@ -335,14 +351,15 @@ export default {
     handleAddContract () {
       this.addVisible = true
     },
-    financialState (row) {
-      this.id = row.id
+    financialState (data) {
+      this.id = data.id
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
     handleClose () { },
     open (i) {
       if (i === '编辑') {
+        this.fetchGetBack()
         // this.modifyShow = true
         // this.fetchModify(this.id)
       }
@@ -379,12 +396,20 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改费用催缴
+    fetchModify (data) { // 修改费用催缴
       let params = {
-        id: id
+        ...data,
+        id: this.id
       }
       this.$https.post(this.$urls.payment.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
       })
     },
     fetchInfo () { // 获取费用催缴统计信息
@@ -414,6 +439,20 @@ export default {
     fetchListSearch () {
       this.page.page_no = 1
       this.fetchList()
+    },
+    fetchGetBack () {
+      let params = {
+        id: this.id
+      }
+      this.$https.post(this.$urls.payment.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
     },
     fetchGetInfo (id) { // 获取费用催缴信息
       let params = {

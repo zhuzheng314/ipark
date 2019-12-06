@@ -1383,10 +1383,10 @@ export default {
           api: 'assets.payment.modify',
           business: [
             {
-              key: 'contract_code',
-              type: 'string',
+              key: 'id',
+              type: 'int',
               required: true,
-              description: '关联合同'
+              description: '催缴id'
             },
             {
               key: 'payer',
@@ -1463,10 +1463,10 @@ export default {
           api: 'assets.payment.remove',
           business: [
             {
-              key: 'payment_code',
-              type: 'string',
+              key: 'id',
+              type: 'int',
               required: false,
-              description: '工单号'
+              description: '催缴id'
             }
           ],
           return: [],
@@ -2096,7 +2096,7 @@ export default {
       content: [
         {
           title: '获取园区统计信息',
-          api: 'assets.d_park.get_list',
+          api: 'assets.d_park.get_info',
           business: [
             {
               key: 'park_id',
@@ -2110,37 +2110,57 @@ export default {
               key: 'rent_area',
               type: 'int',
               required: true,
-              description: `可招商面积`
+              description: `可招商面积`,
+              数据区间: [5000 - 6000]
             },
             {
               key: 'total_area',
               type: 'int',
               required: true,
-              description: `管理面积`
+              description: `管理面积`,
+              数据区间: [1000 - 10000]
             },
             {
               key: 'avg_unit_price',
               type: 'int',
               required: true,
-              description: `在租实时均价`
+              description: `在租实时均价`,
+              数据区间: [300 - 1000]
+            },
+            {
+              key: 'avg_unit_price_rate',
+              type: 'int',
+              required: true,
+              description: `在租实时均价变化率`,
+              数据区间: [0 - 1]
             },
             {
               key: 'unit_type',
               type: 'int',
               required: true,
-              description: `单位`
+              description: `单位`,
+              数据区间: []
             },
             {
               key: 'rent_rate',
               type: 'int',
               required: true,
-              description: `出租率`
+              description: `出租率`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'rent_change_rate',
+              type: 'int',
+              required: true,
+              description: `出租率变化率`,
+              数据区间: [0 - 1]
             },
             {
               key: 'pay_rate',
               type: 'int',
               required: true,
-              description: `支付租金的比率`
+              description: `当前计租率`,
+              数据区间: [0 - 1]
             }
           ],
           explain: []
@@ -6022,7 +6042,7 @@ export default {
           title: ' 删除合同',
           api: 'assets.contract.remove',
           business: [
-            { key: 'customer_code', type: 'string', description: '合同编码' }
+            { key: 'contract_code', type: 'string', description: '合同编码' }
           ],
           return: [],
           explain: []
@@ -6818,11 +6838,239 @@ export default {
                 { key: 'area', type: 'numeric', description: '房间面积' }
               ]
             }
-            /* {key: 'contract', type: '数组', description: '合同数组',explain:
-                        [
-
-                        ]
-                } */
+          ],
+          explain: []
+        }
+      ]
+    }
+    // 合同模板
+    let htmb = {
+      title: '合同模板',
+      content: [
+        {
+          title: '添加合同模板',
+          api: 'assets.contract_template.add',
+          business: [
+            {
+              key: '参数名称',
+              type: '参数类型',
+              required: false,
+              description: '参数描述'
+            },
+            {
+              key: 'template_name',
+              type: 'string',
+              required: false,
+              description: '模板名称'
+            },
+            {
+              key: 'template_type',
+              type: 'string',
+              required: false,
+              description: '模板类型'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '模板状态'
+            },
+            {
+              key: 'memo',
+              type: 'int',
+              required: false,
+              description: '模板备注'
+            },
+            {
+              key: 'attached',
+              type: 'json',
+              required: false,
+              description: '模板文件(使用存储图片的方式)'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '修改字典模块',
+          api: 'assets.contract_template.modify',
+          business: [
+            { key: 'id', type: 'int', required: true, description: '模板id' },
+            {
+              key: '参数名称',
+              type: '参数类型',
+              required: false,
+              description: '参数描述'
+            },
+            {
+              key: 'template_name',
+              type: 'string',
+              required: false,
+              description: '模板名称'
+            },
+            {
+              key: 'template_type',
+              type: 'string',
+              required: false,
+              description: '模板类型'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '模板状态'
+            },
+            {
+              key: 'memo',
+              type: 'int',
+              required: false,
+              description: '模板备注'
+            },
+            {
+              key: 'attached',
+              type: 'json',
+              required: false,
+              description: '模板文件(使用存储图片的方式)'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '删除合同模板',
+          api: 'assets.contract_template.remove',
+          business: [
+            {
+              key: 'id',
+              type: 'int',
+              required: true,
+              description: '合同模板id'
+            }
+          ],
+          return: [],
+          explain: []
+        },
+        {
+          title: '获取合同模板列表',
+          api: 'assets.contract_template.get_list',
+          business: [
+            { key: 'pageno', type: 'int', required: true, description: '页码' },
+            {
+              key: 'pagesize',
+              type: 'int',
+              required: true,
+              description: '页面显示行数'
+            },
+            { key: 'id', type: 'int', required: false, description: '字典id' },
+            {
+              key: 'template_name',
+              type: 'string',
+              required: false,
+              description: '模板名称'
+            },
+            {
+              key: 'template_type',
+              type: 'string',
+              required: false,
+              description: '模板类型'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '模板状态'
+            },
+            {
+              key: 'memo',
+              type: 'int',
+              required: false,
+              description: '模板备注'
+            },
+            {
+              key: 'attached',
+              type: 'json',
+              required: false,
+              description: '模板文件(使用存储图片的方式)'
+            }
+          ],
+          return: [
+            {
+              key: 'list',
+              type: 'json array',
+              required: true,
+              description: '字典id'
+            }
+          ],
+          explain: [
+            {
+              key: 'template_name',
+              type: 'string',
+              required: false,
+              description: '模板名称'
+            },
+            {
+              key: 'template_type',
+              type: 'string',
+              required: false,
+              description: '模板类型'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '模板状态'
+            },
+            {
+              key: 'memo',
+              type: 'int',
+              required: false,
+              description: '模板备注'
+            },
+            {
+              key: 'attached',
+              type: 'json',
+              required: false,
+              description: '模板文件(使用存储图片的方式)'
+            }
+          ]
+        },
+        {
+          title: '获取模板信息',
+          api: 'assets.contract_template.get_back',
+          business: [
+            { key: 'id', type: 'int', required: true, description: '字典ID' }
+          ],
+          return: [
+            {
+              key: 'template_name',
+              type: 'string',
+              required: false,
+              description: '模板名称'
+            },
+            {
+              key: 'template_type',
+              type: 'string',
+              required: false,
+              description: '模板类型'
+            },
+            {
+              key: 'state',
+              type: 'int',
+              required: false,
+              description: '模板状态'
+            },
+            {
+              key: 'memo',
+              type: 'int',
+              required: false,
+              description: '模板备注'
+            },
+            {
+              key: 'attached',
+              type: 'json',
+              required: false,
+              description: '模板文件(使用存储图片的方式)'
+            }
           ],
           explain: []
         }
@@ -6843,7 +7091,7 @@ export default {
       {
         index: 3,
         title: '合同管理模块',
-        content: [contract]
+        content: [contract, htmb]
       },
       {
         index: 4,
@@ -6869,268 +7117,6 @@ export default {
 
     // 字典
     const arr = [
-      {
-        type_name: '取得方式',
-        data: [
-          { dic_code: 'other', dic_info: '其他', order_num: 0 },
-          { dic_code: 'build_oneself', dic_info: '自建', order_num: 1 },
-          { dic_code: 'purchase', dic_info: '购置', order_num: 2 },
-          { dic_code: 'transfer', dic_info: '划拨', order_num: 3 }
-        ]
-      },
-      {
-        type_code: ' ',
-        type_name: '房产性质',
-        data: [
-          { dic_code: 'other', dic_info: '其他', order_num: 0 },
-          {
-            dic_code: 'commercial_premises',
-            dic_info: '商业用房',
-            order_num: 1
-          },
-          { dic_code: 'production_room', dic_info: '生产用房', order_num: 2 },
-          { dic_code: 'house', dic_info: '住宅', order_num: 3 }
-        ]
-      },
-      {
-        type_code: 'charge_charge_type',
-        type_name: '费用类型',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_state',
-        type_name: '企业入驻状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_status',
-        type_name: '企业入驻性质',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_scope',
-        type_name: '企业经营范围', // 新建合同中的经营范围下拉框
-        data: [
-          { dic_code: 'company_scope_0', dic_info: '互联网', order_num: 0 },
-          { dic_code: 'company_scope_1', dic_info: '金融', order_num: 1 }
-        ]
-      },
-      {
-        type_code: 'company_company_type',
-        type_name: '公司类别',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_scope',
-        type_name: '经营范围',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_operate_state',
-        type_name: '经营状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_staff_size',
-        type_name: '人员规模',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_business_scope',
-        type_name: '经营范围',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_enter_state',
-        type_name: '入驻状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'company_enter_status',
-        type_name: '入驻性质',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'contract_tenancy_divide',
-        type_name: '租期划分',
-        data: [
-          {
-            dic_code: 'contract_tenancy_divide_0',
-            dic_info: '按起始日划分',
-            order_num: 0
-          },
-          {
-            dic_code: 'contract_tenancy_divide_1',
-            dic_info: '商业',
-            order_num: 1
-          }
-        ]
-      },
-      {
-        type_code: 'contract_pay_cycle',
-        type_name: '付款周期:单位是月',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'contract_pay_date',
-        type_name: '付款日期:每月的第几天',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'contract_charge_type',
-        type_name: '计费类型',
-        data: [
-          {
-            dic_code: 'contract_charge_type_0',
-            dic_info: '按实际天数计费',
-            order_num: 0
-          },
-          {
-            dic_code: 'contract_charge_type_1',
-            dic_info: '车位合同模板',
-            order_num: 1
-          }
-        ]
-      },
-      {
-        type_code: 'contract_unit_value',
-        type_name: '合同单价的单位',
-        data: [
-          { dic_code: 'contract_unit_value_0', dic_info: '其他', order_num: 0 }
-        ]
-      },
-      {
-        type_code: 'contract_state',
-        type_name: '合同状态',
-        data: [
-          { dic_code: 'contract_state_0', dic_info: '签订', order_num: 0 },
-          { dic_code: 'contract_state_1', dic_info: '执行', order_num: 1 },
-          { dic_code: 'contract_state_2', dic_info: '到期', order_num: 2 },
-          { dic_code: 'contract_state_3', dic_info: '到期未处理', order_num: 3 }
-        ]
-      },
-      {
-        type_code: 'contract_template_type',
-        type_name: '模板类型:0-新签',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'contract_template_state',
-        type_name: '模板状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'cost_log_type',
-        type_name: '收支类型',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'cost_log_state',
-        type_name: '状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'customer_info_source',
-        type_name: '客户信息来源',
-        data: [
-          {
-            dic_code: 'customer_info_source_0',
-            dic_info: '全部',
-            order_num: 0
-          },
-          {
-            dic_code: 'customer_info_source_1',
-            dic_info: '广告媒体',
-            order_num: 1
-          },
-          {
-            dic_code: 'customer_info_source_2',
-            dic_info: '中介',
-            order_num: 2
-          },
-          {
-            dic_code: 'customer_info_source_3',
-            dic_info: '中介',
-            order_num: 3
-          },
-          {
-            dic_code: 'customer_info_source_4',
-            dic_info: '其他',
-            order_num: 4
-          },
-
-          {
-            dic_code: 'customer_info_source_5',
-            dic_info: '上门',
-            order_num: 5
-          },
-          { dic_code: 'customer_info_source_6', dic_info: '官网', order_num: 6 }
-        ]
-      },
-      {
-        type_code: 'customer_status',
-        type_name: '行业性质',
-        data: [
-          { dic_code: 'customer_status_0', dic_info: '美食', order_num: 0 },
-          { dic_code: 'customer_status_1', dic_info: '美食美食', order_num: 1 }
-        ]
-      },
-      {
-        type_code: 'customer_state',
-        type_name: '签约状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'customer_demand_work_station',
-        type_name: '需求工位',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'equip_type',
-        type_name: '设备类型',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'equip_state',
-        type_name: '设备状态',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'equip_unit_type',
-        type_name: '设备单价单位',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'park_usage',
-        type_name:
-          '房产用途,园区定位：0-其他、1-办公、2-经营、3-生产、4-出租、5-仓储、6-居住、7-闲置',
-        data: [
-          { dic_code: 'park_usage_0', dic_info: '互联网', order_num: 0 },
-          { dic_code: 'park_usage_1', dic_info: '招商', order_num: 1 },
-          { dic_code: 'park_usage_2', dic_info: '运营', order_num: 2 },
-          { dic_code: 'park_usage_3', dic_info: '其他', order_num: 3 }
-        ]
-      },
-      {
-        type_code: 'park_acquire_way',
-        type_name: '取得方式：0-其他、1-自建、2-购置、3-划拨',
-        data: [
-          { dic_code: 'park_acquire_way_0', dic_info: '在建', order_num: 0 },
-          { dic_code: 'park_acquire_way_1', dic_info: '招商', order_num: 1 },
-          { dic_code: 'park_acquire_way_2', dic_info: '运营', order_num: 2 },
-          { dic_code: 'park_acquire_way_3', dic_info: '其他', order_num: 3 }
-        ]
-      },
-      {
-        type_code: 'room_state',
-        type_name: '房间状态：0-空闲、1-预定、2-占用',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
-      {
-        type_code: 'room_usage',
-        type_name: '房间用途：0-其他、1-办公、2-厂房、3-公寓',
-        data: [{ dic_code: 'other', dic_info: '其他', order_num: 0 }]
-      },
       // 应该是从这里开始的
       // ----------------------------------------------------财务收入
 
@@ -7362,15 +7348,16 @@ export default {
       },
       // ----------------------------------------------------楼宇  ----------------------表名未确认
       /* {
-      type_code: 'area_selection',
-      type_name: '面积选择',
-      data: [
-        { dic_code: 'area_selection_0', dic_info: '100m³以内', order_num: 0 },
-        { dic_code: 'area_selection_1', dic_info: '100-200m³', order_num: 1 },
-        { dic_code: 'area_selection_2', dic_info: '200-300m³', order_num: 2 },
-        { dic_code: 'area_selection_3', dic_info: '300m³以上', order_num: 3 },
-      ]
-    } */ {
+    type_code: 'area_selection',
+    type_name: '面积选择',
+    data: [
+      { dic_code: 'area_selection_0', dic_info: '100m³以内', order_num: 0 },
+      { dic_code: 'area_selection_1', dic_info: '100-200m³', order_num: 1 },
+      { dic_code: 'area_selection_2', dic_info: '200-300m³', order_num: 2 },
+      { dic_code: 'area_selection_3', dic_info: '300m³以上', order_num: 3 },
+    ]
+  }, */
+      {
         type_code: 'contract_term', // 暂时不能筛选
         type_name: '合同期限',
         data: [
@@ -7428,11 +7415,11 @@ export default {
       }
     ]
 
-    for (let i = 0; i < arr.length; i++) {
-      this.dictypeAdd(arr[i]).then(res => {
-        this.dicinfoAdd(res)
-      })
-    }
+    // for (let i = 0; i < arr.length; i++) {
+    //   this.dictypeAdd(arr[i]).then(res => {
+    //     this.dicinfoAdd(res);
+    //   });
+    // }
   },
   watch: {},
   methods: {
