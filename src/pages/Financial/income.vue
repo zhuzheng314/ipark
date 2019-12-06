@@ -82,6 +82,21 @@
         ></ParkForm>
       </div>
     </el-dialog>
+    <el-dialog
+      title="修改收付款账单"
+      :visible.sync="modifyVisible"
+      width="600px">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
+        :formList="$formsLabels.incomeForm"
+        :options="$store.getters.incomeListOptions"
+        :defaultValue="defaultValue"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
     <!--  账单详情-->
     <el-drawer
       title="账单详情"
@@ -211,6 +226,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       id: '',
       financialInfo_header: {
         title: '付款方：-',
@@ -302,16 +318,15 @@ export default {
     handleAddContract () {
       this.addVisible = true
     },
-    financialState (row) {
-      this.id = row.id
+    financialState (data) {
+      this.id = data.id
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        // this.fetchModify(this.id)
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -346,12 +361,20 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改财务收入
+    fetchModify (data) { // 修改财务收入
       let params = {
-        id: id
+        ...data,
+        id: this.id
       }
       this.$https.post(this.$urls.charge.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
       })
     },
     fetchInfo () { // 获取财务收入统计信息
@@ -392,6 +415,24 @@ export default {
       this.$https.post(this.$urls.charge.get_info, params).then((res) => {
         // console.log(res)
       })
+    },
+    fetchGetBack () {
+      let params = {
+        id: this.id
+      }
+      this.$https.post(this.$urls.charge.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {

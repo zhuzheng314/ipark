@@ -80,7 +80,7 @@
         :formList="$formsLabels.repairForm"
         :itemList="[]"
         :options="$store.getters.repairListOptions"
-        :defaultValue="{}"
+        :defaultValue="defaultValue"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -277,17 +277,7 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
-        let params = {
-          repair_code: this.id
-        }
-        this.$https.post(this.$urls.repair.get_info, params).then(res => {
-          if (res.code === 1000) {
-            let data = res
-            this.defaultValue = {}
-            // this.defaultValue = res;
-            this.modifyVisible = true
-          }
-        })
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -297,7 +287,7 @@ export default {
       let params = {
         ...data
       }
-      params.domain_id = params.domain_id[0]
+      // params.domain_id = params.domain_id[0]
       this.$https.post(this.$urls.repair.add, params)
         .then(res => {
           if (res.code === 1000) {
@@ -366,7 +356,6 @@ export default {
       this.page.page_no = 1
       this.fetchList()
     },
-
     fetchGetInfo (id) { // 获取报修工单信息
       let params = {
         customer_id: id
@@ -374,6 +363,21 @@ export default {
       // this.$message(`${id}`)
       this.$https.post(this.$urls.repair.get_info, params).then((res) => {
         // console.log(res)
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        repair_code: this.id
+      }
+      this.$https.post(this.$urls.repair.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          // this.defaultValue.customer_id = 10
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
       })
     },
     handlePageClick (num) { // 点击页码时

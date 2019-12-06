@@ -308,22 +308,6 @@ export default {
         }
       },
       defaultValue: {},
-      // {
-      //   contact: '15895642356',
-      //   contacter: '金',
-      //   create_ts: '2019-12-30T16:00:00.000Z',
-      //   demand_area: 1,
-      //   demand_ts: '2019-12-30T16:00:00.000Z',
-      //   email: '',
-      //   info_source: 0,
-      //   memo: '',
-      //   name: '客户丙',
-      //   receiver: '金',
-      //   room: [[17, 21, 23]],
-      //   state: 0,
-      //   status: 0,
-      //   work_station: 2
-      // },
       page: {
         page_no: 1,
         total: 0,
@@ -468,13 +452,13 @@ export default {
         id: this.id
       }
       this.$https.post(this.$urls.customer.get_back, params).then(res => {
-        this.$https.post(this.$urls.customer.get_back, params).then(res => {
-          if (res.code === 1000) {
-            let data = res
-            this.defaultValue = data
-            this.modifyVisible = true
-          }
-        })
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
       })
     },
     handlePageClick (num) { // 点击页码时

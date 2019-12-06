@@ -57,6 +57,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAddContract"
+        v-if="addContractVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
         :default-value="{}"
@@ -75,6 +76,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        v-if="modifyVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
         :itemList="[]"
@@ -158,787 +160,6 @@ export default {
       value2: '',
       addContractVisible: false,
       modifyVisible: false,
-      addContractFormList: [
-        {
-          title: '基础信息',
-          span: 24,
-          itemSpan: 8,
-          minHeight: 150,
-          padding: '0 10px 0',
-          margin: '',
-          children: [
-            {
-              type: 'input',
-              label: '合同编号',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '客户业态',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '商业',
-                  value: 's1'
-                }, {
-                  label: '商业',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '跟进商务',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '合同类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '租房合同模板',
-                  value: 's1'
-                }, {
-                  label: '车位合同模板',
-                  value: 's2'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: '房源信息',
-          span: 24,
-          itemSpan: 8,
-          children: [
-            {
-              type: 'cascader',
-              label: '房源信息',
-              key: 'fangyxx',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [{
-                value: 1,
-                label: '梦想小镇',
-                children: [{
-                  value: 2,
-                  label: '1幢',
-                  children: [
-                    { value: 3, label: '101' },
-                    { value: 4, label: '201' },
-                    { value: 5, label: '205' }
-                  ]
-                }, {
-                  value: 7,
-                  label: '3幢',
-                  children: [
-                    { value: 8, label: '101' },
-                    { value: 9, label: '103' },
-                    { value: 10, label: '503' }
-                  ]
-                }, {
-                  value: 12,
-                  label: '8幢',
-                  children: [
-                    { value: 13, label: '202' },
-                    { value: 14, label: '503' },
-                    { value: 15, label: '603' }
-                  ]
-                }]
-              }, {
-                value: 17,
-                label: '人工智能小镇',
-                children: [{
-                  value: 18,
-                  label: '16幢',
-                  children: [
-                    { value: 19, label: '501' },
-                    { value: 20, label: '505' }
-                  ]
-                }, {
-                  value: 21,
-                  label: '19幢',
-                  children: [
-                    { value: 22, label: '103' },
-                    { value: 23, label: '105' }
-                  ]
-                }]
-              }]
-            }
-          ]
-        },
-        {
-          title: '租户信息',
-          span: 24,
-          itemSpan: 8,
-          minHeight: 150,
-          padding: '0 10px 0',
-          margin: '',
-          children: [
-            {
-              type: 'input',
-              label: '品牌名称',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '经营范围',
-              key: 'tamplatecccc',
-              placeholder: '请输入',
-              options: [
-                {
-                  label: '互联网',
-                  value: 's1'
-                }, {
-                  label: '金融',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系人',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系电话',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '联系邮箱',
-              key: 'emil',
-              placeholder: '请输入',
-              rule: [
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '开票信息',
-          span: 24,
-          itemSpan: 8,
-          children: [
-            {
-              type: 'input',
-              label: '开户银行',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '账号',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '电话',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '纳税人识别号',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '开票地址',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '工商信息',
-          span: 24,
-          itemSpan: 8,
-          children: [
-            {
-              type: 'input',
-              label: '统一社会信用代码',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '纳税人识别号',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '注册号',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '组织机构代码',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '法定代表人',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '国籍',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '注册资本/万',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '经营状态',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '成立日期',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '公司类型',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }, {
-              type: 'input',
-              label: '人员规模',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '营业期限',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '登记机关',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '核准日期',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '英文名',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属地区',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '所属行业',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '注册地址',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '经营范围',
-              key: 'tenantName',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '基础条款',
-          span: 24,
-          itemSpan: 8,
-          minHeight: 150,
-          padding: '0 10px 0',
-          margin: '',
-          children: [
-            {
-              type: 'input',
-              label: '租赁面积',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '签订时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '计租时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '结束时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '押金设置(元)',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '租期划分',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '按起始日划分',
-                  value: 's1'
-                }, {
-                  label: '商业',
-                  value: 's2'
-                }
-              ]
-            },
-            {
-              type: 'input',
-              label: '付款周期(月)',
-              key: 'i',
-              placeholder: '几月一付',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '收款日',
-              key: 'i',
-              placeholder: '每月收款日',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '提前收租(月)',
-              key: 'i',
-              placeholder: '提前几个月收租金',
-              rule: [
-                { required: true, message: '请输入合同编号', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'select',
-              label: '计费类型',
-              key: 'tamplate',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ],
-              options: [
-                {
-                  label: '按实际天数计费',
-                  value: 's1'
-                }, {
-                  label: '车位合同模板',
-                  value: 's2'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: '房源租期条款',
-          span: 24,
-          itemSpan: 8,
-          minHeight: 150,
-          padding: '0 10px 0',
-          margin: '',
-          children: [
-            {
-              type: 'date-picker',
-              label: '开始时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '结束时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '合同单价(元/㎡·天)',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '年租金',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '月租金',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '物业费基础条款',
-          span: 24,
-          itemSpan: 8,
-          minHeight: 150,
-          padding: '0 10px 0',
-          margin: '',
-          children: [
-            {
-              type: 'input',
-              label: '管理面积',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '签订时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '计费时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '结束时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '押金(元)',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '付款周期(月)',
-              key: 'i',
-              placeholder: '几月一付',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '收款日',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '收款日',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '提前收费(月)',
-              key: 'i',
-              placeholder: '提前几个月收物业费',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        },
-        {
-          title: '物业费条款',
-          span: 24,
-          itemSpan: 8,
-          minHeight: 150,
-          padding: '0 10px 0',
-          margin: '',
-          children: [
-            {
-              type: 'date-picker',
-              label: '开始时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'date-picker',
-              label: '结束时间',
-              key: 'date3',
-              placeholder: '请选择日期',
-              rule: [
-                { required: true, message: '请选择', trigger: 'change' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '合同单价(元/㎡·天)',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '年物业费',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            },
-            {
-              type: 'input',
-              label: '月物业费',
-              key: 'i',
-              placeholder: '请输入',
-              rule: [
-                { required: true, message: '该项为必填', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-              ]
-            }
-          ]
-        }
-      ],
       contractInfoState: false,
       id: '',
       contractInfo_header: {
@@ -1031,65 +252,65 @@ export default {
       },
       barOptions: {},
       defaultValue: {
-        customer_id: 9,
-        address: '123',
-        authentic_ts: '2019-12-24T16:00:00.000Z',
-        bank: '132',
-        bank_code: '123',
-        brand: '123',
-        business_format: 1,
-        charge_type: 1,
-        company_type: 1,
-        contact: '123',
-        contacter: '123',
-        contract_code: '122',
-        contract_type: 1,
-        deposit: 1,
-        email: '123',
-        en_name: '123',
-        establish_ts: '2019-12-24T16:00:00.000Z',
-        fee_end_ts: '2019-12-04T16:00:00.000Z',
-        fee_start_ts: '2019-12-09T16:00:00.000Z',
-        follow_business: '122',
-        invoice_address: '132',
-        issuance: '123',
-        manage_area: 1,
-        month_rent: 1,
-        nationality: '123',
-        operate_state: 123,
-        operate_term: '2019-12-24T16:00:00.000Z',
-        organiz_code: '123',
-        pay_cycle: 1,
-        pay_date: 1,
-        prepaid: 1,
-        property_deposit: 1,
-        property_end_ts: '2019-12-18T16:00:00.000Z',
-        property_fee_end_ts: '2019-12-17T16:00:00.000Z',
-        property_fee_start_ts: '2019-11-25T16:00:00.000Z',
-        property_month_rent: 1,
-        property_pay_cycle: 1,
-        property_pay_date: 123,
-        property_prepaid: 1,
-        property_sign_ts: '2019-12-10T16:00:00.000Z',
-        property_start_ts: '2019-12-27T16:00:00.000Z',
-        property_unit_price: 1,
-        property_year_rent: 1,
-        region: '123',
-        regist_code: '123',
-        regist_fund: 123,
-        rent_area: 1,
-        representative: '123',
-        room: [489, 491],
-        scope: 1,
-        sign_ts: '2019-12-03T16:00:00.000Z',
-        social_credit_code: '123',
-        staff_size: 1,
-        taxpayer_code: '222',
-        tenancy_divide: 1,
-        trade: '132',
-        unit_price: 123,
-        v: '1.0',
-        year_rent: 123
+        // customer_id: 0,
+        // address: '123',
+        // authentic_ts: '2019-12-24T16:00:00.000Z',
+        // bank: '132',
+        // bank_code: '123',
+        // brand: '123',
+        // business_format: 1,
+        // charge_type: 1,
+        // company_type: 1,
+        // contact: '123',
+        // contacter: '123',
+        // contract_code: '122',
+        // contract_type: 1,
+        // deposit: 1,
+        // email: '123',
+        // en_name: '123',
+        // establish_ts: '2019-12-24T16:00:00.000Z',
+        // fee_end_ts: '2019-12-04T16:00:00.000Z',
+        // fee_start_ts: '2019-12-09T16:00:00.000Z',
+        // follow_business: '122',
+        // invoice_address: '132',
+        // issuance: '123',
+        // manage_area: 1,
+        // month_rent: 1,
+        // nationality: '123',
+        // operate_state: 123,
+        // operate_term: '2019-12-24T16:00:00.000Z',
+        // organiz_code: '123',
+        // pay_cycle: 1,
+        // pay_date: 1,
+        // prepaid: 1,
+        // property_deposit: 1,
+        // property_end_ts: '2019-12-18T16:00:00.000Z',
+        // property_fee_end_ts: '2019-12-17T16:00:00.000Z',
+        // property_fee_start_ts: '2019-11-25T16:00:00.000Z',
+        // property_month_rent: 1,
+        // property_pay_cycle: 1,
+        // property_pay_date: 123,
+        // property_prepaid: 1,
+        // property_sign_ts: '2019-12-10T16:00:00.000Z',
+        // property_start_ts: '2019-12-27T16:00:00.000Z',
+        // property_unit_price: 1,
+        // property_year_rent: 1,
+        // region: '123',
+        // regist_code: '123',
+        // regist_fund: 123,
+        // rent_area: 1,
+        // representative: '123',
+        // room: [489, 491],
+        // scope: 1,
+        // sign_ts: '2019-12-03T16:00:00.000Z',
+        // social_credit_code: '123',
+        // staff_size: 1,
+        // taxpayer_code: '222',
+        // tenancy_divide: 1,
+        // trade: '132',
+        // unit_price: 123,
+        // v: '1.0',
+        // year_rent: 123
       },
       page: {
         page_no: 1,
@@ -1102,10 +323,10 @@ export default {
     handleAddContract () {
       this.addContractVisible = true
     },
-    contractState (row) {
-      this.id = row.contract_code
+    contractState (data) {
+      this.id = data.contract_code
       this.contractInfoState = true
-      this.contractInfo_header.data = row
+      this.contractInfo_header.data = data
       this.contractInfo_body_contract = {
         title: '合同信息',
         info: [
@@ -1126,80 +347,7 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        let params = {
-          park_id: this.$store.state.form.activePark.domain_id,
-          ...this.page,
-          contract_code: this.id
-        }
-        this.$https.post(this.$urls.contract.get_info, params).then(res => {
-          if (res.code === 1000) {
-            let data = res
-            this.defaultValue = {
-              customer_id: 9,
-              address: '123',
-              authentic_ts: '2019-12-24T16:00:00.000Z',
-              bank: '132',
-              bank_code: '123',
-              brand: '123',
-              business_format: 1,
-              charge_type: 1,
-              company_type: 1,
-              contact: '123',
-              contacter: '123',
-              contract_code: '122',
-              contract_type: 1,
-              deposit: 1,
-              email: '123',
-              en_name: '123',
-              establish_ts: '2019-12-24T16:00:00.000Z',
-              fee_end_ts: '2019-12-04T16:00:00.000Z',
-              fee_start_ts: '2019-12-09T16:00:00.000Z',
-              follow_business: '122',
-              invoice_address: '132',
-              issuance: '123',
-              manage_area: 1,
-              month_rent: 1,
-              nationality: '123',
-              operate_state: 123,
-              operate_term: '2019-12-24T16:00:00.000Z',
-              organiz_code: '123',
-              pay_cycle: 1,
-              pay_date: 1,
-              prepaid: 1,
-              property_deposit: 1,
-              property_end_ts: '2019-12-18T16:00:00.000Z',
-              property_fee_end_ts: '2019-12-17T16:00:00.000Z',
-              property_fee_start_ts: '2019-11-25T16:00:00.000Z',
-              property_month_rent: 1,
-              property_pay_cycle: 1,
-              property_pay_date: '123',
-              property_prepaid: 1,
-              property_sign_ts: '2019-12-10T16:00:00.000Z',
-              property_start_ts: '2019-12-27T16:00:00.000Z',
-              property_unit_price: 1,
-              property_year_rent: 1,
-              region: '123',
-              regist_code: '123',
-              regist_fund: 123,
-              rent_area: 1,
-              representative: '123',
-              room: [489, 491],
-              scope: 1,
-              sign_ts: '2019-12-03T16:00:00.000Z',
-              social_credit_code: '123',
-              staff_size: 1,
-              taxpayer_code: '222',
-              tenancy_divide: 1,
-              trade: '132',
-              unit_price: 123,
-              v: '1.0',
-              year_rent: 123
-            }
-            // this.defaultValue = res;
-            this.modifyVisible = true
-          }
-        })
-        // this.fetchModify(this.id)
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -1209,9 +357,6 @@ export default {
       let params = {
         ...data
       }
-      params.room = data.room
-      params.rooms = data.room
-      params.customer_id = 9
       this.$https.post(this.$urls.contract.add, params).then(res => {
         if (res.code === 1000) {
           this.fetchList()
@@ -1249,15 +394,31 @@ export default {
     },
     fetchModify (data) { // 修改合同
       let params = {
-        ...data
+        ...data,
+        customer_code: this.id
       }
-      params.customer_id = 9
       this.$https.post(this.$urls.contract.modify, params).then(res => {
         if (res.code === 1000) {
           this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
           this.modifyVisible = false
         } else {
           this.$message.error('修改失败')
+        }
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        contract_code: this.id
+      }
+      this.$https.post(this.$urls.contract.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
         }
       })
     },

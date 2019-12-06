@@ -89,6 +89,22 @@
         ></ParkForm>
       </div>
     </el-dialog>
+    <el-dialog
+      title="修改费用列支"
+      :visible.sync="modifyVisible"
+      width="600px"
+    >
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
+        :formList="$formsLabels.financialForm"
+        :options="defaultOption"
+        :defaultValue="defaultValue"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
 <!--  账单详情-->
     <el-drawer
       title="账单详情"
@@ -131,7 +147,8 @@ export default {
   computed: {
     defaultOption () {
       return {
-        contract_code: this.$store.state.form.contractList
+        contract_code: this.$store.state.form.contractList,
+        customer_id: this.$store.state.form.customerList
       }
     }
   },
@@ -219,6 +236,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       id: '',
       financialInfo_header: {
         title: '收款方：杨',
@@ -343,7 +361,7 @@ export default {
           tableData: []
         }
       },
-      defaultValue: { },
+      defaultValue: {},
       page: {
         page_no: 1,
         total: 0,
@@ -364,8 +382,7 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        // this.fetchModify(this.id)
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -400,12 +417,20 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改费用列支
+    fetchModify (data) { // 修改费用列支
       let params = {
-        id: id
+        ...data,
+        id: this.id
       }
       this.$https.post(this.$urls.cost.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
       })
     },
     fetchInfo () { // 获取费用列支统计信息
@@ -452,6 +477,20 @@ export default {
       // this.$message(`${id}`)
       this.$https.post(this.$urls.cost.get_info, params).then((res) => {
         // console.log(res)
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        id: this.id
+      }
+      this.$https.post(this.$urls.cost.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
       })
     },
     handlePageClick (num) { // 点击页码时

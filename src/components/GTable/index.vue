@@ -17,7 +17,8 @@
             <el-tag size="mini">{{scope.row[item.prop]}}</el-tag>
           </span>
           <span v-else-if="item.renderButton">
-            <el-button type="text">下载</el-button>
+            <slot name="renderButton" :slotName="scope.row"></slot>
+            <!-- <el-button type="text">下载</el-button> -->
           </span>
           <span v-else>{{scope.row[item.prop]}}</span>
         </template>

@@ -83,23 +83,19 @@ const contractList = [
 // 合同模板
 const contractTamplate = [
   {
-    prop: 'a',
+    prop: 'id',
     label: '模板编号'
   },
   {
-    prop: 'b',
+    prop: 'template_name',
     label: '模板名称'
   },
   {
-    prop: 'c',
+    prop: 'template_type',
     label: '模板类型'
   },
   {
-    prop: 'd',
-    label: '状态'
-  },
-  {
-    prop: 'e',
+    prop: 'memo',
     label: '模板描述'
   },
   {

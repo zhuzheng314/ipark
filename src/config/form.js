@@ -634,21 +634,13 @@ const addContractForm = [
     children: [
       {
         type: 'select',
-        label: '客户业态',
-        key: 'business_format',
+        label: '客户',
+        key: 'customer_id',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
-        options: [
-          {
-            label: '商业',
-            value: 1
-          }, {
-            label: '商业',
-            value: 2
-          }
-        ]
+        options: []
       },
       {
         type: 'input',
@@ -810,7 +802,7 @@ const addContractForm = [
         key: 'invoice_address',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
@@ -1330,413 +1322,478 @@ const addContractForm = [
 // 合同模板
 const tamplateForm = [
   {
-    type: 'select',
-    label: '模板类型',
-    key: 'tamplate',
-    placeholder: '请输入',
-    rule: [
-      { required: true, message: '请选择', trigger: 'change' }
-    ],
-    options: [
+    title: '模板类型',
+    children: [
       {
-        label: '房屋租赁',
-        value: 's1'
-      }, {
-        label: '物业保洁',
-        value: 's2'
-      }, {
-        label: '花木租赁',
-        value: 's3'
-      }, {
-        label: '场地租赁',
-        value: 's4'
-      }, {
-        label: '设备租赁',
-        value: 's5'
-      }, {
-        label: '其他',
-        value: 's6'
+        type: 'input',
+        label: '模板类型',
+        key: 'template_type',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
+      },
+      // {
+      //   type: 'select',
+      //   label: '模板状态',
+      //   key: 'state',
+      //   placeholder: '请选择',
+      //   rule: [
+      //     { required: true, message: '请选择', trigger: 'change' }
+      //   ],
+      //   options: [
+      //     {
+      //       label: '启用',
+      //       value: 0
+      //     },
+      //     {
+      //       label: '未启用',
+      //       value: 1
+      //     }
+      //   ]
+      // },
+      {
+        type: 'input',
+        label: '模板名称',
+        key: 'template_name',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请输入模板名称', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'textarea',
+        label: '模板描述',
+        key: 'memo',
+        placeholder: '请输入模板描述',
+        rule: [
+          { required: true, message: '请输入模板描述', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'upload-file',
+        label: '模板文件',
+        key: 'attached',
+        placeholder: '请输入模板描述'
       }
-    ]
-  }, {
-    type: 'input',
-    label: '模板名称',
-    key: 'i',
-    placeholder: '请输入',
-    rule: [
-      { required: true, message: '请输入模板名称', trigger: 'blur' },
-      { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-    ]
-  }, {
-    type: 'textarea',
-    label: '模板描述',
-    key: 'i11',
-    placeholder: '请输入模板描述',
-    rule: [
-      { required: true, message: '请输入模板描述', trigger: 'blur' },
-      { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-    ]
-  }, {
-    type: 'upload',
-    label: '模板描述',
-    key: 'i11',
-    placeholder: '请输入模板描述',
-    rule: [
-      { required: true, message: '请输入模板描述', trigger: 'blur' },
-      { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
     ]
   }
 ]
 
 /* -------------------- 企业进退驻 -------------------- */
 // 进驻管理
+// const applyForm = [
+//   {
+//     title: '客户信息',
+//     span: 12,
+//     minHeight: 450,
+//     children: [
+//       {
+//         type: 'input',
+//         label: '租客名称',
+//         key: 'i',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '联系人',
+//         key: 'i',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '证件号码',
+//         key: 'i',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'select',
+//         label: '行业分类',
+//         key: 'tamplate',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请选择', trigger: 'change' }
+//         ],
+//         options: [
+//           {
+//             label: '美食',
+//             value: 's1'
+//           }, {
+//             label: '美食美食',
+//             value: 's2'
+//           }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '电话',
+//         key: 'i',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '邮箱',
+//         key: 'i',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '租客编码',
+//         key: 'i',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       }
+//     ]
+//   }, {
+//     title: '开票信息',
+//     span: 12,
+//     minHeight: 450,
+//     children: [
+//       {
+//         type: 'input',
+//         label: '开户银行',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '账号',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '电话',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '纳税人识别号',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '开票地址',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'checkbox',
+//         label: '标签选择',
+//         key: 'c',
+//         options: [
+//           {
+//             label: '美食',
+//             value: 'vdd1'
+//           }, {
+//             label: '美食美食',
+//             value: 'vdd2'
+//           }
+//         ]
+//       }
+//     ]
+//   },
+//   {
+//     title: '工商信息',
+//     span: 24,
+//     itemSpan: 12,
+//     children: [
+//       {
+//         type: 'input',
+//         label: '统一社会信用代码',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '纳税人识别号',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '注册号',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '组织机构代码',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '法定代表人',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '国籍',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '注册资本/万',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '经营状态',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'date-picker',
+//         label: '成立日期',
+//         key: 'date3',
+//         placeholder: '请选择日期',
+//         rule: [
+//           { required: true, message: '请选择', trigger: 'change' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '公司类型',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       }, {
+//         type: 'input',
+//         label: '人员规模',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '营业期限',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '登记机关',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '核准日期',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '英文名',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '所属地区',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '所属行业',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '注册地址',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       },
+//       {
+//         type: 'input',
+//         label: '经营范围',
+//         key: 'tenantName',
+//         placeholder: '请输入',
+//         rule: [
+//           { required: true, message: '请输入合同编号', trigger: 'blur' },
+//           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+//         ]
+//       }
+//     ]
+//   }
+// ]
 const applyForm = [
   {
-    title: '客户信息',
-    span: 12,
+    title: '基本信息',
+    span: 24,
     minHeight: 450,
     children: [
-      {
-        type: 'input',
-        label: '租客名称',
-        key: 'i',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '联系人',
-        key: 'i',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '证件号码',
-        key: 'i',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
       {
         type: 'select',
-        label: '行业分类',
-        key: 'tamplate',
-        placeholder: '请输入',
+        label: '租客名称',
+        key: 'company_id',
+        placeholder: '请选择租客名称',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          { required: true, message: '请选择租客名称', trigger: 'change' }
         ],
-        options: [
-          {
-            label: '美食',
-            value: 's1'
-          }, {
-            label: '美食美食',
-            value: 's2'
-          }
-        ]
+        options: []
       },
       {
-        type: 'input',
-        label: '电话',
-        key: 'i',
-        placeholder: '请输入',
+        type: 'date-picker',
+        label: '开始时间',
+        key: 'start_ts',
+        placeholder: '请选择开始时间',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '邮箱',
-        key: 'i',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '租客编码',
-        key: 'i',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      }
-    ]
-  }, {
-    title: '开票信息',
-    span: 12,
-    minHeight: 450,
-    children: [
-      {
-        type: 'input',
-        label: '开户银行',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '账号',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '电话',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '纳税人识别号',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '开票地址',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'checkbox',
-        label: '标签选择',
-        key: 'c',
-        options: [
-          {
-            label: '美食',
-            value: 'vdd1'
-          }, {
-            label: '美食美食',
-            value: 'vdd2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    title: '工商信息',
-    span: 24,
-    itemSpan: 12,
-    children: [
-      {
-        type: 'input',
-        label: '统一社会信用代码',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '纳税人识别号',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '注册号',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '组织机构代码',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '法定代表人',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '国籍',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '注册资本/万',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '经营状态',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请选择开始时间', trigger: 'blur' }
         ]
       },
       {
         type: 'date-picker',
-        label: '成立日期',
-        key: 'date3',
-        placeholder: '请选择日期',
+        label: '结束时间',
+        key: 'end_ts',
+        placeholder: '请选择结束时间',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          { required: true, message: '请选择结束时间', trigger: 'blur' }
         ]
       },
       {
-        type: 'input',
-        label: '公司类型',
-        key: 'tenantName',
-        placeholder: '请输入',
+        type: 'select',
+        label: '进驻状态',
+        key: 'state',
+        placeholder: '请选择进驻状态',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      }, {
-        type: 'input',
-        label: '人员规模',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '营业期限',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请选择进驻状态', trigger: 'change' }
+        ],
+        options: [
+          {
+            label: '未进驻',
+            value: 1
+          }, {
+            label: '已进驻',
+            value: 2
+          }
         ]
       },
       {
-        type: 'input',
-        label: '登记机关',
-        key: 'tenantName',
+        type: 'textarea',
+        label: '备注',
+        key: 'memo',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '核准日期',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '英文名',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '所属地区',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '所属行业',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '注册地址',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '经营范围',
-        key: 'tenantName',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
@@ -2103,17 +2160,17 @@ const repairForm = [
     title: '工单信息',
     children: [
       {
-        type: 'input',
-        label: '租客名称',
-        key: 'customer',
-        placeholder: '请输入租客名称',
+        type: 'select',
+        label: '客户',
+        key: 'customer_id',
+        placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        options: []
       },
       {
-        type: 'input-num',
+        type: 'input',
         label: '发起人',
         key: 'originator',
         placeholder: '请输入',
@@ -2148,7 +2205,7 @@ const repairForm = [
         key: 'describe',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          { required: true, message: '请输入报修详情', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -2158,7 +2215,7 @@ const repairForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          { required: true, message: '请上传图片', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
@@ -2186,17 +2243,17 @@ const complaintForm = [
     title: '工单信息',
     children: [
       {
-        type: 'input',
-        label: '租客名称',
-        key: 'customer',
-        placeholder: '请输入租客名称',
+        type: 'select',
+        label: '客户',
+        key: 'customer_id',
+        placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        options: []
       },
       {
-        type: 'input-num',
+        type: 'input',
         label: '发起人',
         key: 'originator',
         placeholder: '请输入',
@@ -2269,14 +2326,15 @@ const paymentForm = [
     title: '账单',
     children: [
       {
-        type: 'input',
+        type: 'select',
         label: '关联合同',
         key: 'contract_code',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
-        options: []
+        options: [
+        ]
       },
       {
         type: 'input',
@@ -2317,26 +2375,8 @@ const paymentForm = [
         ]
       },
       {
-        type: 'select',
-        label: '币种',
-        key: 'currency',
-        placeholder: '请选择',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          {
-            label: '人民币',
-            value: 1
-          }, {
-            label: '美元',
-            value: 2
-          }
-        ]
-      },
-      {
         type: 'date-picker',
-        label: '计费周期',
+        label: '计费周期开始',
         key: 'start_ts',
         placeholder: '请输入',
         rule: [
@@ -2346,7 +2386,7 @@ const paymentForm = [
       },
       {
         type: 'date-picker',
-        label: '计费周期',
+        label: '计费周期结束',
         key: 'end_ts',
         placeholder: '请输入',
         rule: [
@@ -2398,14 +2438,17 @@ const financialForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
-          {
-            label: '合同1',
-            value: 'C8B3454C-2D50-0001-683B-EAD0F000A030'
-          }, {
-            label: '合同2',
-            value: 2
-          }
         ]
+      },
+      {
+        type: 'select',
+        label: '客户',
+        key: 'customer_id',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        options: []
       },
       {
         type: 'input',
@@ -2465,19 +2508,9 @@ const financialForm = [
         ]
       },
       {
-        type: 'input',
-        label: '客户',
-        key: 'customer',
-        placeholder: '请输入租客名称',
-        rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
         type: 'input-num',
         label: '金额',
-        key: 'costi',
+        key: 'cost',
         placeholder: '请输入金额',
         rule: [
           { required: true, message: '请输入租客名称', trigger: 'blur' }
@@ -2551,7 +2584,7 @@ const incomeForm = [
     title: '账单',
     children: [
       {
-        type: 'input',
+        type: 'select',
         label: '关联合同',
         key: 'contract_code',
         placeholder: '请输入',
@@ -2559,13 +2592,6 @@ const incomeForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
-          {
-            label: '美食',
-            value: 1
-          }, {
-            label: '美食美食',
-            value: 2
-          }
         ]
       },
       {
@@ -2610,6 +2636,7 @@ const incomeForm = [
         type: 'date-picker',
         label: '计费周期开始',
         placeholder: '请输入',
+        key: 'start_ts',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }

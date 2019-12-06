@@ -17,6 +17,7 @@ const form = {
     incomeList: []
   },
   getters: {
+    // 园区
     parkListOptions: state => {
       return {
         pid: state.parkList.length ? state.parkList.map(x => {
@@ -27,6 +28,7 @@ const form = {
         }) : []
       }
     },
+    // 楼宇
     buildListOptions: state => {
       return {
         pid: state.buildList.length ? state.buildList.map(x => {
@@ -37,6 +39,7 @@ const form = {
         }) : []
       }
     },
+    // 房间
     roomFloor: state => {
       let arr = []
       state.roomList.forEach(x => {
@@ -73,22 +76,7 @@ const form = {
       })
       return arr
     },
-    contractListOptions: (state, getters) => {
-      return {
-        room: getters.parkTreeOptions
-      }
-    },
-    customerListOptions: (state, getters) => {
-      return {
-        pid: state.customerList.length ? state.customerList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
-        room: getters.parkTreeOptions
-      }
-    },
+    // 园区树
     parkTreeOptions: state => {
       const filterList = (list) => {
         return list.map(item => {
@@ -120,57 +108,59 @@ const form = {
         return []
       }
     },
+    // 合同
+    contractListOptions: (state, getters) => {
+      return {
+        room: getters.parkTreeOptions,
+        domain_id: getters.parkTreeOptions,
+        customer_id: state.customerList
+      }
+    },
+    // 进驻
+    applyListOptions: (state, getters) => {
+      return {
+        company_id: state.customerList
+      }
+    },
+    // 客户
+    customerListOptions: (state, getters) => {
+      return {
+        room: getters.parkTreeOptions
+      }
+    },
+    // 报修
     repairListOptions: (state, getters) => {
       return {
-        pid: state.repairList.length ? state.repairList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
-        domain_id: getters.parkTreeOptions
+        domain_id: getters.parkTreeOptions,
+        customer_id: state.customerList
       }
     },
+    // 投诉
     complaintListOptions: (state, getters) => {
       return {
-        pid: state.complaintList.length ? state.complaintList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
-        domain_id: getters.parkTreeOptions
+        domain_id: getters.parkTreeOptions,
+        customer_id: state.customerList
       }
     },
+    // 催缴
     paymentListOptions: (state, getters) => {
       return {
-        pid: state.paymentList.length ? state.paymentList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : [],
-        domain_id: getters.parkTreeOptions
+        customer_id: state.customerList,
+        domain_id: getters.parkTreeOptions,
+        contract_code: state.contractList
       }
     },
+    // 列支
     financialListOptions: (state, getters) => {
       return {
-        pid: state.financialList.length ? state.financialList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : []
+        contract_code: state.contractList,
+        customer_id: state.customerList
       }
     },
+    // 收入
     incomeListOptions: (state, getters) => {
       return {
-        pid: state.incomeList.length ? state.incomeList.map(x => {
-          return {
-            label: x.name,
-            value: x.domain_id
-          }
-        }) : []
+        contract_code: state.contractList
       }
     }
   },
@@ -197,6 +187,15 @@ const form = {
           ...x,
           label: x.customer_name + '-' + x.contract_code,
           value: x.contract_code
+        }
+      })
+    },
+    commitCustomerList (state, list) {
+      state.customerList = list.map(x => {
+        return {
+          ...x,
+          label: x.name,
+          value: x.customer_id
         }
       })
     }
@@ -271,6 +270,17 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitContractList', res.list)
+        }
+      })
+    },
+    getCustomerList ({ commit, state }, data) {
+      return request.post(baseUrl + api.customer.get_list, {
+        park_id: state.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          commit('commitCustomerList', res.list)
         }
       })
     }

@@ -81,8 +81,8 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        v-if="modifyVisible"
         :formList="$formsLabels.complaintForm"
-        v-if="addVisible"
         :options="$store.getters.complaintListOptions"
         :defaultValue="defaultValue"
         :itemList="[]"
@@ -210,6 +210,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       id: '',
       workOrderInfo_header: {
         title: '维修工单',
@@ -288,17 +289,7 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
-        let params = {
-          complaint_code: this.id
-        }
-        this.$https.post(this.$urls.complaint.get_info, params).then(res => {
-          if (res.code === 1000) {
-            let data = res
-            this.defaultValue = data
-            // this.defaultValue = res;
-            this.modifyVisible = true
-          }
-        })
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -384,6 +375,20 @@ export default {
       // this.$message(`${id}`)
       this.$https.post(this.$urls.complaint.get_info, params).then((res) => {
         // console.log(res)
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        complaint_code: this.id
+      }
+      this.$https.post(this.$urls.complaint.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
       })
     },
     handlePageClick (num) { // 点击页码时
