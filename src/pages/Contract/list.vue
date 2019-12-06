@@ -103,7 +103,7 @@
           <div style="color: #999;padding: 0 48px;">
             <p>
               <span>合同摘要</span>
-              【起租日{{data.slotName.d}}。租赁数{{data.slotName.g}}㎡。首期租赁3月一付。租金单价4元/㎡·天。】
+              【起租日{{data.slotName.start_ts}}。租赁数{{data.slotName.manage_area}}㎡。首期租赁3月一付。租金单价4元/㎡·天。】
             </p>
             <p>
               <span>最新备注</span>
@@ -113,7 +113,7 @@
       </HeaderCard>
       <div class="drawer-body" style="height: 700px;">
         <BodyCard type=1 :data="contractInfo_body_contract"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body_room"></BodyCard>
+        <BodyCard type=2 :data="contractInfo_body_room"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body2"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body5"></BodyCard>
@@ -177,19 +177,36 @@ export default {
         ],
         data: {}
       },
-      contractInfo_body_contract: { },
+      contractInfo_body_contract: {
+        title: '合同信息',
+        info: [
+          { name: '合同编号', value: '-' },
+          { name: '跟进人', value: '-' },
+          { name: '合同租赁数', value: '-' + '㎡' },
+          { name: '合同签订日', value: '-' },
+          { name: '合同起租日', value: '-' },
+          { name: '合同失效日', value: '-' },
+          { name: '单位保留小数', value: '-' },
+          { name: '计算精度', value: '-' },
+          { name: '原合同失效日', value: '-' },
+          { name: '合同标签', value: '-' }
+        ]
+      },
       contractInfo_body_room: {
         title: '房源信息',
-        info: [
-          { name: '园区', value: '西港发展中心' },
-          { name: '楼宇', value: '协力大厦' },
-          { name: '房号', value: '10层302室' }
-        ]
+        info: {
+          label: [
+            { prop: 'park_name', label: '园区' },
+            { prop: 'building_name', label: '楼宇' },
+            { prop: 'name', label: '房号' }
+          ],
+          tableData: []
+        }
       },
       contractInfo_body1: {
         title: '租客信息',
         info: [
-          { name: '租客', value: '拓源网络' },
+          { name: '租客', value: '-' },
           { name: '行业', value: '-' },
           { name: '租客联系人', value: '-' },
           { name: '法人', value: '-' },
@@ -198,7 +215,7 @@ export default {
       },
       contractInfo_body2: {
         title: '其他关键信息',
-        info: [ ]
+        info: []
       },
       contractInfo_body3: {
         title: '滞纳金',
@@ -217,8 +234,8 @@ export default {
       contractInfo_body5: {
         title: '基本条款',
         info: [
-          { name: '房源信息', value: '9001' },
-          { name: '租赁数', value: '360' }
+          { name: '房源信息', value: '-' },
+          { name: '租赁数', value: '-' }
         ]
       },
       contractInfo_body6: {
@@ -231,15 +248,15 @@ export default {
       contractInfo_body7: {
         title: '租期条款',
         info: [
-          { name: '开始时间', value: '2019-11-11' },
-          { name: '结束时间', value: '2022-11-10' },
-          { name: '付款时间', value: '(工作日)15天' },
-          { name: '基础单价', value: '3元/㎡·天' },
-          { name: '计费类型', value: '按月计费' },
-          { name: '租期划分方式', value: '按起始日划分' },
+          { name: '开始时间', value: '-' },
+          { name: '结束时间', value: '-' },
+          { name: '付款时间', value: '-' },
+          { name: '基础单价', value: '-' },
+          { name: '计费类型', value: '-' },
+          { name: '租期划分方式', value: '-' },
           { name: '天单价换算规则', value: '-' },
-          { name: '年天数', value: '365天' },
-          { name: '支付类型', value: '3月一付' }
+          { name: '年天数', value: '-' },
+          { name: '支付类型', value: '-' }
         ]
       },
       publicOptions: {
@@ -325,24 +342,51 @@ export default {
     },
     contractState (data) {
       this.id = data.contract_code
+      this.fetchGetInfo(this.id)
       this.contractInfoState = true
       this.contractInfo_header.data = data
       this.contractInfo_body_contract = {
         title: '合同信息',
         info: [
-          { name: '合同编号', value: row.c },
-          { name: '跟进人', value: '-' },
-          { name: '合同租赁数', value: row.g + '㎡' },
-          { name: '合同签订日', value: row.d },
-          { name: '合同起租日', value: row.e },
-          { name: '合同失效日', value: '2017-01-01' },
+          { name: '合同编号', value: data.contract_code },
+          { name: '跟进人', value: data.receiver },
+          { name: '合同租赁数', value: data.manage_area + '㎡' },
+          { name: '合同签订日', value: data.sign_ts },
+          { name: '合同起租日', value: data.start_ts },
+          { name: '合同失效日', value: data.end_ts },
           { name: '单位保留小数', value: '2' },
           { name: '计算精度', value: '精确计算结果保留两位小数' },
           { name: '原合同失效日', value: '-' },
           { name: '合同标签', value: '-' }
-
         ]
       }
+      this.contractInfo_body_room.info.tableData = data.room
+      this.contractInfo_body1.info = [
+        { name: '租客', value: data.company_name },
+        { name: '行业', value: data.trade },
+        { name: '租客联系人', value: data.customer_name },
+        { name: '法人', value: data.representative },
+        { name: '签订人', value: data.customer_name }
+      ]
+      this.contractInfo_body5.info = [
+        { name: '房源信息', value: '-' },
+        { name: '租赁数', value: '-' }
+      ]
+      this.contractInfo_body6.info = [
+        { name: '保证金类型', value: '租金保证金' },
+        { name: '保证金额', value: data.deposit }
+      ]
+      this.contractInfo_body7.info = [
+        { name: '开始时间', value: data.fee_start_ts },
+        { name: '结束时间', value: data.fee_end_ts },
+        { name: '付款时间', value: data.pay_date },
+        { name: '基础单价', value: data.unit_price },
+        { name: '计费类型', value: data.charge_type },
+        { name: '租期划分方式', value: data.tenancy_divide },
+        { name: '天单价换算规则', value: '-' },
+        { name: '年天数', value: '365天' },
+        { name: '支付类型', value: '3月一付' }
+      ]
     },
     handleClose () { },
     open (i) {
@@ -376,6 +420,16 @@ export default {
         console.log(res)
         // this.page.total = res.list.length
         this.tableData = res.list
+      })
+    },
+
+    fetchGetInfo (id) { // 获取合同信息
+      let params = {
+        contract_code: id
+      }
+      this.$https.post(this.$urls.contract.get_info, params).then((res) => {
+        // console.log(res);
+        let data = res
       })
     },
     fetchRemove (id) { // 删除合同
