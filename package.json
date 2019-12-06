@@ -43,6 +43,7 @@
     "less-loader": "^5.0.0",
     "lint-staged": "^9.4.2",
     "typescript": "~3.5.3",
+    "vue-count-to": "^1.0.13",
     "vue-echarts": "^4.0.4",
     "vue-ellipsis-text": "^1.0.1",
     "vue-template-compiler": "^2.6.10"
