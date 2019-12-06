@@ -105,23 +105,28 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="price"
+            prop="avg_unit_price"
             label="在租均价">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            width="200"
-            label="出租率">
-            <template >
-              <el-progress :percentage="50"></el-progress>
+            <template  slot-scope="scope">
+              <span>
+                {{scope.row.avg_unit_price}}元/㎡·天
+              </span>
             </template>
           </el-table-column>
           <el-table-column
-            prop="num"
+            prop="rent_rate"
+            width="200"
+            label="出租率">
+            <template slot-scope="scope">
+              <el-progress :percentage="(Number(scope.row.rent_rate) * 100).toFixed(2)"></el-progress>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="total_rooms"
             label="总房源数量">
           </el-table-column>
           <el-table-column
-            prop="num"
+            prop="rent_rooms"
             label="可招租房源数量">
           </el-table-column>
           <el-table-column

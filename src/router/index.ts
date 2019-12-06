@@ -217,6 +217,26 @@ const routes = [
         path: 'income', // 财务收入
         name: 'FinancialIncome',
         component: FinancialIncome
+      },
+      {
+        path: 'rent', // 房租费
+        name: 'FinancialIncome',
+        component: FinancialIncome
+      },
+      {
+        path: 'property', // 物业费
+        name: 'FinancialIncome',
+        component: FinancialIncome
+      },
+      {
+        path: 'water', // 水电费
+        name: 'FinancialIncome',
+        component: FinancialIncome
+      },
+      {
+        path: 'other', // 其他费
+        name: 'FinancialIncome',
+        component: FinancialIncome
       }
     ]
   },

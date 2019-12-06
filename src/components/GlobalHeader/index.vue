@@ -27,31 +27,12 @@
         <el-badge style="margin-right: 10px" :value="2" class="item">
           <el-popover
             placement="bottom-end"
-            width="150"
+            width="200"
             trigger="click"
           >
             <div class="message">
-              <!-- <div
-                v-for="item in 3"
-                :key="'msg' + item"
-                class="message-item"
-                style="border-bottom: 1px solid #cbcbcb; padding:  6px 0 6px; font-size: 12px">
-                <span
-                  style="margin: 0; font-size: 13px; line-height: 13px; display: inline-block; margin-bottom: 4px; color: #333"
-                >
-                  您有新的待办事项
-                </span>
-                <br>
-                <span style="color: #999;">2019-11-10</span>
-              </div>
-
-              <div style="text-align: right; margin-top: 5px">
-                <el-link type="primary" style="font-size: 13px">查看更多</el-link>
-              </div> -->
-
-              <div class="noMsg" style="text-align: center;height: 100px;padding-top: 20px;">
-                <i class="iconfont" style="font-size: 36px;color: #ccc;">&#xe642;</i>
-                <p style="margin: 0px 0 0 0;font-size: 12px;">暂无消息</p>
+              <div class="noMsg" style="text-align: center;height: 180px;padding-top: 20px;">
+                  <None type="message"></None>
               </div>
             </div>
             <i class="el-icon-bell g-handle" slot="reference"></i>
@@ -79,6 +60,7 @@
       title="添加园区"
       :visible.sync="addParkShow"
       width="600px"
+      :modal-append-to-body="false"
     >
       <div>
         <ParkForm
@@ -94,6 +76,7 @@
       title="修改密码"
       :visible.sync="setPassWordVisible"
       width="500px"
+      :modal-append-to-body="false"
     >
       <div>
         <el-form :model="form">
@@ -256,10 +239,8 @@ export default {
   width: 100%;
   height: 56px;
   background-color: white;
-  /*position: relative;*/
-  /*z-index: 2000;*/
   box-shadow:0px 3px 8px rgba(0,0,0,0.1);
-  overflow-x: hidden;
+  overflow: hidden;
   .left{
     float: left;
     height: 100%;

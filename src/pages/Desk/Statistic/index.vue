@@ -46,6 +46,8 @@ export default {
     margin-right: 16px;
     width: 234px;
     height: 132px;
+    box-shadow:0px 3px 8px rgba(0,0,0,0.1);
+    padding: 8px;
     color: @white;
     .el-card__body{
       padding: 0;

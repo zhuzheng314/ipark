@@ -68,11 +68,13 @@ export default {
 .el-header{
   padding: 0 0;
   /*height: 56px;*/
+  position: relative;
+  z-index: 100;
 }
 .el-aside{
   height: 100%;
 }
 .el-main{
-  background: #eee;
+  background: #f0f2f5;
 }
 </style>
