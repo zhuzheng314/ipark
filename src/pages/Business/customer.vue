@@ -52,7 +52,7 @@
 <!--        <el-radio-button label="付款"></el-radio-button>-->
 <!--      </el-radio-group>-->
       <div>
-        <div :key="item.name" v-for="item in finData" class="simple-item">
+        <div :key="item.name" v-for="item in infoData" class="simple-item">
            <Comparison :type="item.type" :data="item"></Comparison>
         </div>
       </div>
@@ -150,10 +150,7 @@ export default {
       radio: '收款',
       yearList: [
       ],
-      finData: [
-        { name: '初次接触', value: '', chart: '', type: 'arrow' },
-        { name: '成交客户', value: '', chart: '', type: 'arrow' },
-        { name: '流失客户', value: '', chart: '', type: 'arrow' }
+      infoData: [
       ],
       options1: [
         {
@@ -395,16 +392,16 @@ export default {
     },
     fetchInfo () { // 获取客户管理统计信息
       let params = {
-        park_id: this.$store.state.form.activePark.domain_id,
-        page_no: 1,
-        page_size: 999
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.customer.info, params).then((res) => {
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+        if (res.code === 1000) {
+          this.infoData = [
+            { name: '初次接触', value: res.meet, chart: res.meet_rate || res.meet_drate, type: 'arrow' },
+            { name: '成交客户', value: res.sign, chart: res.sign_rate, type: 'arrow' },
+            { name: '流失客户', value: res.loss, chart: res.loss_rate, type: 'arrow' }
+          ]
+        }
       })
     },
     fetchList () { // 获取客户列表

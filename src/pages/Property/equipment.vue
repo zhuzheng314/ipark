@@ -31,7 +31,7 @@
         <Comparison
           :type="item.type"
           :key="item.name"
-          v-for="item in finData"
+          v-for="item in infoData"
           :data="item"></Comparison>
       </div>
     </el-card>
@@ -123,12 +123,7 @@ export default {
       equipmentInfo_body1: {},
       equipmentInfo_body2: {},
       equipmentInfo_body3: {},
-      finData: [
-        { name: '总电费', value: '10000', chart: '0.3564', type: 'arrow' },
-        { name: '总水费', value: 10000, chart: '-0.3564', type: 'arrow' },
-        { name: '总燃气费', value: '10000', chart: '0.3564', type: 'arrow' },
-        { name: '总空调暖通费', value: 10000, chart: '-0.3564', type: 'arrow' }
-      ]
+      infoData: []
     }
   },
   methods: {
@@ -202,15 +197,16 @@ export default {
     },
     fetchEquipInfo () { // 获取四表集抄统计信息
       this.$https.post(this.$urls.equip.info, {
-
+        park_id: this.$store.state.form.activePark.domain_id,
+        start_ts: new Date(new Date().getFullYear(), 0),
+        end_ts: new Date()
       }).then((res) => {
-        // console.log(res)
-        this.tableData = res.list
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+        this.infoData = [
+          { name: '总电费(元)', value: Number(res.electric), chart: Number(res.electric_rate), type: 'arrow' },
+          { name: '总水费(元)', value: Number(res.water), chart: Number(res.water_rate), type: 'arrow' },
+          { name: '总燃气费(元)', value: Number(res.gas), chart: Number(res.gas_rate), type: 'arrow' },
+          { name: '总空调暖通费(元)', value: Number(res.heat), chart: Number(res.heat_rate), type: 'arrow' }
+        ]
       })
     },
     fetchEquipList () { // 获取设备列表
@@ -229,7 +225,6 @@ export default {
       }
       // this.$message(`${id}`)
       this.$https.post(this.$urls.equip.get_info, params).then((res) => {
-        // console.log(res)
       })
     }
   },

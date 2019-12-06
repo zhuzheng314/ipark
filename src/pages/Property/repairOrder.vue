@@ -38,7 +38,7 @@
         <Comparison
           :type="item.type"
           :key="item.name"
-          v-for="item in finData"
+          v-for="item in infoData"
           :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
       </div>
     </el-card>
@@ -243,12 +243,7 @@ export default {
         title: '工单评价',
         info: '无'
       },
-      finData: [
-        { name: '已解决', value: '254235', chart: '-0.1128', type: 'arrow' },
-        { name: '待解决', value: 13453, chart: '-0.3432', type: 'arrow' },
-        { name: '完成率', value: 13513, chart: '0.99', type: 'arrow' },
-        { name: '满意度', value: '134553', chart: '0.99', type: 'arrow' }
-      ],
+      infoData: [],
       defaultValue: {
         // attached: { upload: [{ name: 'hotSearchBox.png', url: '1575471117333/d3d90bd06b6535541c17e138f8cdc838.png' }] },
         // contact: 13333333333,
@@ -267,6 +262,9 @@ export default {
     }
   },
   methods: {
+    handleClose () {
+
+    },
     handleAddContract () {
       this.addVisible = true
     },
@@ -329,16 +327,18 @@ export default {
     },
     fetchInfo () { // 获取报修工单统计信息
       let params = {
-        id: this.parkId
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.repair.info, params).then((res) => {
-        // console.log(res)
-        this.tableData = res.list
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+        if (res.code === 1000) {
+          this.infoData = []
+          this.infoData = [
+            { name: '已解决', value: Number(res.resolved), chart: Number(res.resolved_rate), type: 'arrow' },
+            { name: '待解决', value: Number(res.unsolved), chart: Number(res.unsolved_rate), type: 'arrow' },
+            { name: '完成率', value: Number(res.complet), chart: Number(res.complet_rate), type: 'arrow' },
+            { name: '满意度', value: Number(res.satisfies), chart: Number(res.satisfies_rate), type: 'arrow' }
+          ]
+        }
       })
     },
     fetchList () { // 获取报修工单列表
@@ -387,7 +387,7 @@ export default {
   },
   created () {
     this.fetchList()
-    // console.log(this.yearList)
+    this.fetchInfo()
   }
 }
 </script>

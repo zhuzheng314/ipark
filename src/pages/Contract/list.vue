@@ -252,65 +252,6 @@ export default {
       },
       barOptions: {},
       defaultValue: {
-        // customer_id: 0,
-        // address: '123',
-        // authentic_ts: '2019-12-24T16:00:00.000Z',
-        // bank: '132',
-        // bank_code: '123',
-        // brand: '123',
-        // business_format: 1,
-        // charge_type: 1,
-        // company_type: 1,
-        // contact: '123',
-        // contacter: '123',
-        // contract_code: '122',
-        // contract_type: 1,
-        // deposit: 1,
-        // email: '123',
-        // en_name: '123',
-        // establish_ts: '2019-12-24T16:00:00.000Z',
-        // fee_end_ts: '2019-12-04T16:00:00.000Z',
-        // fee_start_ts: '2019-12-09T16:00:00.000Z',
-        // follow_business: '122',
-        // invoice_address: '132',
-        // issuance: '123',
-        // manage_area: 1,
-        // month_rent: 1,
-        // nationality: '123',
-        // operate_state: 123,
-        // operate_term: '2019-12-24T16:00:00.000Z',
-        // organiz_code: '123',
-        // pay_cycle: 1,
-        // pay_date: 1,
-        // prepaid: 1,
-        // property_deposit: 1,
-        // property_end_ts: '2019-12-18T16:00:00.000Z',
-        // property_fee_end_ts: '2019-12-17T16:00:00.000Z',
-        // property_fee_start_ts: '2019-11-25T16:00:00.000Z',
-        // property_month_rent: 1,
-        // property_pay_cycle: 1,
-        // property_pay_date: 123,
-        // property_prepaid: 1,
-        // property_sign_ts: '2019-12-10T16:00:00.000Z',
-        // property_start_ts: '2019-12-27T16:00:00.000Z',
-        // property_unit_price: 1,
-        // property_year_rent: 1,
-        // region: '123',
-        // regist_code: '123',
-        // regist_fund: 123,
-        // rent_area: 1,
-        // representative: '123',
-        // room: [489, 491],
-        // scope: 1,
-        // sign_ts: '2019-12-03T16:00:00.000Z',
-        // social_credit_code: '123',
-        // staff_size: 1,
-        // taxpayer_code: '222',
-        // tenancy_divide: 1,
-        // trade: '132',
-        // unit_price: 123,
-        // v: '1.0',
-        // year_rent: 123
       },
       page: {
         page_no: 1,
@@ -425,6 +366,15 @@ export default {
     handlePageClick (num) { // 点击页码时
       this.page.page_no = num
       this.fetchList()
+    },
+    fetchInfo () {
+      let params = {
+        park_id: this.$store.state.form.activePark.domain_id
+      }
+      this.$https.post(this.$urls.contract.info, params).then(res => {
+        if (res.code === 1000) {
+        }
+      })
     }
   },
   created () {
@@ -434,6 +384,7 @@ export default {
         value: (Math.random() * 100)
       })
     }
+    this.fetchInfo()
   },
   mounted () {
     this.dialogHeight = document.documentElement.clientHeight

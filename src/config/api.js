@@ -31,7 +31,8 @@ const api = {
     modify: `/assets.park.modify`, // 修改园区
     remove: `/assets.park.remove`, //  删除园区
     get_info2: `/assets.d_park.get_list`, // 获取园区信息
-    get_info: `/assets.park.get_info` // 获取园区信息
+    get_info: `/assets.park.get_info`, // 获取园区信息
+    get_d_info: `/assets.d_park.get_info` // 获取园区信息
   },
   // 楼宇模块管理
   building: {
@@ -106,7 +107,8 @@ const api = {
     modify: `/assets.company_enter.modify`, // 修改进驻
     remove: `/assets.company_enter.remove`, // 删除进驻
     get_list: `/assets.company_enter.get_list`, // 获取进驻列表
-    get_info: `/assets.company_enter.get_info` // 获取进驻信息
+    get_info: `/assets.company_enter.get_info`, // 获取进驻信息
+    get_leave_info: '/assets.d_company_out.get_info'
   },
 
   /* --------------- 物业服务模块 --------------- */

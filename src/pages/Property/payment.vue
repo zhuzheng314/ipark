@@ -36,7 +36,7 @@
         <Comparison
           :type="item.type"
           :key="item.name"
-          v-for="item in finData"
+          v-for="item in infoData"
           :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
       </div>
 
@@ -129,14 +129,7 @@ export default {
       radio: '收款',
       yearList: [
       ],
-      finData: [
-        { name: '应收(3笔)', value: '10000', chart: '0.3564', type: 'arrow' },
-        { name: '已收', value: 10000, chart: '-0.3564', type: 'arrow' },
-        { name: '未缴(3笔)', value: '10000', chart: '0.3564', type: 'arrow' },
-        { name: '租金', value: 10000, chart: '-0.3564', type: 'arrow' },
-        { name: '物业费', value: 10000, chart: '0.3564', type: 'arrow' },
-        { name: '四表费用', value: 10000, chart: '-0.3564', type: 'arrow' },
-        { name: '其他', value: 10000, chart: '0.3564', type: 'arrow' }
+      infoData: [
       ],
       options: [
         {
@@ -414,15 +407,20 @@ export default {
     },
     fetchInfo () { // 获取费用催缴统计信息
       let params = {
-        id: this.parkId
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.payment.info, params).then((res) => {
-        // console.log(res)
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+        if (res.code === 1000) {
+          this.infoData = [
+            { name: `应收(${res.need_receive_num})`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
+            { name: '已收', value: res.receive, chart: res.receive_rate, type: 'arrow' },
+            { name: `未缴(${res.un_receive_num})`, value: res.un_receive, chart: res.un_receive_rate, type: 'arrow' },
+            { name: '租金', value: res.rent, chart: res.rent_rate, type: 'arrow' },
+            { name: '物业费', value: res.property_fee, chart: res.property_rate, type: 'arrow' },
+            { name: '四表费用', value: res.energy, chart: res.energy_rate, type: 'arrow' },
+            { name: '其他', value: res.other, chart: res.other_rate, type: 'arrow' }
+          ]
+        }
       })
     },
     fetchList () { // 获取费用催缴列表
@@ -466,7 +464,7 @@ export default {
   },
   created () {
     this.fetchList()
-    // console.log(this.yearList)
+    this.fetchInfo()
   }
 }
 </script>
