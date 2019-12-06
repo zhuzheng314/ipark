@@ -17,7 +17,6 @@
         </el-select>
         <el-select
         size="small"
-        multiple
         style="width: 180px; margin-right: 15px"
         v-model="value2"
         placeholder="审批状态">
@@ -51,7 +50,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          @click="handleAddContract"
+          @click="handleAdd"
         >新增</el-button>
       </div>
     </el-card>
@@ -66,6 +65,10 @@
     <el-card>
       <GTable
         @row-click="tenantsState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.applyList"
         :tableData="tableData">
       </GTable>
@@ -73,7 +76,7 @@
 
     <el-dialog
       title="新建合同"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="800px">
       <div>
         <ParkForm :formList="$formsLabels.applyForm" :itemList="[]"></ParkForm>
@@ -84,7 +87,7 @@
       <el-drawer
       title="租客详细信息"
       custom-class="drawer-r"
-      :visible.sync="tenantsInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="tenantsInfo_header">
@@ -123,16 +126,16 @@ export default {
       options1: [ ],
       options2: [
         {
-          value: '选项1',
+          value: 1,
           label: '未审批'
         }, {
-          value: '选项2',
+          value: 2,
           label: '审批中'
         }, {
-          value: '选项3',
+          value: 3,
           label: '已通过'
         }, {
-          value: '选项4',
+          value: 4,
           label: '未通过'
         }
       ],
@@ -237,15 +240,36 @@ export default {
             { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' }
           ]
         }
+      },
+      defaultValue: {
+        contact: '15895642356',
+        contacter: '金',
+        create_ts: '2019-12-30T16:00:00.000Z',
+        demand_area: 1,
+        demand_ts: '2019-12-30T16:00:00.000Z',
+        email: '',
+        info_source: 0,
+        memo: '',
+        name: '客户丙',
+        receiver: '金',
+        room: [[17, 21, 23]],
+        state: 0,
+        status: 0,
+        work_station: 2
+      },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
     }
   },
   methods: {
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
     },
     tenantsState () {
-      this.tenantsInfoState = true
+      this.InfoState = true
     },
     handleClose () { },
     open (i) {
@@ -346,6 +370,75 @@ export default {
         let data = res
         console.log(data)
       })
+    },
+    fetchAdd (data) { // 添加进驻
+      let params = {
+        ...data
+      }
+      this.$https.post(this.$urls.enter.add, params)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
+    },
+    fetchRemove (id) { // 删除进驻
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.enter.remove, params).then((res) => {
+        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
+      })
+    },
+    fetchModify (id) { // 修改进驻
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.enter.modify, params).then((res) => {
+        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+        }
+      })
+    },
+    fetchList () { // 获取进驻列表
+      let params = {
+        ...this.page,
+        park_id: this.$store.state.form.activePark.domain_id
+      }
+      this.$https.post(this.$urls.enter.get_list, params).then((res) => {
+        // console.log(res)
+        this.page.total = res.total
+        this.tableData = res.list
+      })
+    },
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取进驻信息
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.enter.get_info, params).then((res) => {
+        // console.log(res);
+        let data = res
+      })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
 
   },
@@ -362,6 +455,7 @@ export default {
     }
     this.stackedAreaOptions = this.stackedAreaChart(stackedAreaData)
     this.fetchInfo()
+    this.fetchList()
   }
 }
 </script>

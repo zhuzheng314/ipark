@@ -91,12 +91,12 @@ const api = {
   /* --------------- 企业进退驻管理模块 --------------- */
   // 进驻管理
   enter: {
-    info: `assets.d_enter.get_info`, // 获取进驻管理统计信息
-    add: `/assets.enter.add`, // 添加进驻
-    modify: `/assets.enter.modify`, // 修改进驻
-    remove: `/assets.enter.remove`, // 删除进驻
-    get_list: `/assets.enter.get_list`, // 获取进驻列表
-    get_info: `/assets.enter.get_info` // 获取进驻信息
+    info: `assets.d_company_enter.get_info`, // 获取进驻管理统计信息
+    add: `/assets.company_enter.add`, // 添加进驻
+    modify: `/assets.company_enter.modify`, // 修改进驻
+    remove: `/assets.company_enter.remove`, // 删除进驻
+    get_list: `/assets.company_enter.get_list`, // 获取进驻列表
+    get_info: `/assets.company_enter.get_info` // 获取进驻信息
   },
 
   /* --------------- 物业服务模块 --------------- */

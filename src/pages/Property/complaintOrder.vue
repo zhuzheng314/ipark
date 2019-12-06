@@ -73,6 +73,22 @@
         ></ParkForm>
       </div>
     </el-dialog>
+    <el-dialog
+      title="修改投诉工单"
+      :visible.sync="modifyVisible"
+      width="600px"
+      :before-close="handleClose">
+      <div>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        :formList="$formsLabels.complaintForm"
+        v-if="addVisible"
+        :options="$store.getters.complaintListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
 <!--      工单详情-->
       <el-drawer
       title="工单详情"
@@ -270,7 +286,6 @@ export default {
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
-    handleClose () { },
     open (i) {
       if (i === '编辑') {
         // this.modifyShow = true
@@ -284,7 +299,7 @@ export default {
       let params = {
         ...data
       }
-      params.domain_id = params.domain_id[0]
+      // params.domain_id = params.domain_id[0]
       this.$https.post(this.$urls.complaint.add, params)
         .then(res => {
           if (res.code === 1000) {

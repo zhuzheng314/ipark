@@ -69,6 +69,21 @@
         ></ParkForm>
       </div>
     </el-dialog>
+    <el-dialog
+      title="修改维修工单"
+      :visible.sync="modifyVisible"
+      width="600px"
+      :before-close="handleClose">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        :formList="$formsLabels.repairForm"
+        :itemList="[]"
+        :options="$store.getters.repairListOptions"
+        :defaultValue="{}"
+        ></ParkForm>
+      </div>
+    </el-dialog>
 <!--      工单详情-->
       <el-drawer
       title="工单详情"
@@ -126,16 +141,17 @@ export default {
           value: 4,
           label: '投诉'
         }],
-      options2: [{
-        value: 0,
-        label: '全部'
-      }, {
-        value: 1,
-        label: '已解决'
-      }, {
-        value: 2,
-        label: '待解决'
-      }
+      options2: [
+        {
+          value: 0,
+          label: '全部'
+        }, {
+          value: 1,
+          label: '已解决'
+        }, {
+          value: 2,
+          label: '待解决'
+        }
       ],
       value1: '',
       value2: '',
@@ -188,6 +204,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       workOrderInfo_header: {
         title: '维修工单',
         button: [
@@ -233,13 +250,13 @@ export default {
         { name: '满意度', value: '134553', chart: '0.99', type: 'arrow' }
       ],
       defaultValue: {
-        attached: { upload: [{ name: 'hotSearchBox.png', url: '1575471117333/d3d90bd06b6535541c17e138f8cdc838.png' }] },
-        contact: 13333333333,
-        customer: '金',
-        describe: '..',
-        domain_id: [3],
-        originator: 10,
-        reserve_ts: '2019-12-11T16:00:00.000Z'
+        // attached: { upload: [{ name: 'hotSearchBox.png', url: '1575471117333/d3d90bd06b6535541c17e138f8cdc838.png' }] },
+        // contact: 13333333333,
+        // customer: '金',
+        // describe: '..',
+        // domain_id: [3],
+        // originator: 10,
+        // reserve_ts: '2019-12-11T16:00:00.000Z'
       },
       page: {
         page_no: 1,
@@ -260,8 +277,17 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        // this.fetchModify(this.id)
+        let params = {
+          repair_code: this.id
+        }
+        this.$https.post(this.$urls.repair.get_info, params).then(res => {
+          if (res.code === 1000) {
+            let data = res
+            this.defaultValue = {}
+            // this.defaultValue = res;
+            this.modifyVisible = true
+          }
+        })
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -297,12 +323,18 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改报修工单
+    fetchModify (data) { // 修改报修工单
       let params = {
-        id: id
+        ...data,
+        repair_code: this.id
       }
       this.$https.post(this.$urls.repair.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
       })
     },
     fetchInfo () { // 获取报修工单统计信息

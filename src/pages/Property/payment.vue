@@ -354,15 +354,16 @@ export default {
       let params = {
         ...data
       }
-      params.domain_id = params.domain_id[0]
-      this.$https.post(this.$urls.payment.add, params)
-      if (res.code === 1000) {
-        this.fetchList()
-        this.addVisible = false
-        this.$message.success('添加成功')
-      } else {
-        this.$message.error('添加失败')
-      }
+      // params.domain_id = params.domain_id[0]
+      this.$https.post(this.$urls.payment.add, params).then((res) => {
+        if (res.code === 1000) {
+          this.fetchList()
+          this.addVisible = false
+          this.$message.success('添加成功')
+        } else {
+          this.$message.error('添加失败')
+        }
+      })
     },
     fetchRemove (id) { // 删除费用催缴
       let params = {

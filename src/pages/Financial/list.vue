@@ -128,6 +128,13 @@ export default {
     ElCard,
     ParkForm
   },
+  computed: {
+    defaultOption () {
+      return {
+        contract_code: this.$store.state.form.contractList
+      }
+    }
+  },
   data () {
     return {
       tableData: [],

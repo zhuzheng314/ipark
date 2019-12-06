@@ -85,6 +85,20 @@
         ></ParkForm>
       </div>
     </el-dialog>
+    <el-dialog
+      title="修改客户"
+      :visible.sync="modifyVisible"
+      width="600px">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        :formList="$formsLabels.addCustomerForm"
+        :options="$store.getters.customerListOptions"
+        :defaultValue="defaultValue"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
 <!--  客户详情-->
     <el-drawer
       title="客户详情"
@@ -227,6 +241,7 @@ export default {
         }
       ],
       InfoState: false,
+      modifyVisible: false,
       id: '',
       customerInfo_header: {
         title: '-',
@@ -236,18 +251,8 @@ export default {
             icon: '&#xe62a;'
           },
           {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          // {
-          //   name: '删除',
-          //   icon: '&#xe7d1;',
-          //   function: 'click1'
-          // },
-          {
-            name: '更多',
-            icon: '&#xe86d;',
+            name: '删除',
+            icon: '&#xe7d1;',
             function: 'click1'
           }
         ]
@@ -296,22 +301,23 @@ export default {
           tableData: []
         }
       },
-      defaultValue: {
-        contact: '15895642356',
-        contacter: '金',
-        create_ts: '2019-12-30T16:00:00.000Z',
-        demand_area: 1,
-        demand_ts: '2019-12-30T16:00:00.000Z',
-        email: '',
-        info_source: 0,
-        memo: '',
-        name: '客户丙',
-        receiver: '金',
-        room: [[17, 21, 23]],
-        state: 0,
-        status: 0,
-        work_station: 2
-      },
+      defaultValue: {},
+      // {
+      //   contact: '15895642356',
+      //   contacter: '金',
+      //   create_ts: '2019-12-30T16:00:00.000Z',
+      //   demand_area: 1,
+      //   demand_ts: '2019-12-30T16:00:00.000Z',
+      //   email: '',
+      //   info_source: 0,
+      //   memo: '',
+      //   name: '客户丙',
+      //   receiver: '金',
+      //   room: [[17, 21, 23]],
+      //   state: 0,
+      //   status: 0,
+      //   work_station: 2
+      // },
       page: {
         page_no: 1,
         total: 0,
@@ -341,8 +347,17 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        this.fetchModify(this.id)
+        let params = {
+          id: this.id
+        }
+        this.$https.post(this.$urls.customer.get_info, params).then(res => {
+          if (res.code === 1000) {
+            let data = res
+            this.defaultValue = data
+            // this.defaultValue = res;
+            this.modifyVisible = true
+          }
+        })
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -373,7 +388,6 @@ export default {
         id: id
       }
       this.$https.post(this.$urls.customer.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
         if (res.code === 1000) {
           this.fetchList()
           this.InfoState = false
@@ -383,14 +397,17 @@ export default {
         }
       })
     },
-    fetchModify (id) { // 修改客户
+    fetchModify (data) { // 修改客户
       let params = {
-        id: id
+        ...data,
+        id: this.id
       }
       this.$https.post(this.$urls.customer.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
         if (res.code === 1000) {
-          this.fetchList()
+          this.$message.success('修改成功')
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
         }
       })
     },

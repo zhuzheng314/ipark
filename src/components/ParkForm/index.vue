@@ -95,6 +95,7 @@
                       v-model="form[item.key]"
                       :placeholder="form[item.placeholder]"
                       :filterable="true"
+                      @change="handleChangeEmit(item, form[item.key])"
                     >
                       <el-option
                         v-for="(subItem) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
@@ -113,7 +114,8 @@
                       v-model="form[item.key]"
                       v-if="item.type==='cascader'"
                       style="width: 300px"
-                      :props="{ multiple: true, emitPath: false }"
+                      :props="{ multiple: item.multiple, emitPath: false }"
+                      @change="handleChangeEmit(item, form[item.key])"
                       :options="options && options[item.key] && options[item.key].length ? options[item.key] : item.options"
                     ></el-cascader>
 
@@ -327,6 +329,19 @@ export default {
         }
       })
       return arr
+    },
+    handleChangeEmit (item, value) {
+      const {
+        key,
+        label
+      } = item
+      const obj = {
+        key,
+        label,
+        value,
+        form: this.form
+      }
+      this.$emit('onChange', this._.cloneDeep(obj))
     },
     handleValidate () {
       this.$refs['form'].validate((valid) => {

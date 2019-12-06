@@ -564,6 +564,7 @@ const addCustomerForm = [
       {
         type: 'cascader',
         label: '房源信息',
+        multiple: true, // 是否多选
         key: 'room',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -685,6 +686,7 @@ const addContractForm = [
       {
         type: 'cascader',
         label: '房源信息',
+        multiple: true, // 是否多选
         key: 'room',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -2169,6 +2171,7 @@ const repairForm = [
         type: 'cascader',
         label: '房源信息',
         key: 'domain_id',
+        multiple: false, // 是否多选
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -2251,6 +2254,7 @@ const complaintForm = [
         type: 'cascader',
         label: '房源信息',
         key: 'domain_id',
+        multiple: false, // 是否多选
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -2369,6 +2373,7 @@ const paymentForm = [
         type: 'cascader',
         label: '房源信息',
         key: 'domain_id',
+        multiple: false, // 是否多选
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
@@ -2395,7 +2400,7 @@ const financialForm = [
         options: [
           {
             label: '合同1',
-            value: 'C8B292B6-D7C0-0001-ADF7-18A91E511542'
+            value: 'C8B3454C-2D50-0001-683B-EAD0F000A030'
           }, {
             label: '合同2',
             value: 2
