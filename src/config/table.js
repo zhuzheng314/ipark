@@ -111,58 +111,53 @@ const contractTamplate = [
 // 进驻管理
 const applyList = [
   {
-    prop: 'a',
+    prop: 'park_name',
     label: '所属园区'
   },
   {
-    prop: 'b',
+    prop: 'company_name',
     label: '企业名称'
   },
   {
-    prop: 'c',
+    prop: 'company_type',
     label: '企业类型'
   },
   {
-    prop: 'd',
+    prop: 'regist_fund',
     label: '注册资本'
   },
   {
-    prop: 'e',
+    prop: 'status',
     label: '入驻性质',
     sortable: true
   },
   {
-    prop: 'f',
+    prop: 'area',
     label: '入驻面积',
     sortable: true
   },
   {
-    prop: 'g',
+    prop: 'room_name',
     label: '房间号',
     sortable: true
   },
   {
-    prop: 'e',
+    prop: 'start_ts',
     label: '开始时间',
     sortable: true
   },
   {
-    prop: 'date',
+    prop: 'end_ts',
     label: '结束时间',
     sortable: true
   },
   {
-    prop: 'date',
-    label: '开始时间',
-    sortable: true
-  },
-  {
-    prop: 'person',
+    prop: 'receiver',
     label: '跟进人',
     sortable: true
   },
   {
-    prop: 'h',
+    prop: 'state',
     label: '审批状态',
     sortable: true
   }

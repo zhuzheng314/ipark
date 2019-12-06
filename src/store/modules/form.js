@@ -9,7 +9,12 @@ const form = {
     roomList: [],
     contractList: [],
     parkTreeList: [],
-    customerList: []
+    customerList: [],
+    repairList: [],
+    complaintList: [],
+    paymentList: [],
+    financialList: [],
+    incomeList: []
   },
   getters: {
     parkListOptions: state => {
@@ -113,6 +118,59 @@ const form = {
         return filterList(state.parkTreeList)
       } else {
         return []
+      }
+    },
+    repairListOptions: (state, getters) => {
+      return {
+        pid: state.repairList.length ? state.repairList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        domain_id: getters.parkTreeOptions
+      }
+    },
+    complaintListOptions: (state, getters) => {
+      return {
+        pid: state.complaintList.length ? state.complaintList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        domain_id: getters.parkTreeOptions
+      }
+    },
+    paymentListOptions: (state, getters) => {
+      return {
+        pid: state.paymentList.length ? state.paymentList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        domain_id: getters.parkTreeOptions
+      }
+    },
+    financialListOptions: (state, getters) => {
+      return {
+        pid: state.financialList.length ? state.financialList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
+      }
+    },
+    incomeListOptions: (state, getters) => {
+      return {
+        pid: state.incomeList.length ? state.incomeList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : []
       }
     }
   },

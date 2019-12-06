@@ -7,7 +7,6 @@
       <div slot="header">
 
         <el-select  size="small"
-        multiple
         v-model="value1"
         clearable
         @change="fetchChargeList"
@@ -57,64 +56,12 @@
 
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="financialState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="费用类型">
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="客户名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="缴费日期">
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="金额">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          label="缴费状态">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="合同名称">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="租金">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="物业费">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="水费">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="电费">
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="空调暖通费">
-        </el-table-column>
-        <el-table-column
-          prop="i"
-          label="跟进人">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div> -->
       <GTable
         @row-click="financialState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.incomeList"
         :tableData="tableData">
       </GTable>
@@ -122,17 +69,24 @@
 
     <el-dialog
       title="新建收付款账单"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="600px">
       <div>
-        <ParkForm :formList="$formsLabels.incomeForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        v-if="addVisible"
+        :formList="$formsLabels.incomeForm"
+        :options="$store.getters.incomeListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
     <!--  账单详情-->
     <el-drawer
       title="账单详情"
       custom-class="drawer-r"
-      :visible.sync="financialInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="financialInfo_header">
@@ -208,12 +162,7 @@ export default {
       value1: '',
       value2: '',
       value3: '',
-      page: {
-        page_no: 1,
-        total: 0,
-        page_size: 10
-      },
-      addContractVisible: false,
+      addVisible: false,
       tamplateFormList: [
         {
           type: 'select',
@@ -261,18 +210,18 @@ export default {
           ]
         }
       ],
-      financialInfoState: false,
+      InfoState: false,
+      id: '',
       financialInfo_header: {
-        title: '付款方：张三丰',
+        title: '付款方：-',
         button: [
           {
-            name: '张三丰',
-            icon: '&#xe607;',
-            function: 'click1'
+            name: '编辑',
+            icon: '&#xe62a;'
           },
           {
-            name: '打印',
-            icon: '&#xe617;',
+            name: '删除',
+            icon: '&#xe7d1;',
             function: 'click1'
           }
         ]
@@ -339,39 +288,65 @@ export default {
           ],
           tableData: []
         }
+      },
+      defaultValue: {},
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
 
     }
   },
   methods: {
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
     },
     financialState (row) {
-      this.financialInfoState = true
-      this.fetchChargeGetInfo(row.customer_id)
+      this.id = row.id
+      this.fetchGetInfo(this.id)
+      this.InfoState = true
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
-    },
-    fetchChargeAdd () { // 添加财务收入
-      let params = {
-        id: this.parkId
+      if (i === '编辑') {
+        // this.modifyShow = true
+        // this.fetchModify(this.id)
       }
-      this.$https.post(this.$urls.charge.add, params).then((res) => {
-
-      })
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
-    fetchChargeRemove (id) { // 删除财务收入
+    fetchAdd (data) { // 添加财务收入
+      let params = {
+        ...data
+      }
+      this.$https.post(this.$urls.charge.add, params)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
+    },
+    fetchRemove (id) { // 删除财务收入
       let params = {
         id: id
       }
       this.$https.post(this.$urls.charge.remove, params).then((res) => {
-        this.$message(`${res.msg}`)
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
       })
     },
-    fetchChargeModify (id) { // 修改财务收入
+    fetchModify (id) { // 修改财务收入
       let params = {
         id: id
       }
@@ -379,7 +354,7 @@ export default {
         this.$message(`${res.msg}`)
       })
     },
-    fetchChargeInfo () { // 获取财务收入统计信息
+    fetchInfo () { // 获取财务收入统计信息
       let params = {
         id: this.parkId
       }
@@ -393,24 +368,25 @@ export default {
         })
       })
     },
-    fetchChargeList () { // 获取财务收入列表
+    fetchList () { // 获取财务收入列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
-        ...this.page
+        ...this.page,
+        state: this.value1,
+        like: this.value2,
+        date: this.value3
       }
-      if (this.value1.length) params.state = this.value1
-      if (this.value2) params.like = this.value2
-      if (this.value3 && this.value3.length) params.date = this.value3
-      console.log(params)
+      // console.log(params)
 
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
+        this.page.total = res.total
         this.tableData = res.list
       })
     },
-    fetchChargeGetInfo (id) { // 获取财务收入信息
+    fetchGetInfo (id) { // 获取财务收入信息
       let params = {
-        customer_id: id
+        id: id
       }
       // this.$message(`${id}`)
       this.$https.post(this.$urls.charge.get_info, params).then((res) => {
@@ -419,8 +395,8 @@ export default {
     }
   },
   created () {
-    this.fetchChargeInfo()
-    this.fetchChargeList()
+    this.fetchInfo()
+    this.fetchList()
     // console.log(this.yearList)
   }
 }

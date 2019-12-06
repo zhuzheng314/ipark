@@ -38,6 +38,10 @@
     <el-card>
       <GTable
         @row-click="contractState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.contractList"
         :tableData="tableData">
       </GTable>
@@ -55,9 +59,24 @@
         @onSubmit="fetchAddContract"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
-        :default-value="{
-          room: [497,491]
-        }"
+        :default-value="{}"
+        :itemList="[]"
+        :defaultValue="defaultValue"
+        ></ParkForm>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="修改合同"
+      top="10px"
+      width="950px"
+      style="overflow-y: scroll"
+      :style="{height: dialogHeight + 'px'}"
+      :visible.sync="modifyVisible">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        :formList="$formsLabels.addContractForm"
+        :options="$store.getters.contractListOptions"
         :itemList="[]"
         :defaultValue="defaultValue"
         ></ParkForm>
@@ -137,12 +156,8 @@ export default {
       ],
       value1: '',
       value2: '',
-      page: {
-        page_no: 1,
-        total: 0,
-        page_size: 10
-      },
       addContractVisible: false,
+      modifyVisible: false,
       addContractFormList: [
         {
           title: '基础信息',
@@ -925,26 +940,16 @@ export default {
         }
       ],
       contractInfoState: false,
+      id: '',
       contractInfo_header: {
         title: '正常执行',
         button: [
           {
-            name: '王晓丹',
-            icon: '&#xe607;',
-            function: 'click1'
+            name: '编辑',
+            icon: '&#xe62a;'
           },
           {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '打印',
-            icon: '&#xe617;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
+            name: '删除',
             icon: '&#xe7d1;',
             function: 'click1'
           }
@@ -1026,7 +1031,7 @@ export default {
       },
       barOptions: {},
       defaultValue: {
-        customer_id: 8,
+        customer_id: 9,
         address: '123',
         authentic_ts: '2019-12-24T16:00:00.000Z',
         bank: '132',
@@ -1063,7 +1068,7 @@ export default {
         property_fee_start_ts: '2019-11-25T16:00:00.000Z',
         property_month_rent: 1,
         property_pay_cycle: 1,
-        property_pay_date: '123',
+        property_pay_date: 123,
         property_prepaid: 1,
         property_sign_ts: '2019-12-10T16:00:00.000Z',
         property_start_ts: '2019-12-27T16:00:00.000Z',
@@ -1074,7 +1079,7 @@ export default {
         regist_fund: 123,
         rent_area: 1,
         representative: '123',
-        rooms: [489, 491],
+        room: [489, 491],
         scope: 1,
         sign_ts: '2019-12-03T16:00:00.000Z',
         social_credit_code: '123',
@@ -1085,6 +1090,11 @@ export default {
         unit_price: 123,
         v: '1.0',
         year_rent: 123
+      },
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
       }
     }
   },
@@ -1093,6 +1103,7 @@ export default {
       this.addContractVisible = true
     },
     contractState (row) {
+      this.id = row.contract_code
       this.contractInfoState = true
       this.contractInfo_header.data = row
       this.contractInfo_body_contract = {
@@ -1114,15 +1125,102 @@ export default {
     },
     handleClose () { },
     open (i) {
-      this.$message('这里是' + i)
+      if (i === '编辑') {
+        let params = {
+          park_id: this.$store.state.form.activePark.domain_id,
+          ...this.page,
+          contract_code: this.id
+        }
+        this.$https.post(this.$urls.contract.get_info, params).then(res => {
+          if (res.code === 1000) {
+            let data = res
+            this.defaultValue = {
+              customer_id: 9,
+              address: '123',
+              authentic_ts: '2019-12-24T16:00:00.000Z',
+              bank: '132',
+              bank_code: '123',
+              brand: '123',
+              business_format: 1,
+              charge_type: 1,
+              company_type: 1,
+              contact: '123',
+              contacter: '123',
+              contract_code: '122',
+              contract_type: 1,
+              deposit: 1,
+              email: '123',
+              en_name: '123',
+              establish_ts: '2019-12-24T16:00:00.000Z',
+              fee_end_ts: '2019-12-04T16:00:00.000Z',
+              fee_start_ts: '2019-12-09T16:00:00.000Z',
+              follow_business: '122',
+              invoice_address: '132',
+              issuance: '123',
+              manage_area: 1,
+              month_rent: 1,
+              nationality: '123',
+              operate_state: 123,
+              operate_term: '2019-12-24T16:00:00.000Z',
+              organiz_code: '123',
+              pay_cycle: 1,
+              pay_date: 1,
+              prepaid: 1,
+              property_deposit: 1,
+              property_end_ts: '2019-12-18T16:00:00.000Z',
+              property_fee_end_ts: '2019-12-17T16:00:00.000Z',
+              property_fee_start_ts: '2019-11-25T16:00:00.000Z',
+              property_month_rent: 1,
+              property_pay_cycle: 1,
+              property_pay_date: '123',
+              property_prepaid: 1,
+              property_sign_ts: '2019-12-10T16:00:00.000Z',
+              property_start_ts: '2019-12-27T16:00:00.000Z',
+              property_unit_price: 1,
+              property_year_rent: 1,
+              region: '123',
+              regist_code: '123',
+              regist_fund: 123,
+              rent_area: 1,
+              representative: '123',
+              room: [489, 491],
+              scope: 1,
+              sign_ts: '2019-12-03T16:00:00.000Z',
+              social_credit_code: '123',
+              staff_size: 1,
+              taxpayer_code: '222',
+              tenancy_divide: 1,
+              trade: '132',
+              unit_price: 123,
+              v: '1.0',
+              year_rent: 123
+            }
+            // this.defaultValue = res;
+            this.modifyVisible = true
+          }
+        })
+        // this.fetchModify(this.id)
+      }
+      if (i === '删除') {
+        this.fetchRemove(this.id)
+      }
     },
-    fetchAddContract (data) {
-      let params = { ...data }
-      params.room = [489]
-      params.rooms = [489]
-      params.customer_id = 10
-      console.log(data)
-      this.$https.post(this.$urls.contract.add, params)
+    fetchAddContract (data) { // 新增合同
+      let params = {
+        ...data
+      }
+      params.room = data.room
+      params.rooms = data.room
+      params.customer_id = 9
+      this.$https.post(this.$urls.contract.add, params).then(res => {
+        if (res.code === 1000) {
+          this.fetchList()
+          this.addContractVisible = false
+          this.$message.success('新增成功')
+        } else {
+          this.$message.error('新增失败')
+        }
+      })
     },
     fetchList () { // 获取合同列表
       let params = {
@@ -1131,8 +1229,41 @@ export default {
       }
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
         console.log(res)
+        // this.page.total = res.list.length
         this.tableData = res.list
       })
+    },
+    fetchRemove (id) { // 删除合同
+      let params = {
+        contract_code: id
+      }
+      this.$https.post(this.$urls.contract.remove, params).then((res) => {
+        if (res.code === 1000) {
+          this.fetchList()
+          this.contractInfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
+      })
+    },
+    fetchModify (data) { // 修改合同
+      let params = {
+        ...data
+      }
+      params.customer_id = 9
+      this.$https.post(this.$urls.contract.modify, params).then(res => {
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
+      })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {

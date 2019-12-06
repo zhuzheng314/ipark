@@ -4,10 +4,10 @@
       <div>
 
         <el-select  size="small"
-                    multiple
-                    style="width: 180px; margin-right: 15px"
-                    v-model="value1"
-                    placeholder="所属园区">
+        style="width: 180px; margin-right: 15px"
+        v-model="value1"
+        clearable
+        placeholder="所属园区">
           <el-option
             v-for="item in options1"
             :key="item.value"
@@ -63,84 +63,12 @@
       </div>
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="tenantsState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="所属园区"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="b"
-          label="企业名称"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="企业类型"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="d"
-          label="注册资本"
-          >
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="入驻性质"
-          sortable
-          >
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          label="入驻面积"
-          sortable
-          >
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="房间号"
-          sortable
-          >
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="开始时间"
-          sortable
-          >
-        </el-table-column>
-        <el-table-column
-          prop="date"
-          label="结束时间"
-          sortable
-          >
-        </el-table-column>
-        <el-table-column
-          prop="person"
-          label="跟进人"
-          sortable
-          >
-        </el-table-column>
-        <el-table-column
-          prop="h"
-          label="审批状态"
-          sortable
-          >
-          <template slot-scope="scope">
-            <el-tag size="mini">{{scope.row.h}}</el-tag>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination
-          layout="prev, pager, next"
-          :total="1000">
-        </el-pagination>
-      </div> -->
       <GTable
         @row-click="tenantsState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        :page="page"
         :tableLabel="$tableLabels.leaveList"
         :tableData="tableData">
       </GTable>
@@ -148,10 +76,15 @@
 
     <el-dialog
       title="新建合同"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="800px">
       <div>
-        <ParkForm :formList="$formsLabels.leaveForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        :formList="$formsLabels.leaveForm"
+        :options="$store.getters.leaveListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
 
