@@ -2724,24 +2724,6 @@ const incomeForm = [
         ]
       },
       {
-        type: 'select',
-        label: '币种',
-        key: 'tamplate',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          {
-            label: '美食',
-            value: 's1'
-          }, {
-            label: '美食美食',
-            value: 's2'
-          }
-        ]
-      },
-      {
         type: 'date-picker-range',
         label: '计费周期',
         key: 'fr',
