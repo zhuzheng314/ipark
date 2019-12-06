@@ -50,7 +50,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          @click="handleAdd"
+          @click="handleAddContract"
         >新增</el-button>
       </div>
     </el-card>
@@ -75,11 +75,33 @@
     </el-card>
 
     <el-dialog
-      title="新建合同"
+      title="新建进驻"
       :visible.sync="addVisible"
       width="800px">
       <div>
-        <ParkForm :formList="$formsLabels.applyForm" :itemList="[]"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        v-if="addVisible"
+        :formList="$formsLabels.applyForm"
+        :options="$store.getters.applyListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="修改进驻"
+      :visible.sync="modifyVisible"
+      width="800px">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
+        :formList="$formsLabels.applyForm"
+        :options="$store.getters.applyListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
 
@@ -144,24 +166,15 @@ export default {
       value2: '',
       value3: '',
       stackedAreaOptions: {},
-      addContractVisible: false,
-      tenantsInfoState: false,
+      addVisible: false,
+      InfoState: false,
+      modifyVisible: false,
       tenantsInfo_header: {
         title: '杭州拓源科技有限公司',
         button: [
           {
             name: '编辑',
             icon: '&#xe62a;',
-            function: 'click1'
-          },
-          {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
-          },
-          {
-            name: '备注',
-            icon: '&#xe7d1;',
             function: 'click1'
           },
           {
@@ -241,22 +254,7 @@ export default {
           ]
         }
       },
-      defaultValue: {
-        contact: '15895642356',
-        contacter: '金',
-        create_ts: '2019-12-30T16:00:00.000Z',
-        demand_area: 1,
-        demand_ts: '2019-12-30T16:00:00.000Z',
-        email: '',
-        info_source: 0,
-        memo: '',
-        name: '客户丙',
-        receiver: '金',
-        room: [[17, 21, 23]],
-        state: 0,
-        status: 0,
-        work_station: 2
-      },
+      defaultValue: {},
       page: {
         page_no: 1,
         total: 0,
@@ -268,7 +266,9 @@ export default {
     handleAddContract () {
       this.addVisible = true
     },
-    tenantsState () {
+    tenantsState (data) {
+      this.id = data.id
+      this.fetchGetInfo(this.id)
       this.InfoState = true
     },
     handleClose () { },

@@ -31,55 +31,53 @@
       >新建合同模板</el-button>
     </el-card>
     <el-card>
-<!--      <el-table-->
-<!--        :data="tableData"-->
-<!--        style="width: 100%">-->
-<!--        <el-table-column-->
-<!--          prop="a"-->
-<!--          label="模板编号">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="b"-->
-<!--          label="模板名称">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="c"-->
-<!--          label="模板类型">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="d"-->
-<!--          label="状态">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="e"-->
-<!--          label="模板描述">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="e"-->
-<!--          label="操作">-->
-<!--          <template>-->
-<!--            <el-button type="text">下载</el-button>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-<!--      <div style="width: 100%; text-align: right; padding-top: 20px">-->
-<!--        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>-->
-<!--      </div>-->
-
       <GTable
-        @row-click="contractState"
+        @current-change="handlePageClick"
+        @prev-click="handlePageClick"
+        @next-click="handlePageClick"
+        @cell-click="download"
+        :page="page"
         :tableLabel="$tableLabels.contractTamplate"
         :tableData="tableData">
+        <template #renderButton="data">
+          <span>
+            <el-button type="text" @click="fetchGetBack(data.slotName)">修改</el-button>
+            <el-button type="text" @click="download(data.slotName)">下载</el-button>
+            <el-button type="text" @click="fetchRemove(data.slotName)">删除</el-button>
+          </span>
+        </template>
       </GTable>
     </el-card>
-
     <el-dialog
       title="新建合同模板"
-      :visible.sync="addContractVisible"
+      :visible.sync="addVisible"
       width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="[]" :itemList="$formsLabels.tamplateForm"></ParkForm>
+        <ParkForm
+        @onSubmit="fetchAdd"
+        v-if="addVisible"
+        :formList="$formsLabels.tamplateForm"
+        :options="$store.getters.tamplateListOptions"
+        :defaultValue="{}"
+        :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="修改合同模板"
+      :visible.sync="modifyVisible"
+      width="600px"
+      :before-close="handleClose">
+      <div>
+        <ParkForm
+        @onSubmit="fetchModify"
+        v-if="modifyVisible"
+        :formList="$formsLabels.tamplateForm"
+        :options="$store.getters.tamplateListOptions"
+        :defaultValue="defaultValue"
+        :itemList="[]"
+        ></ParkForm>
       </div>
     </el-dialog>
   </div>
@@ -87,11 +85,9 @@
 
 <script>
 import ParkForm from '@/components/ParkForm/index.vue'
-import ElCard from 'element-ui/packages/card/src/main'
 export default {
   name: 'index',
   components: {
-    ElCard,
     ParkForm
   },
   data () {
@@ -100,107 +96,144 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options: [{
-        label: '房屋租赁',
-        value: 's1'
-      }, {
-        label: '物业保洁',
-        value: 's2'
-      }, {
-        label: '花木租赁',
-        value: 's3'
-      }, {
-        label: '场地租赁',
-        value: 's4'
-      }, {
-        label: '设备租赁',
-        value: 's5'
-      }, {
-        label: '其他',
-        value: 's6'
-      }],
+      options: [
+        {
+          label: '房屋租赁',
+          value: 's1'
+        }, {
+          label: '物业保洁',
+          value: 's2'
+        }, {
+          label: '花木租赁',
+          value: 's3'
+        }, {
+          label: '场地租赁',
+          value: 's4'
+        }, {
+          label: '设备租赁',
+          value: 's5'
+        }, {
+          label: '其他',
+          value: 's6'
+        }
+      ],
       value1: '',
       value2: '',
-      addContractVisible: false
-      // tamplateFormList: [
-      //   {
-      //     type: 'select',
-      //     label: '模板类型',
-      //     key: 'tamplate',
-      //     placeholder: '请输入',
-      //     rule: [
-      //       { required: true, message: '请选择', trigger: 'change' }
-      //     ],
-      //     options: [
-      //       {
-      //         label: '房屋租赁',
-      //         value: 's1'
-      //       }, {
-      //         label: '物业保洁',
-      //         value: 's2'
-      //       }, {
-      //         label: '花木租赁',
-      //         value: 's3'
-      //       }, {
-      //         label: '场地租赁',
-      //         value: 's4'
-      //       }, {
-      //         label: '设备租赁',
-      //         value: 's5'
-      //       }, {
-      //         label: '其他',
-      //         value: 's6'
-      //       }
-      //     ]
-      //   }, {
-      //     type: 'input',
-      //     label: '模板名称',
-      //     key: 'i',
-      //     placeholder: '请输入',
-      //     rule: [
-      //       { required: true, message: '请输入模板名称', trigger: 'blur' },
-      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //     ]
-      //   }, {
-      //     type: 'textarea',
-      //     label: '模板描述',
-      //     key: 'i11',
-      //     placeholder: '请输入模板描述',
-      //     rule: [
-      //       { required: true, message: '请输入模板描述', trigger: 'blur' },
-      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //     ]
-      //   }, {
-      //     type: 'upload',
-      //     label: '模板描述',
-      //     key: 'i11',
-      //     placeholder: '请输入模板描述',
-      //     rule: [
-      //       { required: true, message: '请输入模板描述', trigger: 'blur' },
-      //       { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-      //     ]
-      //   }
-      // ]
+      addVisible: false,
+      modifyVisible: false,
+      defaultValue: {},
+      page: {
+        page_no: 1,
+        total: 0,
+        page_size: 5
+      },
+      id: ''
     }
   },
   methods: {
+    download (row) {
+      if (row.attached) {
+        let url = this.$urls.fileUrl + row.attached.upload[0].url
+        window.open(url, '_blank')
+      } else {
+        this.$message.error('暂无可下载文件')
+      }
+    },
     handleAddContract () {
-      this.addContractVisible = true
+      this.addVisible = true
+    },
+    fetchAdd (data) { // 添加合同模板
+      let params = {
+        ...data
+      }
+      this.$https.post(this.$urls.template.add, params)
+        .then(res => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.addVisible = false
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
+        })
+    },
+    fetchRemove (id) { // 删除合同模板
+      let params = {
+        id: id
+      }
+      this.$https.post(this.$urls.customer.remove, params).then((res) => {
+        if (res.code === 1000) {
+          this.fetchList()
+          this.InfoState = false
+          this.$message.success('删除成功')
+        } else {
+          this.$message.error('删除失败')
+        }
+      })
+    },
+    fetchModify (data) { // 修改合同模板
+      let params = {
+        ...data,
+        id: this.id
+      }
+      this.$https.post(this.$urls.template.modify, params).then((res) => {
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
+      })
+    },
+    fetchList () { // 获取合同模板列表
+      let params = {
+        ...this.page
+        // park_id: this.$store.state.form.activePark.domain_id,
+      }
+      this.$https.post(this.$urls.template.get_list, params).then((res) => {
+        this.page.total = res.total
+        this.tableData = res.list
+      })
+    },
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetBack (data) {
+      this.id = data.id
+      let params = {
+        id: this.id
+      }
+      this.$https.post(this.$urls.template.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-      this.tableData.push(
-        {
-          a: 'xxx-xx-' + item,
-          b: '出租合同模板' + item,
-          c: '销售类' + item,
-          d: item % 2 === 0 ? '启用' : '停用',
-          e: '这是销售类合同的描述xxx'
-        }
-      )
-    })
-    // console.log(this.yearList)
+    this.fetchList()
+    // [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
+    //   this.tableData.push(
+    //     {
+    //       a: 'xxx-xx-' + item,
+    //       b: '出租合同模板' + item,
+    //       c: '销售类' + item,
+    //       d: item % 2 === 0 ? '启用' : '停用',
+    //       // e: '这是销售类合同的描述xxx'
+    //     }
+    //   )
+    // })
   }
 }
 </script>

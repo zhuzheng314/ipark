@@ -75,7 +75,8 @@ const api = {
     modify: `/assets.customer.modify`, // 修改客户
     remove: `/assets.customer.remove`, // 删除客户
     get_list: `/assets.customer.get_list`, // 获取客户列表
-    get_info: `/assets.customer.get_info` // 获取客户信息
+    get_info: `/assets.customer.get_info`, // 获取客户信息
+    get_back: `/assets.customer.get_back`
   },
   /* --------------- 合同管理模块 --------------- */
   // 合同列表
@@ -86,7 +87,16 @@ const api = {
     remove: `/assets.contract.remove`, // 删除合同
     get_list: `/assets.contract.get_list`, // 获取合同列表
     get_info: `/assets.contract.get_info`, // 获取合同信息
-    get_list_by_room: `/assets.contract.get_list_by_room` // 通过房间id获取合同列表
+    get_list_by_room: `/assets.contract.get_list_by_room`, // 通过房间id获取合同列表
+    get_back: `/assets.contract.get_back`
+  },
+  // 合同模板
+  template: {
+    add: `/assets.contract_template.add`, // 添加合同模板
+    modify: `/assets.contract_template.modify`, // 修改合同模板
+    remove: `/assets.contract_template.remove`, // 删除合同模板
+    get_list: `/assets.contract_template.get_list`, // 获取合同模板列表
+    get_back: `/assets.contract_template.get_back`
   },
   /* --------------- 企业进退驻管理模块 --------------- */
   // 进驻管理
@@ -113,7 +123,8 @@ const api = {
     modify: `/assets.repair.modify`, // 修改报修工单
     remove: `/assets.repair.remove`, // 删除报修工单
     get_list: `/assets.repair.get_list`, // 获取报修工单列表
-    get_info: `/assets.repair.get_info` // 获取报修工单信息
+    get_info: `/assets.repair.get_info`, // 获取报修工单信息
+    get_back: `/assets.repair.get_back`
   },
   // 投诉管理模块
   complaint: {
@@ -122,7 +133,8 @@ const api = {
     modify: `/assets.complaint.modify`, // 修改投诉工单
     remove: `/assets.complaint.remove`, // 删除投诉工单
     get_list: `/assets.complaint.get_list`, // 获取投诉工单列表
-    get_info: `/assets.complaint.get_info` // 获取投诉工单信息
+    get_info: `/assets.complaint.get_info`, // 获取投诉工单信息
+    get_back: `/assets.complaint.get_back`
   },
   // 费用催缴模块
   payment: {
@@ -131,7 +143,8 @@ const api = {
     modify: `/assets.payment.modify`, // 修改催缴
     remove: `/assets.payment.remove`, // 删除催缴
     get_list: `/assets.payment.get_list`, // 获取催缴列表
-    get_info: `/assets.payment.get_info` // 获取催缴信息
+    get_info: `/assets.payment.get_info`, // 获取催缴信息
+    get_back: `/assets.payment.get_back`
   },
   /* --------------- 财务管理模块 --------------- */
   // 费用列支模块
@@ -141,7 +154,8 @@ const api = {
     modify: `/assets.cost.modify`, // 修改费用列支
     remove: `/assets.cost.remove`, // 删除费用列支
     get_list: `/assets.cost.get_list`, // 获取费用列支列表
-    get_info: `/assets.cost.get_info` // 获取费用列支信息
+    get_info: `/assets.cost.get_info`, // 获取费用列支信息
+    get_back: `/assets.cost.get_back`
   },
   // 财务收入模块
   charge: {
@@ -150,7 +164,8 @@ const api = {
     modify: `/assets.charge.modify`, // 修改财务收入
     remove: `/assets.charge.remove`, // 删除财务收入
     get_list: `/assets.charge.get_list`, // 获取财务收入列表
-    get_info: `/assets.charge.get_info` // 获取财务收入信息
+    get_info: `/assets.charge.get_info`, // 获取财务收入信息
+    get_back: `/assets.charge.get_back`
   },
   /* --------------- 字典模块管理 --------------- */
   // 字典类型模块

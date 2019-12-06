@@ -17,6 +17,7 @@ const form = {
     incomeList: []
   },
   getters: {
+    // 园区
     parkListOptions: state => {
       return {
         pid: state.parkList.length ? state.parkList.map(x => {
@@ -27,6 +28,7 @@ const form = {
         }) : []
       }
     },
+    // 楼宇
     buildListOptions: state => {
       return {
         pid: state.buildList.length ? state.buildList.map(x => {
@@ -37,6 +39,7 @@ const form = {
         }) : []
       }
     },
+    // 房间
     roomFloor: state => {
       let arr = []
       state.roomList.forEach(x => {
@@ -73,6 +76,7 @@ const form = {
       })
       return arr
     },
+    // 园区树
     parkTreeOptions: state => {
       const filterList = (list) => {
         return list.map(item => {
@@ -104,6 +108,7 @@ const form = {
         return []
       }
     },
+    // 合同
     contractListOptions: (state, getters) => {
       return {
         room: getters.parkTreeOptions,
@@ -111,22 +116,33 @@ const form = {
         customer_id: state.customerList
       }
     },
+    // 进驻
+    applyListOptions: (state, getters) => {
+      return {
+        company_id: state.customerList
+      }
+    },
+    // 客户
     customerListOptions: (state, getters) => {
       return {
         room: getters.parkTreeOptions
       }
     },
+    // 报修
     repairListOptions: (state, getters) => {
       return {
         domain_id: getters.parkTreeOptions,
         customer_id: state.customerList
       }
     },
+    // 投诉
     complaintListOptions: (state, getters) => {
       return {
-        domain_id: getters.parkTreeOptions
+        domain_id: getters.parkTreeOptions,
+        customer_id: state.customerList
       }
     },
+    // 催缴
     paymentListOptions: (state, getters) => {
       return {
         customer_id: state.customerList,
@@ -134,11 +150,14 @@ const form = {
         contract_code: state.contractList
       }
     },
+    // 列支
     financialListOptions: (state, getters) => {
       return {
-        contract_code: state.contractList
+        contract_code: state.contractList,
+        customer_id: state.customerList
       }
     },
+    // 收入
     incomeListOptions: (state, getters) => {
       return {
         contract_code: state.contractList
