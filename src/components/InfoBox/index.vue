@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="infoBox-value">
-      <span>{{infoData.value.value | NumFormat }}{{infoData.value.unit}}</span>
+      <span><countTo :startVal='0' :endVal='data.value.value' :duration='1000'></countTo>{{infoData.value.unit}}</span>
       <div v-if="type==='num'" class="infoBox-chart" :class="infoData.value.chart<0 ? 'down' : 'up'">
         <span>{{infoData.value.chart | Percent}}</span>
         <i v-if="infoData.value.chart<0" class="el-icon-bottom"></i>
@@ -20,7 +20,7 @@
         type="circle"
         :width="28"
         :stroke-width="3"
-        :percentage="infoData.value.chart*100"
+        :percentage="Number(infoData.value.chart)*100"
         :show-text=false
         ></el-progress>
       </div>
@@ -38,10 +38,10 @@
 </template>
 
 <script>
+import countTo from 'vue-count-to'
 export default {
   name: 'InfoBox',
-  components: {
-  },
+  components: { countTo },
   props: [
     'type', 'data'
   ],

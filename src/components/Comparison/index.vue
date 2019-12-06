@@ -1,7 +1,9 @@
 <template>
   <div class="comparison">
     <div class="name">{{data.name}}</div>
-    <div class="value">{{data.value ? data.value : '-'}}</div>
+    <div class="value">
+      <countTo :startVal='0' :endVal='Number(data.value)' :duration='1000'></countTo>
+    </div>
     <div v-if="type=='arrow'" class="chart" :class="data.chart<0 ? 'down' : 'up'">
       <span>{{data.chart | Percent(0)}}</span>
       <i v-if="data.chart<0" class="el-icon-bottom"></i>
@@ -12,7 +14,7 @@
         type="circle"
         :width="28"
         :stroke-width="3"
-        :percentage="data.chart*100"
+        :percentage="Number(data.chart)*100"
         :show-text=false
         >
       </el-progress>
@@ -21,10 +23,10 @@
 </template>
 
 <script>
+import countTo from 'vue-count-to'
 export default {
   name: 'comparison',
-  components: {
-  },
+  components: { countTo },
   props: [
     'type', 'data'
   ],

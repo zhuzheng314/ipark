@@ -18,7 +18,15 @@
 
       <el-card>
         <div>
-          <el-select size="small" style="width: 150px" class="mr-10" multiple v-model="requirement.area.value" placeholder="面积选择" clearable @change="fetchRoomList">
+          <el-select
+            size="small"
+            style="width: 150px"
+            class="mr-10"
+            v-model="requirement.area.value"
+            placeholder="面积选择"
+            @change="(data) => {
+              this.handleSelect(data, 'area')
+            }">
             <el-option
               v-for="item in requirement.area.areaList"
               :key="item.value"
@@ -26,7 +34,12 @@
               :value="item.value">
             </el-option>
           </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.timeLimit.value" placeholder="合同期限" clearable @change="fetchRoomList">
+          <el-select
+            size="small"
+            style="width: 150px"
+            class="mr-10"
+            v-model="requirement.timeLimit.value"
+            placeholder="合同期限">
             <el-option
               v-for="item in requirement.timeLimit.timeLimitList"
               :key="item.value"
@@ -34,22 +47,22 @@
               :value="item.value">
             </el-option>
           </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">
-            <el-option
-              v-for="item in requirement.source.sourceList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">
-            <el-option
-              v-for="item in requirement.empty.emptyList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+<!--          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">-->
+<!--            <el-option-->
+<!--              v-for="item in requirement.source.sourceList"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">-->
+<!--            <el-option-->
+<!--              v-for="item in requirement.empty.emptyList"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
           <el-button
             size="small"
             type="primary"
@@ -74,29 +87,34 @@
 
         <!--      楼宇列表-->
 
-        <div class="list" :key="'list-' + index" v-for="(item, index) in roomFloor">
-          <div class="list-header">
-            <div>{{item.floor}}楼</div>
-            <div>{{item.allArea}}㎡</div>
-          </div>
-          <div class="list-wrap">
-            <div v-for="(subItem, subIndex) in item.children" :key="'listItem' + subIndex" >
-              <div
-                class="list-item"
-                @click="handleRoomClick(subItem)"
-                :style="{
+        <div v-if="roomFloor.length">
+          <div class="list" :key="'list-' + index" v-for="(item, index) in roomFloor">
+            <div class="list-header">
+              <div>{{item.floor}}楼</div>
+              <div>{{item.allArea}}㎡</div>
+            </div>
+            <div class="list-wrap">
+              <div v-for="(subItem, subIndex) in item.children" :key="'listItem' + subIndex" >
+                <div
+                  class="list-item"
+                  @click="handleRoomClick(subItem)"
+                  :style="{
                 width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
                 background: filterRoomColorByState(subItem) }">
-                <div class="text">{{subItem.name}}</div>
-                <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-                <div class="sub-text">2019-11-11到期</div>
-                <div class="status">{{statusList[subItem.state].str}}</div>
+                  <div class="text">{{subItem.name}}</div>
+                  <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
+                  <div class="sub-text">{{subItem.state === 0? '2022-11-11到期':'-' }}</div>
+                  <div class="status">{{statusList[subItem.state].str}}</div>
+                </div>
               </div>
-            </div>
 
+            </div>
+            <div class="clear"></div>
           </div>
-          <div class="clear"></div>
+        </div>
+        <div v-if="!roomFloor.length">
+          <None></None>
         </div>
 
         <!--      房间信息-->
@@ -479,6 +497,10 @@ export default {
     handleRoomClick (room) {
       this.roomInfoState = true
       this.roomInfo = room
+    },
+    handleSelect (data, type) {
+      if (type === 'area') {
+      }
     },
     open (i) {
       if (i === '编辑') {
