@@ -25,7 +25,7 @@
           </div>
         </div>
         <div v-else>
-          <None style="padding-top: 150px"></None>
+          <None style="padding-top: 150px;"></None>
         </div>
 
       </div>
@@ -198,7 +198,7 @@ export default {
     height: 100%;
     display: flex;
     .left{
-      height: 100%;
+      height: 800px;
       margin-right: 10px;
       width: 250px;
 
