@@ -1,11 +1,11 @@
 // console.log(process.env)
 // 空间管理
-const url = 'https://service.iot1234.com'
-const fileUrl = 'http://service.iot1234.com/images/'
-const domin = url + ':2443/'
-// const url = 'http://192.168.0.231'
-// const domin = url + ':3000/'
-// const fileUrl = 'http://192.168.0.231/images/'
+// const url = 'https://service.iot1234.com'
+// const fileUrl = 'http://service.iot1234.com/images/'
+// const domin = url + ':2443/'
+const url = 'http://192.168.0.231'
+const domin = url + ':3000/'
+const fileUrl = 'http://192.168.0.231/images/'
 
 const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
@@ -75,7 +75,8 @@ const api = {
     modify: `/assets.customer.modify`, // 修改客户
     remove: `/assets.customer.remove`, // 删除客户
     get_list: `/assets.customer.get_list`, // 获取客户列表
-    get_info: `/assets.customer.get_info` // 获取客户信息
+    get_info: `/assets.customer.get_info`, // 获取客户信息
+    get_back: `/assets.customer.get_back`
   },
   /* --------------- 合同管理模块 --------------- */
   // 合同列表

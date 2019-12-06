@@ -93,6 +93,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        v-if="modifyVisible"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"
         :defaultValue="defaultValue"
@@ -117,7 +118,7 @@
       </HeaderCard>
       <div class="drawer-body" style="height: 660px;">
         <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
-        <BodyCard type=1 :data="customerInfo_body_2"></BodyCard>
+        <BodyCard type=2 :data="customerInfo_body_2"></BodyCard>
         <BodyCard type=3 :data="customerInfo_body_3"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
           <template #btn>
@@ -274,12 +275,16 @@ export default {
       },
       customerInfo_body_2: {
         title: '关注房源',
-        info: [
-          { name: '所属园区', value: '西港发展中心' },
-          { name: '楼宇/房间号', value: '协力大厦/302' },
-          { name: '房源面积', value: '300㎡' },
-          { name: '房源状态', value: '空置' }
-        ]
+        info: {
+          label: [
+            { prop: 'park_name', label: '所属园区' },
+            { prop: 'building_name', label: '楼宇' },
+            { prop: 'name', label: '房间号' },
+            { prop: 'area', label: '面积' },
+            { prop: 'state', label: '房源状态' }
+          ],
+          tableData: []
+        }
       },
       customerInfo_body_3: {
         title: '备注',
@@ -341,24 +346,14 @@ export default {
         page_size: 999,
         customer_id: this.id
       }).then(res => {
-        console.log(res.list.length)
+        this.customerInfo_body_2.info.tableData = res.list[0].room
         this.customerInfo_body_table.info.tableData = res.list
       })
     },
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        let params = {
-          id: this.id
-        }
-        this.$https.post(this.$urls.customer.get_info, params).then(res => {
-          if (res.code === 1000) {
-            let data = res
-            this.defaultValue = data
-            // this.defaultValue = res;
-            this.modifyVisible = true
-          }
-        })
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -406,6 +401,8 @@ export default {
       this.$https.post(this.$urls.customer.modify, params).then((res) => {
         if (res.code === 1000) {
           this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
           this.modifyVisible = false
         } else {
           this.$message.error('修改失败')
@@ -464,6 +461,20 @@ export default {
           { name: '跟进人', value: data.receiver }
         ]
         this.customerInfo_body_3.info = data.memo
+      })
+    },
+    fetchGetBack () {
+      let params = {
+        id: this.id
+      }
+      this.$https.post(this.$urls.customer.get_back, params).then(res => {
+        this.$https.post(this.$urls.customer.get_back, params).then(res => {
+          if (res.code === 1000) {
+            let data = res
+            this.defaultValue = data
+            this.modifyVisible = true
+          }
+        })
       })
     },
     handlePageClick (num) { // 点击页码时

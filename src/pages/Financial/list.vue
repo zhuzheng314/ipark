@@ -83,7 +83,7 @@
         @onSubmit="fetchAdd"
         v-if="addVisible"
         :formList="$formsLabels.financialForm"
-        :options="$store.getters.financialListOptions"
+        :options="defaultOption"
         :defaultValue="{}"
         :itemList="[]"
         ></ParkForm>
