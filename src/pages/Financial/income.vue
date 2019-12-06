@@ -1,6 +1,5 @@
 <template>
   <div>
-  {{parkId}}
 <!--    <el-card style="width: 100%">-->
 
 <!--    </el-card>-->

@@ -90,7 +90,7 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .infoBox{
-  width: 198px;
+  width: 185px;
   height: 87px;
   position: relative;
   .infoBox-title,.infoBox-value,.infoBox-subtitle{

@@ -17,6 +17,7 @@
         <el-select  size="small"
         v-model="value2"
         clearable
+        style="width: 220px; margin-left: 15px"
         @change="fetchListSearch"
         placeholder="来源渠道">
           <el-option
