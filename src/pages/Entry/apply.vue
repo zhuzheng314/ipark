@@ -368,9 +368,7 @@ export default {
     },
     fetchInfo () { // 获取进驻监控图
       let params = {
-        park_id: this.$store.state.form.activePark.domain_id,
-        page_no: 1,
-        page_size: 999
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.enter.info, params).then((res) => {
         let data = res

@@ -243,6 +243,15 @@ export default {
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
+    fetchInfo () {
+      let params = {
+        park_id: this.$store.state.form.activePark.domain_id
+      }
+      this.$https.post(this.$urls.enter.get_leave_info, params).then((res) => {
+        let data = res
+        console.log(data)
+      })
+    },
     handleClose () { },
     open (i) {
       if (i === '编辑') {
@@ -422,7 +431,7 @@ export default {
     for (let i = 0; i <= 12; i++) {
       stackedAreaData.push(Math.floor(Math.random() * 10))
     }
-
+    this.fetchInfo()
     this.stackedAreaOptions = this.stackedAreaChart(stackedAreaData)
     // console.log(this.yearList)
   }

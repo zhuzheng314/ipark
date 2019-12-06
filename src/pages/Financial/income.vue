@@ -50,7 +50,7 @@
         <Comparison
           :type="item.type"
           :key="item.name"
-          v-for="item in finData"
+          v-for="item in infoData"
           :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
       </div>
 
@@ -153,14 +153,7 @@ export default {
       radio: '收款',
       yearList: [
       ],
-      finData: [
-        { key: 'rent', name: '租金', value: '', chart: '', type: 'arrow' },
-        { key: 'property_fee', name: '物业费', value: '', chart: '', type: 'arrow' },
-        { key: 'water_fee', name: '水费', value: '', chart: '', type: 'arrow' },
-        { key: 'electric_fee', name: '电费', value: '', chart: '', type: 'arrow' },
-        { key: 'gas_fee', name: '燃气', value: '', chart: '', type: 'arrow' },
-        { key: 'heat_fee', name: '空调暖通', value: '', chart: '', type: 'arrow' },
-        { key: 'other_fee', name: '其他', value: '', chart: '', type: 'arrow' }
+      infoData: [
       ],
       stateOptions: [
         {
@@ -379,16 +372,20 @@ export default {
     },
     fetchInfo () { // 获取财务收入统计信息
       let params = {
-        id: this.parkId
+        park_id: this.parkId
       }
       this.$https.post(this.$urls.charge.info, params).then((res) => {
-        // console.log(res)
-        // this.tableData = res.list
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+        if (res.code === 1000) {
+          this.infoData = [
+            { key: 'rent', name: '租金', value: res.rent, chart: res.rent_rate, type: 'arrow' },
+            { key: 'property_fee', name: '物业费', value: res.property_fee, chart: res.property_rate, type: 'arrow' },
+            { key: 'water_fee', name: '水费', value: res.water_fee, chart: res.water_rate, type: 'arrow' },
+            { key: 'electric_fee', name: '电费', value: res.electric_fee, chart: res.electric_rate, type: 'arrow' },
+            { key: 'gas_fee', name: '燃气', value: res.gas_fee, chart: res.gas_rate, type: 'arrow' },
+            { key: 'heat_fee', name: '空调暖通', value: res.heat_fee, chart: res.heat_rate, type: 'arrow' },
+            { key: 'other_fee', name: '其他', value: res.other_fee, chart: res.other_rate, type: 'arrow' }
+          ]
+        }
       })
     },
     fetchList () { // 获取财务收入列表

@@ -31,47 +31,11 @@
         <Comparison
           :type="item.type"
           :key="item.name"
-          v-for="item in finData"
+          v-for="item in infoData"
           :data="item"></Comparison>
       </div>
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="equipmentState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="楼宇名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="房号">
-        </el-table-column>
-        <el-table-column
-          prop="a"
-          label="合同编号">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="设备类型">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          label="状态">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="客户">
-        </el-table-column>
-        <el-table-column
-          prop="t"
-          label="抄录时间">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div> -->
       <GTable
         @row-click="equipmentState"
         :tableLabel="$tableLabels.equipmentList"
@@ -159,12 +123,7 @@ export default {
       equipmentInfo_body1: {},
       equipmentInfo_body2: {},
       equipmentInfo_body3: {},
-      finData: [
-        { name: '总电费', value: '10000', chart: '0.3564', type: 'arrow' },
-        { name: '总水费', value: 10000, chart: '-0.3564', type: 'arrow' },
-        { name: '总燃气费', value: '10000', chart: '0.3564', type: 'arrow' },
-        { name: '总空调暖通费', value: 10000, chart: '-0.3564', type: 'arrow' }
-      ]
+      infoData: []
     }
   },
   methods: {
@@ -237,17 +196,17 @@ export default {
       })
     },
     fetchEquipInfo () { // 获取四表集抄统计信息
-      let params = {
-        id: this.parkId
-      }
-      this.$https.post(this.$urls.equip.info, params).then((res) => {
-        // console.log(res)
-        this.tableData = res.list
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+      this.$https.post(this.$urls.equip.info, {
+        park_id: this.$store.state.form.activePark.domain_id,
+        start_ts: new Date(new Date().getFullYear(), 0),
+        end_ts: new Date()
+      }).then((res) => {
+        this.infoData = [
+          { name: '总电费(元)', value: Number(res.electric), chart: Number(res.electric_rate), type: 'arrow' },
+          { name: '总水费(元)', value: Number(res.water), chart: Number(res.water_rate), type: 'arrow' },
+          { name: '总燃气费(元)', value: Number(res.gas), chart: Number(res.gas_rate), type: 'arrow' },
+          { name: '总空调暖通费(元)', value: Number(res.heat), chart: Number(res.heat_rate), type: 'arrow' }
+        ]
       })
     },
     fetchEquipList () { // 获取设备列表
@@ -266,13 +225,13 @@ export default {
       }
       // this.$message(`${id}`)
       this.$https.post(this.$urls.equip.get_info, params).then((res) => {
-        // console.log(res)
       })
     }
   },
   created () {
     this.fetchEquipList()
     // console.log(this.yearList)
+    this.fetchEquipInfo()
   }
 }
 </script>
