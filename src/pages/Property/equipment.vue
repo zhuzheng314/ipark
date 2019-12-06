@@ -36,42 +36,6 @@
       </div>
     </el-card>
     <el-card>
-      <!-- <el-table
-        :data="tableData"
-        @row-click="equipmentState"
-        style="width: 100%">
-        <el-table-column
-          prop="a"
-          label="楼宇名称">
-        </el-table-column>
-        <el-table-column
-          prop="c"
-          label="房号">
-        </el-table-column>
-        <el-table-column
-          prop="a"
-          label="合同编号">
-        </el-table-column>
-        <el-table-column
-          prop="e"
-          label="设备类型">
-        </el-table-column>
-        <el-table-column
-          prop="f"
-          label="状态">
-        </el-table-column>
-        <el-table-column
-          prop="g"
-          label="客户">
-        </el-table-column>
-        <el-table-column
-          prop="t"
-          label="抄录时间">
-        </el-table-column>
-      </el-table>
-      <div style="width: 100%; text-align: right; padding-top: 20px">
-        <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-      </div> -->
       <GTable
         @row-click="equipmentState"
         :tableLabel="$tableLabels.equipmentList"
@@ -237,10 +201,9 @@ export default {
       })
     },
     fetchEquipInfo () { // 获取四表集抄统计信息
-      let params = {
-        id: this.parkId
-      }
-      this.$https.post(this.$urls.equip.info, params).then((res) => {
+      this.$https.post(this.$urls.equip.info, {
+
+      }).then((res) => {
         // console.log(res)
         this.tableData = res.list
         let data = res.data
@@ -273,6 +236,7 @@ export default {
   created () {
     this.fetchEquipList()
     // console.log(this.yearList)
+    this.fetchEquipInfo()
   }
 }
 </script>
