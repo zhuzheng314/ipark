@@ -55,7 +55,7 @@
         >添加账单</el-button>
       </div>
       <div>
-        <div :key="item.name" v-for="item in finData" class="simple-item">
+        <div :key="item.name" v-for="item in infoData" class="simple-item">
           <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
         </div>
       </div>
@@ -159,10 +159,7 @@ export default {
       radio: '收款',
       yearList: [
       ],
-      finData: [
-        { name: '应收(3笔)', value: '254235', chart: '-0.1128', type: 'arrow' },
-        { name: '已收', value: 13513, chart: '0.6356', type: 'arrow' },
-        { name: '未缴(3笔)', value: '134553', chart: '0.3564', type: 'arrow' }
+      infoData: [
       ],
       listType: 'top',
       options: [
@@ -435,17 +432,19 @@ export default {
     },
     fetchInfo () { // 获取费用列支统计信息
       let params = {
-        park_id: this.$store.state.form.activePark.domain_id,
-        page_no: 1,
-        page_size: 999
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.cost.info, params).then((res) => {
-        // console.log(res)
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+        if (res.code === 1000) {
+          this.infoData = [
+            { typeSelect: 'pay', name: `应付(${res.need_pay_num}笔)`, value: res.need_pay, chart: res.need_pay_rate, type: 'arrow' },
+            { typeSelect: 'pay', name: '已付', value: res.pay, chart: res.pay_rate, type: 'arrow' },
+            { typeSelect: 'pay', name: `未付(${res.un_pay_num}笔)`, value: res.un_pay, chart: res.un_pay_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `应收(${res.need_receive_num}笔)`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: '已收', value: res.receive, chart: res.receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `未缴(${res.un_receive_num}笔)`, value: res.un_receive, chart: res.un_receive_rate, type: 'arrow' }
+          ]
+        }
       })
     },
     fetchList () { // 获取费用列支列表
@@ -500,7 +499,7 @@ export default {
   },
   created () {
     this.fetchList()
-    // console.log(this.yearList)
+    this.fetchInfo()
   }
 }
 </script>

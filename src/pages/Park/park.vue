@@ -8,147 +8,156 @@
         添加园区
       </el-button>
       <div class="left-list">
-        <div class="item"
-             :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
-             :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.parkList">
-          <div class="inner" @click="handleParkClick(index, item)">
-            <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
-            <div class="cont">
-              <div class="title">{{item.name | StringStr(6) }}</div>
-              <div class="value">{{item.cover_area || '-'}}㎡</div>
+        <div v-if="$store.state.form.parkList.length">
+          <div class="item"
+               :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
+               :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.parkList">
+            <div class="inner" @click="handleParkClick(index, item)">
+              <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
+              <div class="cont">
+                <div class="title">{{item.name | StringStr(6) }}</div>
+                <div class="value">{{item.cover_area || '-'}}㎡</div>
+              </div>
             </div>
+            <i class="el-icon-edit" @click="handleEditParkClick(item)"></i>
+            <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
           </div>
-          <i class="el-icon-edit" @click="handleEditParkClick(item)"></i>
-          <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
+        </div>
+        <div v-else>
+          <None style="padding-top: 100px"></None>
         </div>
       </div>
     </div>
     <div class="right">
-      <el-card v-loading="$store.state.loading" style="margin-bottom: 10px">
-        <div style="color: #666; font-size: 16px;" slot="header">{{$store.state.form.activePark.name}}</div>
-        <div class="top-card-wrap">
-          <InfoBox
-            style="float: left; margin:0 30px 10px 0px"
-            v-for="(item, index) in infoBoxData" :type='item.type'
-            :key="'info' + index"
-            :data="item"
-          ></InfoBox>
-          <div style="clear: both"></div>
-        </div>
-        <el-divider></el-divider>
-        <div style="margin-top: -10px">
-          <el-row>
-            <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
-              <div class="detail">
-                <div class="item">
-                  <div class="title">
-                    {{item.name}}:
-                  </div>
-                  <div class="value">
-                    {{item.value + item.unit}}
+      <div v-if="$store.state.form.parkList.length">
+        <el-card v-loading="$store.state.loading" style="margin-bottom: 10px">
+          <div style="color: #666; font-size: 16px;" slot="header">{{$store.state.form.activePark.name}}</div>
+          <div class="top-card-wrap">
+            <InfoBox
+              style="float: left; margin:0 30px 10px 0px"
+              v-for="(item, index) in infoBoxData" :type='item.type'
+              :key="'info' + index"
+              :data="item"
+            ></InfoBox>
+            <div style="clear: both"></div>
+          </div>
+          <el-divider></el-divider>
+          <div style="margin-top: -10px">
+            <el-row>
+              <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
+                <div class="detail">
+                  <div class="item">
+                    <div class="title">
+                      {{item.name}}:
+                    </div>
+                    <div class="value">
+                      {{item.value + item.unit}}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
+              </el-col>
+            </el-row>
+          </div>
 
-      </el-card>
+        </el-card>
+        <el-card>
+          <div slot="header">
+            <el-input
+              size="small"
+              placeholder="搜索楼宇"
+              style="width: 180px; margin-right: 15px"
+              prefix-icon="el-icon-search"
+              clearable
+              @change="fetchBuildList"
+              v-model="inputValue">
+            </el-input>
 
-      <el-card>
-        <div slot="header">
-          <el-input
-            size="small"
-            placeholder="搜索楼宇"
-            style="width: 180px; margin-right: 15px"
-            prefix-icon="el-icon-search"
-            clearable
-            @change="fetchBuildList"
-            v-model="inputValue">
-          </el-input>
-
-          <el-button
-            style="float: right;"
-            size="small"
-            type="primary"
-            icon="el-icon-plus"
-            @click="handleAddBuild"
-          >新增楼宇</el-button>
-          <div class="clearfix"></div>
-        </div>
-        <el-table
-          ref="filterTable"
-          :data="$store.state.form.buildList"
-          style="width: 100%">
-          <el-table-column
-            prop="name"
-            width="300"
-            label="楼宇名称">
-            <template  slot-scope="scope">
-              <div class="tablecard">
-                <img class="img" :src="$urls.fileUrl + scope.row.attached.upload[0].url">
-                <div class="right">
-                  <div class="name">{{scope.row.name }}</div>
-                  <div class="value">建筑面积：{{scope.row.area}}㎡</div>
+            <el-button
+              style="float: right;"
+              size="small"
+              type="primary"
+              icon="el-icon-plus"
+              @click="handleAddBuild"
+            >新增楼宇</el-button>
+            <div class="clearfix"></div>
+          </div>
+          <el-table
+            ref="filterTable"
+            :data="$store.state.form.buildList"
+            style="width: 100%">
+            <el-table-column
+              prop="name"
+              width="300"
+              label="楼宇名称">
+              <template  slot-scope="scope">
+                <div class="tablecard">
+                  <img class="img" :src="$urls.fileUrl + scope.row.attached.upload[0].url">
+                  <div class="right">
+                    <div class="name">{{scope.row.name }}</div>
+                    <div class="value">建筑面积：{{scope.row.area}}㎡</div>
+                  </div>
                 </div>
-              </div>
 
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="rent_area"
-            label="可招租面积">
-            <template  slot-scope="scope">
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="rent_area"
+              label="可招租面积">
+              <template  slot-scope="scope">
               <span>
                 {{scope.row.rent_area}}㎡
               </span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="avg_unit_price"
-            label="在租均价">
-            <template  slot-scope="scope">
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="avg_unit_price"
+              label="在租均价">
+              <template  slot-scope="scope">
               <span>
                 {{scope.row.avg_unit_price}}元/㎡·天
               </span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="rent_rate"
-            width="200"
-            label="出租率">
-            <template slot-scope="scope">
-              <el-progress :percentage="(Number(scope.row.rent_rate) * 100).toFixed(2)"></el-progress>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="total_rooms"
-            label="总房源数量">
-          </el-table-column>
-          <el-table-column
-            prop="rent_rooms"
-            label="可招租房源数量">
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleRowClick(scope.row)" type="text" size="small">查看</el-button>
-              <el-button @click="fetchRemoveBuild(scope.row)"  type="text" size="small">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          style="text-align: right;margin-top: 20px"
-          layout="prev, pager, next"
-          :current-page="page.page_no"
-          :page-size="10"
-          @prev-click="handlePageClick"
-          @next-click="handlePageClick"
-          @current-change="handlePageClick"
-          :total="page.total">
-        </el-pagination>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="rent_rate"
+              width="200"
+              label="出租率">
+              <template slot-scope="scope">
+                <el-progress :percentage="(Number(scope.row.rent_rate) * 100).toFixed(2)"></el-progress>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="total_rooms"
+              label="总房源数量">
+            </el-table-column>
+            <el-table-column
+              prop="rent_rooms"
+              label="可招租房源数量">
+            </el-table-column>
+            <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleRowClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="fetchRemoveBuild(scope.row)"  type="text" size="small">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            style="text-align: right;margin-top: 20px"
+            layout="prev, pager, next"
+            :current-page="page.page_no"
+            :page-size="10"
+            @prev-click="handlePageClick"
+            @next-click="handlePageClick"
+            @current-change="handlePageClick"
+            :total="page.total">
+          </el-pagination>
+        </el-card>
+      </div>
+      <el-card v-else>
+        <None style="height: 500px; padding-top: 120px"></None>
       </el-card>
     </div>
     <el-dialog
@@ -216,102 +225,8 @@ export default {
       addShowBuild: false,
       fakerList: [],
       tableData: [],
-      infoBoxData1: [
-        {
-          title: {
-            name: '管理面积',
-            note: '管理面积'
-          },
-          value: {
-            value: null,
-            unit: '㎡',
-            chart: null
-          },
-          subtitle: {
-            name: '总房源数量',
-            value: null,
-            unit: '间'
-          }
-        },
-        {
-          type: 'num',
-          title: {
-            name: '出租率',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '%',
-            chart: null
-          },
-          subtitle: {
-            name: '本月签约面积',
-            value: null,
-            unit: '㎡'
-          }
-        },
-        {
-          type: 'num',
-          title: {
-            name: '在租实时均价',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '元/㎡·天',
-            chart: null
-          },
-          subtitle: {
-            name: '本月签约均价',
-            value: null,
-            unit: '元/㎡·天'
-          }
-        },
-        {
-          type: 0,
-          title: {
-            name: '可招商面积',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '㎡',
-            chart: null
-          },
-          subtitle: {
-            name: '可招商房间',
-            value: null,
-            unit: '间'
-          }
-        },
-        {
-          type: 'chart',
-          title: {
-            name: '当前计租率',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '%',
-            chart: null
-          },
-          subtitle: {
-            name: '预计全年计租率',
-            value: null,
-            unit: '%'
-          }
-        }
-      ],
       infoBoxData: [],
       parkInfo: [
-        { name: '产权', value: '', key: 'capital', unit: '' },
-        { name: '地理位置', value: '', key: 'address', unit: '' },
-        { name: '联系电话', value: '', key: 'contact', unit: '' },
-        { name: '占地面积', value: '', key: 'cover_area', unit: '㎡' },
-        { name: '建筑面积', value: '', key: 'built_area', unit: '㎡' },
-        { name: '总投资额', value: '', key: 'total_invest', unit: 'w' },
-        { name: '实际投资', value: '', key: 'actual_invest', unit: 'w' },
-        { name: '园区定位', value: '', key: 'usage', unit: '' }
       ],
       cardImgList: [
         { name: '体量 ㎡', value: '11111', imgUrl: require('@/assets/img/park/area.png'), icon: require('@/assets/img/park/icon1.png'), background: '#838CC7' },
@@ -454,225 +369,57 @@ export default {
       })
     },
     fetchParkInfo (park) {
-      this.$https.post(this.$urls.park.get_info, {
-        domain_id: park.domain_id
+      this.$https.post(this.$urls.park.get_d_info, {
+        park_id: park.domain_id
       }).then(res => {
         let parkInfo = this._.cloneDeep(this.parkInfo)
         if (res.code === 1000) {
-          parkInfo.forEach((x, index) => {
-            Object.keys(res).forEach(y => {
-              if (y === x.key) {
-                parkInfo[index].value = res[y]
-              }
-            })
-          })
-        }
-        this.parkInfo = parkInfo
-        this.activePark = res
-      })
-      let infoBoxData = [
-        {
-          title: {
-            name: '管理面积',
-            note: '管理面积'
-          },
-          value: {
-            value: null,
-            unit: '㎡',
-            chart: null
-          },
-          subtitle: {
-            name: '总房源数量',
-            value: null,
-            unit: '间'
-          }
-        },
-        {
-          type: 'num',
-          title: {
-            name: '出租率',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '%',
-            chart: null
-          },
-          subtitle: {
-            name: '本月签约面积',
-            value: null,
-            unit: '㎡'
-          }
-        },
-        {
-          type: 'num',
-          title: {
-            name: '在租实时均价',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '元/㎡·天',
-            chart: null
-          },
-          subtitle: {
-            name: '本月签约均价',
-            value: null,
-            unit: '元/㎡·天'
-          }
-        },
-        {
-          type: 0,
-          title: {
-            name: '可招商面积',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '㎡',
-            chart: null
-          },
-          subtitle: {
-            name: '可招商房间',
-            value: null,
-            unit: '间'
-          }
-        },
-        {
-          type: 'chart',
-          title: {
-            name: '当前计租率',
-            note: '测试文本'
-          },
-          value: {
-            value: null,
-            unit: '%',
-            chart: null
-          },
-          subtitle: {
-            name: '预计全年计租率',
-            value: null,
-            unit: '%'
-          }
-        }
-      ]
-      // this.infoBoxData = infoBoxData
-      this.$https.post(this.$urls.park.get_info2, {
-        park_id: park.domain_id,
-        page_no: 1,
-        page_size: 999
-      }).then(res => {
-        if (res.code === 1000 && res.list.length) {
-          let obj = res.list[0]
-          let infoBoxData = [
+          let data = res
+          this.infoBoxData = [
             {
-              title: {
-                name: '管理面积',
-                note: '管理面积'
-              },
-              value: {
-                value: null,
-                unit: '㎡',
-                chart: null
-              },
-              subtitle: {
-                name: '总房源数量',
-                value: null,
-                unit: '间'
-              }
+              type: 0,
+              title: { name: '管理面积', note: '测试文本' },
+              value: { value: data.total_area, unit: '㎡', chart: null },
+              subtitle: { name: '总房源数量', value: data.total_rooms, unit: '间' }
             },
             {
               type: 'num',
-              title: {
-                name: '出租率',
-                note: '测试文本'
-              },
-              value: {
-                value: null,
-                unit: '%',
-                chart: null
-              },
-              subtitle: {
-                name: '本月签约面积',
-                value: null,
-                unit: '㎡'
-              }
+              title: { name: '出租率', note: '测试文本' },
+              value: { value: data.rent_rate, unit: '%', chart: data.rent_change_rate },
+              subtitle: { name: '本月签约面积', value: data.month_area, unit: '㎡' }
             },
             {
               type: 'num',
-              title: {
-                name: '在租实时均价',
-                note: '测试文本'
-              },
-              value: {
-                value: null,
-                unit: '元/㎡·天',
-                chart: null
-              },
-              subtitle: {
-                name: '本月签约均价',
-                value: null,
-                unit: '元/㎡·天'
-              }
+              title: { name: '在租实时均价', note: '测试文本' },
+              value: { value: data.avg_unit_price, unit: '元/㎡·天', chart: data.avg_unit_price_rate },
+              subtitle: { name: '本月签约均价', value: data.month_area_avg_price, unit: '元/㎡·天' }
             },
             {
               type: 0,
-              title: {
-                name: '可招商面积',
-                note: '测试文本'
-              },
-              value: {
-                value: null,
-                unit: '㎡',
-                chart: null
-              },
-              subtitle: {
-                name: '可招商房间',
-                value: null,
-                unit: '间'
-              }
+              title: { name: '可招商面积', note: '测试文本' },
+              value: { value: data.rent_area, unit: '㎡', chart: null },
+              subtitle: { name: '可招商房间', value: data.rent_rooms, unit: '间' }
             },
             {
               type: 'chart',
-              title: {
-                name: '当前计租率',
-                note: '测试文本'
-              },
-              value: {
-                value: null,
-                unit: '%',
-                chart: null
-              },
-              subtitle: {
-                name: '预计全年计租率',
-                value: null,
-                unit: '%'
-              }
+              title: { name: '当前计租率', note: '测试文本' },
+              value: { value: data.pay_rate, unit: '%', chart: data.pay_rate },
+              subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
             }
           ]
-          Object.keys(obj).forEach(key => {
-            if (key === 'total_area') {
-              infoBoxData[0].value.value = obj[key]
-            }
-            if (key === 'avg_unit_price') {
-              infoBoxData[2].value.value = obj[key]
-            }
-            if (key === 'unit_type') {
-              infoBoxData[2].value.unit = obj[key]
-            }
-            if (key === 'rent_rate') {
-              infoBoxData[3].value.value = obj[key]
-            }
-            if (key === 'pay_rate') {
-              infoBoxData[4].value.value = obj[key]
-            }
-            // console.log(key)
-          })
-          this.infoBoxData = []
-          this.infoBoxData = infoBoxData
-          // this.$forceUpdate()
+          this.parkInfo = [
+            { name: '产权', value: res.capital, key: 'capital', unit: '' },
+            { name: '地理位置', value: res.address, key: 'address', unit: '' },
+            { name: '联系电话', value: res.contact, key: 'contact', unit: '' },
+            { name: '占地面积', value: res.cover_area, key: 'cover_area', unit: '㎡' },
+            { name: '建筑面积', value: res.built_area, key: 'built_area', unit: '㎡' },
+            { name: '总投资额', value: res.total_invest, key: 'total_invest', unit: 'w' },
+            { name: '实际投资', value: res.actual_invest, key: 'actual_invest', unit: 'w' },
+            { name: '园区定位', value: res.usage, key: 'usage', unit: '' }
+          ]
         }
       })
+      this.activePark = res
     },
     fetchBuildList () {
       let params = {
