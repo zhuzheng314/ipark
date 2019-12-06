@@ -1031,7 +1031,7 @@ export default {
       },
       barOptions: {},
       defaultValue: {
-        customer_id: 9,
+        customer_id: 0,
         address: '123',
         authentic_ts: '2019-12-24T16:00:00.000Z',
         bank: '132',
@@ -1135,7 +1135,7 @@ export default {
           if (res.code === 1000) {
             let data = res
             this.defaultValue = {
-              customer_id: 9,
+              customer_id: 0,
               address: '123',
               authentic_ts: '2019-12-24T16:00:00.000Z',
               bank: '132',
