@@ -19,6 +19,10 @@ import ReportOrder from '@/pages/Property/reportOrder.vue' // 报事
 import ComplaintOrder from '@/pages/Property/complaintOrder.vue' // 投诉
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 import FinancialIncome from '@/pages/Financial/income.vue' // 财务收入
+import FinancialOther from '@/pages/Financial/otherlist.vue' // 财务其他
+import FinancialProperty from '@/pages/Financial/propertylist.vue' // 财务物业
+import FinancialRoom from '@/pages/Financial/roomlist.vue' // 财务房租
+import FinancialWater from '@/pages/Financial/waterlist.vue' // 财务水电
 import PropertyPayment from '@/pages/Property/payment.vue' // 费用催缴
 import Park from '@/pages/Park/park.vue' // 园区
 import Build from '@/pages/Park/build.vue' // 楼宇
@@ -220,23 +224,23 @@ const routes = [
       },
       {
         path: 'rent', // 房租费
-        name: 'FinancialIncome',
-        component: FinancialIncome
+        name: 'rentFinancial',
+        component: FinancialRoom
       },
       {
         path: 'property', // 物业费
-        name: 'FinancialIncome',
-        component: FinancialIncome
+        name: 'propertyFinancial',
+        component: FinancialProperty
       },
       {
         path: 'water', // 水电费
-        name: 'FinancialIncome',
-        component: FinancialIncome
+        name: 'waterFinancial',
+        component: FinancialWater
       },
       {
         path: 'other', // 其他费
-        name: 'FinancialIncome',
-        component: FinancialIncome
+        name: 'otherFinancial',
+        component: FinancialOther
       }
     ]
   },
