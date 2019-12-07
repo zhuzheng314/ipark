@@ -141,6 +141,31 @@ export default {
       dialogHeight: '',
       yearList: [
       ],
+      barOptions: {
+        color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} 个'
+        },
+        grid: {
+          top: '20px',
+          left: '50px',
+          right: '20px'
+        },
+        xAxis: {
+          type: 'category',
+          data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          name: '到期数量',
+          data: [],
+          type: 'bar',
+          barWidth: 20
+        }]
+      },
       options: [
         {
           value: '选项1',
@@ -267,7 +292,6 @@ export default {
         },
         barWidth: '20'
       },
-      barOptions: {},
       defaultValue: {
       },
       page: {
@@ -358,8 +382,6 @@ export default {
         ...this.page
       }
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
-        console.log(res)
-        // this.page.total = res.list.length
         this.tableData = res.list
       })
     },
@@ -427,17 +449,17 @@ export default {
       }
       this.$https.post(this.$urls.contract.info, params).then(res => {
         if (res.code === 1000) {
+          let arr = []
+          let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          dateArr.forEach(item => {
+            arr.push(res.list[item])
+          })
+          this.barOptions.series[0].data = arr
         }
       })
     }
   },
   created () {
-    for (let i = 0; i < 24; i++) {
-      this.yearList.push({
-        name: 'yue' + i,
-        value: (Math.random() * 100)
-      })
-    }
     this.fetchInfo()
   },
   mounted () {
@@ -448,32 +470,6 @@ export default {
       xAxisData.push(v.name)
       seriesData.push(v.value)
     })
-    this.barOptions = {
-      color: this.publicOptions.color,
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b}: {c} 个'
-      },
-      grid: {
-        top: '20px',
-        left: '50px',
-        right: '20px'
-      },
-      xAxis: {
-        type: 'category',
-        data: xAxisData
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        name: '到期数量',
-        data: seriesData,
-        type: 'bar',
-        barWidth: this.publicOptions.barWidth
-      }]
-    }
-    // this.fetchAddContract();
     this.fetchList()
   }
 }

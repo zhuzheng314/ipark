@@ -248,8 +248,14 @@ export default {
         park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.enter.get_leave_info, params).then((res) => {
-        let data = res
-        console.log(data)
+        if (res.code === 1000) {
+          let arr = []
+          let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          dateArr.forEach(item => {
+            arr.push(res.list[item])
+          })
+          this.stackedAreaOptions = this.stackedAreaChart(arr)
+        }
       })
     },
     handleClose () { },
@@ -403,37 +409,13 @@ export default {
   },
   created () {
     this.fetchList()
-    // [1, 2, 3, 4, 5, 6, 7, 8].forEach((item, index) => {
-    //   this.tableData.push(
-    //     {
-    //       a: '阿里巴巴' + item,
-    //       b: 'xxxxxxxx' + item,
-    //       c: '互联网' + item,
-    //       d: '1000',
-    //       e: '入驻企业',
-    //       f: '400',
-    //       g: '302',
-    //       h: '审批中',
-    //       i: '',
-    //       date: '2019-11-11',
-    //       person: item % 2 === 0 ? '刘涛' : '赵阳'
-    //     }
-    //   )
-    // })
     for (let i = 0; i < 24; i++) {
       this.yearList.push({
         name: 'yue' + i,
         value: (Math.random() * 100)
       })
     }
-
-    let stackedAreaData = []
-    for (let i = 0; i <= 12; i++) {
-      stackedAreaData.push(Math.floor(Math.random() * 10))
-    }
     this.fetchInfo()
-    this.stackedAreaOptions = this.stackedAreaChart(stackedAreaData)
-    // console.log(this.yearList)
   }
 }
 </script>

@@ -77,7 +77,7 @@
     <el-dialog
       title="新建进驻"
       :visible.sync="addVisible"
-      width="800px">
+      width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
@@ -371,8 +371,14 @@ export default {
         park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.enter.info, params).then((res) => {
-        let data = res
-        console.log(data)
+        if (res.code === 1000) {
+          let arr = []
+          let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          dateArr.forEach(item => {
+            arr.push(res.list[item])
+          })
+          this.stackedAreaOptions = this.stackedAreaChart(arr)
+        }
       })
     },
     fetchAdd (data) { // 添加进驻
@@ -465,17 +471,6 @@ export default {
 
   },
   created () {
-    for (let i = 0; i < 24; i++) {
-      this.yearList.push({
-        name: 'yue' + i,
-        value: (Math.random() * 100)
-      })
-    }
-    let stackedAreaData = []
-    for (let i = 0; i <= 12; i++) {
-      stackedAreaData.push(Math.floor(Math.random() * 10))
-    }
-    this.stackedAreaOptions = this.stackedAreaChart(stackedAreaData)
     this.fetchInfo()
     this.fetchList()
   }
