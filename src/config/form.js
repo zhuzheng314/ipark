@@ -915,7 +915,7 @@ const addContractForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'date-picker',
         label: '营业期限',
         key: 'operate_term',
         placeholder: '请输入',
@@ -935,7 +935,7 @@ const addContractForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'date-picker',
         label: '核准日期',
         key: 'authentic_ts',
         placeholder: '请输入',
