@@ -51,8 +51,7 @@
     <el-dialog
       title="新建合同模板"
       :visible.sync="addVisible"
-      width="600px"
-      :before-close="handleClose">
+      width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
@@ -67,8 +66,7 @@
     <el-dialog
       title="修改合同模板"
       :visible.sync="modifyVisible"
-      width="600px"
-      :before-close="handleClose">
+      width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
@@ -139,6 +137,9 @@ export default {
         this.$message.error('暂无可下载文件')
       }
     },
+    handleClose () {
+
+    },
     handleAddContract () {
       this.addVisible = true
     },
@@ -190,7 +191,6 @@ export default {
     fetchList () { // 获取合同模板列表
       let params = {
         ...this.page
-        // park_id: this.$store.state.form.activePark.domain_id,
       }
       this.$https.post(this.$urls.template.get_list, params).then((res) => {
         this.page.total = res.total
@@ -223,17 +223,6 @@ export default {
   },
   created () {
     this.fetchList()
-    // [1, 2, 3, 4, 5, 6, 7, 8].forEach(item => {
-    //   this.tableData.push(
-    //     {
-    //       a: 'xxx-xx-' + item,
-    //       b: '出租合同模板' + item,
-    //       c: '销售类' + item,
-    //       d: item % 2 === 0 ? '启用' : '停用',
-    //       // e: '这是销售类合同的描述xxx'
-    //     }
-    //   )
-    // })
   }
 }
 </script>
