@@ -661,13 +661,6 @@ const addContractForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
-          {
-            label: '租房合同模板',
-            value: 1
-          }, {
-            label: '车位合同模板',
-            value: 2
-          }
         ]
       }
     ]

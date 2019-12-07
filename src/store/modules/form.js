@@ -8,6 +8,7 @@ const form = {
     buildList: [],
     roomList: [],
     contractList: [],
+    contractTamplateList: [],
     parkTreeList: [],
     customerList: [],
     repairList: [],
@@ -113,7 +114,8 @@ const form = {
       return {
         room: getters.parkTreeOptions,
         domain_id: getters.parkTreeOptions,
-        customer_id: state.customerList
+        customer_id: state.customerList,
+        contract_type: state.contractTamplateList
       }
     },
     // 进驻
@@ -187,6 +189,15 @@ const form = {
           ...x,
           label: x.customer_name + '-' + x.contract_code,
           value: x.contract_code
+        }
+      })
+    },
+    commitContractTamplateList (state, list) {
+      state.contractTamplateList = list.map(x => {
+        return {
+          ...x,
+          label: x.template_name,
+          value: x.id
         }
       })
     },
@@ -270,6 +281,17 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitContractList', res.list)
+        }
+      })
+    },
+    getContractTamplateList ({ commit, state }, data) {
+      return request.post(baseUrl + api.template.get_list, {
+        park_id: state.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          commit('commitContractTamplateList', res.list)
         }
       })
     },
