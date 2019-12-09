@@ -91,7 +91,7 @@
               label="楼宇名称">
               <template  slot-scope="scope">
                 <div class="tablecard">
-                  <img class="img" :src="$urls.fileUrl + scope.row.attached.upload[0].url">
+                  <img class="img" :src="$urls.fileUrl + (scope.row.attached && scope.row.attached.upload && scope.row.attached.upload[0] && scope.row.attached.upload[0].url)">
                   <div class="right">
                     <div class="name">{{scope.row.name }}</div>
                     <div class="value">建筑面积：{{scope.row.area}}㎡</div>
@@ -123,7 +123,7 @@
               width="200"
               label="出租率">
               <template slot-scope="scope">
-                <el-progress :percentage="(Number(scope.row.rent_rate) * 100).toFixed(2)"></el-progress>
+                <el-progress :percentage="(scope.row.rent_rate * 100).toFixed(1) * 1"></el-progress>
               </template>
             </el-table-column>
             <el-table-column
@@ -372,8 +372,8 @@ export default {
       this.$https.post(this.$urls.park.get_d_info, {
         park_id: park.domain_id
       }).then(res => {
-        let parkInfo = this._.cloneDeep(this.parkInfo)
-        if (res.code === 1000) {
+        if (res && res.code === 1000) {
+          this.activePark = res
           let data = res
           this.infoBoxData = [
             {
@@ -403,7 +403,7 @@ export default {
             {
               type: 'chart',
               title: { name: '当前计租率', note: '测试文本' },
-              value: { value: data.pay_rate, unit: '%', chart: data.pay_rate },
+              value: { value: data.pay_rate, unit: '%', chart: Number(data.pay_rate) },
               subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
             }
           ]
@@ -419,7 +419,6 @@ export default {
           ]
         }
       })
-      this.activePark = res
     },
     fetchBuildList () {
       let params = {
@@ -427,11 +426,14 @@ export default {
         ...this.page
       }
       if (this.inputValue) params.name = this.inputValue
+
       this.$store.dispatch('getBuildList', params).then(res => {
-        this.page = {
-          ...this.page,
-          page_no: res.page_no,
-          total: res.total
+        if (res === 1000) {
+          this.page = {
+            ...this.page,
+            page_no: res.page_no,
+            total: res.total
+          }
         }
       })
     },
