@@ -2,6 +2,8 @@
 const validateUpload = (rule, value, callback) => {
   if (!value.upload || !value.upload.length) {
     callback(new Error('该项为必填'))
+  } else {
+    callback()
   }
 }
 /* -------------------- 园区 -------------------- */
@@ -1403,7 +1405,11 @@ const tamplateForm = [
         type: 'upload-file',
         label: '模板文件',
         key: 'attached',
-        placeholder: '请输入模板描述'
+        placeholder: '请输入模板描述',
+        rule: [
+          { required: true, message: '请上传', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
+        ]
       }
     ]
   }

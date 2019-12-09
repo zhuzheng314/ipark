@@ -292,7 +292,6 @@ export default {
     onSubmit () {
       this.$refs['form'].validate((valid, value) => {
         if (valid) {
-          // console.log(this.rules[this.uploadImgKey])
           this.$emit('onSubmit', this.form)
         } else {
           console.log('error submit!!')
