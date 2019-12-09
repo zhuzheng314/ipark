@@ -16,7 +16,7 @@
             <div class="inner" @click="handleBuildClick(index, item)">
               <img class="pic" :src="$urls.fileUrl + item.attached.upload[0].url">
               <div class="cont">
-                <div class="title">{{item.name}}</div>
+                <div class="title">{{item.name | StringStr(6) }}</div>
                 <div class="value">{{item.area}}㎡</div>
               </div>
             </div>
