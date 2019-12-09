@@ -171,75 +171,6 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="itemList.length">
-        <el-form-item
-          v-for="(item, index) in itemList"
-          :key="'form' + index"
-          :label="item.label"
-        >
-          <!-- input -->
-          <el-input
-            v-if="item.type === 'input'"
-            v-model="form[item.key]"
-            :placeholder="item.placeholder || ''"
-          >
-          </el-input>
-
-          <!-- textarea -->
-          <el-input
-            v-if="item.type === 'textarea'"
-            type="textarea"
-            v-model="form[item.key]"
-            :placeholder="item.placeholder || ''"
-          >
-          </el-input>
-
-          <!-- radio -->
-          <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
-            <el-radio
-              v-for="(subItem, subIndex) in item.options"
-              :key="subItem.label + subIndex"
-              :label="subItem.label"
-            >
-            </el-radio>
-          </el-radio-group>
-
-          <!-- checkbox -->
-          <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
-            <el-checkbox
-              v-for="(subItem, subIndex) in item.options"
-              :key="subItem.label + subIndex"
-              :label="subItem.label"
-            >
-            </el-checkbox>
-          </el-checkbox-group>
-
-          <!-- select -->
-          <el-select v-if="item.type === 'select'" v-model="form[item.key]" placeholder="item.placeholder">
-            <el-option
-              v-for="(subItem) in item.options"
-              :label="subItem.label"
-              :value="subItem.value"
-              :key="subItem.label"
-            >
-            </el-option>
-          </el-select>
-
-          <!-- switch -->
-          <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>
-
-          <!-- upload-->
-          <el-upload
-            :action="$urls.upload"
-            v-if="item.type === 'upload'"
-            multiple
-            :limit="3">
-            <el-button size="small">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-
-        </el-form-item>
-      </div>
 
       <slot name="footer"></slot>
       <div style="text-align: right; margin-top: 10px; margin-right: 10px">
@@ -361,6 +292,7 @@ export default {
     onSubmit () {
       this.$refs['form'].validate((valid, value) => {
         if (valid) {
+          // console.log(this.rules[this.uploadImgKey])
           this.$emit('onSubmit', this.form)
         } else {
           console.log('error submit!!')
@@ -422,9 +354,6 @@ export default {
         if (this.defaultValue) { // 如果有默认值再次赋予默认值
           this.setDefaultValue()
         }
-      }
-      if (this.itemList && this.itemList.length) { // 没有卡片
-        this.initItemList(this.itemList)
       }
     }
   },

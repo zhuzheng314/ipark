@@ -1,3 +1,9 @@
+
+const validateUpload = (rule, value, callback) => {
+  if (!value.upload || !value.upload.length) {
+    callback(new Error('该项为必填'))
+  }
+}
 /* -------------------- 园区 -------------------- */
 // 添加园区
 const addParkForm = [
@@ -173,8 +179,34 @@ const addParkForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请上传图片', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请上传图片', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
+        ]
+      }
+    ]
+  }
+]
+const addParkForm1 = [
+  {
+    title: '园区信息',
+    children: [
+      {
+        type: 'input',
+        label: '园区名称',
+        key: 'name',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'upload-img',
+        label: '园区图片',
+        key: 'attached',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请上传图片', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -239,7 +271,11 @@ const addBuildForm = [
         type: 'upload-img',
         label: '楼宇图片',
         key: 'attached',
-        placeholder: '请输入'
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请上传图片', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
+        ]
       }
     ]
   }
@@ -354,11 +390,11 @@ const addRoomForm = [
         type: 'upload-img',
         label: '房间图片',
         key: 'attached',
-        placeholder: '请输入'
-        // rule: [
-        //   { required: true, message: '请输入', trigger: 'blur' },
-        //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        // ]
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请上传图片', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
+        ]
       }
     ]
   }
@@ -2208,8 +2244,8 @@ const repairForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请上传图片', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请上传图片', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -2291,8 +2327,8 @@ const complaintForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请上传图片', trigger: 'blur' },
+          { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
