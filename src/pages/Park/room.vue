@@ -47,22 +47,6 @@
               :value="item.value">
             </el-option>
           </el-select>
-<!--          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.source.value" placeholder="招商类别" clearable @change="fetchRoomList">-->
-<!--            <el-option-->
-<!--              v-for="item in requirement.source.sourceList"-->
-<!--              :key="item.value"-->
-<!--              :label="item.label"-->
-<!--              :value="item.value">-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--          <el-select size="small" style="width: 150px" class="mr-10" multiple  v-model="requirement.empty.value" placeholder="空置状态" clearable @change="fetchRoomList">-->
-<!--            <el-option-->
-<!--              v-for="item in requirement.empty.emptyList"-->
-<!--              :key="item.value"-->
-<!--              :label="item.label"-->
-<!--              :value="item.value">-->
-<!--            </el-option>-->
-<!--          </el-select>-->
           <el-button
             size="small"
             type="primary"
