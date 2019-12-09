@@ -435,7 +435,198 @@ const incomeList = [
     label: '跟进人'
   }
 ]
-
+// 物业费用
+const propertyList = [
+  {
+    prop: 'type',
+    label: '楼宇名称'
+  },
+  {
+    prop: 'customer',
+    label: '房间号'
+  },
+  {
+    prop: 'create_ts',
+    label: '客户名称'
+  },
+  {
+    prop: 'charge',
+    label: '账单金额'
+  },
+  {
+    prop: 'state',
+    label: '实收金额'
+  },
+  {
+    prop: 'contract_code',
+    label: '开票金额'
+  },
+  {
+    prop: 'property_fee',
+    label: '计费周期'
+  },
+  {
+    prop: 'water_fee',
+    label: '逾期天数'
+  },
+  {
+    prop: 'receiver',
+    label: '跟进人'
+  },
+  {
+    prop: 'gas_fee',
+    label: '结清状态'
+  }
+]
+// 水电费用
+const waterList = [
+  {
+    prop: 'type',
+    label: '楼宇名称'
+  },
+  {
+    prop: 'customer',
+    label: '房间号'
+  },
+  {
+    prop: 'customer',
+    label: '费用类型'
+  },
+  {
+    prop: 'create_ts',
+    label: '客户名称'
+  },
+  {
+    prop: 'charge',
+    label: '账单金额'
+  },
+  {
+    prop: 'state',
+    label: '实收金额'
+  },
+  {
+    prop: 'contract_code',
+    label: '开票金额'
+  },
+  {
+    prop: 'rent',
+    label: '应收日期'
+  },
+  {
+    prop: 'property_fee',
+    label: '计费周期'
+  },
+  {
+    prop: 'water_fee',
+    label: '逾期天数'
+  },
+  {
+    prop: 'receiver',
+    label: '跟进人'
+  },
+  {
+    prop: 'gas_fee',
+    label: '结清状态'
+  }
+]
+// 房租费用
+const roomList = [
+  {
+    prop: 'type',
+    label: '楼宇名称'
+  },
+  {
+    prop: 'customer',
+    label: '房间号'
+  },
+  {
+    prop: 'create_ts',
+    label: '客户名称'
+  },
+  {
+    prop: 'charge',
+    label: '账单金额'
+  },
+  {
+    prop: 'state',
+    label: '实收金额'
+  },
+  {
+    prop: 'contract_code',
+    label: '开票金额'
+  },
+  {
+    prop: 'rent',
+    label: '应收日期'
+  },
+  {
+    prop: 'property_fee',
+    label: '计费周期'
+  },
+  {
+    prop: 'water_fee',
+    label: '逾期天数'
+  },
+  {
+    prop: 'receiver',
+    label: '跟进人'
+  },
+  {
+    prop: 'gas_fee',
+    label: '结清状态'
+  }
+]
+// 其他费用
+const otherList = [
+  {
+    prop: 'type',
+    label: '楼宇名称'
+  },
+  {
+    prop: 'customer',
+    label: '房间号'
+  },
+  {
+    prop: 'customer',
+    label: '费用类型'
+  },
+  {
+    prop: 'create_ts',
+    label: '客户名称'
+  },
+  {
+    prop: 'charge',
+    label: '账单金额'
+  },
+  {
+    prop: 'state',
+    label: '实收金额'
+  },
+  {
+    prop: 'contract_code',
+    label: '开票金额'
+  },
+  {
+    prop: 'rent',
+    label: '应收日期'
+  },
+  {
+    prop: 'property_fee',
+    label: '计费周期'
+  },
+  {
+    prop: 'water_fee',
+    label: '逾期天数'
+  },
+  {
+    prop: 'receiver',
+    label: '跟进人'
+  },
+  {
+    prop: 'gas_fee',
+    label: '结清状态'
+  }
+]
 const tables = {
   businessCustomer,
   contractList,
@@ -447,7 +638,11 @@ const tables = {
   complaintList,
   paymentList,
   financialList,
-  incomeList
+  incomeList,
+  propertyList,
+  waterList,
+  roomList,
+  otherList
 }
 export {
   tables

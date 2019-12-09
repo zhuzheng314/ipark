@@ -44,7 +44,7 @@
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >添加账单</el-button>
+        >新增房租费</el-button>
       </div>
       <div>
         <Comparison
@@ -62,7 +62,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.incomeList"
+        :tableLabel="$tableLabels.roomList"
         :tableData="tableData">
       </GTable>
     </el-card>
@@ -139,13 +139,10 @@ export default {
       yearList: [
       ],
       finData: [
-        { key: 'rent', name: '租金', value: '', chart: '', type: 'arrow' },
-        { key: 'property_fee', name: '物业费', value: '', chart: '', type: 'arrow' },
-        { key: 'water_fee', name: '水费', value: '', chart: '', type: 'arrow' },
-        { key: 'electric_fee', name: '电费', value: '', chart: '', type: 'arrow' },
-        { key: 'gas_fee', name: '燃气', value: '', chart: '', type: 'arrow' },
-        { key: 'heat_fee', name: '空调暖通', value: '', chart: '', type: 'arrow' },
-        { key: 'other_fee', name: '其他', value: '', chart: '', type: 'arrow' }
+        { typeSelect: 'receive', name: `应收(${0}笔)`, value: '', chart: '', type: 'arrow' },
+        { typeSelect: 'receive', name: `已收(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `未缴(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `房租费`, value: '', chart: '', type: 'arrow' }
       ],
       stateOptions: [
         {
