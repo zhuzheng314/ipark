@@ -14,9 +14,9 @@
                :key="index + 'leftcard'"
                v-for="(item, index) in $store.state.form.buildList">
             <div class="inner" @click="handleBuildClick(index, item)">
-              <img class="pic" :src="$urls.fileUrl + item.attached.upload[0].url">
+              <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
               <div class="cont">
-                <div class="title">{{item.name}}</div>
+                <div class="title">{{item.name | StringStr(6) }}</div>
                 <div class="value">{{item.area}}㎡</div>
               </div>
             </div>
@@ -152,12 +152,15 @@ export default {
       })
     },
     getBuildId () {
+      console.log('getBuildId')
       this.$store.dispatch('getBuildList', {
         pid: this.$store.state.form.activePark.domain_id,
         page_no: 1,
         page_size: 20
       }).then(res => {
-        this.buildId = res.list && res.list[0].domain_id
+        if (res.code === 1000) {
+          this.buildId = res.list && res.list[0].domain_id
+        }
       })
     },
     handleRemoveBuild (build) {

@@ -171,6 +171,12 @@ const form = {
       state.parkList = list
     },
     commitBuildList (state, list) {
+      let arr = list.map(item => {
+        return {
+          ...item,
+          rent_rate: Number(item.rent_rate * 100).toFixed(2)
+        }
+      })
       state.buildList = list
     },
     commitRoomList (state, list) {
