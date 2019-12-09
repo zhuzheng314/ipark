@@ -169,6 +169,7 @@
       <div>
         <ParkForm
           ref="addRoomForm"
+          v-if="addRoomShow"
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
@@ -187,6 +188,7 @@
       <div>
         <ParkForm
           ref="addRoomForm"
+          v-if="modifyShow"
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
@@ -409,35 +411,26 @@ export default {
       roomInfo_info: {
         label: [
           { prop: 'area', label: '面积(㎡)' },
-          { prop: 'roomState', label: '房源状态' },
-          { prop: 'state', label: '招商状态' },
+          { prop: 'state', label: '房源状态' },
+          // { prop: 'state', label: '招商状态' },
           { prop: 'price', label: '预租单价(元/㎡·天)' },
-          { prop: 'type', label: '房源类型' },
-          { prop: 'decorate', label: '装修' },
-          { prop: 'tag', label: '表签' }
+          { prop: 'room_usage', label: '房源类型' },
+          { prop: 'decoration_standard', label: '装修' }
+          // { prop: 'tag', label: '表签' }
         ],
-        tableData: [{
-          area: '360.00',
-          roomState: '待招商',
-          state: '可招商',
-          price: '3.00',
-          type: '办公',
-          decorate: '简装',
-          tag: '自带办公家居，随时入住'
-        }]
+        tableData: []
       },
       roomInfo_body_table1: {
         title: '合同信息',
         info: {
           label: [
-            { prop: 'tenant', label: '租户' },
-            { prop: 'start', label: '计租日' },
-            { prop: 'end', label: '结束日' },
-            { prop: 'price', label: '合同单价' },
+            { prop: 'company_name', label: '租户' },
+            { prop: 'fee_start_ts', label: '计租日' },
+            { prop: 'fee_end_ts', label: '结束日' },
+            { prop: 'property_unit_price', label: '合同单价' },
             { prop: 'state', label: '状态' }
           ],
-          tableData: [
-          ]
+          tableData: []
         }
       },
       roomInfo_body_table2: {
@@ -497,6 +490,24 @@ export default {
     handleRoomClick (room) {
       this.roomInfoState = true
       this.roomInfo = room
+      this.fetchRoomInfo().then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.roomInfo_header.title = data.floor + '/' + data.name
+          this.roomInfo_info.tableData.push({ ...data })
+        } else {
+          this.$message.error('获取房间详情失败')
+        }
+      })
+      this.$https.post(this.$urls.contract.get_list_by_room, {
+        page_size: 999,
+        page_no: 1,
+        room_id: this.roomInfo.domain_id
+      }).then(res => {
+        if (res.code === 1000) {
+          this.roomInfo_body_table1.info.tableData = res.list
+        }
+      })
     },
     handleSelect (data, type) {
       if (type === 'area') {
@@ -505,7 +516,12 @@ export default {
     open (i) {
       if (i === '编辑') {
         // this.modifyShow = true
-        this.fetchRoomInfo()
+        this.fetchRoomInfo().then(res => {
+          if (res.code === 1000) {
+            this.defaultValue = res
+            this.modifyShow = true
+          }
+        })
       }
       if (i === '删除') {
         this.fetchDelRoom()
@@ -544,13 +560,12 @@ export default {
       })
     },
     fetchRoomInfo () {
-      this.$https.post(this.$urls.room.get_info, {
-        domain_id: this.roomInfo.domain_id
-      }).then(res => {
-        if (res.code === 1000) {
-          this.defaultValue = res
-          this.modifyShow = true
-        }
+      return new Promise((resolve, reject) => {
+        this.$https.post(this.$urls.room.get_info, {
+          domain_id: this.roomInfo.domain_id
+        }).then(res => {
+          resolve(res)
+        })
       })
     },
     fetchDelRoom () {

@@ -263,6 +263,8 @@ export default {
       id: ''
     }
   },
+  watch: {
+  },
   methods: {
     handleAddContract () {
       this.addVisible = true
