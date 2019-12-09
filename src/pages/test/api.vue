@@ -2111,8 +2111,14 @@ export default {
             {
               key: 'id',
               type: 'int',
-              required: true,
-              description: '客户id'
+              required: false,
+              description: '客户id(客户id和房间id必须有一个)'
+            },
+            {
+              key: 'room_id',
+              type: 'int',
+              required: false,
+              description: '房间id(客户id和房间id必须有一个)'
             }
           ],
           return: [],
@@ -6648,19 +6654,17 @@ export default {
               key: 'customer_name',
               type: 'string',
               description: '租客信息的签订人和租客信息的联系人'
-            }, // - //其他关键信息  无 //基本条款
-            /* { key: '', type: '', description: '签订人' }, */ {
+            },
+            {
               key: '暂无',
               type: '',
               description: '房源信息'
             }, // 9001
             { key: '暂无', type: '', description: '租赁数' }, // 360
-
             // 保证金条款
             //
             { key: '保证金目前只有租金', type: '', description: '保证金类型' }, // 租金保证金
             { key: 'deposit', type: 'numeric', description: '保证金类型' }, // 租金保证金
-
             // 租期条款
             { key: 'fee_start_ts', type: 'timestamp', description: '开始时间' }, // 2019-11-11
             { key: 'fee_end_ts', type: 'timestamp', description: '结束时间' }, // 2022-11-10
@@ -7431,8 +7435,7 @@ export default {
           { dic_code: 'room_state_1', dic_info: '预定', order_num: 1 },
           { dic_code: 'room_state_2', dic_info: '待租', order_num: 2 }
         ]
-      }, /* {      type_code: 'Premises',      type_name: '所属楼宇',
-      data: [
+      }, /* {      type_code: 'Premises',      type_name: '所属楼宇',      data: [
         // { dic_code: 'Premises_0', dic_info: '占用', order_num: 0 },
       ]
     }, */
