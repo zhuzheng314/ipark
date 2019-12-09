@@ -8,7 +8,7 @@
         @change="fetchListSearch"
         placeholder="进度阶段">
           <el-option
-            v-for="item in options1"
+            v-for="item in this.$store.getters.getDicInfoByCode('customer_state')"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -152,24 +152,7 @@ export default {
       ],
       infoData: [
       ],
-      options1: [
-        {
-          value: 0,
-          label: '全部'
-        }, {
-          value: 1,
-          label: '初次来访'
-        }, {
-          value: 2,
-          label: '意向客户'
-        }, {
-          value: 3,
-          label: '成交客户'
-        }, {
-          value: 4,
-          label: '休眠客户'
-        }
-      ],
+      options1: this.$store.getters.getDicInfoByCode('customer_state'),
       options2: [
         {
           value: 0,
