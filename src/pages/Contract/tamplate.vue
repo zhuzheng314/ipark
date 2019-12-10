@@ -55,6 +55,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
+        @onCancel="() => {this.addVisible = false}"
         v-if="addVisible"
         :formList="$formsLabels.tamplateForm"
         :options="$store.getters.tamplateListOptions"
@@ -70,6 +71,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        @onCancel="() => {this.modifyVisible = false}"
         v-if="modifyVisible"
         :formList="$formsLabels.tamplateForm"
         :options="$store.getters.tamplateListOptions"

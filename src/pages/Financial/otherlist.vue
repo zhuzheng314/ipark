@@ -106,6 +106,7 @@
         <ParkForm
           @onSubmit="fetchAdd"
           v-if="addVisible"
+          @onCancel="() => {this.addVisible = false}"
           :formList="$formsLabels.otherForm"
           :options="$store.getters.rentListOptions"
           :defaultValue="{}"

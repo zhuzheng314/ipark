@@ -168,7 +168,7 @@ export default {
         this.setPassWordVisible = true
       }
       if (command === 'loginOut') {
-        this.$store.commit('clearSession')
+        this.$store.commit('loginOut')
       }
     },
     setPassWord () {
