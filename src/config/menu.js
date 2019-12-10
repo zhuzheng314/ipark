@@ -73,10 +73,10 @@ const menuList = [
     name: '物业服务',
     icon: '\ue60b',
     children: [
-      {
-        name: '四表集抄',
-        path: '/property/equipment'
-      },
+      // {
+      //   name: '四表集抄',
+      //   path: '/property/equipment'
+      // },
       {
         name: '报修管理',
         path: '/property/repair'
