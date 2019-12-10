@@ -85,11 +85,11 @@
                   :style="{
                 width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
-                background: filterRoomColorByState(subItem) }">
+                background: filterRoomState(subItem).color }">
                   <div class="text">{{subItem.name}}</div>
                   <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
                   <div class="sub-text">{{subItem.state === 0? '2022-11-11到期':'-' }}</div>
-                  <div class="status">{{statusList[subItem.state].str}}</div>
+                  <div class="status">{{filterRoomState(subItem).str}}</div>
                 </div>
               </div>
 
@@ -228,27 +228,27 @@ export default {
       statusList: [
         {
           color: '#57D1E2',
-          code: 0,
+          code: 292,
           str: '在租'
         },
         {
           color: '#46D2A8',
-          code: 1,
+          code: 294,
           str: '待招商'
         },
         {
           color: '#F1A468',
-          code: 2,
+          code: 429,
           str: '自用'
         },
         {
           color: '#626C91',
-          code: 3,
+          code: 293,
           str: '未分配'
         },
         {
           color: '#dcdcdc',
-          code: 4,
+          code: 432,
           str: '锁定'
         }
       ],
@@ -528,7 +528,7 @@ export default {
     handleStatusClick (data) {
       this.filterStatus = !this.filterStatus
       this.filterData = data
-      this.filterRoomColorByState()
+      // this.filterRoomColorByState()
     },
     filterRoomColorByState (room) {
       if (!room) return 'yellow'
@@ -541,6 +541,16 @@ export default {
           return '#dcdcdc'
         }
       }
+    },
+    filterRoomState (room) {
+      if (!room) return {}
+      let state = {}
+      this.statusList.forEach(item => {
+        if (item.code === room.state) {
+          state = item
+        }
+      })
+      return state
     },
     fetchModifyRoom (data) {
       this.$https.post(this.$urls.room.modify, {
@@ -569,6 +579,7 @@ export default {
       }).then(res => {
         if (res.code === 1000) {
           this.$message.success('删除成功')
+          this.roomInfoState = false
           this.fetchRoomList()
         } else {
           this.$message.warning('删除失败')
