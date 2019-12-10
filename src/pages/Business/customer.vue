@@ -8,7 +8,7 @@
         @change="fetchListSearch"
         placeholder="进度阶段">
           <el-option
-            v-for="item in this.$store.getters.getDicInfoByCode('customer_state')"
+            v-for="item in this.$store.state.dictionary.dictionaryType['customer_state']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -21,7 +21,7 @@
         @change="fetchListSearch"
         placeholder="来源渠道">
           <el-option
-            v-for="item in options2"
+            v-for="item in this.$store.state.dictionary.dictionaryType['customer_info_source']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -277,8 +277,8 @@ export default {
             { prop: 'contract_code', label: '合同编号' },
             { prop: 'room', label: '楼宇/房间号' },
             { prop: 'rent_area', label: '租赁面积' },
-            { prop: 'start_ts', label: '开始日' },
-            { prop: 'end_ts', label: '结束日' },
+            { prop: 'fee_start_ts', label: '开始日' },
+            { prop: 'fee_end_ts', label: '结束日' },
             { prop: 'unit_price', label: '合同单价' },
             { prop: 'state', label: '状态' },
             { prop: 'contacter', label: '联系人' },
@@ -310,8 +310,20 @@ export default {
         page_size: 999,
         customer_id: this.id
       }).then(res => {
-        this.customerInfo_body_2.info.tableData = res.list[0].room
-        this.customerInfo_body_table.info.tableData = res.list
+        this.customerInfo_body_2.info.tableData = []
+        this.customerInfo_body_table.info.tableData = []
+        if (res.list.length) {
+          let roomList = res.list[0].room
+          for (let i = 0; i < roomList.length; i++) {
+            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
+          }
+          this.customerInfo_body_2.info.tableData = roomList
+          let contractList = res.list
+          for (let i = 0; i < contractList.length; i++) {
+            contractList[i].state = this.$store.getters.getDicById(contractList[i].state)
+          }
+          this.customerInfo_body_table.info.tableData = contractList
+        }
       })
     },
     handleClose () { },
@@ -390,14 +402,18 @@ export default {
     fetchList () { // 获取客户列表
       let params = {
         ...this.page,
-        park_id: this.$store.state.form.activePark.domain_id,
-        state: this.value1,
-        info_source: this.value2,
-        name: this.value3
+        park_id: this.$store.state.form.activePark.domain_id
+        // state: this.value1,
+        // info_source: this.value2,
+        // name: this.value3
       }
       this.$https.post(this.$urls.customer.get_list, params).then((res) => {
         // console.log(res)
+        let list = res.list
+        let params = ['state', 'info_source', 'demand_area', 'status']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
+        this.tableData = []
         this.tableData = res.list
       })
     },
@@ -416,11 +432,11 @@ export default {
         this.customerInfo_body_1.info = [
           { name: '名称', value: data.name },
           { name: '来访时间', value: data.create_ts },
-          { name: '客户状态', value: data.state },
-          { name: '渠道', value: data.info_source },
-          { name: '需求面积段', value: data.demand_area },
-          { name: '需求工位段', value: data.work_station },
-          { name: '行业', value: data.status },
+          { name: '客户状态', value: this.$store.getters.getDicById(data.state) },
+          { name: '渠道', value: this.$store.getters.getDicById(data.info_source) },
+          { name: '需求面积段', value: this.$store.getters.getDicById(data.demand_area) },
+          { name: '需求工位段', value: this.$store.getters.getDicById(data.work_station) },
+          { name: '行业', value: this.$store.getters.getDicById(data.status) },
           { name: '预计签约时间', value: data.demand_ts },
           { name: '跟进人', value: data.receiver }
         ]

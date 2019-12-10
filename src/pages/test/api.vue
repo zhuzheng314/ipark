@@ -5997,8 +5997,10 @@ export default {
           title: '修改合同',
           api: 'assets.contract.modify',
           business: [
-            { key: 'customer_code', type: '合同编码', description: 'string' },
+            { key: 'contract_code', type: '合同编码', description: 'string' },
             { key: 'customer_id', type: '用户id', description: 'int' },
+            { key: 'company_id', type: '企业id', description: 'int' },
+
             {
               key: 'organiz_code',
               type: 'string',
@@ -6346,7 +6348,6 @@ export default {
               description: 'int'
             }, // 月物业费  物业费条款
             { key: 'property_deposit', type: '押金', description: 'int' }, // 押金（元）    物业费基础条款
-
             {
               key: 'room',
               type: '数组',
@@ -6556,7 +6557,6 @@ export default {
               description: '月物业费'
             },
             { key: 'property_deposit', type: 'int', description: '押金' },
-
             {
               key: 'room',
               type: '数组',
@@ -6655,11 +6655,7 @@ export default {
               type: 'string',
               description: '租客信息的签订人和租客信息的联系人'
             },
-            {
-              key: '暂无',
-              type: '',
-              description: '房源信息'
-            }, // 9001
+            { key: '暂无', type: '', description: '房源信息' }, // 9001
             { key: '暂无', type: '', description: '租赁数' }, // 360
             // 保证金条款
             //
@@ -7127,6 +7123,127 @@ export default {
         }
       ]
     }
+    let home = {
+      title: '工作台',
+      content: [
+        {
+          title: '获取工作台模块统计信息',
+          api: 'assets.d_home.get_info',
+          business: [
+            {
+              key: 'park_id',
+              type: 'int',
+              required: true,
+              description: '园区id'
+            }
+          ],
+          return: [
+            {
+              key: 'build_area',
+              type: 'int',
+              required: true,
+              description: `建筑面积`
+            },
+            {
+              key: 'total_invest',
+              type: 'int',
+              required: true,
+              description: `总投资`
+            },
+            {
+              key: 'enter_firm',
+              type: 'int',
+              required: true,
+              description: `入驻企业数 `
+            },
+            {
+              key: 'pact_num',
+              type: 'int',
+              required: true,
+              description: `合同数`
+            },
+            {
+              key: 'rent',
+              type: 'int',
+              required: true,
+              description: `房租费用`
+            },
+            {
+              key: 'park_total',
+              type: 'int',
+              required: true,
+              description: `总金额`
+            },
+            {
+              key: 'firm_total',
+              type: 'int',
+              required: true,
+              description: `本月企业入驻总数`
+            },
+            {
+              key: 'service_total',
+              type: 'int',
+              required: true,
+              description: `本月工单总数：service数组中所有数据的总和`
+            },
+            {
+              key: 'tax_total',
+              type: 'int',
+              required: true,
+              description: `本月总税收`
+            },
+            {
+              key: 'pact_total',
+              type: 'int',
+              required: true,
+              description: `本月合同数`
+            },
+            {
+              key: 'parkValue',
+              type: '数组',
+              required: true,
+              description: '园区产值',
+              explain: [
+                { key: 'rent_value', type: 'int', description: '租金' },
+                { key: 'fee_value', type: 'int', description: '物业费' },
+                { key: 'else_value', type: 'int', description: '其他' }
+              ]
+            },
+            {
+              key: 'firm',
+              type: '数组',
+              required: true,
+              description: '入驻企业生产指标'
+            },
+            {
+              key: 'service',
+              type: '数组',
+              required: true,
+              description: '物业服务指数',
+              explain: [
+                { key: 'accuse_num', type: 'int', description: '投诉' },
+                { key: 'repairs_num', type: 'int', description: '报修' },
+                { key: 'pay_urge', type: 'int', description: '催缴' },
+                { key: 'pay_closed', type: 'int', description: '已结清' }
+              ]
+            },
+            {
+              key: 'pact',
+              type: '数组',
+              required: true,
+              description: '合同及账单'
+            },
+            {
+              key: 'tax',
+              type: '数组',
+              required: true,
+              description: '税收'
+            }
+          ],
+          explain: []
+        }
+      ]
+    }
 
     this.testData = [
       {
@@ -7163,6 +7280,11 @@ export default {
         index: 7,
         title: '字典模块管理',
         content: [zidmkgl, zidgl]
+      },
+      {
+        index: 8,
+        title: '工作台模块',
+        content: [home]
       }
     ]
 
@@ -7435,8 +7557,7 @@ export default {
           { dic_code: 'room_state_1', dic_info: '预定', order_num: 1 },
           { dic_code: 'room_state_2', dic_info: '待租', order_num: 2 }
         ]
-      }, /* {      type_code: 'Premises',      type_name: '所属楼宇',      data: [
-        // { dic_code: 'Premises_0', dic_info: '占用', order_num: 0 },
+      }, /* {      type_code: 'Premises',      type_name: '所属楼宇',      data: [        // { dic_code: 'Premises_0', dic_info: '占用', order_num: 0 },
       ]
     }, */
       {

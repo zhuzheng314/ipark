@@ -9,7 +9,7 @@
         @change="fetchListSearch"
         placeholder="工单状态">
           <el-option
-            v-for="item in options2"
+            v-for="item in this.$store.state.dictionary.dictionaryType['work_state']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -261,9 +261,6 @@ export default {
     }
   },
   methods: {
-    handleClose () {
-
-    },
     handleAddContract () {
       this.addVisible = true
     },

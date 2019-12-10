@@ -169,7 +169,9 @@
       <div>
         <ParkForm
           ref="parkForm"
+          v-if="addShow"
           @onSubmit="handleAddPark"
+          :options="$store.getters.addParkOptions"
           :formList="$formsLabels.addParkForm"
           :itemList="[]">
         </ParkForm>
@@ -182,16 +184,15 @@
       :visible.sync="editParkShow"
       width="600px"
     >
-      <div v-if="editParkShow">
-        <ParkForm
-          ref="parkForm"
-          @onSubmit="handleEditPark"
-          :formList="$formsLabels.addParkForm"
-          :options="$store.getters.parkListOptions"
-          :default-value="modifyParkDefaultValue"
-          :itemList="[]">
-        </ParkForm>
-      </div>
+      <ParkForm
+        ref="parkForm"
+        v-if="editParkShow"
+        @onSubmit="handleEditPark"
+        :formList="$formsLabels.addParkForm"
+        :options="$store.getters.modifyParkOptions"
+        :default-value="modifyParkDefaultValue"
+        :itemList="[]">
+      </ParkForm>
 
     </el-dialog>
     <el-dialog
@@ -415,7 +416,7 @@ export default {
             { name: '建筑面积', value: res.built_area, key: 'built_area', unit: '㎡' },
             { name: '总投资额', value: res.total_invest, key: 'total_invest', unit: 'w' },
             { name: '实际投资', value: res.actual_invest, key: 'actual_invest', unit: 'w' },
-            { name: '园区定位', value: res.usage, key: 'usage', unit: '' }
+            { name: '园区定位', value: this.$store.getters.getDicById(res.usage), key: 'usage', unit: '' }
           ]
         }
       })

@@ -43,7 +43,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          @click="handleAddContract"
+          @click="handleAdd"
         >新增房租费</el-button>
       </div>
       <div>
@@ -68,15 +68,15 @@
     </el-card>
 
     <el-dialog
-      title="新建收付款账单"
+      title="新建房租费用账单"
       :visible.sync="addVisible"
       width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchAdd"
           v-if="addVisible"
-          :formList="$formsLabels.incomeForm"
-          :options="$store.getters.incomeListOptions"
+          :formList="$formsLabels.rentForm"
+          :options="$store.getters.rentListOptions"
           :defaultValue="{}"
           :itemList="[]"
         ></ParkForm>
@@ -296,7 +296,7 @@ export default {
     }
   },
   methods: {
-    handleAddContract () {
+    handleAdd () {
       this.addVisible = true
     },
     financialState (row) {

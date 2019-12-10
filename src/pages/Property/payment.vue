@@ -8,7 +8,7 @@
         @change="fetchListSearch"
         placeholder="费用类型">
           <el-option
-            v-for="item in options"
+            v-for="item in this.$store.state.dictionary.dictionaryType['payment_type']"
             :key="item.value"
             :label="item.label"
             :value="item.value">

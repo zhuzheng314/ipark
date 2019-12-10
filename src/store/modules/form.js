@@ -1,6 +1,7 @@
 import request from '@/plugins/axios'
 import { baseUrl, api } from '@/config/api'
 import { storageSet, storageGet } from '@/utils/utils'
+import dictionary from './dictionary' //  字典
 const form = {
   state: {
     parkList: [],
@@ -29,6 +30,26 @@ const form = {
         }) : []
       }
     },
+    // 新增园区
+    addParkOptions: (state, getters, rootState) => {
+      return {
+        usage: dictionary.state.dictionaryType['park_usage'],
+        state: dictionary.state.dictionaryType['park_state']
+      }
+    },
+    // 修改园区
+    modifyParkOptions: state => {
+      return {
+        usage: dictionary.state.dictionaryType['park_usage'],
+        pid: state.parkList.length ? state.parkList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
+        state: dictionary.state.dictionaryType['park_state']
+      }
+    },
     // 楼宇
     buildListOptions: state => {
       return {
@@ -37,7 +58,8 @@ const form = {
             label: x.name,
             value: x.domain_id
           }
-        }) : []
+        }) : [],
+        state: dictionary.state.dictionaryType['room_state']
       }
     },
     // 房间
@@ -115,7 +137,21 @@ const form = {
         room: getters.parkTreeOptions,
         domain_id: getters.parkTreeOptions,
         customer_id: state.customerList,
-        contract_type: state.contractTamplateList
+        contract_type: state.contractTamplateList,
+        scope: dictionary.state.dictionaryType['company_scope'],
+        operate_state: dictionary.state.dictionaryType['company_operate_state'],
+        company_type: dictionary.state.dictionaryType['company_company_type'],
+        staff_size: dictionary.state.dictionaryType['company_staff_size'],
+        trade: dictionary.state.dictionaryType['customer_status'],
+        tenancy_divide: dictionary.state.dictionaryType['contract_divide'],
+        charge_type: dictionary.state.dictionaryType['contract_charge_type'],
+        state: dictionary.state.dictionaryType['contract_state']
+      }
+    },
+    // 合同模板类型
+    tamplateListOptions: (state, getters) => {
+      return {
+        template_type: dictionary.state.dictionaryType['template_type']
       }
     },
     // 进驻
@@ -127,21 +163,28 @@ const form = {
     // 客户
     customerListOptions: (state, getters) => {
       return {
-        room: getters.parkTreeOptions
+        room: getters.parkTreeOptions,
+        state: dictionary.state.dictionaryType['customer_state'],
+        status: dictionary.state.dictionaryType['customer_status'],
+        info_source: dictionary.state.dictionaryType['customer_access'],
+        demand_area: dictionary.state.dictionaryType['demand_area'],
+        work_station: dictionary.state.dictionaryType['work_station']
       }
     },
     // 报修
     repairListOptions: (state, getters) => {
       return {
         domain_id: getters.parkTreeOptions,
-        customer_id: state.customerList
+        customer_id: state.customerList,
+        repair_state: dictionary.state.dictionaryType['work_state']
       }
     },
     // 投诉
     complaintListOptions: (state, getters) => {
       return {
         domain_id: getters.parkTreeOptions,
-        customer_id: state.customerList
+        customer_id: state.customerList,
+        complaint_state: dictionary.state.dictionaryType['work_state']
       }
     },
     // 催缴
@@ -149,20 +192,32 @@ const form = {
       return {
         customer_id: state.customerList,
         domain_id: getters.parkTreeOptions,
-        contract_code: state.contractList
+        contract_code: state.contractList,
+        type: dictionary.state.dictionaryType['payment_type']
       }
     },
     // 列支
     financialListOptions: (state, getters) => {
       return {
         contract_code: state.contractList,
-        customer_id: state.customerList
+        customer_id: state.customerList,
+        log_type: dictionary.state.dictionaryType['cost_log_type'],
+        state: dictionary.state.dictionaryType['cost_state'],
+        cost_type: dictionary.state.dictionaryType['charge_type']
       }
     },
     // 收入
     incomeListOptions: (state, getters) => {
       return {
-        contract_code: state.contractList
+        contract_code: state.contractList,
+        charge_type: dictionary.state.dictionaryType['charge_type']
+      }
+    },
+    rentListOptions: (state, getters) => {
+      return {
+        contract_code: state.contractList,
+        room: getters.parkTreeOptions,
+        name: state.customerList
       }
     }
   },

@@ -28,7 +28,7 @@
               this.handleSelect(data, 'area')
             }">
             <el-option
-              v-for="item in requirement.area.areaList"
+              v-for="item in this.$store.state.dictionary.dictionaryType['demand_area']"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -41,7 +41,7 @@
             v-model="requirement.timeLimit.value"
             placeholder="合同期限">
             <el-option
-              v-for="item in requirement.timeLimit.timeLimitList"
+              v-for="item in this.$store.state.dictionary.dictionaryType['contract_term']"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -421,12 +421,12 @@ export default {
         title: '招商信息',
         info: {
           label: [
-            { prop: 'tenant', label: '租客' },
-            { prop: 'tel', label: '联系电话' },
+            { prop: 'contacter', label: '租客' },
+            { prop: 'contact', label: '联系电话' },
             { prop: 'state', label: '客户状态' },
-            { prop: 'date', label: '跟进人员' },
-            { prop: 'channel', label: '招商渠道' },
-            { prop: 'remarks', label: '备注' }
+            { prop: 'receiver', label: '跟进人员' },
+            { prop: 'info_source', label: '招商渠道' },
+            { prop: 'memo', label: '备注' }
           ],
           tableData: [
           ]
@@ -478,6 +478,7 @@ export default {
         if (res.code === 1000) {
           let data = res
           this.roomInfo_header.title = data.floor + '/' + data.name
+          this.roomInfo_info.tableData = []
           this.roomInfo_info.tableData.push({ ...data })
         } else {
           this.$message.error('获取房间详情失败')
@@ -489,7 +490,15 @@ export default {
         room_id: this.roomInfo.domain_id
       }).then(res => {
         if (res.code === 1000) {
+          this.roomInfo_body_table1.info.tableData = []
           this.roomInfo_body_table1.info.tableData = res.list
+        }
+      })
+      this.$https.post(this.$urls.customer.get_info, { room_id: this.roomInfo.domain_id }).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.roomInfo_body_table2.info.tableData = []
+          this.roomInfo_body_table2.info.tableData.push({ ...data })
         }
       })
     },

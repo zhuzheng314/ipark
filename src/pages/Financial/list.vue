@@ -16,7 +16,7 @@
           @change="fetchListSearch"
           placeholder="列支方向">
           <el-option
-            v-for="item in options"
+            v-for="item in this.$store.state.dictionary.dictionaryType['cost_log_type']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -30,7 +30,7 @@
           @change="fetchListSearch"
           placeholder="状态">
           <el-option
-            v-for="item in options1"
+            v-for="item in this.$store.state.dictionary.dictionaryType['cost_state']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -83,7 +83,7 @@
         @onSubmit="fetchAdd"
         v-if="addVisible"
         :formList="$formsLabels.financialForm"
-        :options="defaultOption"
+        :options="$store.getters.financialListOptions"
         :defaultValue="{}"
         :itemList="[]"
         ></ParkForm>
@@ -99,7 +99,7 @@
         @onSubmit="fetchModify"
         v-if="modifyVisible"
         :formList="$formsLabels.financialForm"
-        :options="defaultOption"
+        :options="$store.getters.financialListOptions"
         :defaultValue="defaultValue"
         :itemList="[]"
         ></ParkForm>
@@ -145,12 +145,12 @@ export default {
     ParkForm
   },
   computed: {
-    defaultOption () {
-      return {
-        contract_code: this.$store.state.form.contractList,
-        customer_id: this.$store.state.form.customerList
-      }
-    }
+    // defaultOption () {
+    //   return {
+    //     contract_code: this.$store.state.form.contractList,
+    //     customer_id: this.$store.state.form.customerList
+    //   }
+    // }
   },
   data () {
     return {

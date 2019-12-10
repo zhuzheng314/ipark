@@ -106,8 +106,8 @@
         <ParkForm
           @onSubmit="fetchAdd"
           v-if="addVisible"
-          :formList="$formsLabels.financialForm"
-          :options="$store.getters.financialListOptions"
+          :formList="$formsLabels.otherForm"
+          :options="$store.getters.rentListOptions"
           :defaultValue="{}"
           :itemList="[]"
         ></ParkForm>

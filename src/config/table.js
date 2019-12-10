@@ -56,27 +56,27 @@ const contractList = [
     label: '客户名称'
   },
   {
-    prop: 'e',
+    prop: 'end_ts',
     label: '截止时间'
   },
   {
-    prop: 'd',
+    prop: 'sign_ts',
     label: '签订日'
   },
   {
-    prop: 'f',
+    prop: 'state',
     label: '合同状态'
   },
   {
-    prop: 'g',
+    prop: 'manage_area',
     label: '租赁数目'
   },
   {
-    prop: 'h',
+    prop: 'receiver',
     label: '跟进人'
   },
   {
-    prop: 'j',
+    prop: 'unit_price',
     label: '合同金额'
   }
 ]
@@ -261,7 +261,7 @@ const repairList = [
     label: '地址'
   },
   {
-    prop: 'state',
+    prop: 'repair_state',
     label: '状态',
     renderTags: true
   },
@@ -285,7 +285,7 @@ const complaintList = [
     label: '联系电话'
   },
   {
-    prop: 'reserve_tsreserve_ts',
+    prop: 'reserve_ts',
     label: '发起时间'
   },
   {
@@ -293,7 +293,7 @@ const complaintList = [
     label: '地址'
   },
   {
-    prop: 'state',
+    prop: 'complaint_state',
     label: '状态',
     renderTags: true
   },
