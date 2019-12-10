@@ -184,10 +184,22 @@ export default {
           api: 'assets.d_equip.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
+            },
+            {
+              key: 'start_ts',
+              type: 'timestamp',
+              required: true,
+              description: '起始时间'
+            },
+            {
+              key: 'end_ts',
+              type: 'timestamp',
+              required: true,
+              description: '结束时间'
             }
           ],
           return: [
@@ -452,7 +464,7 @@ export default {
           api: 'assets.d_repair.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
@@ -804,7 +816,7 @@ export default {
           api: 'assets.d_complaint.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'park_id',
               type: 'int',
               required: false,
               description: '园区id'
@@ -1218,6 +1230,12 @@ export default {
               description: `应收`
             },
             {
+              key: 'need_receive_num',
+              type: 'int',
+              required: true,
+              description: `应收费用笔数`
+            },
+            {
               key: 'need_receive_rate',
               type: 'decimal',
               required: true,
@@ -1240,6 +1258,12 @@ export default {
               type: 'int',
               required: true,
               description: `未缴`
+            },
+            {
+              key: 'un_receive_num',
+              type: 'int',
+              required: true,
+              description: `未缴费用笔数`
             },
             {
               key: 'un_receive_rate',
@@ -1634,10 +1658,16 @@ export default {
           api: 'assets.d_customer.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
+            },
+            {
+              key: 'customer_info_source',
+              type: 'int',
+              required: false,
+              description: '来源字典id'
             }
           ],
           return: [
@@ -2081,8 +2111,14 @@ export default {
             {
               key: 'id',
               type: 'int',
-              required: true,
-              description: '客户id'
+              required: false,
+              description: '客户id(客户id和房间id必须有一个)'
+            },
+            {
+              key: 'room_id',
+              type: 'int',
+              required: false,
+              description: '房间id(客户id和房间id必须有一个)'
             }
           ],
           return: [],
@@ -2135,13 +2171,6 @@ export default {
               数据区间: [0 - 1]
             },
             {
-              key: 'unit_type',
-              type: 'int',
-              required: true,
-              description: `单位`,
-              数据区间: []
-            },
-            {
               key: 'rent_rate',
               type: 'int',
               required: true,
@@ -2160,6 +2189,41 @@ export default {
               type: 'int',
               required: true,
               description: `当前计租率`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'total_rooms',
+              type: 'int',
+              required: true,
+              description: `总房源数量`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'month_area',
+              type: 'int',
+              required: true,
+              description: `本月签约面积`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'month_area_avg_price',
+              type: 'int',
+              required: true,
+              description: `本月签约均价`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'rent_rooms',
+              type: 'int',
+              required: true,
+              description: `可招商房间`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'year_pay_rate',
+              type: 'int',
+              required: true,
+              description: `预计全年计租率:`,
               数据区间: [0 - 1]
             }
           ],
@@ -2776,7 +2840,7 @@ export default {
       content: [
         {
           title: '获取楼宇统计信息',
-          api: 'assets.d_building.get_list',
+          api: 'assets.d_building.get_info',
           business: [
             {
               key: 'building_id',
@@ -2790,67 +2854,99 @@ export default {
               key: 'rent_area',
               type: 'int',
               required: true,
-              description: `可招商面积`
+              description: `可招商面积`,
+              数据区间: [1000 - 2000]
             },
             {
               key: 'total_area',
               type: 'int',
               required: true,
-              description: `管理面积`
+              description: `管理面积`,
+              数据区间: [2000 - 3000]
             },
             {
               key: 'avg_unit_price',
               type: 'int',
               required: true,
-              description: `在租实时均价`
+              description: `在租实时均价`,
+              数据区间: [300 - 1000]
             },
             {
-              key: 'unit_type',
+              key: 'avg_unit_price_rate',
               type: 'int',
               required: true,
-              description: `单位`
+              description: `在租实时均价变化率`,
+              数据区间: [0 - 1]
             },
             {
               key: 'rent_rate',
               type: 'int',
               required: true,
-              description: `出租率`
+              description: `出租率`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'rent_change_rate',
+              type: 'int',
+              required: true,
+              description: `出租率变化率`,
+              数据区间: [0 - 1]
             },
             {
               key: 'pay_rate',
               type: 'int',
               required: true,
-              description: `支付租金的比率`
+              description: `当前计租率`,
+              数据区间: [0 - 1]
             },
             {
               key: 'total_rooms',
               type: 'int',
               required: true,
-              description: `总房源数量`
+              description: `总房源数量`,
+              数据区间: [1000 - 1200]
             },
             {
               key: 'rent_rooms',
               type: 'int',
               required: true,
-              description: `可招租房源数量`
-            },
-            {
-              key: 'create_ts',
-              type: 'timestamp',
-              required: true,
-              description: `创建时间`
+              description: `可招租房源数量`,
+              数据区间: [600 - 700]
             },
             {
               key: 'name',
-              type: 'string',
+              type: 'int',
               required: true,
-              description: `楼宇名称`
+              description: `楼宇名称`,
+              数据区间: [600 - 700]
             },
             {
               key: 'built_area',
               type: 'int',
               required: true,
-              description: `建筑面积:单位平方米`
+              description: `建筑面积`,
+              数据区间: [3000 - 3100]
+            },
+            {
+              key: 'month_area',
+              type: 'int',
+              required: true,
+              description: `本月签约面积`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'month_area_avg_price',
+              type: 'int',
+              required: true,
+              description: `本月签约均价`,
+              数据区间: [0 - 1]
+            },
+            {
+              key: 'year_pay_rate',
+              type: 'int',
+              required: true,
+              description: `预计全年计租率:`,
+              数据区间: [0 - 1]
             }
           ],
           explain: []
@@ -4014,7 +4110,7 @@ export default {
           api: 'assets.d_cost.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
@@ -4022,10 +4118,65 @@ export default {
           ],
           return: [
             {
+              key: 'need_pay',
+              type: 'int',
+              required: true,
+              description: `应付`
+            },
+            {
+              key: 'need_pay_num',
+              type: 'int',
+              required: true,
+              description: `应付笔数`
+            },
+            {
+              key: 'need_pay_rate',
+              type: 'decimal',
+              required: true,
+              description: `应付对比`
+            },
+            {
+              key: 'pay',
+              type: 'int',
+              required: true,
+              description: `已付`
+            },
+            {
+              key: 'pay_rate',
+              type: 'decimal',
+              required: true,
+              description: `已付对比`
+            },
+            {
+              key: 'un_pay',
+              type: 'int',
+              required: true,
+              description: `未付`
+            },
+            {
+              key: 'un_pay_num',
+              type: 'int',
+              required: true,
+              description: `未付笔数`
+            },
+            {
+              key: 'un_pay_rate',
+              type: 'decimal',
+              required: true,
+              description: `未付对比`
+            },
+
+            {
               key: 'need_receive',
               type: 'int',
               required: true,
               description: `应收`
+            },
+            {
+              key: 'need_receive_num',
+              type: 'int',
+              required: true,
+              description: `应收笔数`
             },
             {
               key: 'need_receive_rate',
@@ -4050,6 +4201,12 @@ export default {
               type: 'int',
               required: true,
               description: `未缴`
+            },
+            {
+              key: 'un_receive_num',
+              type: 'int',
+              required: true,
+              description: `未缴笔数`
             },
             {
               key: 'un_receive_rate',
@@ -4510,10 +4667,16 @@ export default {
           api: 'assets.d_charge.get_info',
           business: [
             {
-              key: 'domain_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
+            },
+            {
+              key: 'charge_state',
+              type: 'int',
+              required: true,
+              description: '缴费状态字典id'
             }
           ],
           return: [
@@ -5653,11 +5816,11 @@ export default {
       title: '合同模块管理',
       content: [
         {
-          title: '获取合同统计信息(暂无)',
-          api: 'assets.d_contract.get_list',
+          title: '获取合同到期统计信息',
+          api: 'assets.d_contract.get_info',
           business: [
             {
-              key: 'building_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
@@ -5665,70 +5828,10 @@ export default {
           ],
           return: [
             {
-              key: 'rent_area',
-              type: 'int',
+              key: 'list',
+              type: 'json',
               required: true,
-              description: `可招商面积`
-            },
-            {
-              key: 'total_area',
-              type: 'int',
-              required: true,
-              description: `管理面积`
-            },
-            {
-              key: 'avg_unit_price',
-              type: 'int',
-              required: true,
-              description: `在租实时均价`
-            },
-            {
-              key: 'unit_type',
-              type: 'int',
-              required: true,
-              description: `单位`
-            },
-            {
-              key: 'rent_rate',
-              type: 'int',
-              required: true,
-              description: `出租率`
-            },
-            {
-              key: 'pay_rate',
-              type: 'int',
-              required: true,
-              description: `支付租金的比率`
-            },
-            {
-              key: 'total_rooms',
-              type: 'int',
-              required: true,
-              description: `总房源数量`
-            },
-            {
-              key: 'rent_rooms',
-              type: 'int',
-              required: true,
-              description: `可招租房源数量`
-            },
-            {
-              key: 'create_ts',
-              type: 'timestamp',
-              required: true,
-              description: `创建时间`
-            },
-            {
-              key: 'name',
-              type: 'string',
-              required: true,
-              description: `楼宇名称`
-            },
-            {
-              key: 'built_area',
-              type: 'int',
-              required: true,
-              description: `建筑面积:单位平方米`
+              description: `合同到期统计信息列表 例：{"一月":3,"二月":0,"三月":2,"四月":3,"五月":0,"六月":4,"七月":1,"八月":2,"九月":0,"十月":3,"十一月":0,"十二月":2}`
             }
           ],
           explain: []
@@ -5894,8 +5997,10 @@ export default {
           title: '修改合同',
           api: 'assets.contract.modify',
           business: [
-            { key: 'customer_code', type: '合同编码', description: 'string' },
+            { key: 'contract_code', type: '合同编码', description: 'string' },
             { key: 'customer_id', type: '用户id', description: 'int' },
+            { key: 'company_id', type: '企业id', description: 'int' },
+
             {
               key: 'organiz_code',
               type: 'string',
@@ -6243,7 +6348,6 @@ export default {
               description: 'int'
             }, // 月物业费  物业费条款
             { key: 'property_deposit', type: '押金', description: 'int' }, // 押金（元）    物业费基础条款
-
             {
               key: 'room',
               type: '数组',
@@ -6453,7 +6557,6 @@ export default {
               description: '月物业费'
             },
             { key: 'property_deposit', type: 'int', description: '押金' },
-
             {
               key: 'room',
               type: '数组',
@@ -6503,10 +6606,6 @@ export default {
             }
           ],
           return: [
-            // 这里是合同信息
-            // { key: 'contract_code', type: '合同编号', description: 'string' },
-            /*                   合同详情内容                       */
-
             // 合同信息
             { key: 'contract_code', type: 'string', description: '合同编号' }, // XXX公司1
             { key: 'receiver', type: 'string', description: '跟进人' }, // -
@@ -6555,19 +6654,13 @@ export default {
               key: 'customer_name',
               type: 'string',
               description: '租客信息的签订人和租客信息的联系人'
-            }, // - //其他关键信息  无 //基本条款
-            /* { key: '', type: '', description: '签订人' }, */ {
-              key: '暂无',
-              type: '',
-              description: '房源信息'
-            }, // 9001
+            },
+            { key: '暂无', type: '', description: '房源信息' }, // 9001
             { key: '暂无', type: '', description: '租赁数' }, // 360
-
             // 保证金条款
             //
             { key: '保证金目前只有租金', type: '', description: '保证金类型' }, // 租金保证金
             { key: 'deposit', type: 'numeric', description: '保证金类型' }, // 租金保证金
-
             // 租期条款
             { key: 'fee_start_ts', type: 'timestamp', description: '开始时间' }, // 2019-11-11
             { key: 'fee_end_ts', type: 'timestamp', description: '结束时间' }, // 2022-11-10
@@ -6589,10 +6682,10 @@ export default {
       content: [
         {
           title: '获取进驻统计信息',
-          api: 'assets.d_enter.get_list',
+          api: 'assets.d_company_enter.get_info',
           business: [
             {
-              key: 'building_id',
+              key: 'park_id',
               type: 'int',
               required: true,
               description: '园区id'
@@ -6600,70 +6693,31 @@ export default {
           ],
           return: [
             {
-              key: 'rent_area',
+              key: 'list',
+              type: 'json',
+              required: true,
+              description: `进驻统计列表 例： {"一月":5,"二月":5,"三月":5,"四月":7,"五月":6,"六月":4,"七月":4,"八月":1,"九月":1,"十月":9,"十一月":8,"十二月":9}`
+            }
+          ],
+          explain: []
+        },
+        {
+          title: '获取退驻统计信息',
+          api: 'assets.d_company_out.get_info',
+          business: [
+            {
+              key: 'park_id',
               type: 'int',
               required: true,
-              description: `可招商面积`
-            },
+              description: '园区id'
+            }
+          ],
+          return: [
             {
-              key: 'total_area',
-              type: 'int',
+              key: 'list',
+              type: 'json',
               required: true,
-              description: `管理面积`
-            },
-            {
-              key: 'avg_unit_price',
-              type: 'int',
-              required: true,
-              description: `在租实时均价`
-            },
-            {
-              key: 'unit_type',
-              type: 'int',
-              required: true,
-              description: `单位`
-            },
-            {
-              key: 'rent_rate',
-              type: 'int',
-              required: true,
-              description: `出租率`
-            },
-            {
-              key: 'pay_rate',
-              type: 'int',
-              required: true,
-              description: `支付租金的比率`
-            },
-            {
-              key: 'total_rooms',
-              type: 'int',
-              required: true,
-              description: `总房源数量`
-            },
-            {
-              key: 'rent_rooms',
-              type: 'int',
-              required: true,
-              description: `可招租房源数量`
-            },
-            {
-              key: 'create_ts',
-              type: 'timestamp',
-              required: true,
-              description: `创建时间`
-            },
-            {
-              key: 'name',
-              type: 'string',
-              required: true,
-              description: `楼宇名称`
-            },
-            {
-              key: 'built_area',
-              type: 'int',
-              required: true,
-              description: `建筑面积:单位平方米`
+              description: `退驻统计列表 例： {"一月":5,"二月":5,"三月":5,"四月":7,"五月":6,"六月":4,"七月":4,"八月":1,"九月":1,"十月":9,"十一月":8,"十二月":9}`
             }
           ],
           explain: []
@@ -6672,7 +6726,7 @@ export default {
           title: '添加进驻',
           api: 'assets.enter.add',
           business: [
-            { key: 'company_id', type: 'int', description: '企业id' },
+            { key: 'customer_id', type: 'int', description: '客户id' },
             { key: 'start_ts', type: 'timestamp', description: '开始时间' },
             { key: 'end_ts', type: 'timestamp', description: '结束时间' },
             { key: 'state', type: 'int', description: '进驻状态' },
@@ -6685,7 +6739,7 @@ export default {
           title: '修改进驻',
           api: 'assets.enter.modify',
           business: [
-            { key: 'company_id', type: 'int', description: '企业id' },
+            { key: 'customer_id', type: 'int', description: '客户id' },
             { key: 'start_ts', type: 'timestamp', description: '开始时间' },
             { key: 'end_ts', type: 'timestamp', description: '结束时间' },
             { key: 'state', type: 'int', description: '进驻状态' },
@@ -6697,7 +6751,9 @@ export default {
         {
           title: ' 删除进驻企业',
           api: 'assets.building.remove',
-          business: [{ key: 'company_id', type: 'int', description: '企业id' }],
+          business: [
+            { key: 'customer_id', type: 'int', description: '客户id' }
+          ],
           return: [],
           explain: []
         },
@@ -6758,11 +6814,7 @@ export default {
           ],
           explain: [
             { key: 'park_name', type: 'string', description: '所属园区' },
-            {
-              key: 'company_id',
-              type: 'int',
-              description: '企业的id,用于获取企业详情的时候使用'
-            },
+            { key: 'customer_id', type: 'int', description: '客户id' },
             { key: 'company_name', type: 'string', description: '企业名称' },
             { key: 'company_type', type: 'int', description: '企业类型' },
             { key: 'regist_fund', type: 'numeric', description: '注册资金' },
@@ -6779,12 +6831,7 @@ export default {
           title: '获取进驻企业信息',
           api: 'assets.building.get_info',
           business: [
-            {
-              key: 'company_id',
-              type: 'int',
-              required: true,
-              description: '企业id,从列表查询中获取'
-            }
+            { key: 'customer_id', type: 'int', description: '客户id' }
           ],
           return: [
             // 企业信息
@@ -7076,6 +7123,127 @@ export default {
         }
       ]
     }
+    let home = {
+      title: '工作台',
+      content: [
+        {
+          title: '获取工作台模块统计信息',
+          api: 'assets.d_home.get_info',
+          business: [
+            {
+              key: 'park_id',
+              type: 'int',
+              required: true,
+              description: '园区id'
+            }
+          ],
+          return: [
+            {
+              key: 'build_area',
+              type: 'int',
+              required: true,
+              description: `建筑面积`
+            },
+            {
+              key: 'total_invest',
+              type: 'int',
+              required: true,
+              description: `总投资`
+            },
+            {
+              key: 'enter_firm',
+              type: 'int',
+              required: true,
+              description: `入驻企业数 `
+            },
+            {
+              key: 'pact_num',
+              type: 'int',
+              required: true,
+              description: `合同数`
+            },
+            {
+              key: 'rent',
+              type: 'int',
+              required: true,
+              description: `房租费用`
+            },
+            {
+              key: 'park_total',
+              type: 'int',
+              required: true,
+              description: `总金额`
+            },
+            {
+              key: 'firm_total',
+              type: 'int',
+              required: true,
+              description: `本月企业入驻总数`
+            },
+            {
+              key: 'service_total',
+              type: 'int',
+              required: true,
+              description: `本月工单总数：service数组中所有数据的总和`
+            },
+            {
+              key: 'tax_total',
+              type: 'int',
+              required: true,
+              description: `本月总税收`
+            },
+            {
+              key: 'pact_total',
+              type: 'int',
+              required: true,
+              description: `本月合同数`
+            },
+            {
+              key: 'parkValue',
+              type: '数组',
+              required: true,
+              description: '园区产值',
+              explain: [
+                { key: 'rent_value', type: 'int', description: '租金' },
+                { key: 'fee_value', type: 'int', description: '物业费' },
+                { key: 'else_value', type: 'int', description: '其他' }
+              ]
+            },
+            {
+              key: 'firm',
+              type: '数组',
+              required: true,
+              description: '入驻企业生产指标'
+            },
+            {
+              key: 'service',
+              type: '数组',
+              required: true,
+              description: '物业服务指数',
+              explain: [
+                { key: 'accuse_num', type: 'int', description: '投诉' },
+                { key: 'repairs_num', type: 'int', description: '报修' },
+                { key: 'pay_urge', type: 'int', description: '催缴' },
+                { key: 'pay_closed', type: 'int', description: '已结清' }
+              ]
+            },
+            {
+              key: 'pact',
+              type: '数组',
+              required: true,
+              description: '合同及账单'
+            },
+            {
+              key: 'tax',
+              type: '数组',
+              required: true,
+              description: '税收'
+            }
+          ],
+          explain: []
+        }
+      ]
+    }
 
     this.testData = [
       {
@@ -7112,6 +7280,11 @@ export default {
         index: 7,
         title: '字典模块管理',
         content: [zidmkgl, zidgl]
+      },
+      {
+        index: 8,
+        title: '工作台模块',
+        content: [home]
       }
     ]
 
@@ -7384,10 +7557,7 @@ export default {
           { dic_code: 'room_state_1', dic_info: '预定', order_num: 1 },
           { dic_code: 'room_state_2', dic_info: '待租', order_num: 2 }
         ]
-      }, /* {      type_code: 'Premises',
-      type_name: '所属楼宇',
-      data: [
-        // { dic_code: 'Premises_0', dic_info: '占用', order_num: 0 },
+      }, /* {      type_code: 'Premises',      type_name: '所属楼宇',      data: [        // { dic_code: 'Premises_0', dic_info: '占用', order_num: 0 },
       ]
     }, */
       {

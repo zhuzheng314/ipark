@@ -7,7 +7,7 @@
       <el-select  size="small"
                   v-model="value1" placeholder="合同模板类型">
         <el-option
-          v-for="item in options"
+          v-for="item in this.$store.state.dictionary.dictionaryType['template_type']"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -193,7 +193,11 @@ export default {
         ...this.page
       }
       this.$https.post(this.$urls.template.get_list, params).then((res) => {
+        let list = res.list
+        let params = ['template_type']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
+        this.tableData = []
         this.tableData = res.list
       })
     },

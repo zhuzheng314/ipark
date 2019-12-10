@@ -5,21 +5,20 @@
     <!--    </el-card>-->
     <el-card>
       <div slot="header">
-
         <el-select  size="small"
                     v-model="value1"
                     clearable
                     @change="fetchChargeList"
-                    placeholder="缴费状态">
+                    placeholder="客户名称">
           <el-option
-            v-for="item in stateOptions"
+            v-for="item in $store.state.form.customerList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
         <el-input
-          placeholder="搜索客户名称"
+          placeholder="搜索房间号"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
@@ -27,24 +26,26 @@
           clearable
           @change="fetchChargeList">
         </el-input>
-        <el-date-picker
-          v-model="value3"
-          size="small"
+        <el-select  size="small"
           style="margin-left: 15px"
-          type="daterange"
-          range-separator="至"
-          clearable
-          @change="fetchChargeList"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
-        </el-date-picker>
+                    v-model="value3"
+                    clearable
+                    @change="fetchChargeList"
+                    placeholder="是否逾期">
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
         <el-button
           style="float: right"
           type="primary"
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >添加账单</el-button>
+        >新增物业费</el-button>
       </div>
       <div>
         <Comparison
@@ -62,7 +63,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.incomeList"
+        :tableLabel="$tableLabels.propertyList"
         :tableData="tableData">
       </GTable>
     </el-card>
@@ -75,8 +76,8 @@
         <ParkForm
           @onSubmit="fetchAdd"
           v-if="addVisible"
-          :formList="$formsLabels.incomeForm"
-          :options="$store.getters.incomeListOptions"
+          :formList="$formsLabels.propertyForm"
+          :options="$store.getters.rentListOptions"
           :defaultValue="{}"
           :itemList="[]"
         ></ParkForm>
@@ -139,24 +140,18 @@ export default {
       yearList: [
       ],
       finData: [
-        { key: 'rent', name: '租金', value: '', chart: '', type: 'arrow' },
-        { key: 'property_fee', name: '物业费', value: '', chart: '', type: 'arrow' },
-        { key: 'water_fee', name: '水费', value: '', chart: '', type: 'arrow' },
-        { key: 'electric_fee', name: '电费', value: '', chart: '', type: 'arrow' },
-        { key: 'gas_fee', name: '燃气', value: '', chart: '', type: 'arrow' },
-        { key: 'heat_fee', name: '空调暖通', value: '', chart: '', type: 'arrow' },
-        { key: 'other_fee', name: '其他', value: '', chart: '', type: 'arrow' }
+        { typeSelect: 'receive', name: `应收(${0}笔)`, value: '', chart: '', type: 'arrow' },
+        { typeSelect: 'receive', name: `已收(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `未缴(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `物业费`, value: '', chart: '', type: 'arrow' }
       ],
       stateOptions: [
         {
-          value: '选项1',
-          label: '全部'
+          value: 0,
+          label: '是'
         }, {
-          value: '选项2',
-          label: '已缴费'
-        }, {
-          value: '选项3',
-          label: '未缴费'
+          value: 1,
+          label: '否'
         }
       ],
       value1: '',
@@ -360,7 +355,6 @@ export default {
       }
       this.$https.post(this.$urls.charge.info, params).then((res) => {
         // console.log(res)
-        // this.tableData = res.list
         let data = res.data
         this.finData.forEach(v => {
           v.value = data[v.key]
@@ -397,7 +391,6 @@ export default {
   created () {
     this.fetchInfo()
     this.fetchList()
-    // console.log(this.yearList)
   }
 }
 </script>

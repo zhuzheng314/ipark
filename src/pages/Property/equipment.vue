@@ -6,7 +6,7 @@
                     multiple
                     v-model="value1" placeholder="设备类型">
           <el-option
-            v-for="item in options"
+            v-for="item in this.$store.state.dictionary.dictionaryType['equip_type']"
             :key="item.value"
             :label="item.label"
             :value="item.value">

@@ -4,24 +4,11 @@
       <div>
         <el-select
         size="small"
-        multiple
-        style="width: 180px; margin-right: 15px"
-        v-model="value1"
-        placeholder="所属园区">
-          <el-option
-            v-for="item in options1"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select
-        size="small"
         style="width: 180px; margin-right: 15px"
         v-model="value2"
         placeholder="审批状态">
           <el-option
-            v-for="item in options2"
+            v-for="item in this.$store.state.dictionary.dictionaryType['approval_type']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
