@@ -4,7 +4,7 @@
       <el-select  size="small"
                   v-model="value1" placeholder="合同状态">
         <el-option
-          v-for="item in options"
+          v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -300,7 +300,8 @@ export default {
         page_no: 1,
         total: 0,
         page_size: 5
-      }
+      },
+      company_id: ''
     }
   },
   methods: {
@@ -355,7 +356,6 @@ export default {
         { name: '支付类型', value: '3月一付' }
       ]
     },
-    handleClose () { },
     open (i) {
       if (i === '编辑') {
         this.fetchGetBack()
@@ -414,7 +414,8 @@ export default {
     fetchModify (data) { // 修改合同
       let params = {
         ...data,
-        customer_code: this.id
+        contract_code: this.id,
+        company_id: this.company_id
       }
       this.$https.post(this.$urls.contract.modify, params).then(res => {
         if (res.code === 1000) {
@@ -436,6 +437,7 @@ export default {
           let data = res
           this.defaultValue = data
           this.modifyVisible = true
+          this.company_id = data.company_id
         } else {
           this.$message.error('获取信息失败')
         }

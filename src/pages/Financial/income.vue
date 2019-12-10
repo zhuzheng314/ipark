@@ -12,7 +12,7 @@
         @change="fetchChargeList"
         placeholder="缴费状态">
           <el-option
-            v-for="item in stateOptions"
+            v-for="item in this.$store.state.dictionary.dictionaryType['charge_state']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -393,10 +393,10 @@ export default {
     fetchList () { // 获取财务收入列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
-        ...this.page,
-        state: this.value1,
-        like: this.value2,
-        date: this.value3
+        ...this.page
+        // state: this.value1,
+        // like: this.value2,
+        // date: this.value3
       }
       // console.log(params)
 
@@ -406,6 +406,7 @@ export default {
         this.tableData = res.list
       })
     },
+    fetchChargeList () {},
     fetchGetInfo (id) { // 获取财务收入信息
       let params = {
         id: id

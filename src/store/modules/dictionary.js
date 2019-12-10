@@ -3,24 +3,26 @@ import { baseUrl, api } from '@/config/api'
 const dictionary = {
   state: {
     dictionaryTypeList: [],
-    dictionaryList: []
+    dictionaryList: [],
+    dictionaryType: {},
+    dictionary: {}
   },
   getters: {
     // 通过字典id获取字典名
     // 调用：this.$store.getters.getDicById(id);
     getDicById: (state) => (id) => {
-      const findName = function (id) {
-        let arr = state.dictionaryList
-        let name
-        state.dictionaryList.forEach(v => {
-          if (v.id === id) {
-            name = v.dic_info
-          }
-        })
-        return name
-      }
-      let dicName = findName(id)
-      return dicName
+      // const findName = function (id) {
+      //   let name
+      //   state.dictionaryList.forEach(v => {
+      //     if (v.id === id) {
+      //       name = v.dic_info
+      //     }
+      //   })
+      //   return name
+      // }
+      // let dicName = findName(id)
+      // return dicName
+      return state.dictionary[id]
     },
     // 通过字典类型获取字典内容
     // 调用：this.$store.getters.getDicInfoByCode(type_code)
@@ -29,17 +31,26 @@ const dictionary = {
         let name
         let options = []
         state.dictionaryTypeList.forEach(type => {
-          if (type.type_code === code) {
-            name = type.type_name
-            if (type.dicinfo.length) {
-              type.dicinfo.forEach(info => {
-                options.push({
-                  value: info.id,
-                  label: info.dic_info
-                })
-              })
-            }
-          }
+          // if (type.type_code === code) {
+          //   name = type.type_name
+          //   if (type.dicinfo.length) {
+          //     type.dicinfo.forEach(info => {
+          //       options.push({
+          //         value: info.id,
+          //         label: info.dic_info
+          //       })
+          //     })
+          //   }
+          // }
+          // state.dictionaryType[type.type_code] = {
+          //   options: []
+          // }
+          // type.dicinfo.forEach(info => {
+          //   state.dictionaryType[type.type_code].options.push({
+          //     value: info.id,
+          //     label: info.dic_info
+          //   })
+          // })
         })
         let dictionary = {
           name,
@@ -57,9 +68,15 @@ const dictionary = {
       state.dictionaryTypeList = list
       if (list.length) {
         list.forEach(type => {
+          state.dictionaryType[type.type_code] = []
           if (type.dicinfo.length) {
             type.dicinfo.forEach(dictionary => {
               state.dictionaryList.push({ ...dictionary })
+              state.dictionary[dictionary.id] = dictionary.dic_info
+              state.dictionaryType[type.type_code].push({
+                value: dictionary.id,
+                label: dictionary.dic_info
+              })
             })
           }
         })

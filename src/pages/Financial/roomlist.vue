@@ -43,8 +43,8 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          @click="handleAddContract"
-        >添加账单</el-button>
+          @click="handleAdd"
+        >新增房租费</el-button>
       </div>
       <div>
         <Comparison
@@ -62,21 +62,21 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.incomeList"
+        :tableLabel="$tableLabels.roomList"
         :tableData="tableData">
       </GTable>
     </el-card>
 
     <el-dialog
-      title="新建收付款账单"
+      title="新建房租费用账单"
       :visible.sync="addVisible"
       width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchAdd"
           v-if="addVisible"
-          :formList="$formsLabels.incomeForm"
-          :options="$store.getters.incomeListOptions"
+          :formList="$formsLabels.rentForm"
+          :options="$store.getters.rentListOptions"
           :defaultValue="{}"
           :itemList="[]"
         ></ParkForm>
@@ -139,13 +139,10 @@ export default {
       yearList: [
       ],
       finData: [
-        { key: 'rent', name: '租金', value: '', chart: '', type: 'arrow' },
-        { key: 'property_fee', name: '物业费', value: '', chart: '', type: 'arrow' },
-        { key: 'water_fee', name: '水费', value: '', chart: '', type: 'arrow' },
-        { key: 'electric_fee', name: '电费', value: '', chart: '', type: 'arrow' },
-        { key: 'gas_fee', name: '燃气', value: '', chart: '', type: 'arrow' },
-        { key: 'heat_fee', name: '空调暖通', value: '', chart: '', type: 'arrow' },
-        { key: 'other_fee', name: '其他', value: '', chart: '', type: 'arrow' }
+        { typeSelect: 'receive', name: `应收(${0}笔)`, value: '', chart: '', type: 'arrow' },
+        { typeSelect: 'receive', name: `已收(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `未缴(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `房租费`, value: '', chart: '', type: 'arrow' }
       ],
       stateOptions: [
         {
@@ -299,7 +296,7 @@ export default {
     }
   },
   methods: {
-    handleAddContract () {
+    handleAdd () {
       this.addVisible = true
     },
     financialState (row) {

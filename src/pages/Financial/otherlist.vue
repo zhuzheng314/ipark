@@ -14,7 +14,7 @@
           v-model="value1"
           clearable
           @change="fetchListSearch"
-          placeholder="列支方向">
+          placeholder="费用类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -22,22 +22,8 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-select
-          style="width: 220px; margin-left: 15px"
-          size="small"
-          v-model="value2"
-          clearable
-          @change="fetchListSearch"
-          placeholder="状态">
-          <el-option
-            v-for="item in options1"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
         <el-input
-          placeholder="搜索"
+          placeholder="搜索客户名称"
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
@@ -45,6 +31,44 @@
           @change="fetchListSearch"
           v-model="value3">
         </el-input>
+        <el-select
+          style="width: 220px; margin-left: 15px"
+          size="small"
+          v-model="value1"
+          clearable
+          @change="fetchListSearch"
+          placeholder="费用金额范围">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-date-picker
+          v-model="value3"
+          size="small"
+          style="margin-left: 15px"
+          type="daterange"
+          range-separator="至"
+          clearable
+          @change="fetchChargeList"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+        <el-select  size="small"
+          style="margin-left: 15px"
+                    v-model="value3"
+                    clearable
+                    @change="fetchChargeList"
+                    placeholder="是否逾期">
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
 
         <el-button
           style="float: right"
@@ -68,7 +92,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.financialList"
+        :tableLabel="$tableLabels.otherList"
         :tableData="tableData">
       </GTable>
     </el-card>
@@ -83,8 +107,8 @@
           @onSubmit="fetchAdd"
           v-if="addVisible"
           @onCancel="() => {this.addVisible = false}"
-          :formList="$formsLabels.financialForm"
-          :options="$store.getters.financialListOptions"
+          :formList="$formsLabels.otherForm"
+          :options="$store.getters.rentListOptions"
           :defaultValue="{}"
           :itemList="[]"
         ></ParkForm>
@@ -143,21 +167,35 @@ export default {
       radio: '收款',
       yearList: [
       ],
+      stateOptions: [
+        {
+          value: 0,
+          label: '是'
+        }, {
+          value: 1,
+          label: '否'
+        }
+      ],
       finData: [
-        { name: '应收(3笔)', value: '254235', chart: '-0.1128', type: 'arrow' },
-        { name: '已收', value: 13513, chart: '0.6356', type: 'arrow' },
-        { name: '未缴(3笔)', value: '134553', chart: '0.3564', type: 'arrow' },
-        { name: '费用总额', value: '134553', chart: '0.3564', type: 'arrow' },
-        { name: '新增', value: '134553', chart: '0.3564', type: 'arrow' }
+        { typeSelect: 'receive', name: `应收(${0}笔)`, value: '', chart: '', type: 'arrow' },
+        { typeSelect: 'receive', name: `已收(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `未缴(${0}笔)`, value: '', chart: '', type: 'chart' },
+        { typeSelect: 'receive', name: `费用总额`, value: '', chart: '', type: 'arrow' }
       ],
       listType: 'top',
       options: [
         {
           value: 0,
-          label: '收款'
+          label: '花卉租赁'
         }, {
           value: 1,
-          label: '付款'
+          label: '设备租赁'
+        }, {
+          value: 2,
+          label: '场地租赁'
+        }, {
+          value: 3,
+          label: '人员租赁'
         }
       ],
       options1: [
@@ -168,6 +206,20 @@ export default {
         {
           value: 1,
           label: '未缴'
+        }
+      ],
+      options2: [
+        {
+          value: 0,
+          label: '10000以下'
+        },
+        {
+          value: 1,
+          label: '1000-50000'
+        },
+        {
+          value: 2,
+          label: '50000以上'
         }
       ],
       value1: '',
@@ -441,7 +493,7 @@ export default {
         // console.log(res)
         this.page.total = res.total
         this.tableData = []
-        this.tableData = res.list
+        // this.tableData = res.list
       })
     },
     fetchListSearch () {
