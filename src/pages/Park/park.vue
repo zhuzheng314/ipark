@@ -168,6 +168,7 @@
     >
       <div>
         <ParkForm
+          @onCancel="() => {this.addShow = false}"
           ref="parkForm"
           @onSubmit="handleAddPark"
           :formList="$formsLabels.addParkForm"
@@ -185,6 +186,7 @@
       <div v-if="editParkShow">
         <ParkForm
           ref="parkForm"
+          @onCancel="() => {this.editParkShow = false}"
           @onSubmit="handleEditPark"
           :formList="$formsLabels.addParkForm"
           :options="$store.getters.parkListOptions"
@@ -204,6 +206,7 @@
         <ParkForm
           ref="buildForm"
           @onSubmit="fetchAddBuild"
+          @onCancel="() => {this.addShowBuild = false}"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
           :itemList="[]">

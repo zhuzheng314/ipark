@@ -102,7 +102,10 @@
       width="600px"
       :before-close="handleClose">
       <div>
-        <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
+        <ParkForm
+          :formList="addContractFormList"
+          @onCancel="() => {this.addContractVisible = false}"
+        ></ParkForm>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>

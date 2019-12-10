@@ -174,7 +174,7 @@
 
       <slot name="footer"></slot>
       <div style="text-align: right; margin-top: 10px; margin-right: 10px">
-        <el-button @click="resetForm">取消</el-button>
+        <el-button @click="onCancel">取消</el-button>
         <el-button type="primary" @click="handleSubmit">确定</el-button>
       </div>
     </el-form>
@@ -298,6 +298,10 @@ export default {
           return false
         }
       })
+    },
+    onCancel () {
+      this.resetForm()
+      this.$emit('onCancel')
     },
     handleSubmit () {
       this.onSubmit()

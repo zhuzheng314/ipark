@@ -82,6 +82,7 @@
         <ParkForm
           @onSubmit="fetchAdd"
           v-if="addVisible"
+          @onCancel="() => {this.addVisible = false}"
           :formList="$formsLabels.financialForm"
           :options="$store.getters.financialListOptions"
           :defaultValue="{}"
