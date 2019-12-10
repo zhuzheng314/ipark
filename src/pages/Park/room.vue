@@ -154,6 +154,7 @@
         <ParkForm
           ref="addRoomForm"
           v-if="addRoomShow"
+          @onCancel="() => {this.addRoomShow = false}"
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
@@ -173,6 +174,7 @@
         <ParkForm
           ref="addRoomForm"
           v-if="modifyShow"
+          @onCancel="() => {this.modifyShow = false}"
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"

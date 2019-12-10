@@ -38,13 +38,14 @@
       :visible.sync="addShowBuild"
       width="600px"
     >
-      <div>
+      <div v-if="addShowBuild">
         <ParkForm
           ref="buildForm"
+          @onCancel="() => {this.addShowBuild = false}"
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
-          :itemList="[]">
+         >
         </ParkForm>
       </div>
     </el-dialog>
@@ -57,6 +58,7 @@
         <ParkForm
           ref="buildForm"
           @onSubmit="fetchModify"
+          @onCancel="() => {this.editShow = false}"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
           :default-value="modifyDefaultValue"
@@ -142,13 +144,13 @@ export default {
           this.addShowBuild = false
           this.$message.success('新增成功')
           this.$refs.buildForm.resetForm()
+          this.$store.dispatch('getBuildList', {
+            pid: this.$store.state.form.activePark.domain_id,
+            page_no: 1,
+            page_size: 20
+          }).then(res => {
+          })
         }
-      })
-      this.$store.dispatch('getBuildList', {
-        pid: this.$store.state.form.activePark.domain_id,
-        page_no: 1,
-        page_size: 20
-      }).then(res => {
       })
     },
     getBuildId () {
@@ -176,8 +178,10 @@ export default {
             if (res.code === 1000) {
               this.$message.success('删除成功')
               this.$store.dispatch('getBuildList', { page_no: 1,
-                page_size: 20 }).then(res => {
+                page_size: 999 }).then(res => {
               })
+            } else {
+              this.$message.warning('删除失败，code:' + res.code)
             }
           })
         })

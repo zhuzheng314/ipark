@@ -68,6 +68,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
+        @onCancel="() => {this.addVisible = false}"
         v-if="addVisible"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"
@@ -83,6 +84,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        @onCancel="() => {this.modifyVisible = false}"
         v-if="modifyVisible"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"

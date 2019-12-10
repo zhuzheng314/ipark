@@ -78,6 +78,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
+        @onCancel="() => {this.addVisible = false}"
         v-if="addVisible"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"

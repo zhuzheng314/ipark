@@ -55,7 +55,7 @@ const routes = [
       // },
       {
         path: '/overview',
-        name: 'overview',
+        name: 'overview1',
         component: Overview
       },
       {
@@ -155,7 +155,7 @@ const routes = [
     children: [
       {
         path: 'list',
-        name: 'apply',
+        name: 'tenantsList',
         component: TenantList
       }
     ]
