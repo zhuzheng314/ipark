@@ -397,7 +397,7 @@ export default {
     },
     fetchGetInfo (id) { // 获取房租费用信息
       let params = {
-        id: id
+        expense_code: id
       }
       this.$https.post(this.$urls.expense.get_info, params).then((res) => {
       })
