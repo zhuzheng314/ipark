@@ -1,12 +1,12 @@
 // console.log(process.env)
 // 空间管理
-const url = 'https://service.iot1234.com'
-const fileUrl = 'http://service.iot1234.com/images/'
-const domin = url + ':2443/'
+// const url = 'https://service.iot1234.com'
+// const fileUrl = 'http://service.iot1234.com/images/'
+// const domin = url + ':2443/'
 
-// const url = 'http://192.168.0.231'
-// const domin = url + ':3000/'
-// const fileUrl = 'http://192.168.0.231/images/'
+const url = 'http://192.168.0.231'
+const domin = url + ':3000/'
+const fileUrl = 'http://192.168.0.231/images/'
 
 const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
@@ -163,6 +163,7 @@ const api = {
   },
   // 财务收入模块
   charge: {
+    top_info: '/assets.d_expense.get_info', // 房租物业水电其他统计信息
     info: `/assets.d_charge.get_info`, // 获取财务收入统计信息
     add: `/assets.charge.add`, // 添加财务收入
     modify: `/assets.charge.modify`, // 修改财务收入

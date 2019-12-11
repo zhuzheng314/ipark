@@ -560,6 +560,7 @@ export default {
         if (res.code === 1000) {
           this.$message.success('修改成功')
           this.fetchRoomList()
+          this.$store.dispatch('getParkTreeList')
           this.modifyShow = false
         }
       })
@@ -581,6 +582,7 @@ export default {
           this.$message.success('删除成功')
           this.roomInfoState = false
           this.fetchRoomList()
+          this.$store.dispatch('getParkTreeList')
         } else {
           this.$message.warning('删除失败')
         }
@@ -653,6 +655,7 @@ export default {
           this.addRoomShow = false
           this.$refs.addRoomForm.resetForm()
           this.fetchRoomList()
+          this.$store.dispatch('getParkTreeList')
         }
       })
     }

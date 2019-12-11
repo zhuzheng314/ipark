@@ -39,26 +39,33 @@
               :key="'info' + index"
               :data="item"
             ></InfoBox>
-            <div style="clear: both"></div>
+            <i class="el-icon-arrow-right"
+               style="font-size: 30px; line-height: 100px; margin-right: -10px;cursor: pointer;"
+               @click="show = !show"
+            ></i>
+<!--            <div style="clear: both"></div>-->
           </div>
-          <el-divider></el-divider>
-          <div style="margin-top: -10px">
-            <el-row>
-              <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
-                <div class="detail">
-                  <div class="item">
-                    <div class="title">
-                      {{item.name}}:
+          <el-collapse-transition>
+            <div v-if="show" style="height: 150px">
+              <el-divider></el-divider>
+              <div style="margin-top: -10px">
+                <el-row>
+                  <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
+                    <div class="detail">
+                      <div class="item">
+                        <div class="title">
+                          {{item.name}}:
+                        </div>
+                        <div class="value">
+                          {{item.value + item.unit}}
+                        </div>
+                      </div>
                     </div>
-                    <div class="value">
-                      {{item.value + item.unit}}
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-
+                  </el-col>
+                </el-row>
+              </div>
+            </div>
+          </el-collapse-transition>
         </el-card>
         <el-card>
           <div slot="header">
@@ -229,6 +236,7 @@ export default {
       fakerList: [],
       tableData: [],
       infoBoxData: [],
+      show: false,
       parkInfo: [
       ],
       cardImgList: [
@@ -317,8 +325,9 @@ export default {
       }).then(res => {
         if (res.code === 1000) {
           this.$store.dispatch('getParkList', { page_no: 1,
-            page_size: 20 }).then(res => {
+            page_size: 999 }).then(res => {
           })
+          this.$store.dispatch('getParkTreeList')
           this.$message.success('新增园区成功')
           this.addShow = false
         }
@@ -354,6 +363,7 @@ export default {
           this.addShowBuild = false
           this.$message.success('新增成功')
           this.fetchBuildList()
+          this.$store.dispatch('getParkTreeList')
           this.$refs.buildForm.resetForm()
         }
       })
@@ -514,7 +524,7 @@ export default {
           padding-top: 16px;
           width: calc(~"100% - 40px");
           height: 80px;
-          border-bottom: 1px solid #d0d0d0;
+          border-bottom: 1px solid #dddddd;
           overflow: hidden;
           .pic{
             width: 80px;
@@ -551,22 +561,29 @@ export default {
         }
       }
       .item:hover{
-        background-color:  rgba(63,177,227,.5);
+        transform: translateX('-1px');
+        box-shadow: 0px 0px 15px #d2d2d2;
+        position: relative;
+        z-index: 2;
         .inner{
           border: none;
         }
         .cont{
           .title, .value{
-            color: white;
+            /*color: white;*/
           }
         }
         .el-icon-delete, .el-icon-edit{
-          color: white;
+          color: #bcbcbc;
+          font-size: 12px;
           display: block;
         }
       }
       .active.item{
-        background-color: rgba(63,177,227,1);
+        background-color: rgba(63,177,227,0.8);
+        /*background-color: rgba(63,177,227,1);*/
+        position: relative;
+        z-index: 2;
         .inner{
           border: none;
         }
@@ -574,6 +591,10 @@ export default {
           .title, .value{
             color: white !important;
           }
+        }
+        .el-icon-delete, .el-icon-edit{
+          color: white;
+          /*display: block;*/
         }
       }
       .item:last-child{

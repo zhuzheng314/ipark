@@ -63,7 +63,7 @@
         <Comparison
           :type="item.type"
           :key="item.name"
-          v-for="item in finData"
+          v-for="item in infoData"
           :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
       </div>
     </el-card>
@@ -151,13 +151,7 @@ export default {
       radio: '收款',
       yearList: [
       ],
-      finData: [
-        { typeSelect: 'receive', name: `应收(${0}笔)`, value: '', chart: '', type: 'arrow' },
-        { typeSelect: 'receive', name: `已收(${0}笔)`, value: '', chart: '', type: 'chart' },
-        { typeSelect: 'receive', name: `未缴(${0}笔)`, value: '', chart: '', type: 'chart' },
-        { typeSelect: 'receive', name: `水费`, value: '', chart: '', type: 'arrow' },
-        { typeSelect: 'receive', name: `电费`, value: '', chart: '', type: 'arrow' },
-        { typeSelect: 'receive', name: `其他费`, value: '', chart: '', type: 'arrow' }
+      infoData: [
       ],
       stateOptions: [
         {
@@ -375,16 +369,20 @@ export default {
     },
     fetchInfo () { // 获取财务收入统计信息
       let params = {
-        id: this.parkId
+        park_id: this.$store.state.form.activePark.domain_id,
+        type: 413
       }
-      this.$https.post(this.$urls.charge.info, params).then((res) => {
-        // console.log(res)
-        // this.tableData = res.list
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+      this.$https.post(this.$urls.charge.top_info, params).then((res) => {
+        if (res.code === 1000) {
+          this.infoData = [
+            { typeSelect: 'receive', name: `应收(${res.need_receive_num}笔)`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `已收(${res.receive_num}笔)`, value: res.receive, chart: res.receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `未缴(${res.un_receive_num}笔)`, value: res.un_receive, chart: res.un_receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `水费`, value: res.water_fee, chart: res.water_fee_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `电费`, value: res.electric_fee, chart: res.electric_fee_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `其他费`, value: res.fee, chart: res.fee_rate, type: 'arrow' }
+          ]
+        }
       })
     },
     fetchList () { // 获取财务收入列表
