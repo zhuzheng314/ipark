@@ -188,6 +188,10 @@ const api = {
     remove: `/model.dicinfo.remove`, // 删除字典
     get_list: `/model.dicinfo.get_list`, // 获取字典列表
     get_info: `/model.dicinfo.get_info` // 获取字典信息
+  },
+  // 工作台
+  desk: {
+    get_info: `/assets.d_home.get_info`
   }
 }
 

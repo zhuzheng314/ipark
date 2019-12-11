@@ -157,7 +157,8 @@ const form = {
     // 进驻
     applyListOptions: (state, getters) => {
       return {
-        contract_code: state.contractList
+        contract_code: state.contractList,
+        state: dictionary.state.dictionaryType['approval_type']
       }
     },
     // 客户
