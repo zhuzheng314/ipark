@@ -62,7 +62,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.roomList"
+        :tableLabel="$tableLabels.expenseList"
         :tableData="tableData">
       </GTable>
     </el-card>
@@ -74,10 +74,27 @@
       <div>
         <ParkForm
           @onSubmit="fetchAdd"
+          @onCancel="() => {this.addVisible = false}"
           v-if="addVisible"
-          :formList="$formsLabels.rentForm"
-          :options="$store.getters.rentListOptions"
-          :defaultValue="{}"
+          :formList="$formsLabels.expenseForm"
+          :options="formOptions"
+          :defaultValue="addDefaultValue"
+          :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="修改房租费用账单"
+      :visible.sync="modifyVisible"
+      width="600px">
+      <div>
+        <ParkForm
+          @onSubmit="fetchModify"
+          @onCancel="() => {this.modifyVisible = false}"
+          v-if="modifyVisible"
+          :formList="$formsLabels.expenseForm"
+          :options="formOptions"
+          :defaultValue="defaultValue"
           :itemList="[]"
         ></ParkForm>
       </div>
@@ -160,6 +177,7 @@ export default {
       value2: '',
       value3: '',
       addVisible: false,
+      modifyVisible: false,
       tamplateFormList: [
         {
           type: 'select',
@@ -286,6 +304,18 @@ export default {
           tableData: []
         }
       },
+      formOptions: {
+        ...this.$store.getters.expenseListOptions,
+        type: [
+          {
+            label: '房租费用',
+            value: 1
+          }
+        ]
+      },
+      addDefaultValue: {
+        type: 1
+      },
       defaultValue: {},
       page: {
         page_no: 1,
@@ -299,26 +329,25 @@ export default {
     handleAdd () {
       this.addVisible = true
     },
-    financialState (row) {
-      this.id = row.id
+    financialState (data) {
+      this.id = data.expense_code
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        // this.fetchModify(this.id)
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
       }
     },
-    fetchAdd (data) { // 添加财务收入
+    fetchAdd (data) { // 添加房租费用
       let params = {
         ...data
       }
-      this.$https.post(this.$urls.charge.add, params)
+      this.$https.post(this.$urls.expense.add, params)
         .then(res => {
           if (res.code === 1000) {
             this.fetchList()
@@ -329,33 +358,47 @@ export default {
           }
         })
     },
-    fetchRemove (id) { // 删除财务收入
+    fetchRemove (id) { // 删除房租费用
+      this.$confirm('此操作将永久删除该费用, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        let params = {
+          expense_code: id
+        }
+        this.$https.post(this.$urls.expense.remove, params).then((res) => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.InfoState = false
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
+      })
+    },
+    fetchModify (data) { // 修改房租费用
       let params = {
-        id: id
+        ...data,
+        expense_code: this.id
       }
-      this.$https.post(this.$urls.charge.remove, params).then((res) => {
+      this.$https.post(this.$urls.expense.modify, params).then((res) => {
         if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
           this.fetchList()
-          this.InfoState = false
-          this.$message.success('删除成功')
+          this.modifyVisible = false
         } else {
-          this.$message.error('删除失败')
+          this.$message.error('修改失败')
         }
       })
     },
-    fetchModify (id) { // 修改财务收入
-      let params = {
-        id: id
-      }
-      this.$https.post(this.$urls.charge.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
-      })
-    },
-    fetchInfo () { // 获取财务收入统计信息
+    fetchInfo () { // 获取房租费用统计信息
       let params = {
         id: this.parkId
       }
-      this.$https.post(this.$urls.charge.info, params).then((res) => {
+      this.$https.post(this.$urls.expense.info, params).then((res) => {
         // console.log(res)
         // this.tableData = res.list
         let data = res.data
@@ -365,30 +408,52 @@ export default {
         })
       })
     },
-    fetchList () { // 获取财务收入列表
+    fetchGetBack () {
+      let params = {
+        expense_code: this.id
+      }
+      this.$https.post(this.$urls.expense.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
+    },
+    fetchList () { // 获取财房租费用列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
         ...this.page,
+        type: [1],
         state: this.value1,
         like: this.value2,
         date: this.value3
       }
-      // console.log(params)
-
-      this.$https.post(this.$urls.charge.get_list, params).then((res) => {
-        // console.log(res)
+      this.$https.post(this.$urls.expense.get_list, params).then((res) => {
+        let list = res.list
+        let params = ['state', 'type']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
-        this.tableData = res.list
+        this.tableData = []
+        this.tableData = list
       })
     },
-    fetchGetInfo (id) { // 获取财务收入信息
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取房租费用信息
       let params = {
         id: id
       }
-      // this.$message(`${id}`)
-      this.$https.post(this.$urls.charge.get_info, params).then((res) => {
-        // console.log(res)
+      this.$https.post(this.$urls.expense.get_info, params).then((res) => {
       })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {
