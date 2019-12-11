@@ -5664,33 +5664,17 @@ let contract = {
       api: 'assets.contract.add',
       business: [
         { key: 'customer_id', type: 'int', description: '用户id' },
-        {
-          key: 'organiz_code',
-          type: 'string',
-          description: '组织机构代码'
-        },
+        { key: 'organiz_code', type: 'string', description: '组织机构代码' },
         { key: 'company_type', type: 'int', description: '公司类别' },
         { key: 'company_name', type: 'string', description: '公司名称' },
         { key: 'customer_id', type: 'int', description: '来访客户id' },
         { key: 'scope', type: 'int', description: '经营范围' },
-        {
-          key: 'social_credit_code',
-          type: 'string',
-          description: '统一社会信用代码'
-        },
-        {
-          key: 'taxpayer_code',
-          type: 'string',
-          description: '纳税人识别号'
-        },
+        { key: 'social_credit_code', type: 'string', description: '统一社会信用代码' },
+        { key: 'taxpayer_code', type: 'string', description: '纳税人识别号' },
         { key: 'regist_code', type: 'string', description: '注册号' },
         { key: 'representative', type: 'string', description: '法人代表' },
         { key: 'nationality', type: 'string', description: '国籍' },
-        {
-          key: 'regist_fund',
-          type: 'int',
-          description: '注册资金:单位(万)'
-        },
+        { key: 'regist_fund', type: 'int', description: '注册资金:单位(万)' },
         { key: 'operate_state', type: 'int', description: '经营状态' },
         { key: 'establish_ts', type: 'timestamp', description: '成立日期' },
         { key: 'staff_size', type: 'int', description: '人员规模' },
@@ -5702,11 +5686,7 @@ let contract = {
         { key: 'trade', type: 'string', description: '所属行业' },
         { key: 'address', type: 'string', description: '注册地址' },
         { key: 'brand', type: 'string', description: '商标品牌' },
-        {
-          key: 'taxpayer_code',
-          type: 'string',
-          description: '纳税人识别号'
-        },
+        { key: 'taxpayer_code', type: 'string', description: '纳税人识别号' },
         { key: 'contacter', type: 'string', description: '联系人' },
         { key: 'contact', type: 'string', description: '电话' },
         { key: 'email', type: 'string', description: '邮箱' },
@@ -5724,27 +5704,11 @@ let contract = {
         { key: 'sign_ts', type: 'timestamp', description: '签订时间' },
         { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
         { key: 'end_ts', type: 'timestamp', description: '合同截至日期' },
-        {
-          key: 'fee_start_ts',
-          type: 'timestamp',
-          description: '计费开始日期'
-        },
-        {
-          key: 'fee_end_ts',
-          type: 'timestamp',
-          description: '计费截至日期'
-        },
+        { key: 'fee_start_ts', type: 'timestamp', description: '计费开始日期' },
+        { key: 'fee_end_ts', type: 'timestamp', description: '计费截至日期' },
         { key: 'pay_cycle', type: 'int', description: '付款周期:单位是月' },
-        {
-          key: 'pay_date',
-          type: 'int',
-          description: '付款日期:每月的第几天'
-        },
-        {
-          key: 'prepaid',
-          type: 'int',
-          description: '预付月份:预付几个月的月租'
-        },
+        { key: 'pay_date', type: 'int', description: '付款日期:每月的第几天' },
+        { key: 'prepaid', type: 'int', description: '预付月份:预付几个月的月租' },
         { key: 'unit_price', type: 'int', description: '合同单价' },
         { key: 'unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'year_rent', type: 'int', description: '年租金' },
@@ -5752,63 +5716,19 @@ let contract = {
         { key: 'deposit', type: 'int', description: '押金' },
         { key: 'manage_area', type: 'numeric', description: '管理面积' },
         { key: 'room', type: 'josn数组', description: '房间domain_id' },
-        {
-          key: 'property_sign_ts',
-          type: 'timestamp',
-          description: '签订时间'
-        },
-        {
-          key: 'property_start_ts',
-          type: 'timestamp',
-          description: '合同开始日期'
-        },
-        {
-          key: 'property_end_ts',
-          type: 'timestamp',
-          description: '合同截至日期'
-        },
-        {
-          key: 'property_fee_start_ts',
-          type: 'timestamp',
-          description: '费用开始时间'
-        },
-        {
-          key: 'property_fee_end_ts',
-          type: 'timestamp',
-          description: '费用结束时间'
-        },
-        {
-          key: 'property_pay_cycle',
-          type: 'int',
-          description: '付款周期:单位是月'
-        },
+        { key: 'property_sign_ts', type: 'timestamp', description: '签订时间' },
+        { key: 'property_start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'property_end_ts', type: 'timestamp', description: '合同截至日期' },
+        { key: 'property_fee_start_ts', type: 'timestamp', description: '费用开始时间' },
+        { key: 'property_fee_end_ts', type: 'timestamp', description: '费用结束时间' },
+        { key: 'property_pay_cycle', type: 'int', description: '付款周期:单位是月' },
 
-        {
-          key: 'property_pay_date',
-          type: 'int',
-          description: '付款日期:每月的第几天'
-        },
-        {
-          key: 'property_prepaid',
-          type: 'int',
-          description: '预付月份:预付几个月的月租'
-        },
-        {
-          key: 'property_unit_price',
-          type: 'int',
-          description: '合同单价'
-        },
-        {
-          key: 'property_unit_value',
-          type: 'int',
-          description: '合同单价的单位'
-        },
+        { key: 'property_pay_date', type: 'int', description: '付款日期:每月的第几天' },
+        { key: 'property_prepaid', type: 'int', description: '预付月份:预付几个月的月租' },
+        { key: 'property_unit_price', type: 'int', description: '合同单价' },
+        { key: 'property_unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'property_year_rent', type: 'int', description: '年物业费' },
-        {
-          key: 'property_month_rent',
-          type: 'int',
-          description: '月物业费'
-        },
+        { key: 'property_month_rent', type: 'int', description: '月物业费' },
         { key: 'property_deposit', type: 'int', description: '押金' },
         { key: 'customer_id', type: 'int', description: '年租金' },
         { key: 'room', type: 'json数组', description: '租聘房间' }
@@ -5824,33 +5744,17 @@ let contract = {
         { key: 'customer_id', type: '用户id', description: 'int' },
         { key: 'company_id', type: '企业id', description: 'int' },
 
-        {
-          key: 'organiz_code',
-          type: 'string',
-          description: '组织机构代码'
-        },
+        { key: 'organiz_code', type: 'string', description: '组织机构代码' },
         { key: 'company_type', type: 'int', description: '公司类别' },
         { key: 'company_name', type: 'string', description: '公司名称' },
         { key: 'customer_id', type: 'int', description: '来访客户id' },
         { key: 'scope', type: 'int', description: '经营范围' },
-        {
-          key: 'social_credit_code',
-          type: 'string',
-          description: '统一社会信用代码'
-        },
-        {
-          key: 'taxpayer_code',
-          type: 'string',
-          description: '纳税人识别号'
-        },
+        { key: 'social_credit_code', type: 'string', description: '统一社会信用代码' },
+        { key: 'taxpayer_code', type: 'string', description: '纳税人识别号' },
         { key: 'regist_code', type: 'string', description: '注册号' },
         { key: 'representative', type: 'string', description: '法人代表' },
         { key: 'nationality', type: 'string', description: '国籍' },
-        {
-          key: 'regist_fund',
-          type: 'int',
-          description: '注册资金:单位(万)'
-        },
+        { key: 'regist_fund', type: 'int', description: '注册资金:单位(万)' },
         { key: 'operate_state', type: 'int', description: '经营状态' },
         { key: 'establish_ts', type: 'timestamp', description: '成立日期' },
         { key: 'staff_size', type: 'int', description: '人员规模' },
@@ -5879,27 +5783,11 @@ let contract = {
         { key: 'sign_ts', type: 'timestamp', description: '签订时间' },
         { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
         { key: 'end_ts', type: 'timestamp', description: '合同截至日期' },
-        {
-          key: 'fee_start_ts',
-          type: 'timestamp',
-          description: '计费开始日期'
-        },
-        {
-          key: 'fee_end_ts',
-          type: 'timestamp',
-          description: '计费截至日期'
-        },
+        { key: 'fee_start_ts', type: 'timestamp', description: '计费开始日期' },
+        { key: 'fee_end_ts', type: 'timestamp', description: '计费截至日期' },
         { key: 'pay_cycle', type: 'int', description: '付款周期:单位是月' },
-        {
-          key: 'pay_date',
-          type: 'int',
-          description: '付款日期:每月的第几天'
-        },
-        {
-          key: 'prepaid',
-          type: 'int',
-          description: '预付月份:预付几个月的月租'
-        },
+        { key: 'pay_date', type: 'int', description: '付款日期:每月的第几天' },
+        { key: 'prepaid', type: 'int', description: '预付月份:预付几个月的月租' },
         { key: 'unit_price', type: 'int', description: '合同单价' },
         { key: 'unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'year_rent', type: 'int', description: '年租金' },
@@ -5907,56 +5795,16 @@ let contract = {
         { key: 'deposit', type: 'int', description: '押金' },
         { key: 'manage_area', type: 'numeric', description: '管理面积' },
         { key: 'room', type: 'josn数组', description: '房间domain_id' },
-        {
-          key: 'property_sign_ts',
-          type: 'timestamp',
-          description: '签订时间'
-        },
-        {
-          key: 'property_start_ts',
-          type: 'timestamp',
-          description: '合同开始日期'
-        },
-        {
-          key: 'property_end_ts',
-          type: 'timestamp',
-          description: '合同截至日期'
-        },
-        {
-          key: 'property_fee_start_ts',
-          type: 'timestamp',
-          description: '费用开始时间'
-        },
-        {
-          key: 'property_fee_end_ts',
-          type: 'timestamp',
-          description: '费用结束时间'
-        },
-        {
-          key: 'property_pay_cycle',
-          type: 'int',
-          description: '付款周期:单位是月'
-        },
-        {
-          key: 'property_pay_date',
-          type: 'int',
-          description: '付款日期:每月的第几天'
-        },
-        {
-          key: 'property_prepaid',
-          type: 'int',
-          description: '预付月份:预付几个月的月租'
-        },
-        {
-          key: 'property_unit_price',
-          type: 'int',
-          description: '合同单价'
-        },
-        {
-          key: 'property_unit_value',
-          type: 'int',
-          description: '合同单价的单位'
-        },
+        { key: 'property_sign_ts', type: 'timestamp', description: '签订时间' },
+        { key: 'property_start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'property_end_ts', type: 'timestamp', description: '合同截至日期' },
+        { key: 'property_fee_start_ts', type: 'timestamp', description: '费用开始时间' },
+        { key: 'property_fee_end_ts', type: 'timestamp', description: '费用结束时间' },
+        { key: 'property_pay_cycle', type: 'int', description: '付款周期:单位是月' },
+        { key: 'property_pay_date', type: 'int', description: '付款日期:每月的第几天' },
+        { key: 'property_prepaid', type: 'int', description: '预付月份:预付几个月的月租' },
+        { key: 'property_unit_price', type: 'int', description: '合同单价' },
+        { key: 'property_unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'property_year_rent', type: 'int', description: '年租金' },
         { key: 'property_month_rent', type: 'int', description: '月租金' },
         { key: 'property_deposit', type: 'int', description: '押金' },
@@ -5979,75 +5827,29 @@ let contract = {
       title: '通过园区id获取园区下的获取合同列表',
       api: 'assets.contract.get_list',
       business: [
-        {
-          key: 'page_no',
-          type: 'int',
-          required: true,
-          description: '页码'
-        },
-        {
-          key: 'page_size',
-          type: 'int',
-          required: true,
-          description: '页面显示行数'
-        },
-        {
-          key: 'park_id',
-          type: 'int',
-          required: true,
-          description: '园区的domain_id'
-        },
+        { key: 'page_no', type: 'int', required: true, description: '页码' },
+        { key: 'page_size', type: 'int', required: true, description: '页面显示行数' },
+        { key: 'park_id', type: 'int', required: true, description: '园区的domain_id' },
         { key: 'state', type: 'int', required: false, description: '状态' },
-        {
-          key: 'customer_name',
-          type: 'string',
-          required: false,
-          description: '客户名'
-        },
-        {
-          key: 'customer_id',
-          type: 'int',
-          required: false,
-          description: '客户id'
-        }
+        { key: 'customer_name', type: 'string', required: false, description: '客户名' },
+        { key: 'customer_id', type: 'int', required: false, description: '客户id' }
       ],
       return: [
-        {
-          key: 'list',
-          type: 'json array',
-          required: true,
-          description: '楼宇列表'
-        }
+        { key: 'list', type: 'json array', required: true, description: '楼宇列表' }
       ],
       explain: [
         // 这里是企业的相关字段   工商信息
-        {
-          key: 'organiz_code',
-          type: '组织机构代码',
-          description: 'string'
-        }, // 组织机构代码  工商信息
+        { key: 'organiz_code', type: '组织机构代码', description: 'string' }, // 组织机构代码  工商信息
         { key: 'company_type', type: '公司类别', description: 'int' },
         { key: 'company_name', type: '公司名称', description: 'string' },
         { key: 'customer_id', type: '来访客户id', description: 'int' },
         { key: 'scope', type: '经营范围', description: 'int' },
-        {
-          key: 'social_credit_code',
-          type: '统一社会信用代码',
-          description: 'string'
-        }, // 统一社会信用代码  工商信息
-        {
-          key: 'taxpayer_code',
-          type: '纳税人识别号',
-          description: 'string'
-        }, // 纳税人识别号    工商信息
+        { key: 'social_credit_code', type: '统一社会信用代码', description: 'string' }, // 统一社会信用代码  工商信息
+        { key: 'taxpayer_code', type: '纳税人识别号', description: 'string' }, // 纳税人识别号    工商信息
         { key: 'regist_code', type: '注册号', description: 'string' }, // 注册号     工商信息
         { key: 'representative', type: '法人代表', description: 'string' }, // 法定代表人    工商信息
         { key: 'nationality', type: '国籍', description: 'string' }, // 国籍   工商信息
-        {
-          key: 'regist_fund',
-          type: '注册资金:单位(万)',
-          description: 'int'
-        }, // 注册资本/万  工商信息
+        { key: 'regist_fund', type: '注册资金:单位(万)', description: 'int' }, // 注册资本/万  工商信息
         { key: 'operate_state', type: '经营状态', description: 'int' }, // 经营状态    工商信息
         { key: 'establish_ts', type: '成立日期', description: 'timestamp' }, // 成立日期      工商信息
         { key: 'staff_size', type: '人员规模', description: 'int' }, // 人员规模     工商信息
@@ -6061,11 +5863,7 @@ let contract = {
 
         // 企业的      开票信息
         { key: 'brand', type: '商标品牌', description: 'string' },
-        {
-          key: 'taxpayer_code',
-          type: '纳税人识别号',
-          description: 'string'
-        },
+        { key: 'taxpayer_code', type: '纳税人识别号', description: 'string' },
         { key: 'contacter', type: '联系人', description: 'string' },
         { key: 'contact', type: '电话', description: 'string' }, // 联系方式    开票信息
         { key: 'email', type: '邮箱', description: 'string' },
@@ -6087,27 +5885,11 @@ let contract = {
         { key: 'sign_ts', type: '签订时间', description: 'timestamp' }, // 签订时间     基础条款
         { key: 'start_ts', type: '合同开始日期', description: 'timestamp' }, // 开始时间      房源租期条款
         { key: 'end_ts', type: '合同截至日期', description: 'timestamp' }, // 结束时间        房源租期条款
-        {
-          key: 'fee_start_ts',
-          type: '计费开始日期',
-          description: 'timestamp'
-        }, // 计租时间      基础条款
-        {
-          key: 'fee_end_ts',
-          type: '计费截至日期',
-          description: 'timestamp'
-        }, // 结束时间        基础条款
+        { key: 'fee_start_ts', type: '计费开始日期', description: 'timestamp' }, // 计租时间      基础条款
+        { key: 'fee_end_ts', type: '计费截至日期', description: 'timestamp' }, // 结束时间        基础条款
         { key: 'pay_cycle', type: '付款周期:单位是月', description: 'int' }, // 付款周期（月）  基础条款
-        {
-          key: 'pay_date',
-          type: '付款日期:每月的第几天',
-          description: 'int'
-        }, // 收款日      基础条款
-        {
-          key: 'prepaid',
-          type: '预付月份:预付几个月的月租',
-          description: 'int'
-        }, // 提取收租（月） 基础条款
+        { key: 'pay_date', type: '付款日期:每月的第几天', description: 'int' }, // 收款日      基础条款
+        { key: 'prepaid', type: '预付月份:预付几个月的月租', description: 'int' }, // 提取收租（月） 基础条款
         { key: 'unit_price', type: '合同单价', description: 'int' }, // 合同单价            房源租期条款
         { key: 'unit_value', type: '合同单价的单位', description: 'int' }, // (元/㎡·天)     房源租期条款
         { key: 'year_rent', type: '年租金', description: 'int' }, // 年租金                 房源租期条款
@@ -6118,82 +5900,27 @@ let contract = {
         { key: 'manage_area', type: '管理面积', description: 'numeric' }, // 管理面积
         { key: 'room', type: '房间domain_id', description: 'josn数组' },
 
-        {
-          key: 'property_sign_ts',
-          type: '签订时间',
-          description: 'timestamp'
-        }, // 签订时间               物业费基础条款
-        {
-          key: 'property_start_ts',
-          type: '合同开始日期',
-          description: 'timestamp'
-        }, // 开始时间          物业费条款
-        {
-          key: 'property_end_ts',
-          type: '合同截至日期',
-          description: 'timestamp'
-        }, // 结束时间            物业费条款
-        {
-          key: 'property_fee_start_ts',
-          type: '费用开始时间',
-          description: 'timestamp'
-        }, // 计费时间     物业费基础条款
-        {
-          key: 'property_fee_end_ts',
-          type: '费用结束时间',
-          description: 'timestamp'
-        }, // 结束时间        物业费条款
-        {
-          key: 'property_pay_cycle',
-          type: '付款周期:单位是月',
-          description: 'int'
-        }, // 付款周期（月）     物业费基础条款
+        { key: 'property_sign_ts', type: '签订时间', description: 'timestamp' }, // 签订时间               物业费基础条款
+        { key: 'property_start_ts', type: '合同开始日期', description: 'timestamp' }, // 开始时间          物业费条款
+        { key: 'property_end_ts', type: '合同截至日期', description: 'timestamp' }, // 结束时间            物业费条款
+        { key: 'property_fee_start_ts', type: '费用开始时间', description: 'timestamp' }, // 计费时间     物业费基础条款
+        { key: 'property_fee_end_ts', type: '费用结束时间', description: 'timestamp' }, // 结束时间        物业费条款
+        { key: 'property_pay_cycle', type: '付款周期:单位是月', description: 'int' }, // 付款周期（月）     物业费基础条款
         // { key: 'property_pay_date', type: '收款日', description: 'int' },//收款日           物业费基础条款
-        {
-          key: 'property_prepaid',
-          type: '预付月份:预付几个月的月租',
-          description: 'int'
-        }, // 提前收费（月）物业费基础条款
-        {
-          key: 'property_unit_price',
-          type: '合同单价',
-          description: 'int'
-        }, // 合同单价     物业费条款
-        {
-          key: 'property_unit_value',
-          type: '合同单价的单位',
-          description: 'int'
-        }, // (元/㎡·天)  物业费条款
+        { key: 'property_prepaid', type: '预付月份:预付几个月的月租', description: 'int' }, // 提前收费（月）物业费基础条款
+        { key: 'property_unit_price', type: '合同单价', description: 'int' }, // 合同单价     物业费条款
+        { key: 'property_unit_value', type: '合同单价的单位', description: 'int' }, // (元/㎡·天)  物业费条款
         { key: 'property_year_rent', type: '年物业费', description: 'int' }, // 年物业费   物业费条款
-        {
-          key: 'property_month_rent',
-          type: '月物业费',
-          description: 'int'
-        }, // 月物业费  物业费条款
+        { key: 'property_month_rent', type: '月物业费', description: 'int' }, // 月物业费  物业费条款
         { key: 'property_deposit', type: '押金', description: 'int' }, // 押金（元）    物业费基础条款
         {
           key: 'room',
           type: '数组',
           description: '房间详细信息的数组',
           explain: [
-            {
-              key: 'name',
-              type: 'string',
-              required: true,
-              description: '房间号，名称'
-            },
-            {
-              key: 'park_name',
-              type: 'string',
-              required: true,
-              description: '园区名称'
-            },
-            {
-              key: 'building_name',
-              type: 'string',
-              required: true,
-              description: '楼宇名称'
-            }
+            { key: 'name', type: 'string', required: true, description: '房间号，名称' },
+            { key: 'park_name', type: 'string', required: true, description: '园区名称' },
+            { key: 'building_name', type: 'string', required: true, description: '楼宇名称' }
           ]
         },
         // 租户
@@ -6201,72 +5928,32 @@ let contract = {
         { key: 'company_name', type: 'string', description: '租客' },
         { key: 'trade', type: 'string', description: '行业' },
         { key: 'representative', type: 'string', description: '法人' },
-        {
-          key: 'customer_name',
-          type: 'string',
-          description: '租客信息的签订人和租客信息的联系人'
-        }
+        { key: 'customer_name', type: 'string', description: '租客信息的签订人和租客信息的联系人' }
       ]
     },
     {
       title: '通过房间id获取合同列表',
       api: 'assets.contract.get_list_by_room',
       business: [
-        {
-          key: 'page_no',
-          type: 'int',
-          required: true,
-          description: '页码'
-        },
-        {
-          key: 'page_size',
-          type: 'int',
-          required: true,
-          description: '页面显示行数'
-        },
-        {
-          key: 'room_id',
-          type: 'int',
-          required: true,
-          description: '园区的domain_id'
-        }
+        { key: 'page_no', type: 'int', required: true, description: '页码' },
+        { key: 'page_size', type: 'int', required: true, description: '页面显示行数' },
+        { key: 'room_id', type: 'int', required: true, description: '园区的domain_id' }
       ],
       return: [
-        {
-          key: 'list',
-          type: 'json array',
-          required: true,
-          description: '楼宇列表'
-        }
+        { key: 'list', type: 'json array', required: true, description: '楼宇列表' }
       ],
       explain: [
-        {
-          key: 'organiz_code',
-          type: 'string',
-          description: '组织机构代码'
-        },
+        { key: 'organiz_code', type: 'string', description: '组织机构代码' },
         { key: 'company_type', type: 'int', description: '公司类别' },
         { key: 'company_name', type: 'string', description: '公司名称' },
         { key: 'customer_id', type: 'int', description: '来访客户id' },
         { key: 'scope', type: 'int', description: '经营范围' },
-        {
-          key: 'social_credit_code',
-          type: 'string',
-          description: '统一社会信用代码'
-        },
-        {
-          key: 'taxpayer_code',
-          type: 'string',
-          description: '纳税人识别号'
-        },
+        { key: 'social_credit_code', type: 'string', description: '统一社会信用代码' },
+        { key: 'taxpayer_code', type: 'string', description: '纳税人识别号' },
         { key: 'regist_code', type: 'string', description: '注册号' },
         { key: 'representative', type: 'string', description: '法人代表' },
         { key: 'nationality', type: 'string', description: '国籍' },
-        {
-          key: 'regist_fund',
-          type: 'int',
-          description: '注册资金:单位(万)'
-        },
+        { key: 'regist_fund', type: 'int', description: '注册资金:单位(万)' },
         { key: 'operate_state', type: 'int', description: '经营状态' },
         { key: 'establish_ts', type: 'timestamp', description: '成立日期' },
         { key: 'staff_size', type: 'int', description: '人员规模' },
@@ -6278,11 +5965,7 @@ let contract = {
         { key: 'trade', type: 'string', description: '所属行业' },
         { key: 'address', type: 'string', description: '注册地址' },
         { key: 'brand', type: 'string', description: '商标品牌' },
-        {
-          key: 'taxpayer_code',
-          type: 'string',
-          description: '纳税人识别号'
-        },
+        { key: 'taxpayer_code', type: 'string', description: '纳税人识别号' },
         { key: 'contacter', type: 'string', description: '联系人' },
         { key: 'contact', type: 'string', description: '电话' },
         { key: 'email', type: 'string', description: '邮箱' },
@@ -6300,27 +5983,11 @@ let contract = {
         { key: 'sign_ts', type: 'timestamp', description: '签订时间' },
         { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
         { key: 'end_ts', type: 'timestamp', description: '合同截至日期' },
-        {
-          key: 'fee_start_ts',
-          type: 'timestamp',
-          description: '计费开始日期'
-        },
-        {
-          key: 'fee_end_ts',
-          type: 'timestamp',
-          description: '计费截至日期'
-        },
+        { key: 'fee_start_ts', type: 'timestamp', description: '计费开始日期' },
+        { key: 'fee_end_ts', type: 'timestamp', description: '计费截至日期' },
         { key: 'pay_cycle', type: 'int', description: '付款周期:单位是月' },
-        {
-          key: 'pay_date',
-          type: 'int',
-          description: '付款日期:每月的第几天'
-        },
-        {
-          key: 'prepaid',
-          type: 'int',
-          description: '预付月份:预付几个月的月租'
-        },
+        { key: 'pay_date', type: 'int', description: '付款日期:每月的第几天' },
+        { key: 'prepaid', type: 'int', description: '预付月份:预付几个月的月租' },
         { key: 'unit_price', type: 'int', description: '合同单价' },
         { key: 'unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'year_rent', type: 'int', description: '年租金' },
@@ -6328,81 +5995,26 @@ let contract = {
         { key: 'deposit', type: 'int', description: '押金' },
         { key: 'manage_area', type: 'numeric', description: '管理面积' },
         { key: 'room', type: 'josn数组', description: '房间domain_id' },
-        {
-          key: 'property_sign_ts',
-          type: 'timestamp',
-          description: '签订时间'
-        },
-        {
-          key: 'property_start_ts',
-          type: 'timestamp',
-          description: '合同开始日期'
-        },
-        {
-          key: 'property_end_ts',
-          type: 'timestamp',
-          description: '合同截至日期'
-        },
-        {
-          key: 'property_fee_start_ts',
-          type: 'timestamp',
-          description: '费用开始时间'
-        },
-        {
-          key: 'property_fee_end_ts',
-          type: 'timestamp',
-          description: '费用结束时间'
-        },
-        {
-          key: 'property_pay_cycle',
-          type: 'int',
-          description: '付款周期:单位是月'
-        },
-        {
-          key: 'property_prepaid',
-          type: 'int',
-          description: '预付月份:预付几个月的月租'
-        },
-        {
-          key: 'property_unit_price',
-          type: 'int',
-          description: '合同单价'
-        },
-        {
-          key: 'property_unit_value',
-          type: 'int',
-          description: '合同单价的单位'
-        },
+        { key: 'property_sign_ts', type: 'timestamp', description: '签订时间' },
+        { key: 'property_start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'property_end_ts', type: 'timestamp', description: '合同截至日期' },
+        { key: 'property_fee_start_ts', type: 'timestamp', description: '费用开始时间' },
+        { key: 'property_fee_end_ts', type: 'timestamp', description: '费用结束时间' },
+        { key: 'property_pay_cycle', type: 'int', description: '付款周期:单位是月' },
+        { key: 'property_prepaid', type: 'int', description: '预付月份:预付几个月的月租' },
+        { key: 'property_unit_price', type: 'int', description: '合同单价' },
+        { key: 'property_unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'property_year_rent', type: 'int', description: '年物业费' },
-        {
-          key: 'property_month_rent',
-          type: 'int',
-          description: '月物业费'
-        },
+        { key: 'property_month_rent', type: 'int', description: '月物业费' },
         { key: 'property_deposit', type: 'int', description: '押金' },
         {
           key: 'room',
           type: '数组',
           description: '房间详细信息的数组',
           explain: [
-            {
-              key: 'name',
-              type: 'string',
-              required: true,
-              description: '房间号，名称'
-            },
-            {
-              key: 'park_name',
-              type: 'string',
-              required: true,
-              description: '园区名称'
-            },
-            {
-              key: 'building_name',
-              type: 'string',
-              required: true,
-              description: '楼宇名称'
-            }
+            { key: 'name', type: 'string', required: true, description: '房间号，名称' },
+            { key: 'park_name', type: 'string', required: true, description: '园区名称' },
+            { key: 'building_name', type: 'string', required: true, description: '楼宇名称' }
           ]
         },
         // 租户
@@ -6410,11 +6022,7 @@ let contract = {
         { key: 'company_name', type: 'string', description: '租客' },
         { key: 'trade', type: 'string', description: '行业' },
         { key: 'representative', type: 'string', description: '法人' },
-        {
-          key: 'customer_name',
-          type: 'string',
-          description: '租客信息的签订人和租客信息的联系人'
-        }
+        { key: 'customer_name', type: 'string', description: '租客信息的签订人和租客信息的联系人' }
       ]
     },
     {
@@ -6447,24 +6055,9 @@ let contract = {
           type: '数组',
           description: '房间详细信息的数组',
           explain: [
-            {
-              key: 'name',
-              type: 'string',
-              required: true,
-              description: '房间号，名称'
-            },
-            {
-              key: 'park_name',
-              type: 'string',
-              required: true,
-              description: '园区名称'
-            },
-            {
-              key: 'building_name',
-              type: 'string',
-              required: true,
-              description: '楼宇名称'
-            }
+            { key: 'name', type: 'string', required: true, description: '房间号，名称' },
+            { key: 'park_name', type: 'string', required: true, description: '园区名称' },
+            { key: 'building_name', type: 'string', required: true, description: '楼宇名称' }
           ]
         },
         // 租客信息
@@ -6473,11 +6066,7 @@ let contract = {
         { key: 'company_name', type: 'string', description: '租客' },
         { key: 'trade', type: 'string', description: '行业' },
         { key: 'representative', type: 'string', description: '法人' },
-        {
-          key: 'customer_name',
-          type: 'string',
-          description: '租客信息的签订人和租客信息的联系人'
-        },
+        { key: 'customer_name', type: 'string', description: '租客信息的签订人和租客信息的联系人' },
         { key: '暂无', type: '', description: '房源信息' }, // 9001
         { key: '暂无', type: '', description: '租赁数' }, // 360
         // 保证金条款
@@ -6574,9 +6163,7 @@ let enter = {
     {
       title: ' 删除进驻企业',
       api: 'assets.building.remove',
-      business: [
-        { key: 'customer_id', type: 'int', description: '客户id' }
-      ],
+      business: [{ key: 'customer_id', type: 'int', description: '客户id' }],
       return: [],
       explain: []
     },
@@ -6664,21 +6251,13 @@ let enter = {
         { key: 'establish_ts', type: 'timestamp', description: '成立日期' },
         { key: 'company_type', type: 'int', description: '公司类别' },
         { key: 'contacter', type: 'string', description: '联系人' }, // 开票信息的联系人
-        {
-          key: 'organiz_code',
-          type: 'string',
-          description: '组织机构代码'
-        },
+        { key: 'organiz_code', type: 'string', description: '组织机构代码' },
         { key: 'regist_fund', type: 'numeric', description: '注册资金' },
         { key: 'address', type: 'string', description: '注册地址' },
         { key: 'scope', type: 'int', description: '经营范围' },
         { key: 'memo', type: 'string', description: '备注' },
         // 抬头发票
-        {
-          key: 'taxpayer_code',
-          type: '纳税人识别号',
-          description: 'string'
-        },
+        { key: 'taxpayer_code', type: '纳税人识别号', description: 'string' },
         { key: 'bank', type: '银行', description: 'string' }, // 开户银行     开票信息
         { key: 'bank_code', type: '银行账号', description: 'string' }, // 账号    开票信息
         { key: 'contact', type: '电话', description: 'string' }, // 联系方式    开票信息
@@ -6686,16 +6265,8 @@ let enter = {
         // 合同数组
         { key: 'contract_code', type: 'string', description: '合同编号' },
         { key: 'company_name', type: 'string', description: '公司名称' },
-        {
-          key: 'contract_start_ts',
-          type: 'timestamp',
-          description: '合同开始日期'
-        },
-        {
-          key: 'contract_end_ts',
-          type: 'timestamp',
-          description: '合同截至日期'
-        },
+        { key: 'contract_start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'contract_end_ts', type: 'timestamp', description: '合同截至日期' },
         { key: 'unit_price', type: 'int', description: '合同单价' },
         { key: 'unit_value', type: 'int', description: '合同单价的单位' },
         { key: 'state', type: 'int', description: '合同状态' },
@@ -6703,10 +6274,11 @@ let enter = {
           key: 'room',
           type: '数组',
           description: '房间数组',
-          explain: [
-            { key: 'name', type: 'string', description: '房间名' },
-            { key: 'area', type: 'numeric', description: '房间面积' }
-          ]
+          explain:
+            [
+              { key: 'name', type: 'string', description: '房间名' },
+              { key: 'area', type: 'numeric', description: '房间面积' }
+            ]
         }
       ],
       explain: []
@@ -6946,6 +6518,298 @@ let htmb = {
     }
   ]
 }
+// 物业费房租费用等费用的管理
+let expense = {
+  title: '物业费房租费用等费用的管理',
+  content: [
+    {
+      title: '获取财务管理模块信息',
+      api: 'assets.d_expense.get_info',
+      business: [
+        {
+          key: 'park_id',
+          type: 'int',
+          required: true,
+          description: '园区id'
+        },
+        {
+          key: 'type',
+          type: 'int',
+          required: true,
+          description: '类型 包括[1,2,409,410,411,412,413,414]'
+        }
+      ],
+      return: [
+        {
+          key: 'receive',
+          type: 'int',
+          required: true,
+          description: `已收`
+        },
+        {
+          key: 'need_receive',
+          type: 'int',
+          required: true,
+          description: `应收`
+        },
+        {
+          key: 'receive_rate',
+          type: 'decimal',
+          required: true,
+          description: `已收百分比 `
+        },
+        {
+          key: 'need_receive_rate',
+          type: 'decimal',
+          required: true,
+          description: `应收百分比`
+        },
+        {
+          key: 'receive_num',
+          type: 'int',
+          required: true,
+          description: `已收几笔`
+        },
+        {
+          key: 'need_receive_num',
+          type: 'int',
+          required: true,
+          description: `应收几笔`
+        },
+        {
+          key: 'fee',
+          type: 'decimal',
+          required: true,
+          description: `其他费用/房租费用/物业费用`
+        },
+        {
+          key: 'water_fee',
+          type: 'decimal',
+          required: true,
+          description: `水费`
+        },
+        {
+          key: 'electric_fee',
+          type: 'decimal',
+          required: true,
+          description: `电费`
+        },
+        {
+          key: 'fee_rate',
+          type: 'decimal',
+          required: true,
+          description: `其他百分比`
+        },
+        {
+          key: 'water_fee_rate',
+          type: 'decimal',
+          required: true,
+          description: `水费百分比`
+        },
+        {
+          key: 'electric_fee_rate',
+          type: 'decimal',
+          required: true,
+          description: '电费百分比'
+        },
+        {
+          key: 'un_receive',
+          type: 'int',
+          required: true,
+          description: '未缴'
+        },
+        {
+          key: 'un_receive_rate',
+          type: 'decimal',
+          required: true,
+          description: '未缴百分比'
+        },
+        {
+          key: 'un_receive_num',
+          type: 'int',
+          required: true,
+          description: '未缴几笔'
+        }
+      ],
+      explain: []
+    },
+    {
+      title: '添加费用相关信息',
+      api: 'assets.expense.add',
+      business: [
+        { key: 'contract_code', type: 'string', description: '合同编号' },
+
+        { key: 'type', type: 'int', description: '费用类型' },
+        { key: 'bill_money', type: 'numeric', description: '账单金额' },
+
+        { key: 'receive_money', type: 'numeric', description: '实收金额' },
+        { key: 'invoice_money', type: 'numeric', description: '开票金额' },
+
+        { key: 'pay_date', type: 'timestamp', description: '应收日期' },
+        { key: 'pay_cycle', type: 'int', description: '付款周期' },
+
+        { key: 'receiver', type: 'string', description: '跟进人' },
+
+        { key: 'state', type: 'int', description: '结清状态' },
+
+        { key: 'overdue_day', type: 'int', description: '逾期天数' },
+
+        { key: 'memo', type: 'string', description: '备注' },
+        { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'end_ts', type: 'timestamp', description: '合同截至日期' }
+      ],
+      return: [],
+      explain: []
+    },
+    {
+      title: '修改费用',
+      api: 'assets.expense.modify',
+      business: [
+        { key: 'expense_code', type: 'string', description: '费用code' },
+
+        { key: 'contract_code', type: 'string', description: '合同编号' },
+
+        { key: 'type', type: 'int', description: '费用类型' },
+        { key: 'bill_money', type: 'numeric', description: '账单金额' },
+
+        { key: 'receive_money', type: 'numeric', description: '实收金额' },
+        { key: 'invoice_money', type: 'numeric', description: '开票金额' },
+
+        { key: 'pay_date', type: 'timestamp', description: '应收日期' },
+        { key: 'pay_cycle', type: 'int', description: '付款周期' },
+
+        { key: 'receiver', type: 'string', description: '跟进人' },
+
+        { key: 'state', type: 'int', description: '结清状态' },
+
+        { key: 'overdue_day', type: 'int', description: '逾期天数' },
+
+        { key: 'memo', type: 'string', description: '备注' },
+        { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'end_ts', type: 'timestamp', description: '合同截至日期' }
+      ],
+      return: [],
+      explain: []
+    },
+    {
+      title: ' 删除费用',
+      api: 'assets.expense.remove',
+      business: [
+        { key: 'expense_code', type: 'string', description: '合同编码' }
+      ],
+      return: [],
+      explain: []
+    },
+    {
+      title: '通过园区id获取园区下的获取费用列表',
+      api: 'assets.expense.get_list',
+      business: [
+        { key: 'page_no', type: 'int', required: true, description: '页码' },
+        { key: 'page_size', type: 'int', required: true, description: '页面显示行数' },
+        { key: 'park_id', type: 'int', required: true, description: '园区的domain_id' },
+        { key: 'customer_name', type: 'string', required: false, description: '客户名' },
+        { key: 'type', type: 'int', required: false, description: '费用类型' },
+        { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'end_ts', type: 'timestamp', description: '合同截至日期' },
+        { key: 'bill_money_floor', type: 'numeric', description: '账单金额下限' },
+        { key: 'bill_money_ceil', type: 'numeric', description: '账单金额上限' },
+        { key: 'name', type: 'string', required: false, description: '房间号' },
+        { key: 'is_overdue', type: 'bool', required: false, description: '是否逾期,true逾期' }
+      ],
+      return: [
+        { key: 'list', type: 'json array', required: true, description: '楼宇列表' }
+      ],
+      explain: [
+        // 这里是企业的相关字段   工商信息
+        { key: 'expense_code', type: 'string', description: '费用code' },
+
+        { key: 'contract_code', type: 'string', description: '合同编号' },
+
+        { key: 'type', type: 'int', description: '费用类型' },
+        { key: 'bill_money', type: 'numeric', description: '账单金额' },
+
+        { key: 'receive_money', type: 'numeric', description: '实收金额' },
+        { key: 'invoice_money', type: 'numeric', description: '开票金额' },
+
+        { key: 'pay_date', type: 'timestamp', description: '应收日期' },
+        { key: 'pay_cycle', type: 'int', description: '付款周期' },
+
+        { key: 'receiver', type: 'string', description: '跟进人' },
+
+        { key: 'state', type: 'int', description: '结清状态' },
+
+        { key: 'overdue_day', type: 'int', description: '逾期天数' },
+
+        { key: 'memo', type: 'string', description: '备注' },
+        { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'end_ts', type: 'timestamp', description: '合同截至日期' },
+
+        { key: 'customer_name', type: 'string', description: '用户名' },
+
+        {
+          key: 'room',
+          type: '数组',
+          description: '房间详细信息的数组',
+          explain: [
+            { key: 'name', type: 'string', required: true, description: '房间号，名称' },
+            { key: 'park_name', type: 'string', required: true, description: '园区名称' },
+            { key: 'building_name', type: 'string', required: true, description: '楼宇名称' }
+          ]
+        }
+      ]
+    },
+    {
+      title: '获取费用信息',
+      api: 'assets.expense.get_info',
+      business: [
+        {
+          key: 'expense_code',
+          type: 'string',
+          required: true,
+          description: '费用编号'
+        }
+      ],
+      return: [
+        { key: 'expense_code', type: 'string', description: '费用code' },
+
+        { key: 'contract_code', type: 'string', description: '合同编号' },
+
+        { key: 'type', type: 'int', description: '费用类型' },
+        { key: 'bill_money', type: 'numeric', description: '账单金额' },
+
+        { key: 'receive_money', type: 'numeric', description: '实收金额' },
+        { key: 'invoice_money', type: 'numeric', description: '开票金额' },
+
+        { key: 'pay_date', type: 'timestamp', description: '应收日期' },
+        { key: 'pay_cycle', type: 'int', description: '付款周期' },
+
+        { key: 'receiver', type: 'string', description: '跟进人' },
+
+        { key: 'state', type: 'int', description: '结清状态' },
+
+        { key: 'overdue_day', type: 'int', description: '逾期天数' },
+
+        { key: 'memo', type: 'string', description: '备注' },
+        { key: 'start_ts', type: 'timestamp', description: '合同开始日期' },
+        { key: 'end_ts', type: 'timestamp', description: '合同截至日期' },
+
+        { key: 'customer_name', type: 'string', description: '用户名' },
+
+        {
+          key: 'room',
+          type: '数组',
+          description: '房间详细信息的数组',
+          explain: [
+            { key: 'name', type: 'string', required: true, description: '房间号，名称' },
+            { key: 'park_name', type: 'string', required: true, description: '园区名称' },
+            { key: 'building_name', type: 'string', required: true, description: '楼宇名称' }
+          ]
+        }
+      ],
+      explain: []
+    }
+  ]
+}
 // 工作台
 let home = {
   title: '工作台',
@@ -7068,381 +6932,5 @@ let home = {
     }
   ]
 }
-// 房租费用
-let fangzfy = {
-  title: '房租费用',
-  content: [
-    {
-      title: '获取房租费用模块统计信息',
-      api: 'assets.d_rent.get_info',
-      business: [
-        {
-          key: 'park_id',
-          type: 'int',
-          required: true,
-          description: '园区id'
-        }
-      ],
-      return: [
-        {
-          key: 'pay',
-          type: 'int',
-          required: true,
-          description: `应收`
-        },
-        {
-          key: 'paid',
-          type: 'int',
-          required: true,
-          description: `已收`
-        },
-        {
-          key: 'unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴 `
-        },
-        {
-          key: 'rent_pay',
-          type: 'int',
-          required: true,
-          description: `房租费用`
-        },
-        {
-          key: 'num_pay',
-          type: 'int',
-          required: true,
-          description: `应收几笔`
-        },
-        {
-          key: 'num_paid',
-          type: 'int',
-          required: true,
-          description: `已收几笔`
-        },
-        {
-          key: 'num_unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴几笔`
-        },
-        {
-          key: 'percent_pay',
-          type: 'decimal',
-          required: true,
-          description: `应收百分比`
-        },
-        {
-          key: 'percent_paid',
-          type: 'decimal',
-          required: true,
-          description: `已收百分比`
-        },
-        {
-          key: 'persent_unpaid',
-          type: 'decimal',
-          required: true,
-          description: `未缴百分比`
-        },
-        {
-          key: 'percent_rent',
-          type: 'decimal',
-          required: true,
-          description: `房租百分比`
-        }
 
-      ],
-      explain: []
-    }
-  ]
-}
-// 物业费用
-let wuyfy = {
-  title: '物业费用',
-  content: [
-    {
-      title: '获取物业费用模块统计信息',
-      api: 'assets.d_property.get_info',
-      business: [
-        {
-          key: 'park_id',
-          type: 'int',
-          required: true,
-          description: '园区id'
-        }
-      ],
-      return: [
-        {
-          key: 'pay',
-          type: 'int',
-          required: true,
-          description: `应收`
-        },
-        {
-          key: 'paid',
-          type: 'int',
-          required: true,
-          description: `已收`
-        },
-        {
-          key: 'unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴 `
-        },
-        {
-          key: 'property_pay',
-          type: 'int',
-          required: true,
-          description: `房租费用`
-        },
-        {
-          key: 'num_pay',
-          type: 'int',
-          required: true,
-          description: `应收几笔`
-        },
-        {
-          key: 'num_paid',
-          type: 'int',
-          required: true,
-          description: `已收几笔`
-        },
-        {
-          key: 'num_unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴几笔`
-        },
-        {
-          key: 'percent_pay',
-          type: 'decimal',
-          required: true,
-          description: `应收百分比`
-        },
-        {
-          key: 'percent_paid',
-          type: 'decimal',
-          required: true,
-          description: `已收百分比`
-        },
-        {
-          key: 'persent_unpaid',
-          type: 'decimal',
-          required: true,
-          description: `未缴百分比`
-        },
-        {
-          key: 'percent_property',
-          type: 'decimal',
-          required: true,
-          description: `房租百分比`
-        }
-
-      ],
-      explain: []
-    }
-  ]
-}
-// 水电费用
-let shuidfy = {
-  title: '水电费用',
-  content: [
-    {
-      title: '获取水电费用模块统计信息',
-      api: 'assets.d_utility.get_info',
-      business: [
-        {
-          key: 'park_id',
-          type: 'int',
-          required: true,
-          description: '园区id'
-        }
-      ],
-      return: [
-        {
-          key: 'pay',
-          type: 'int',
-          required: true,
-          description: `应收`
-        },
-        {
-          key: 'paid',
-          type: 'int',
-          required: true,
-          description: `已收`
-        },
-        {
-          key: 'unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴 `
-        },
-        {
-          key: 'water_fee',
-          type: 'int',
-          required: true,
-          description: `水费`
-        },
-        {
-          key: 'electric_fee',
-          type: 'int',
-          required: true,
-          description: `电费`
-        },
-        {
-          key: 'else_fee',
-          type: 'int',
-          required: true,
-          description: `其他费用`
-        },
-        {
-          key: 'num_pay',
-          type: 'int',
-          required: true,
-          description: `应收几笔`
-        },
-        {
-          key: 'num_paid',
-          type: 'int',
-          required: true,
-          description: `已收几笔`
-        },
-        {
-          key: 'num_unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴几笔`
-        },
-        {
-          key: 'percent_pay',
-          type: 'decimal',
-          required: true,
-          description: `应收百分比`
-        },
-        {
-          key: 'percent_paid',
-          type: 'decimal',
-          required: true,
-          description: `已收百分比`
-        },
-        {
-          key: 'persent_unpaid',
-          type: 'decimal',
-          required: true,
-          description: `未缴百分比`
-        },
-        {
-          key: 'percent_water',
-          type: 'decimal',
-          required: true,
-          description: `水费百分比`
-        },
-        {
-          key: 'percent_electric',
-          type: 'decimal',
-          required: true,
-          description: `电费百分比`
-        },
-        {
-          key: 'percent_else',
-          type: 'decimal',
-          required: true,
-          description: `其他百分比`
-        }
-
-      ],
-      explain: []
-    }
-  ]
-}
-// 其他费用
-let qitfy = {
-  title: '其他费用',
-  content: [
-    {
-      title: '获取其他费用模块统计信息',
-      api: 'assets.d_else.get_info',
-      business: [
-        {
-          key: 'park_id',
-          type: 'int',
-          required: true,
-          description: '园区id'
-        }
-      ],
-      return: [
-        {
-          key: 'pay',
-          type: 'int',
-          required: true,
-          description: `应收`
-        },
-        {
-          key: 'paid',
-          type: 'int',
-          required: true,
-          description: `已收`
-        },
-        {
-          key: 'unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴 `
-        },
-        {
-          key: 'else_total',
-          type: 'int',
-          required: true,
-          description: `费用总额`
-        },
-        {
-          key: 'num_pay',
-          type: 'int',
-          required: true,
-          description: `应收几笔`
-        },
-        {
-          key: 'num_paid',
-          type: 'int',
-          required: true,
-          description: `已收几笔`
-        },
-        {
-          key: 'num_unpaid',
-          type: 'int',
-          required: true,
-          description: `未缴几笔`
-        },
-        {
-          key: 'percent_pay',
-          type: 'decimal',
-          required: true,
-          description: `应收百分比`
-        },
-        {
-          key: 'percent_paid',
-          type: 'decimal',
-          required: true,
-          description: `已收百分比`
-        },
-        {
-          key: 'persent_unpaid',
-          type: 'decimal',
-          required: true,
-          description: `未缴百分比`
-        },
-        {
-          key: 'percent_else',
-          type: 'decimal',
-          required: true,
-          description: `费用百分比`
-        }
-
-      ],
-      explain: []
-    }
-  ]
-}
-
-export { sibjc, baoxgl, tousgl, feiycj, kehgl, park, building, floor, room, feiyonglz, caiwusr, zidmkgl, zidgl, contract, enter, htmb, home, fangzfy, wuyfy, shuidfy, qitfy }
+export { sibjc, baoxgl, tousgl, feiycj, kehgl, park, building, floor, room, feiyonglz, caiwusr, zidmkgl, zidgl, contract, enter, htmb, expense, home }

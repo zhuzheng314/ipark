@@ -12,7 +12,7 @@
             <div class="dataBox">
               <div class="name">总产值</div>
               <div class="value">
-                365046
+                {{park_value}}
                 <span class="unit">元</span>
               </div>
             </div>
@@ -216,58 +216,8 @@ export default {
   },
   data () {
     return {
-      statistic: [
-        {
-          color: '#A0A7E6',
-          icon: '&#xe656;',
-          title: '园区总览',
-          chart: [
-            { name: '建筑面积(㎡)', value: 3256 },
-            { name: '总投资(万元)', value: 3245 }
-          ],
-          router: '/Park/park'
-        },
-        {
-          color: '#358DD7',
-          icon: '&#xe620;',
-          title: '入驻企业及合同',
-          chart: [
-            { name: '入驻企业数(个)', value: 65 },
-            { name: '合同数(个)', value: 80 }
-          ],
-          router: '/Entry/apply'
-        },
-        {
-          color: '#54bab8',
-          icon: '&#xe67e;',
-          title: '园区产值',
-          chart: [
-            { name: '房租费用(元)', value: 654821 },
-            { name: '总金额(元)', value: 865624 }
-          ],
-          router: '/Park/park'
-        },
-        {
-          color: '#33add0',
-          icon: '&#xe63c;',
-          title: '投诉报修',
-          chart: [
-            { name: '投诉(个)', value: 1 },
-            { name: '报修(个)', value: 23 }
-          ],
-          router: '/property/complaint'
-        },
-        {
-          color: '#b671bb',
-          icon: '&#xe625;',
-          title: '费用和缴催',
-          chart: [
-            { name: '催缴数量(个)', value: 32 },
-            { name: '已结清数量(个)', value: 48 }
-          ],
-          router: '/property/payment'
-        }
-      ],
+      park_value: '',
+      statistic: [],
       chartBox1: {
         title: '园区产值'
       },
@@ -322,26 +272,6 @@ export default {
         { type: 'bar', barWidth: this.publicOptions.barWidth },
         { type: 'bar', barWidth: this.publicOptions.barWidth }
       ]
-    }
-    this.lineOptions1 = {
-      color: this.publicOptions.color,
-      grid: this.publicOptions.grid,
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b}: {c} 个'
-      },
-      xAxis: {
-        type: 'category',
-        data: ['6月', '7月', '8月', '9月', '10月', '11月']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        name: '入驻数',
-        data: [14, 26, 36, 50, 66, 79],
-        type: 'line'
-      }]
     }
     this.lineOptions2 = {
       color: this.publicOptions.color,
@@ -481,15 +411,92 @@ export default {
         }
       ]
     }
-    this.$https.post(this.$urls.desk.get_info, { park_id: this.$store.state.form.activePark.domain_id }).then(res => {
-      if (res.code === 1000) {
-        console.log(res)
-      } else {
-        this.$message.error(`${res.msg}`)
-      }
-    })
+    this.fetchGetInfo()
   },
   methods: {
+    fetchGetInfo () {
+      this.$https.post(this.$urls.desk.get_info, { park_id: this.$store.state.form.activePark.domain_id }).then(res => {
+        if (res.code === 1000) {
+          // console.log(res)
+          let data = res
+          this.statistic = [
+            {
+              color: '#A0A7E6',
+              icon: '&#xe656;',
+              title: '园区总览',
+              chart: [
+                { name: '建筑面积(㎡)', value: data.build_area },
+                { name: '总投资(万元)', value: data.total_invest }
+              ],
+              router: '/Park/park'
+            },
+            {
+              color: '#358DD7',
+              icon: '&#xe620;',
+              title: '入驻企业及合同',
+              chart: [
+                { name: '入驻企业数(个)', value: data.enter_firm },
+                { name: '合同数(个)', value: data.pact_num }
+              ],
+              router: '/Entry/apply'
+            },
+            {
+              color: '#54bab8',
+              icon: '&#xe67e;',
+              title: '园区产值',
+              chart: [
+                { name: '房租费用(元)', value: data.rent },
+                { name: '总金额(元)', value: data.park_total }
+              ],
+              router: '/Park/park'
+            },
+            {
+              color: '#33add0',
+              icon: '&#xe63c;',
+              title: '投诉报修',
+              chart: [
+                { name: '投诉(个)', value: data.accuse_num },
+                { name: '报修(个)', value: data.repairs_num }
+              ],
+              router: '/property/complaint'
+            },
+            {
+              color: '#b671bb',
+              icon: '&#xe625;',
+              title: '费用和缴催',
+              chart: [
+                { name: '催缴数量(个)', value: data.pay_urge },
+                { name: '已结清数量(个)', value: data.pay_closed }
+              ],
+              router: '/property/payment'
+            }
+          ]
+          this.lineOptions1 = {
+            color: this.publicOptions.color,
+            grid: this.publicOptions.grid,
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} 个'
+            },
+            xAxis: {
+              type: 'category',
+              data: ['6月', '7月', '8月', '9月', '10月', '11月']
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              name: '入驻数',
+              data: data.firm,
+              type: 'line'
+            }]
+          }
+          this.park_value = data.park_total
+        } else {
+          this.$message.error(`${res.msg}`)
+        }
+      })
+    }
   }
 }
 </script>

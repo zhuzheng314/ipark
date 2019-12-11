@@ -2345,7 +2345,7 @@ const incomeForm = [
   // }
 ]
 // 房租费用
-const rentForm = [
+const expenseForm = [
   {
     title: '账单',
     children: [
@@ -2362,29 +2362,19 @@ const rentForm = [
       },
       {
         type: 'select',
-        label: '客户名称',
-        key: 'name',
-        placeholder: '请选择客户名称',
+        label: '费用类型',
+        key: 'type',
+        placeholder: '请选择费用类型',
         rule: [
-          { required: true, message: '请选择客户名称', trigger: 'change' }
+          { required: true, message: '请选择费用类型', trigger: 'change' }
         ],
         options: [
         ]
       },
       {
-        type: 'cascader',
-        label: '房源信息',
-        multiple: true, // 是否多选
-        key: 'room',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: []
-      },
-      {
         type: 'input-num',
         label: '账单金额',
-        key: 'a',
+        key: 'bill_money',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'change' }
@@ -2393,7 +2383,7 @@ const rentForm = [
       {
         type: 'input-num',
         label: '实收金额',
-        key: 'b',
+        key: 'receive_money',
         placeholder: '请输入',
         rule: [
           // { required: true, message: '请输入', trigger: 'change' }
@@ -2402,7 +2392,7 @@ const rentForm = [
       {
         type: 'input-num',
         label: '开票金额',
-        key: 'c',
+        key: 'invoice_money',
         placeholder: '请输入',
         rule: [
           // { required: true, message: '请输入', trigger: 'change' }
@@ -2411,7 +2401,7 @@ const rentForm = [
       {
         type: 'date-picker',
         label: '应收日期',
-        key: 'd',
+        key: 'pay_date',
         placeholder: '请选择',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -2419,8 +2409,17 @@ const rentForm = [
       },
       {
         type: 'date-picker',
-        label: '计费周期',
-        key: 'e',
+        label: '计费周期开始',
+        key: 'start_ts',
+        placeholder: '请选择',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
+      },
+      {
+        type: 'date-picker',
+        label: '计费周期结束',
+        key: 'end_ts',
         placeholder: '请选择',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -2429,7 +2428,7 @@ const rentForm = [
       {
         type: 'input-num',
         label: '逾期天数',
-        key: 'f',
+        key: 'overdue_day',
         placeholder: '请输入',
         rule: [
           // { required: true, message: '请输入', trigger: 'change' }
@@ -2438,7 +2437,7 @@ const rentForm = [
       {
         type: 'input',
         label: '跟进人',
-        key: 'g',
+        key: 'receiver',
         placeholder: '请输入跟进人名称',
         rule: [
           { required: true, message: '请输入跟进人名称', trigger: 'blur' }
@@ -2448,20 +2447,20 @@ const rentForm = [
       {
         type: 'select',
         label: '结清状态',
-        key: 'h',
+        key: 'state',
         placeholder: '请选结清状态',
         rule: [
           { required: true, message: '请选择结清状态', trigger: 'change' }
         ],
         options: [
-          {
-            label: '未结清',
-            value: 0
-          },
-          {
-            label: '已结清',
-            value: 1
-          }
+          // {
+          //   label: '未结清',
+          //   value: 0
+          // },
+          // {
+          //   label: '已结清',
+          //   value: 1
+          // }
         ]
       }
     ]
@@ -2897,10 +2896,7 @@ const forms = {
   paymentForm,
   financialForm,
   incomeForm,
-  rentForm,
-  propertyForm,
-  waterForm,
-  otherForm
+  expenseForm
 }
 export {
   forms

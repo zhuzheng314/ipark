@@ -307,17 +307,23 @@ export default {
         })
     },
     fetchRemove (id) { // 删除投诉工单
-      let params = {
-        complaint_code: id
-      }
-      this.$https.post(this.$urls.complaint.remove, params).then((res) => {
-        if (res.code === 1000) {
-          this.fetchList()
-          this.InfoState = false
-          this.$message.success('删除成功')
-        } else {
-          this.$message.error('删除失败')
+      this.$confirm('此操作将永久删除该工单, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        let params = {
+          complaint_code: id
         }
+        this.$https.post(this.$urls.complaint.remove, params).then((res) => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.InfoState = false
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
       })
     },
     fetchModify (data) { // 修改投诉工单

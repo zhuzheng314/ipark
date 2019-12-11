@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { sibjc, baoxgl, tousgl, feiycj, kehgl, park, building, floor, room, feiyonglz, caiwusr, zidmkgl, zidgl, contract, enter, htmb, home, fangzfy, wuyfy, shuidfy, qitfy } from './model/api.js'
+import { sibjc, baoxgl, tousgl, feiycj, kehgl, park, building, floor, room, feiyonglz, caiwusr, zidmkgl, zidgl, contract, enter, htmb, expense, home } from './model/api.js'
 import { dic } from './model/dic.js'
 export default {
   name: 'test',
@@ -206,7 +206,7 @@ export default {
       {
         index: 6,
         title: '财务管理模块',
-        content: [feiyonglz, caiwusr, fangzfy, wuyfy, shuidfy, qitfy]
+        content: [feiyonglz, caiwusr, expense]
       },
       {
         index: 7,

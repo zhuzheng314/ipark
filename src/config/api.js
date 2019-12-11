@@ -1,12 +1,12 @@
 // console.log(process.env)
 // 空间管理
-const url = 'https://service.iot1234.com'
-const fileUrl = 'http://service.iot1234.com/images/'
-const domin = url + ':2443/'
+// const url = 'https://service.iot1234.com'
+// const fileUrl = 'http://service.iot1234.com/images/'
+// const domin = url + ':2443/'
 
-// const url = 'http://192.168.0.231'
-// const domin = url + ':3000/'
-// const fileUrl = 'http://192.168.0.231/images/'
+const url = 'http://192.168.0.231'
+const domin = url + ':3000/'
+const fileUrl = 'http://192.168.0.231/images/'
 
 const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
@@ -170,6 +170,15 @@ const api = {
     get_list: `/assets.charge.get_list`, // 获取财务收入列表
     get_info: `/assets.charge.get_info`, // 获取财务收入信息
     get_back: `/assets.charge.get_back`
+  },
+  expense: {
+    info: `/assets.d_expense.get_info`, // 获取财务收入统计信息
+    add: `/assets.expense.add`, // 添加财务收入
+    modify: `/assets.expense.modify`, // 修改财务收入
+    remove: `/assets.expense.remove`, // 删除财务收入
+    get_list: `/assets.expense.get_list`, // 获取财务收入列表
+    get_info: `/assets.expense.get_info`, // 获取财务收入信息
+    get_back: `/assets.expense.get_back`
   },
   /* --------------- 字典模块管理 --------------- */
   // 字典类型模块

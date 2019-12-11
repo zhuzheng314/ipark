@@ -55,7 +55,9 @@ request.interceptors.response.use(
     const msg = codeMessage[code]
     if (code === 1100 || code === 1102 || code === 1103) {
       // window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
-      store.commit('loginOut')
+      // alert(code)
+      // console.log(config)
+      // store.commit('loginOut')
     }
     config.data.msg = code + ':' + msg
     return config.data
