@@ -460,6 +460,9 @@ export default {
       }
       this.$https.post(this.$urls.cost.get_list, params).then((res) => {
         // console.log(res)
+        let list = res.list
+        let params = ['cost_type']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
         this.tableData = []
         this.tableData = res.list

@@ -344,7 +344,11 @@ export default {
       }
       this.$https.post(this.$urls.repair.get_list, params).then((res) => {
         // console.log(res)
+        let list = res.list
+        let params = ['repair_state']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
+        this.tableData = []
         this.tableData = res.list
       })
     },

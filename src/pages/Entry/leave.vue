@@ -6,6 +6,7 @@
                     multiple
                     style="width: 180px; margin-right: 15px"
                     v-model="value2"
+                    clearable
                     placeholder="审批状态">
           <el-option
             v-for="item in this.$store.state.dictionary.dictionaryType['approval_type']"
@@ -56,7 +57,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.leaveList"
+        :tableLabel="$tableLabels.applyList"
         :tableData="tableData">
       </GTable>
     </el-card>
@@ -262,7 +263,11 @@ export default {
       }
       this.$https.post(this.$urls.enter.get_list, params).then((res) => {
         // console.log(res)
+        let list = res.list
+        let params = ['company_type', 'state']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
+        this.tableData = []
         this.tableData = res.list
       })
     },

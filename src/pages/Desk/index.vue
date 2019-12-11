@@ -481,60 +481,13 @@ export default {
         }
       ]
     }
-
-    // this.roseDiagramOptions = {
-    //   color: this.publicOptions.color,
-    //   tooltip : {
-    //     trigger: 'item',
-    //     formatter: "{b} : {c} ({d}%)"
-    //   },
-    //   legend: {
-    //     left:'70%',
-    //     top: 'center',
-    //     orient:'vertical',
-    //     padding: 5,
-    //     itemGap: 12,
-    //     itemWidth: 12, // 图例图形宽度
-    //     itemHeight: 12,
-
-    //     textStyle: {// 图例文字颜色
-    //       // color: '#fff'
-    //     },
-    //     data: ['5万以下', '5-10万', '10-20万', '20万以上']
-    //   },
-    //   calculable : true,
-    //   series : [
-    //     {
-    //       name:'半径模式',
-    //       type:'pie',
-    //       radius : ["30%", "85%"],
-    //       center : ['25%', 'center'],
-    //       roseType : 'radius',
-    //       label: {
-    //         normal: {
-    //           show: false
-    //         },
-    //         emphasis: {
-    //           show: false
-    //         }
-    //       },
-    //       lableLine: {
-    //         normal: {
-    //           show: false,
-    //         },
-    //         emphasis: {
-    //           show: false
-    //         }
-    //       },
-    //       data: [
-    //         { name: '5万以下', value: 10 },
-    //         { name: '5-10万', value: 21 },
-    //         { name: '10-20万', value: 13 },
-    //         { name: '20万以上', value: 8 }
-    //       ]
-    //     },
-    //   ]
-    // }
+    this.$https.post(this.$urls.desk.get_info, { park_id: this.$store.state.form.activePark.domain_id }).then(res => {
+      if (res.code === 1000) {
+        console.log(res)
+      } else {
+        this.$message.error(`${res.msg}`)
+      }
+    })
   },
   methods: {
   }
