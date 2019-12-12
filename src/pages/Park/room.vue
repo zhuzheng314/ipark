@@ -123,6 +123,7 @@
                 <el-button
                   :style="{height: '80%',margin: 'auto 8px'}"
                   size="mini"
+                  @click="addContract"
                 >新建合同</el-button>
               </template>
             </BodyCard>
@@ -168,8 +169,7 @@
       title="修改房间信息"
       :visible.sync="modifyShow"
       destroy-on-close
-      width="600px"
-    >
+      width="600px">
       <div>
         <ParkForm
           ref="addRoomForm"
@@ -182,7 +182,26 @@
           :itemList="[]">
         </ParkForm>
       </div>
-
+    </el-dialog>
+<!-- 新建合同 -->
+    <el-dialog
+      title="新建合同"
+      top="10px"
+      width="950px"
+      style="overflow-y: scroll"
+      :visible.sync="addContractVisible">
+      <div>
+        <ParkForm
+        @onSubmit="fetchAddContract"
+        @onCancel="() => {this.addContractVisible = false}"
+        v-if="addContractVisible"
+        :formList="$formsLabels.addContractForm"
+        :options="$store.getters.contractListOptions"
+        :default-value="{}"
+        :itemList="[]"
+        :defaultValue="defaultValueContract"
+        ></ParkForm>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -370,6 +389,7 @@ export default {
         }
       },
       roomInfoState: false, // 房间信息弹窗
+      addContractVisible: false,
       roomInfo_header: {
         title: '',
         button: [
@@ -439,6 +459,7 @@ export default {
       filterData: '',
       roomInfo: {},
       defaultValue: {},
+      defaultValueContract: {},
       roomParams: {
         area: null
 
@@ -462,6 +483,26 @@ export default {
     }
   },
   methods: {
+    addContract () { // 打开添加合同表单
+      this.defaultValueContract = {
+        room: [this.roomInfo.domain_id]
+      }
+      this.addContractVisible = true
+    },
+    fetchAddContract (data) { // 新增合同
+      let params = {
+        ...data
+      }
+      this.$https.post(this.$urls.contract.add, params).then(res => {
+        if (res.code === 1000) {
+          this.handleRoomClick(this.roomInfo)
+          this.addContractVisible = false
+          this.$message.success('新增成功')
+        } else {
+          this.$message.error('新增失败')
+        }
+      })
+    },
     getState (value) {
       this.state = value
     },
