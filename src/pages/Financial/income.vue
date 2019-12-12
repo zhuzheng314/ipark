@@ -1,8 +1,5 @@
 <template>
   <div>
-<!--    <el-card style="width: 100%">-->
-
-<!--    </el-card>-->
     <el-card>
       <div slot="header">
 
@@ -106,24 +103,18 @@
       :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
-      <HeaderCard :data="financialInfo_header">
+      <HeaderCard :data="info_header">
         <template #headerCardBtns>
-          <div class="btnBox" v-for="(item,i) in financialInfo_header.button" :key="(item,i)" @click="open(item.name)">
+          <div class="btnBox" v-for="(item,i) in info_header.button" :key="(item,i)" @click="open(item.name)">
             <i class="iconfont" v-html="item.icon"></i>
             <span class="headerCard-btn-name">{{item.name}}</span>
           </div>
         </template>
       </HeaderCard>
-      <HeaderInfo type=1 :data="financialInfo_info"></HeaderInfo>
+      <HeaderInfo type=1 :data="info_info"></HeaderInfo>
       <div class="drawer-body" style="height: 660px;">
-        <BodyCard type=1 :data="financialInfo_body_financial"></BodyCard>
-        <BodyCard type=1 :data="financialInfo_body_room"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table1"></BodyCard>
-        <!-- <BodyCard type=2 :data="financialInfo_body_table2"></BodyCard> -->
-        <!-- <BodyCard type=2 :data="financialInfo_body_table3"></BodyCard> -->
-        <BodyCard type=2 :data="financialInfo_body_table4"></BodyCard>
-        <!-- <BodyCard type=2 :data="financialInfo_body_table5"></BodyCard> -->
-
+        <BodyCard type=1 :data="info_body_expense"></BodyCard>
+        <BodyCard type=2 :data="info_body_room"></BodyCard>
       </div>
     </el-drawer>
   </div>
@@ -173,57 +164,10 @@ export default {
       value2: '',
       value3: '',
       addVisible: false,
-      tamplateFormList: [
-        {
-          type: 'select',
-          label: '模板类型',
-          key: 'tamplate',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请选择', trigger: 'change' }
-          ],
-          options: [
-            {
-              label: '美食',
-              value: 's1'
-            }, {
-              label: '美食美食',
-              value: 's2'
-            }
-          ]
-        }, {
-          type: 'input',
-          label: '模板名称',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请输入模板名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'textarea',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'upload',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }
-      ],
       InfoState: false,
       modifyVisible: false,
       id: '',
-      financialInfo_header: {
+      info_header: {
         title: '付款方：-',
         button: [
           {
@@ -232,70 +176,31 @@ export default {
           },
           {
             name: '删除',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe7d1;'
           }
         ]
       },
-      financialInfo_info: {
+      info_info: {
         label: [
-          { prop: 'a', label: '账单状态' },
-          { prop: 'b', label: '付款金额' },
-          { prop: 'c', label: '已付金额' },
-          { prop: 'd', label: '应付时间' }
+          { prop: 'state', label: '账单状态' },
+          { prop: 'charge_type', label: '类型' },
+          { prop: 'charge', label: '金额' }
         ],
-        tableData: [{
-          a: '未付款',
-          b: '1,495.89元',
-          c: '1,495.89元',
-          d: '2020-01-07'
-        }]
+        tableData: []
       },
-      financialInfo_body_financial: {
+      info_body_expense: {
         title: '账单信息',
-        info: [
-          { name: '费用类型', value: '租金' },
-          { name: '计费周期', value: '2020-01-28-2020-04-27' },
-          { name: '账单金额', value: '1,495.89元' },
-          { name: '创建时间', value: '2019-10-28' },
-          { name: '收款方', value: '杨' },
-          { name: '收款方联系方式', value: '-' },
-          { name: '合同编号', value: '1003' },
-          { name: '账单编号', value: 'zj-20191028-016558624' },
-          { name: '备注', value: '-' }
-        ]
+        info: []
       },
-      financialInfo_body_room: {
+      info_body_room: {
         title: '房源信息',
-        info: [
-          { name: '园区', value: '西港发展中心' },
-          { name: '楼宇', value: '协力大厦' },
-          { name: '房号', value: '10层302室' }
-        ]
-      },
-      financialInfo_body_table1: {
-        title: '收款',
         info: {
           label: [
-            { prop: 'a', label: '对方单位名称' },
-            { prop: 'b', label: '入账日' },
-            { prop: 'd', label: '发生额' },
-            { prop: 'e', label: '我方确认人' },
-            { prop: 'h', label: '操作' }
-          ],
-          tableData: []
-        }
-      },
-      financialInfo_body_table4: {
-        title: '开票记录',
-        info: {
-          label: [
-            { prop: 'a', label: '发票抬头' },
-            { prop: 'b', label: '发票号码' },
-            { prop: 'c', label: '开票金额' },
-            { prop: 'd', label: '备注' },
-            { prop: 'e', label: '开票时间' },
-            { prop: 'f', label: '状态' }
+            { prop: 'park_name', label: '所属园区' },
+            { prop: 'building_name', label: '楼宇' },
+            { prop: 'name', label: '房间号' },
+            { prop: 'area', label: '面积' },
+            { prop: 'state', label: '房源状态' }
           ],
           tableData: []
         }
@@ -343,17 +248,23 @@ export default {
         })
     },
     fetchRemove (id) { // 删除财务收入
-      let params = {
-        id: id
-      }
-      this.$https.post(this.$urls.charge.remove, params).then((res) => {
-        if (res.code === 1000) {
-          this.fetchList()
-          this.InfoState = false
-          this.$message.success('删除成功')
-        } else {
-          this.$message.error('删除失败')
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        let params = {
+          id: id
         }
+        this.$https.post(this.$urls.charge.remove, params).then((res) => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.InfoState = false
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
       })
     },
     fetchModify (data) { // 修改财务收入
@@ -402,18 +313,54 @@ export default {
 
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
+        let list = res.list
+        let params = ['charge_type', 'state']
+        this.$dictionary.tableData(list, params)
         this.page.total = res.total
+        this.tableData = []
         this.tableData = res.list
       })
     },
-    fetchChargeList () {},
-    fetchGetInfo (id) { // 获取财务收入信息
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
+    fetchGetInfo (id) { // 获取费用信息
       let params = {
         id: id
       }
-      // this.$message(`${id}`)
       this.$https.post(this.$urls.charge.get_info, params).then((res) => {
-        // console.log(res)
+        let data = res
+        // this.info_info.tableData = [];
+        this.info_body_expense.info = []
+        this.info_body_room.info.tableData = []
+        data.state = this.$store.getters.getDicById(data.state)
+        data.charge_type = this.$store.getters.getDicById(data.charge_type)
+
+        this.info_header.title = '付款方：' + data.payer
+        this.info_info.tableData.push({ ...data })
+        this.info_body_expense.info = [
+          { name: '费用编号', value: data.id },
+          { name: '合同编号', value: data.contract_code },
+          { name: '费用类型', value: data.charge_type },
+          { name: '费用金额', value: data.charge },
+          { name: '客户名字', value: data.customer },
+          { name: '跟进人', value: data.receiver },
+          { name: '联系人', value: data.contacter },
+          { name: '付款方', value: data.payer },
+          { name: '状态', value: data.state },
+          { name: '周期开始时间', value: data.start_ts },
+          { name: '周期结束时间', value: data.end_ts },
+          { name: '备注', value: data.memo ? data.memo : '-' }
+        ]
+        console.log(data.room)
+        if (data.room.length) {
+          let roomList = data.room
+          for (let i = 0; i < roomList.length; i++) {
+            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
+          }
+          this.info_body_room.info.tableData = roomList
+        }
       })
     },
     fetchGetBack () {

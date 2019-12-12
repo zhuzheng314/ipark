@@ -138,6 +138,7 @@ const form = {
         domain_id: getters.parkTreeOptions,
         customer_id: state.customerList,
         contract_type: state.contractTamplateList,
+        // contract_type: dictionary.state.dictionaryType['template_type'],
         scope: dictionary.state.dictionaryType['company_scope'],
         operate_state: dictionary.state.dictionaryType['company_operate_state'],
         company_type: dictionary.state.dictionaryType['company_company_type'],
@@ -211,14 +212,15 @@ const form = {
     incomeListOptions: (state, getters) => {
       return {
         contract_code: state.contractList,
+        state: dictionary.state.dictionaryType['cost_state'],
         charge_type: dictionary.state.dictionaryType['charge_type']
       }
     },
-    rentListOptions: (state, getters) => {
+    // 费用
+    expenseListOptions: (state, getters) => {
       return {
         contract_code: state.contractList,
-        room: getters.parkTreeOptions,
-        name: state.customerList
+        state: dictionary.state.dictionaryType['expense_state']
       }
     }
   },

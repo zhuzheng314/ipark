@@ -340,11 +340,11 @@ const paymentList = [
 // 费用列支
 const financialList = [
   {
-    prop: 'type',
+    prop: 'log_type',
     label: '列支方向'
   },
   {
-    prop: 'status',
+    prop: 'state',
     label: '状态'
   },
   {
@@ -383,7 +383,7 @@ const financialList = [
 // 财务收入
 const incomeList = [
   {
-    prop: 'type',
+    prop: 'charge_type',
     label: '费用类型'
   },
   {
@@ -406,216 +406,75 @@ const incomeList = [
     prop: 'contract_code',
     label: '合同编号'
   },
-  {
-    prop: 'rent',
-    label: '租金'
-  },
-  {
-    prop: 'property_fee',
-    label: '物业费'
-  },
-  {
-    prop: 'water_fee',
-    label: '水费'
-  },
-  {
-    prop: 'electric_fee',
-    label: '电费'
-  },
-  {
-    prop: 'gas_fee',
-    label: '燃气费'
-  },
-  {
-    prop: 'heat_fee',
-    label: '空调暖通费'
-  },
-  {
-    prop: 'receiver',
-    label: '跟进人'
-  }
-]
-// 物业费用
-const propertyList = [
-  {
-    prop: 'type',
-    label: '楼宇名称'
-  },
-  {
-    prop: 'customer',
-    label: '房间号'
-  },
-  {
-    prop: 'create_ts',
-    label: '客户名称'
-  },
-  {
-    prop: 'charge',
-    label: '账单金额'
-  },
-  {
-    prop: 'state',
-    label: '实收金额'
-  },
-  {
-    prop: 'contract_code',
-    label: '开票金额'
-  },
-  {
-    prop: 'property_fee',
-    label: '计费周期'
-  },
-  {
-    prop: 'water_fee',
-    label: '逾期天数'
-  },
+  // {
+  //   prop: 'rent',
+  //   label: '租金'
+  // },
+  // {
+  //   prop: 'property_fee',
+  //   label: '物业费'
+  // },
+  // {
+  //   prop: 'water_fee',
+  //   label: '水费'
+  // },
+  // {
+  //   prop: 'electric_fee',
+  //   label: '电费'
+  // },
+  // {
+  //   prop: 'gas_fee',
+  //   label: '燃气费'
+  // },
+  // {
+  //   prop: 'heat_fee',
+  //   label: '空调暖通费'
+  // },
   {
     prop: 'receiver',
     label: '跟进人'
-  },
-  {
-    prop: 'gas_fee',
-    label: '结清状态'
-  }
-]
-// 水电费用
-const waterList = [
-  {
-    prop: 'type',
-    label: '楼宇名称'
-  },
-  {
-    prop: 'customer',
-    label: '房间号'
-  },
-  {
-    prop: 'customer',
-    label: '费用类型'
-  },
-  {
-    prop: 'create_ts',
-    label: '客户名称'
-  },
-  {
-    prop: 'charge',
-    label: '账单金额'
-  },
-  {
-    prop: 'state',
-    label: '实收金额'
-  },
-  {
-    prop: 'contract_code',
-    label: '开票金额'
-  },
-  {
-    prop: 'rent',
-    label: '应收日期'
-  },
-  {
-    prop: 'property_fee',
-    label: '计费周期'
-  },
-  {
-    prop: 'water_fee',
-    label: '逾期天数'
-  },
-  {
-    prop: 'receiver',
-    label: '跟进人'
-  },
-  {
-    prop: 'gas_fee',
-    label: '结清状态'
   }
 ]
 // 房租费用
-const roomList = [
+const expenseList = [
   {
-    prop: 'type',
+    prop: 'building_name',
     label: '楼宇名称'
   },
   {
-    prop: 'customer',
+    prop: 'room_name',
     label: '房间号'
   },
   {
-    prop: 'create_ts',
+    prop: 'customer_name',
     label: '客户名称'
   },
   {
-    prop: 'charge',
-    label: '账单金额'
-  },
-  {
-    prop: 'state',
-    label: '实收金额'
-  },
-  {
-    prop: 'contract_code',
-    label: '开票金额'
-  },
-  {
-    prop: 'rent',
-    label: '应收日期'
-  },
-  {
-    prop: 'property_fee',
-    label: '计费周期'
-  },
-  {
-    prop: 'water_fee',
-    label: '逾期天数'
-  },
-  {
-    prop: 'receiver',
-    label: '跟进人'
-  },
-  {
-    prop: 'gas_fee',
-    label: '结清状态'
-  }
-]
-// 其他费用
-const otherList = [
-  {
     prop: 'type',
-    label: '楼宇名称'
-  },
-  {
-    prop: 'customer',
-    label: '房间号'
-  },
-  {
-    prop: 'customer',
     label: '费用类型'
   },
   {
-    prop: 'create_ts',
-    label: '客户名称'
-  },
-  {
-    prop: 'charge',
+    prop: 'bill_money',
     label: '账单金额'
   },
   {
-    prop: 'state',
+    prop: 'receive_money',
     label: '实收金额'
   },
   {
-    prop: 'contract_code',
+    prop: 'invoice_money',
     label: '开票金额'
   },
   {
-    prop: 'rent',
+    prop: 'pay_date',
     label: '应收日期'
   },
   {
-    prop: 'property_fee',
+    prop: 'pay_cycle',
     label: '计费周期'
   },
   {
-    prop: 'water_fee',
+    prop: 'overdue_day',
     label: '逾期天数'
   },
   {
@@ -623,7 +482,7 @@ const otherList = [
     label: '跟进人'
   },
   {
-    prop: 'gas_fee',
+    prop: 'state',
     label: '结清状态'
   }
 ]
@@ -639,10 +498,7 @@ const tables = {
   paymentList,
   financialList,
   incomeList,
-  propertyList,
-  waterList,
-  roomList,
-  otherList
+  expenseList
 }
 export {
   tables

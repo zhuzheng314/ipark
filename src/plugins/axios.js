@@ -29,7 +29,7 @@ const body = {
   app_id: 'C767115F-0ED0-0001-3451-1DC0D520ECB0',
   app_key: '9aaa8e3fea97081839f7515cb3426359'
 }
-// sessionStorage.ge('_token', 'C8B0A05E-F0E0-0001-7D19-1F401AA7FAC0')
+// sessionStorage.set('_token', 'C8B0A05E-F0E0-0001-7D19-1F401AA7FAC0')
 // 获取token
 // const token = JSON.parse(sessionStorage.getItem('_token'))
 
@@ -55,7 +55,9 @@ request.interceptors.response.use(
     const msg = codeMessage[code]
     if (code === 1100 || code === 1102 || code === 1103) {
       // window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
-      store.commit('loginOut')
+      // alert(code)
+      // console.log(config)
+      // store.commit('loginOut')
     }
     config.data.msg = code + ':' + msg
     return config.data

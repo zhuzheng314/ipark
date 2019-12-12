@@ -6,12 +6,12 @@
         <el-select
           style="width: 220px;"
           size="small"
-          v-model="value1"
+          v-model="type"
           clearable
           @change="fetchListSearch"
           placeholder="费用类型">
           <el-option
-            v-for="item in options"
+            v-for="item in this.$store.state.dictionary.dictionaryType['finance_other_chargetype']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -24,12 +24,18 @@
           prefix-icon="el-icon-search"
           clearable
           @change="fetchListSearch"
-          v-model="value3">
+          v-model="value2">
         </el-input>
+        <el-input-number v-model="bill_money_floor" @change="fetchListSearch"
+          size="small"
+          style="width: 220px; margin-left: 15px" :controls="false" placeholder="账单金额下限"></el-input-number>
+        <el-input-number v-model="bill_money_ceil" @change="fetchListSearch"
+          size="small"
+          style="width: 220px; margin-left: 15px"  :controls="false" placeholder="账单金额上限"></el-input-number>
         <el-select
           style="width: 220px; margin-left: 15px"
           size="small"
-          v-model="value1"
+          v-model="value3"
           clearable
           @change="fetchListSearch"
           placeholder="费用金额范围">
@@ -41,24 +47,24 @@
           </el-option>
         </el-select>
         <el-date-picker
-          v-model="value3"
+          v-model="value4"
           size="small"
           style="margin-left: 15px"
           type="daterange"
           range-separator="至"
           clearable
-          @change="fetchChargeList"
+          @change="fetchListSearch"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
         <el-select  size="small"
           style="margin-left: 15px"
-                    v-model="value3"
+                    v-model="is_overdue"
                     clearable
-                    @change="fetchChargeList"
+                    @change="fetchListSearch"
                     placeholder="是否逾期">
           <el-option
-            v-for="item in stateOptions"
+            v-for="item in is_overdueOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -70,7 +76,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          @click="handleAddContract"
+          @click="handleAdd"
         >添加账单</el-button>
       </div>
       <div>
@@ -87,24 +93,39 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.otherList"
+        :tableLabel="$tableLabels.expenseList"
         :tableData="tableData">
       </GTable>
     </el-card>
 
     <el-dialog
-      title="新建费用列支"
+      title="新建房租费用账单"
       :visible.sync="addVisible"
-      width="600px"
-    >
+      width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchAdd"
-          v-if="addVisible"
           @onCancel="() => {this.addVisible = false}"
-          :formList="$formsLabels.otherForm"
-          :options="$store.getters.rentListOptions"
-          :defaultValue="{}"
+          v-if="addVisible"
+          :formList="$formsLabels.expenseForm"
+          :options="formOptions"
+          :defaultValue="addDefaultValue"
+          :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="修改房租费用账单"
+      :visible.sync="modifyVisible"
+      width="600px">
+      <div>
+        <ParkForm
+          @onSubmit="fetchModify"
+          @onCancel="() => {this.modifyVisible = false}"
+          v-if="modifyVisible"
+          :formList="$formsLabels.expenseForm"
+          :options="formOptions"
+          :defaultValue="defaultValue"
           :itemList="[]"
         ></ParkForm>
       </div>
@@ -116,24 +137,18 @@
       :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
-      <HeaderCard :data="financialInfo_header">
+      <HeaderCard :data="info_header">
         <template #headerCardBtns>
-          <div class="btnBox" v-for="(item,i) in financialInfo_header.button" :key="(item,i)" @click="open(item.name)">
+          <div class="btnBox" v-for="(item,i) in info_header.button" :key="(item,i)" @click="open(item.name)">
             <i class="iconfont" v-html="item.icon"></i>
             <span class="headerCard-btn-name">{{item.name}}</span>
           </div>
         </template>
       </HeaderCard>
-      <HeaderInfo type=1 :data="financialInfo_info"></HeaderInfo>
+      <HeaderInfo type=1 :data="info_info"></HeaderInfo>
       <div class="drawer-body" style="height: 660px;">
-        <BodyCard type=1 :data="financialInfo_body_financial"></BodyCard>
-        <BodyCard type=1 :data="financialInfo_body_room"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table1"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table2"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table3"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table4"></BodyCard>
-        <BodyCard type=2 :data="financialInfo_body_table5"></BodyCard>
-
+        <BodyCard type=1 :data="info_body_expense"></BodyCard>
+        <BodyCard type=2 :data="info_body_room"></BodyCard>
       </div>
     </el-drawer>
   </div>
@@ -149,125 +164,49 @@ export default {
     ParkForm
   },
   computed: {
-    defaultOption () {
-      return {
-        contract_code: this.$store.state.form.contractList
-      }
+    parkId () {
+      return this.$store.state.form.activePark.domain_id
+    }
+  },
+  watch: {
+    parkId () {
+      this.fetchChargeInfo()
     }
   },
   data () {
     return {
+      type: [],
+      bill_money_floor: '',
+      bill_money_ceil: '',
+      is_overdue: '',
       tableData: [],
       activeName: 'first',
       radio: '收款',
       yearList: [
       ],
-      stateOptions: [
+      infoData: [
+      ],
+      is_overdueOptions: [
         {
-          value: 0,
+          value: true,
           label: '是'
         }, {
-          value: 1,
+          value: false,
           label: '否'
         }
       ],
-      infoData: [
-      ],
-      listType: 'top',
-      options: [
-        {
-          value: 0,
-          label: '花卉租赁'
-        }, {
-          value: 1,
-          label: '设备租赁'
-        }, {
-          value: 2,
-          label: '场地租赁'
-        }, {
-          value: 3,
-          label: '人员租赁'
-        }
-      ],
-      options1: [
-        {
-          value: 0,
-          label: '已缴'
-        },
-        {
-          value: 1,
-          label: '未缴'
-        }
-      ],
-      options2: [
-        {
-          value: 0,
-          label: '10000以下'
-        },
-        {
-          value: 1,
-          label: '1000-50000'
-        },
-        {
-          value: 2,
-          label: '50000以上'
-        }
-      ],
+      options2: [],
       value1: '',
       value2: '',
       value3: '',
+      value4: '',
+      value5: true,
       addVisible: false,
-      tamplateFormList: [
-        {
-          type: 'select',
-          label: '模板类型',
-          key: 'tamplate',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请选择', trigger: 'change' }
-          ],
-          options: [
-            {
-              label: '美食',
-              value: 's1'
-            }, {
-              label: '美食美食',
-              value: 's2'
-            }
-          ]
-        }, {
-          type: 'input',
-          label: '模板名称',
-          key: 'i',
-          placeholder: '请输入',
-          rule: [
-            { required: true, message: '请输入模板名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'textarea',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }, {
-          type: 'upload',
-          label: '模板描述',
-          key: 'i11',
-          placeholder: '请输入模板描述',
-          rule: [
-            { required: true, message: '请输入模板描述', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ]
-        }
-      ],
+      modifyVisible: false,
       InfoState: false,
       id: '',
-      financialInfo_header: {
-        title: '收款方：杨',
+      info_header: {
+        title: '付款方：-',
         button: [
           {
             name: '编辑',
@@ -275,121 +214,42 @@ export default {
           },
           {
             name: '删除',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe7d1;'
           }
         ]
       },
-      financialInfo_info: {
+      info_info: {
         label: [
-          { prop: 'a', label: '账单状态' },
-          { prop: 'b', label: '应退金额' },
-          { prop: 'c', label: '需退金额' },
-          { prop: 'd', label: '应退时间' }
+          { prop: 'state', label: '账单状态' },
+          { prop: 'bill_money', label: '付款金额' },
+          { prop: 'receive_money', label: '已付金额' },
+          { prop: 'pay_date', label: '应付时间' }
         ],
-        tableData: [{
-          a: '未付款',
-          b: '1,495.89元',
-          c: '1,495.89元',
-          d: '2020-01-07'
-        }]
+        tableData: []
       },
-      financialInfo_body_financial: {
+      info_body_expense: {
         title: '账单信息',
-        info: [
-          { name: '费用类型', value: '租金' },
-          { name: '计费周期', value: '2020-01-28-2020-04-27' },
-          { name: '账单金额', value: '1,495.89元' },
-          { name: '创建时间', value: '2019-10-28' },
-          { name: '收款方', value: '杨' },
-          { name: '收款方联系方式', value: '-' },
-          { name: '合同编号', value: '1003' },
-          { name: '账单编号', value: 'zj-20191028-016558624' },
-          { name: '备注', value: '-' }
-        ]
+        info: []
       },
-      financialInfo_body_room: {
+      info_body_room: {
         title: '房源信息',
-        info: [
-          { name: '园区', value: '西港发展中心' },
-          { name: '楼宇', value: '协力大厦' },
-          { name: '房号', value: '10层302室' }
-        ]
-      },
-      financialInfo_body_table1: {
-        title: '收款',
         info: {
           label: [
-            { prop: 'a', label: '对方单位名称' },
-            { prop: 'b', label: '入账日' },
-            { prop: 'c', label: '借贷标' },
-            { prop: 'd', label: '发生额' },
-            { prop: 'e', label: '匹配金额' },
-            { prop: 'f', label: '匹配时间' },
-            { prop: 'g', label: '取消匹配时间' },
-            { prop: 'h', label: '操作' }
+            { prop: 'park_name', label: '所属园区' },
+            { prop: 'building_name', label: '楼宇' },
+            { prop: 'name', label: '房间号' },
+            { prop: 'area', label: '面积' },
+            { prop: 'state', label: '房源状态' }
           ],
           tableData: []
         }
       },
-      financialInfo_body_table2: {
-        title: '付款',
-        info: {
-          label: [
-            { prop: 'a', label: '对方单位名称' },
-            { prop: 'b', label: '入账日' },
-            { prop: 'c', label: '借贷标' },
-            { prop: 'd', label: '发生额' },
-            { prop: 'e', label: '匹配金额' },
-            { prop: 'f', label: '匹配时间' },
-            { prop: 'g', label: '取消匹配时间' },
-            { prop: 'h', label: '操作' }
-          ],
-          tableData: []
-        }
+      formOptions: {
+        ...this.$store.getters.expenseListOptions,
+        type: this.$store.state.dictionary.dictionaryType['finance_other_chargetype']
       },
-      financialInfo_body_table3: {
-        title: '结转',
-        info: {
-          label: [
-            { prop: 'a', label: '对方单位' },
-            { prop: 'b', label: '转入金额' },
-            { prop: 'c', label: '转出金额' },
-            { prop: 'd', label: '结转时间' },
-            { prop: 'e', label: '作废时间' }
-          ],
-          tableData: []
-        }
-      },
-      financialInfo_body_table4: {
-        title: '开票记录',
-        info: {
-          label: [
-            { prop: 'a', label: '购买方名称' },
-            { prop: 'b', label: '发票号码' },
-            { prop: 'c', label: '开票金额' },
-            { prop: 'd', label: '备注' },
-            { prop: 'e', label: '开票时间' },
-            { prop: 'f', label: '状态' }
-          ],
-          tableData: []
-        }
-      },
-      financialInfo_body_table5: {
-        title: '调整',
-        info: {
-          label: [
-            { prop: 'a', label: '调整金额' },
-            { prop: 'b', label: '调整时间' },
-            { prop: 'c', label: '调整类型' },
-            { prop: 'd', label: '备注' },
-            { prop: 'e', label: '作废调整时间' },
-            { prop: 'f', label: '操作' }
-          ],
-          tableData: []
-        }
-      },
-      defaultValue: { },
+      addDefaultValue: {},
+      defaultValue: {},
       page: {
         page_no: 1,
         total: 0,
@@ -399,29 +259,28 @@ export default {
     }
   },
   methods: {
-    handleAddContract () {
+    handleAdd () {
       this.addVisible = true
     },
-    financialState (data) { // 显示列支详情
-      this.id = data.id
+    financialState (data) {
+      this.id = data.expense_code
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
     handleClose () { },
     open (i) {
       if (i === '编辑') {
-        // this.modifyShow = true
-        // this.fetchModify(this.id)
+        this.fetchGetBack()
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
       }
     },
-    fetchAdd (data) { // 添加费用列支
+    fetchAdd (data) { // 添加房租费用
       let params = {
         ...data
       }
-      this.$https.post(this.$urls.cost.add, params)
+      this.$https.post(this.$urls.expense.add, params)
         .then(res => {
           if (res.code === 1000) {
             this.fetchList()
@@ -432,26 +291,40 @@ export default {
           }
         })
     },
-    fetchRemove (id) { // 删除费用列支
-      let params = {
-        id: id
-      }
-      this.$https.post(this.$urls.cost.remove, params).then((res) => {
-        if (res.code === 1000) {
-          this.fetchList()
-          this.InfoState = false
-          this.$message.success('删除成功')
-        } else {
-          this.$message.error('删除失败')
+    fetchRemove (id) { // 删除房租费用
+      this.$confirm('此操作将永久删除该费用, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        let params = {
+          expense_code: id
         }
+        this.$https.post(this.$urls.expense.remove, params).then((res) => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.InfoState = false
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
       })
     },
-    fetchModify (id) { // 修改费用列支
+    fetchModify (data) { // 修改房租费用
       let params = {
-        id: id
+        ...data,
+        expense_code: this.id
       }
-      this.$https.post(this.$urls.cost.modify, params).then((res) => {
-        this.$message(`${res.msg}`)
+      this.$https.post(this.$urls.expense.modify, params).then((res) => {
+        if (res.code === 1000) {
+          this.$message.success('修改成功')
+          this.defaultValue = {}
+          this.fetchList()
+          this.modifyVisible = false
+        } else {
+          this.$message.error('修改失败')
+        }
       })
     },
     fetchInfo () { // 统计信息
@@ -470,35 +343,86 @@ export default {
         }
       })
     },
-    fetchList () { // 获取费用列支列表
-      let search = {
-        log_type: this.value1,
-        state: this.value2,
-        like: this.value3
+    fetchGetBack () {
+      let params = {
+        expense_code: this.id
       }
+      this.$https.post(this.$urls.expense.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.defaultValue = data
+          this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
+    },
+    fetchList () { // 获取财房租费用列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
         ...this.page,
-        ...search
+        type: [409, 410, 411, 412]
+        // customer_name: this.value2,
+        // start_ts: this.value3.length ? this.value3[0] : '',
+        // end_ts: this.value3.length ? this.value3[1] : '',
+        // bill_money_floor: this.bill_money_floor,
+        // bill_money_ceil: this.bill_money_ceil,
+        // is_overdue: this.value5
       }
-      this.$https.post(this.$urls.cost.get_list, params).then((res) => {
-        // console.log(res)
-        this.page.total = res.total
-        this.tableData = []
-        // this.tableData = res.list
+      this.$https.post(this.$urls.expense.get_list, params).then((res) => {
+        let list = res.list
+        if (res.code === 1000 && list.length) {
+          let params = ['state', 'type']
+          this.$dictionary.tableData(list, params)
+          this.page.total = res.total
+          this.tableData = []
+          this.tableData = list
+        } else {
+          this.$message.warning('未找到相关数据')
+          this.tableData = []
+        }
       })
     },
     fetchListSearch () {
       this.page.page_no = 1
       this.fetchList()
     },
-    fetchGetInfo (id) { // 获取费用列支信息
+    fetchGetInfo (id) { // 获取费用信息
       let params = {
-        customer_id: id
+        expense_code: id
       }
-      // this.$message(`${id}`)
-      this.$https.post(this.$urls.cost.get_info, params).then((res) => {
-        // console.log(res)
+      this.$https.post(this.$urls.expense.get_info, params).then((res) => {
+        let data = res
+        this.info_body_expense.info = []
+        this.info_body_room.info.tableData = []
+        data.state = this.$store.getters.getDicById(data.state)
+        data.type = this.$store.getters.getDicById(data.type)
+        this.info_header.title = '付款方：' + data.customer_name
+        this.info_info.tableData.push({ ...data })
+        this.info_body_expense.info = [
+          { name: '费用编号', value: data.expense_code },
+          { name: '合同编号', value: data.contract_code },
+          { name: '费用类型', value: data.type },
+          { name: '账单金额', value: data.bill_money },
+          { name: '实收金额', value: data.receive_money },
+          { name: '开票金额', value: data.invoice_money },
+          { name: '应收日期', value: data.pay_date },
+          { name: '跟进人', value: data.receiver },
+          { name: '结清状态', value: data.state },
+          { name: '逾期天数', value: data.overdue_day },
+          { name: '合同开始日期', value: data.start_ts },
+          { name: '合同截至日期', value: data.end_ts },
+          { name: '用户名', value: data.customer_name },
+          { name: '备注', value: data.memo ? data.memo : '-' }
+        ]
+        console.log(data.room)
+        if (data.room.length) {
+          let roomList = data.room
+          for (let i = 0; i < roomList.length; i++) {
+            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
+          }
+          this.info_body_room.info.tableData = roomList
+        }
       })
     },
     handlePageClick (num) { // 点击页码时
@@ -518,22 +442,4 @@ export default {
   .el-card{
     margin-bottom: 20px;
   }
-  // .simple-item{
-  // min-width: 140px;
-  // border-right: 2px solid rgb(230, 232, 238);
-  // padding-left: 20px;
-  // float: left;
-  // margin: 20px 30px 20px 0;
-  // .title{
-  //   font-size: 12px;
-  //   color: rgb(152, 154, 163);
-  //   line-height: 12px;
-  //   margin-bottom: 20px;
-  // }
-  // .value{
-  //   font-size: 22px;
-  //   color: rgb(31, 33, 46);
-  //   height: 22px;
-  // }
-  // }
 </style>

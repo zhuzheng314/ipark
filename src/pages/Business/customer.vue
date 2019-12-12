@@ -47,10 +47,6 @@
       </div>
     </el-card>
     <el-card>
-<!--      <el-radio-group v-model="radio" size="mini">-->
-<!--        <el-radio-button label="收款"></el-radio-button>-->
-<!--        <el-radio-button label="付款"></el-radio-button>-->
-<!--      </el-radio-group>-->
       <div>
         <div :key="item.name" v-for="item in infoData" class="simple-item">
            <Comparison :type="item.type" :data="item"></Comparison>
@@ -255,7 +251,7 @@ export default {
         ]
       },
       customerInfo_body_2: {
-        title: '关注房源',
+        title: '房源信息',
         info: {
           label: [
             { prop: 'park_name', label: '所属园区' },
@@ -357,17 +353,23 @@ export default {
         })
     },
     fetchRemove (id) { // 删除客户
-      let params = {
-        id: id
-      }
-      this.$https.post(this.$urls.customer.remove, params).then((res) => {
-        if (res.code === 1000) {
-          this.fetchList()
-          this.InfoState = false
-          this.$message.success('删除成功')
-        } else {
-          this.$message.error('删除失败')
+      this.$confirm('此操作将永久删除该客户, 是否继续?', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        let params = {
+          id: id
         }
+        this.$https.post(this.$urls.customer.remove, params).then((res) => {
+          if (res.code === 1000) {
+            this.fetchList()
+            this.InfoState = false
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('删除失败')
+          }
+        })
       })
     },
     fetchModify (data) { // 修改客户
@@ -415,7 +417,7 @@ export default {
         this.$dictionary.tableData(list, params)
         this.page.total = res.total
         this.tableData = []
-        this.tableData = res.list
+        this.tableData = list
       })
     },
     fetchListSearch () {
