@@ -66,7 +66,7 @@
         >
       </GTable>
     </el-card>
-
+<!-- 新增客户 -->
     <el-dialog
       title="新建客户"
       :visible.sync="addVisible"
@@ -83,6 +83,7 @@
         ></ParkForm>
       </div>
     </el-dialog>
+<!-- 修改客户 -->
     <el-dialog
       title="修改客户"
       :visible.sync="modifyVisible"
@@ -95,6 +96,26 @@
         :options="$store.getters.customerListOptions"
         :defaultValue="defaultValue"
         :itemList="[]"
+        ></ParkForm>
+      </div>
+    </el-dialog>
+<!-- 新建合同 -->
+    <el-dialog
+      title="新建合同"
+      top="10px"
+      width="950px"
+      style="overflow-y: scroll"
+      :visible.sync="addContractVisible">
+      <div>
+        <ParkForm
+        @onSubmit="fetchAddContract"
+        @onCancel="() => {this.addContractVisible = false}"
+        v-if="addContractVisible"
+        :formList="$formsLabels.addContractForm"
+        :options="$store.getters.contractListOptions"
+        :default-value="{}"
+        :itemList="[]"
+        :defaultValue="defaultValueContract"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -122,6 +143,7 @@
             <el-button
               :style="{height: '80%',margin: 'auto 8px'}"
               size="mini"
+              @click="addContract"
             >发起合同</el-button>
           </template>
         </BodyCard>
@@ -221,6 +243,7 @@ export default {
       ],
       InfoState: false,
       modifyVisible: false,
+      addContractVisible: false,
       id: '',
       customerInfo_header: {
         title: '-',
@@ -285,6 +308,7 @@ export default {
         }
       },
       defaultValue: {},
+      defaultValueContract: {},
       page: {
         page_no: 1,
         total: 0,
@@ -294,6 +318,26 @@ export default {
     }
   },
   methods: {
+    addContract () { // 打开添加合同表单
+      this.defaultValueContract = {
+        customer_id: this.id
+      }
+      this.addContractVisible = true
+    },
+    fetchAddContract (data) { // 新增合同
+      let params = {
+        ...data
+      }
+      this.$https.post(this.$urls.contract.add, params).then(res => {
+        if (res.code === 1000) {
+          this.fetchGetInfo(this.id)
+          this.addContractVisible = false
+          this.$message.success('新增成功')
+        } else {
+          this.$message.error('新增失败')
+        }
+      })
+    },
     handleAddCustomer () {
       this.addVisible = true
     },
@@ -301,27 +345,6 @@ export default {
       this.id = data.id
       this.fetchGetInfo(this.id)
       this.InfoState = true
-      this.$https.post(this.$urls.contract.get_list, {
-        park_id: this.$store.state.form.activePark.domain_id,
-        page_no: 1,
-        page_size: 999,
-        customer_id: this.id
-      }).then(res => {
-        this.customerInfo_body_2.info.tableData = []
-        this.customerInfo_body_table.info.tableData = []
-        if (res.list.length) {
-          let roomList = res.list[0].room
-          for (let i = 0; i < roomList.length; i++) {
-            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
-          }
-          this.customerInfo_body_2.info.tableData = roomList
-          let contractList = res.list
-          for (let i = 0; i < contractList.length; i++) {
-            contractList[i].state = this.$store.getters.getDicById(contractList[i].state)
-          }
-          this.customerInfo_body_table.info.tableData = contractList
-        }
-      })
     },
     handleClose () { },
     open (i) {
@@ -444,6 +467,27 @@ export default {
           { name: '跟进人', value: data.receiver }
         ]
         this.customerInfo_body_3.info = data.memo
+      })
+      this.$https.post(this.$urls.contract.get_list, {
+        park_id: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 999,
+        customer_id: this.id
+      }).then(res => {
+        this.customerInfo_body_2.info.tableData = []
+        this.customerInfo_body_table.info.tableData = []
+        if (res.list.length) {
+          let roomList = res.list[0].room
+          for (let i = 0; i < roomList.length; i++) {
+            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
+          }
+          this.customerInfo_body_2.info.tableData = roomList
+          let contractList = res.list
+          for (let i = 0; i < contractList.length; i++) {
+            contractList[i].state = this.$store.getters.getDicById(contractList[i].state)
+          }
+          this.customerInfo_body_table.info.tableData = contractList
+        }
       })
     },
     fetchGetBack () {
