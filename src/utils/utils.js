@@ -3,5 +3,9 @@ export function storageSet (name, value) {
 }
 
 export function storageGet (name) {
-  return JSON.parse(sessionStorage.getItem(name))
+  if (!sessionStorage.getItem(name) || sessionStorage.getItem(name) === 'undefined') {
+    return null
+  } else {
+    return JSON.parse(sessionStorage.getItem(name))
+  }
 }
