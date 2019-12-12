@@ -357,7 +357,7 @@ export default {
             { typeSelect: 'receive', name: `应收(${res.need_receive_num}笔)`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
             { typeSelect: 'receive', name: `已收(${res.receive_num}笔)`, value: res.receive, chart: res.receive_rate, type: 'arrow' },
             { typeSelect: 'receive', name: `未缴(${res.un_receive_num}笔)`, value: res.un_receive, chart: res.un_receive_rate, type: 'arrow' },
-            { typeSelect: 'receive', name: `物业费`, value: '', chart: '', type: 'arrow' }
+            { typeSelect: 'receive', name: `物业费`, value: res.fee, chart: res.fee_rate, type: 'arrow' }
           ]
         }
       })

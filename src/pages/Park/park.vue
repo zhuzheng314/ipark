@@ -391,31 +391,31 @@ export default {
           this.infoBoxData = [
             {
               type: 0,
-              title: { name: '管理面积', note: '测试文本' },
+              title: { name: '管理面积', note: '管理的总面积' },
               value: { value: data.total_area, unit: '㎡', chart: null },
               subtitle: { name: '总房源数量', value: data.total_rooms, unit: '间' }
             },
             {
               type: 'num',
-              title: { name: '出租率', note: '测试文本' },
+              title: { name: '出租率', note: '已出租面积占比' },
               value: { value: data.rent_rate, unit: '%', chart: data.rent_change_rate },
               subtitle: { name: '本月签约面积', value: data.month_area, unit: '㎡' }
             },
             {
               type: 'num',
-              title: { name: '在租实时均价', note: '测试文本' },
+              title: { name: '在租实时均价', note: '出租均价' },
               value: { value: data.avg_unit_price, unit: '元/㎡·天', chart: data.avg_unit_price_rate },
               subtitle: { name: '本月签约均价', value: data.month_area_avg_price, unit: '元/㎡·天' }
             },
             {
               type: 0,
-              title: { name: '可招商面积', note: '测试文本' },
+              title: { name: '可招商面积', note: '可招商面积' },
               value: { value: data.rent_area, unit: '㎡', chart: null },
               subtitle: { name: '可招商房间', value: data.rent_rooms, unit: '间' }
             },
             {
               type: 'chart',
-              title: { name: '当前计租率', note: '测试文本' },
+              title: { name: '当前计租率', note: '当前计租房间数量占比' },
               value: { value: data.pay_rate, unit: '%', chart: Number(data.pay_rate) },
               subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
             }
@@ -424,10 +424,10 @@ export default {
             { name: '产权', value: res.capital, key: 'capital', unit: '' },
             { name: '地理位置', value: res.address, key: 'address', unit: '' },
             { name: '联系电话', value: res.contact, key: 'contact', unit: '' },
-            { name: '占地面积', value: res.cover_area, key: 'cover_area', unit: '㎡' },
-            { name: '建筑面积', value: res.built_area, key: 'built_area', unit: '㎡' },
-            { name: '总投资额', value: res.total_invest, key: 'total_invest', unit: 'w' },
-            { name: '实际投资', value: res.actual_invest, key: 'actual_invest', unit: 'w' },
+            { name: '占地面积(平方米)', value: res.cover_area, key: 'cover_area', unit: '' },
+            { name: '建筑面积(平方米)', value: res.built_area, key: 'built_area', unit: '' },
+            { name: '总投资额(万元)', value: res.total_invest, key: 'total_invest', unit: '' },
+            { name: '实际投资(万元)', value: res.actual_invest, key: 'actual_invest', unit: '' },
             { name: '园区定位', value: this.$store.getters.getDicById(res.usage), key: 'usage', unit: '' }
           ]
         }
@@ -645,7 +645,7 @@ export default {
           display: inline-block;
           font-size: 16px;
           color: #000;
-          width: 100px;
+          width: 140px;
         }
         .value{
           display: inline-block;
