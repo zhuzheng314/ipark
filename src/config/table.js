@@ -340,11 +340,11 @@ const paymentList = [
 // 费用列支
 const financialList = [
   {
-    prop: 'type',
+    prop: 'log_type',
     label: '列支方向'
   },
   {
-    prop: 'status',
+    prop: 'state',
     label: '状态'
   },
   {
@@ -383,7 +383,7 @@ const financialList = [
 // 财务收入
 const incomeList = [
   {
-    prop: 'type',
+    prop: 'charge_type',
     label: '费用类型'
   },
   {
@@ -406,30 +406,30 @@ const incomeList = [
     prop: 'contract_code',
     label: '合同编号'
   },
-  {
-    prop: 'rent',
-    label: '租金'
-  },
-  {
-    prop: 'property_fee',
-    label: '物业费'
-  },
-  {
-    prop: 'water_fee',
-    label: '水费'
-  },
-  {
-    prop: 'electric_fee',
-    label: '电费'
-  },
-  {
-    prop: 'gas_fee',
-    label: '燃气费'
-  },
-  {
-    prop: 'heat_fee',
-    label: '空调暖通费'
-  },
+  // {
+  //   prop: 'rent',
+  //   label: '租金'
+  // },
+  // {
+  //   prop: 'property_fee',
+  //   label: '物业费'
+  // },
+  // {
+  //   prop: 'water_fee',
+  //   label: '水费'
+  // },
+  // {
+  //   prop: 'electric_fee',
+  //   label: '电费'
+  // },
+  // {
+  //   prop: 'gas_fee',
+  //   label: '燃气费'
+  // },
+  // {
+  //   prop: 'heat_fee',
+  //   label: '空调暖通费'
+  // },
   {
     prop: 'receiver',
     label: '跟进人'

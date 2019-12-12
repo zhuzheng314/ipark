@@ -2153,13 +2153,6 @@ const financialForm = [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
-          // {
-          //   label: '已缴',
-          //   value: 1
-          // }, {
-          //   label: '未缴',
-          //   value: 2
-          // }
         ]
       },
       {
@@ -2169,6 +2162,16 @@ const financialForm = [
         placeholder: '请输入联系人',
         rule: [
           { required: true, message: '请输入联系人', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input',
+        label: '跟进人',
+        key: 'receiver',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请输入', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -2260,6 +2263,17 @@ const incomeForm = [
         ]
       },
       {
+        type: 'select',
+        label: '状态',
+        key: 'state',
+        placeholder: '请选择',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        options: [
+        ]
+      },
+      {
         type: 'input',
         label: '付款方',
         key: 'payer',
@@ -2270,9 +2284,29 @@ const incomeForm = [
         ]
       },
       {
+        type: 'input-num',
+        label: '费用金额',
+        key: 'charge',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请输入', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
         type: 'input',
         label: '联系人',
         key: 'contacter',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请输入', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input',
+        label: '跟进人',
+        key: 'receiver',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }
