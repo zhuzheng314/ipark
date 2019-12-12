@@ -196,33 +196,27 @@ export default {
         })
       }
     },
-    fakerLogin () {
-      let pass = md5('123456')
-      this.$https.post('/login', {
-        user: 'business_admin',
-        pass
+    axiosAll () {
+      this.$store.dispatch('getParkList', {
+        page_no: 1,
+        page_size: 9999
       }).then(res => {
-        if (res.code === 1000) {
-          this.$utils.storageSet('_token', res.access_token)
-          this.$store.dispatch('getParkList', {
-            page_no: 1,
-            page_size: 9999
-          }).then(res => {
-            const activePark = this.$utils.storageGet('activePark')
-            if (activePark) {
-              this.$store.commit('commitActivePark', activePark)
-            } else {
-              this.$store.commit('commitActivePark', res.list[0])
-            }
-          })
-
-          this.$store.dispatch('getDictionaryTree')
-          this.$store.dispatch('getParkTreeList')
-          this.$store.dispatch('getContractList')
-          this.$store.dispatch('getCustomerList')
-          this.$store.dispatch('getContractTamplateList')
-        }
+        this.$store.dispatch('getDictionaryTree')
+        this.$store.dispatch('getParkTreeList')
+        this.$store.dispatch('getContractList')
+        this.$store.dispatch('getCustomerList')
+        this.$store.dispatch('getContractTamplateList')
       })
+    }
+  },
+  beforeCreate () {
+    if (this.$route.query) {
+      const { id } = this.$route.query
+      this.$utils.storageSet('_token', id)
+    }
+    const _token = this.$utils.storageGet('_token')
+    if (!_token) {
+      this.$store.commit('loginOut')
     }
   },
   created () {
@@ -230,7 +224,7 @@ export default {
     if (activePark) {
       this.$store.commit('commitActivePark', activePark)
     }
-    this.fakerLogin()
+    this.axiosAll()
   }
 }
 </script>

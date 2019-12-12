@@ -257,7 +257,12 @@ export default {
     }
   },
   mounted () {
-    this.fetchGetInfo()
+    this.$store.dispatch('getParkList', {
+      page_no: 1,
+      page_size: 9999
+    }).then(res => {
+      this.fetchGetInfo()
+    })
   },
   methods: {
     fetchGetInfo () {
