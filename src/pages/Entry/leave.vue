@@ -338,15 +338,15 @@ export default {
           axisPointer: {
             type: 'cross',
             label: {
-              backgroundColor: '#65C6E7'
+              // backgroundColor: '#65C6E7'
             }
           }
         },
         grid: {
           top: '5%',
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
+          left: '20px',
+          right: '20px',
+          bottom: '20px',
           containLabel: true
           // tooltip:{axisPointer:{lineStyle:{color:"#65C6E7"}}},
           // borderColor: '#65C6E7'
@@ -356,16 +356,10 @@ export default {
             type: 'category',
             boundaryGap: false,
             axisTick: {// 坐标轴刻度线
-              show: true,
-              inside: true,
-              lineStyle: {
-                // color:'#33E9FF',
-              }
+              show: false
             },
             axisLine: {
-              lineStyle: {
-                // color: '#33E9FF',
-              }
+              show: false
             },
             data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
           }
@@ -374,17 +368,18 @@ export default {
           {
             type: 'value',
             axisLine: {
-              lineStyle: {
-                // color: '#33E9FF',
-              }
+              show: false
+            },
+            axisTick: {// 坐标轴刻度线
+              show: false
             },
             axisLabel: {// 刻度颜色
               // color:"#33E9FF",
             },
             splitLine: {
               lineStyle: {// 网格线
-                width: 0,
-                color: ['rgba(51, 233, 255, 0.6)']
+                width: 0
+                // color: ['rgba(51, 233, 255, 0.6)']
               }
             }
           }
@@ -394,7 +389,9 @@ export default {
           {
             type: 'line',
             areaStyle: { normal: {} },
-            lineStyle: { width: 2 },
+            lineStyle: { width: 2, color: '#5C76EC' },
+            symbol: 'none', // 去掉折线图中的节点
+            smooth: true,
             color: {
               type: 'linear',
               x: 0,
@@ -402,9 +399,12 @@ export default {
               x2: 0,
               y2: 1,
               colorStops: [{
-                offset: 0, color: 'rgba(54, 172, 254, 0.5)'
+                // offset: 0, color: 'rgba(54, 172, 254, 0.5)'
+                offset: 0, color: 'rgba(69, 94, 236, 0.5)'
               }, {
-                offset: 1, color: 'rgba(67, 144, 250, 0.1)'
+                // offset: 1, color: 'rgba(67, 144, 250, 0.1)'
+                // offset: 1, color: 'rgba(54, 172, 254, 0.1)'
+                offset: 1, color: 'rgba(69, 94, 236, 0.2)'
               }],
               global: false
             },
