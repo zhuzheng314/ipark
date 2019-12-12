@@ -168,7 +168,7 @@ const form = {
         room: getters.parkTreeOptions,
         state: dictionary.state.dictionaryType['customer_state'],
         status: dictionary.state.dictionaryType['customer_status'],
-        info_source: dictionary.state.dictionaryType['customer_access'],
+        info_source: dictionary.state.dictionaryType['customer_info_source'],
         demand_area: dictionary.state.dictionaryType['demand_area'],
         work_station: dictionary.state.dictionaryType['work_station']
       }

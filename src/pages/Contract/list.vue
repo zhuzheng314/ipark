@@ -2,7 +2,9 @@
   <div>
     <el-card style="width: 100%">
       <el-select  size="small"
-                  v-model="value1" placeholder="合同状态">
+                  clearable
+                  @change="fetchListSearch"
+                  v-model="contract_state" placeholder="合同状态">
         <el-option
           v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"
           :key="item.value"
@@ -12,11 +14,13 @@
       </el-select>
 
       <el-input
+        @change="fetchListSearch"
+        clearable
         placeholder="搜索租客"
         size="small"
         style="width: 220px; margin-left: 15px"
         prefix-icon="el-icon-search"
-        v-model="value2">
+        v-model="customer_name">
       </el-input>
 
       <el-button
@@ -183,8 +187,8 @@ export default {
           label: '到期未处理'
         }
       ],
-      value1: '',
-      value2: '',
+      contract_state: '',
+      customer_name: '',
       addContractVisible: false,
       modifyVisible: false,
       contractInfoState: false,
@@ -381,13 +385,23 @@ export default {
     fetchList () { // 获取合同列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
-        ...this.page
+        ...this.page,
+        state: this.contract_state,
+        customer_name: this.customer_name
       }
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
-        this.tableData = res.list
+        let list = res.list
+        let params = ['state']
+        this.$dictionary.tableData(list, params)
+        this.page.total = res.total
+        this.tableData = []
+        this.tableData = list
       })
     },
-
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
     fetchGetInfo (id) { // 获取合同信息
       let params = {
         contract_code: id

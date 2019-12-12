@@ -3,7 +3,7 @@
     <el-card style="width: 100%">
       <div>
         <el-select  size="small"
-        v-model="value1"
+        v-model="customer_state"
         clearable
         @change="fetchListSearch"
         placeholder="进度阶段">
@@ -15,7 +15,7 @@
           </el-option>
         </el-select>
         <el-select  size="small"
-        v-model="value2"
+        v-model="customer_info_source"
         clearable
         style="width: 220px; margin-left: 15px"
         @change="fetchListSearch"
@@ -35,7 +35,7 @@
           prefix-icon="el-icon-search"
           clearable
           @change="fetchListSearch"
-          v-model="value3">
+          v-model="name">
         </el-input>
         <el-button
           style="float: right"
@@ -190,9 +190,9 @@ export default {
           label: '其他'
         }
       ],
-      value1: '',
-      value2: '',
-      value3: '',
+      customer_state: '',
+      customer_info_source: '',
+      name: '',
       addVisible: false,
       tamplateFormList: [
         {
@@ -428,10 +428,10 @@ export default {
     fetchList () { // 获取客户列表
       let params = {
         ...this.page,
-        park_id: this.$store.state.form.activePark.domain_id
-        // state: this.value1,
-        // info_source: this.value2,
-        // name: this.value3
+        park_id: this.$store.state.form.activePark.domain_id,
+        state: this.customer_state,
+        info_source: this.customer_info_source,
+        name: this.name
       }
       this.$https.post(this.$urls.customer.get_list, params).then((res) => {
         // console.log(res)
@@ -522,22 +522,4 @@ export default {
   .el-card{
     margin-bottom: 20px;
   }
-  // .simple-item{
-  //   min-width: 140px;
-  //   border-right: 2px solid rgb(230, 232, 238);
-  //   padding-left: 20px;
-  //   float: left;
-  //   margin: 20px 30px 20px 0;
-  //   .title{
-  //     font-size: 12px;
-  //     color: rgb(152, 154, 163);
-  //     line-height: 12px;
-  //     margin-bottom: 20px;
-  //   }
-  //   .value{
-  //     font-size: 22px;
-  //     color: rgb(31, 33, 46);
-  //     height: 22px;
-  //   }
-  // }
 </style>
