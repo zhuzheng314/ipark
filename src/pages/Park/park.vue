@@ -39,26 +39,33 @@
               :key="'info' + index"
               :data="item"
             ></InfoBox>
-            <div style="clear: both"></div>
+            <i class="el-icon-arrow-right"
+               style="font-size: 30px; line-height: 100px; margin-right: -10px;cursor: pointer;"
+               @click="show = !show"
+            ></i>
+<!--            <div style="clear: both"></div>-->
           </div>
-          <el-divider></el-divider>
-          <div style="margin-top: -10px">
-            <el-row>
-              <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
-                <div class="detail">
-                  <div class="item">
-                    <div class="title">
-                      {{item.name}}:
+          <el-collapse-transition>
+            <div v-if="show" style="height: 150px">
+              <el-divider></el-divider>
+              <div style="margin-top: -10px">
+                <el-row>
+                  <el-col style="height: 28px" :span="12"  :key="'detail' + index" v-for="(item, index) in parkInfo" >
+                    <div class="detail">
+                      <div class="item">
+                        <div class="title">
+                          {{item.name}}:
+                        </div>
+                        <div class="value">
+                          {{item.value + item.unit}}
+                        </div>
+                      </div>
                     </div>
-                    <div class="value">
-                      {{item.value + item.unit}}
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-
+                  </el-col>
+                </el-row>
+              </div>
+            </div>
+          </el-collapse-transition>
         </el-card>
         <el-card>
           <div slot="header">
@@ -229,6 +236,7 @@ export default {
       fakerList: [],
       tableData: [],
       infoBoxData: [],
+      show: false,
       parkInfo: [
       ],
       cardImgList: [
@@ -317,8 +325,9 @@ export default {
       }).then(res => {
         if (res.code === 1000) {
           this.$store.dispatch('getParkList', { page_no: 1,
-            page_size: 20 }).then(res => {
+            page_size: 999 }).then(res => {
           })
+          this.$store.dispatch('getParkTreeList')
           this.$message.success('新增园区成功')
           this.addShow = false
         }
@@ -354,6 +363,7 @@ export default {
           this.addShowBuild = false
           this.$message.success('新增成功')
           this.fetchBuildList()
+          this.$store.dispatch('getParkTreeList')
           this.$refs.buildForm.resetForm()
         }
       })
@@ -381,31 +391,31 @@ export default {
           this.infoBoxData = [
             {
               type: 0,
-              title: { name: '管理面积', note: '测试文本' },
+              title: { name: '管理面积', note: '管理的总面积' },
               value: { value: data.total_area, unit: '㎡', chart: null },
               subtitle: { name: '总房源数量', value: data.total_rooms, unit: '间' }
             },
             {
               type: 'num',
-              title: { name: '出租率', note: '测试文本' },
+              title: { name: '出租率', note: '已出租面积占比' },
               value: { value: data.rent_rate, unit: '%', chart: data.rent_change_rate },
               subtitle: { name: '本月签约面积', value: data.month_area, unit: '㎡' }
             },
             {
               type: 'num',
-              title: { name: '在租实时均价', note: '测试文本' },
+              title: { name: '在租实时均价', note: '出租均价' },
               value: { value: data.avg_unit_price, unit: '元/㎡·天', chart: data.avg_unit_price_rate },
               subtitle: { name: '本月签约均价', value: data.month_area_avg_price, unit: '元/㎡·天' }
             },
             {
               type: 0,
-              title: { name: '可招商面积', note: '测试文本' },
+              title: { name: '可招商面积', note: '可招商面积' },
               value: { value: data.rent_area, unit: '㎡', chart: null },
               subtitle: { name: '可招商房间', value: data.rent_rooms, unit: '间' }
             },
             {
               type: 'chart',
-              title: { name: '当前计租率', note: '测试文本' },
+              title: { name: '当前计租率', note: '当前计租房间数量占比' },
               value: { value: data.pay_rate, unit: '%', chart: Number(data.pay_rate) },
               subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
             }
@@ -414,10 +424,10 @@ export default {
             { name: '产权', value: res.capital, key: 'capital', unit: '' },
             { name: '地理位置', value: res.address, key: 'address', unit: '' },
             { name: '联系电话', value: res.contact, key: 'contact', unit: '' },
-            { name: '占地面积', value: res.cover_area, key: 'cover_area', unit: '㎡' },
-            { name: '建筑面积', value: res.built_area, key: 'built_area', unit: '㎡' },
-            { name: '总投资额', value: res.total_invest, key: 'total_invest', unit: 'w' },
-            { name: '实际投资', value: res.actual_invest, key: 'actual_invest', unit: 'w' },
+            { name: '占地面积(平方米)', value: res.cover_area, key: 'cover_area', unit: '' },
+            { name: '建筑面积(平方米)', value: res.built_area, key: 'built_area', unit: '' },
+            { name: '总投资额(万元)', value: res.total_invest, key: 'total_invest', unit: '' },
+            { name: '实际投资(万元)', value: res.actual_invest, key: 'actual_invest', unit: '' },
             { name: '园区定位', value: this.$store.getters.getDicById(res.usage), key: 'usage', unit: '' }
           ]
         }
@@ -514,7 +524,7 @@ export default {
           padding-top: 16px;
           width: calc(~"100% - 40px");
           height: 80px;
-          border-bottom: 1px solid #d0d0d0;
+          border-bottom: 1px solid #dddddd;
           overflow: hidden;
           .pic{
             width: 80px;
@@ -551,22 +561,29 @@ export default {
         }
       }
       .item:hover{
-        background-color:  rgba(63,177,227,.5);
+        transform: translateX('-1px');
+        box-shadow: 0px 0px 15px #d2d2d2;
+        position: relative;
+        z-index: 2;
         .inner{
           border: none;
         }
         .cont{
           .title, .value{
-            color: white;
+            /*color: white;*/
           }
         }
         .el-icon-delete, .el-icon-edit{
-          color: white;
+          color: #bcbcbc;
+          font-size: 12px;
           display: block;
         }
       }
       .active.item{
-        background-color: rgba(63,177,227,1);
+        background-color: rgba(63,177,227,0.8);
+        /*background-color: rgba(63,177,227,1);*/
+        position: relative;
+        z-index: 2;
         .inner{
           border: none;
         }
@@ -574,6 +591,10 @@ export default {
           .title, .value{
             color: white !important;
           }
+        }
+        .el-icon-delete, .el-icon-edit{
+          color: white;
+          /*display: block;*/
         }
       }
       .item:last-child{
@@ -624,7 +645,7 @@ export default {
           display: inline-block;
           font-size: 16px;
           color: #000;
-          width: 100px;
+          width: 140px;
         }
         .value{
           display: inline-block;

@@ -2,6 +2,7 @@
   <div>
     <el-card style="width: 100%">
       <div slot="header">
+
         <el-select
           style="width: 220px;"
           size="small"
@@ -79,7 +80,7 @@
         >添加账单</el-button>
       </div>
       <div>
-        <div :key="item.name" v-for="item in finData" class="simple-item">
+        <div :key="item.name" v-for="item in infoData" class="simple-item">
           <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
         </div>
       </div>
@@ -183,11 +184,7 @@ export default {
       radio: '收款',
       yearList: [
       ],
-      finData: [
-        { typeSelect: 'receive', name: `应收(${0}笔)`, value: '', chart: '', type: 'arrow' },
-        { typeSelect: 'receive', name: `已收(${0}笔)`, value: '', chart: '', type: 'chart' },
-        { typeSelect: 'receive', name: `未缴(${0}笔)`, value: '', chart: '', type: 'chart' },
-        { typeSelect: 'receive', name: `费用总额`, value: '', chart: '', type: 'arrow' }
+      infoData: [
       ],
       is_overdueOptions: [
         {
@@ -330,18 +327,20 @@ export default {
         }
       })
     },
-    fetchInfo () { // 获取房租费用统计信息
+    fetchInfo () { // 统计信息
       let params = {
-        id: this.parkId
+        park_id: this.$store.state.form.activePark.domain_id,
+        type: 409
       }
-      this.$https.post(this.$urls.expense.info, params).then((res) => {
-        // console.log(res)
-        // this.tableData = res.list
-        let data = res.data
-        this.finData.forEach(v => {
-          v.value = data[v.key]
-          v.chart = data[v.key + '_rate']
-        })
+      this.$https.post(this.$urls.charge.top_info, params).then((res) => {
+        if (res.code === 1000) {
+          this.infoData = [
+            { typeSelect: 'receive', name: `应收(${res.need_receive_num}笔)`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `已收(${res.receive_num}笔)`, value: res.receive, chart: res.receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `未缴(${res.un_receive_num}笔)`, value: res.un_receive, chart: res.un_receive_rate, type: 'arrow' },
+            { typeSelect: 'receive', name: `费用总额`, value: res.fee, chart: res.fee_rate, type: 'arrow' }
+          ]
+        }
       })
     },
     fetchGetBack () {
@@ -432,9 +431,8 @@ export default {
     }
   },
   created () {
-    this.fetchInfo()
     this.fetchList()
-    // console.log(this.yearList)
+    this.fetchInfo()
   }
 }
 </script>

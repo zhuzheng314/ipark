@@ -143,6 +143,7 @@ export default {
         if (res.code === 1000) {
           this.addShowBuild = false
           this.$message.success('新增成功')
+          this.$store.dispatch('getParkTreeList')
           this.$refs.buildForm.resetForm()
           this.$store.dispatch('getBuildList', {
             pid: this.$store.state.form.activePark.domain_id,
@@ -226,7 +227,7 @@ export default {
             padding-top: 16px;
             width: calc(~"100% - 40px");
             height: 80px;
-            border-bottom: 1px solid #d0d0d0;
+            border-bottom: 1px solid #dddddd;
             overflow: hidden;
             .pic{
               width: 80px;
@@ -263,22 +264,29 @@ export default {
           }
         }
         .item:hover{
-          background-color:  rgba(63,177,227,.5);
+          transform: translateX('-1px');
+          box-shadow: 0px 0px 15px #d2d2d2;
+          position: relative;
+          z-index: 2;
           .inner{
             border: none;
           }
           .cont{
             .title, .value{
-              color: white;
+              /*color: white;*/
             }
           }
           .el-icon-delete, .el-icon-edit{
-            color: white;
+            color: #bcbcbc;
+            font-size: 12px;
             display: block;
           }
         }
         .active.item{
-          background-color: rgba(63,177,227,1);
+          background-color: rgba(63,177,227,0.8);
+          /*background-color: rgba(63,177,227,1);*/
+          position: relative;
+          z-index: 2;
           .inner{
             border: none;
           }
@@ -286,6 +294,10 @@ export default {
             .title, .value{
               color: white !important;
             }
+          }
+          .el-icon-delete, .el-icon-edit{
+            color: white;
+            /*display: block;*/
           }
         }
         .item:last-child{
