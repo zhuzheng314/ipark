@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { baseUrl } from './../config/api'
-import store from '../store/index'
-// import {Loading} from 'element-ui'
+// import store from '../store/index'
+import { Message } from 'element-ui'
 
 const codeMessage = {
   1000: '成功',
@@ -55,9 +55,7 @@ request.interceptors.response.use(
     const msg = codeMessage[code]
     if (code === 1100 || code === 1102 || code === 1103) {
       // window.location.href = 'http://www.iot1234.com/siot3.0/#/passport/login'
-      // alert(code)
-      // console.log(config)
-      // store.commit('loginOut')
+      store.commit('loginOut')
     }
     config.data.msg = code + ':' + msg
     return config.data
