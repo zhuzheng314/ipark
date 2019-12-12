@@ -210,16 +210,10 @@ export default {
     }
   },
   beforeCreate () {
-    console.log(12313213123, '465465')
     if (this.$route.query && this.$route.query.id) {
-      console.log(1)
       this.$utils.storageSet('_token', this.$route.query.id)
     }
-    console.log(2)
     const _token = this.$utils.storageGet('_token')
-    console.log(3)
-    console.log(sessionStorage.getItem('_token'))
-    console.log(_token, '465465')
     if (!_token) {
       this.$store.commit('loginOut')
     }

@@ -117,7 +117,17 @@
             </template>
           </HeaderCard>
           <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
+
           <div class="drawer-body" style="height: 500px;">
+            <BodyCard type='img' :data="{
+              title: '房屋图片',
+              ...roomInfo
+            }">
+              <div slot="img-cont">
+
+              </div>
+            </BodyCard>
+
             <BodyCard type=2 :data="roomInfo_body_table1">
               <template #btn>
                 <el-button
@@ -394,22 +404,12 @@ export default {
         title: '',
         button: [
           {
-            name: '编辑',
+            name: '修改房间',
             icon: '&#xe62a;'
-          },
-          {
-            name: '附件',
-            icon: '&#xe655;',
-            function: 'click1'
           },
           {
             name: '删除',
             icon: '&#xe7d1;',
-            function: 'click1'
-          },
-          {
-            name: '更多',
-            icon: '&#xe86d;',
             function: 'click1'
           }
         ]

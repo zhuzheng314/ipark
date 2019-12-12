@@ -107,6 +107,10 @@
       <!-- <HeaderInfo type=1 :data="workOrderInfo_info"></HeaderInfo> -->
       <div class="drawer-body" style="height: 700px;">
         <BodyCard type=1 :data="workOrderInfo_body1"></BodyCard>
+        <BodyCard type='img' :data="{
+          title: '图片详情',
+          ...workOrderInfo
+        }"></BodyCard>
         <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard>
         <BodyCard type=3 :data="workOrderInfo_body3"></BodyCard>
       </div>
@@ -213,7 +217,7 @@ export default {
       modifyVisible: false,
       id: '',
       workOrderInfo_header: {
-        title: '维修工单',
+        title: '投诉工单',
         button: [
           {
             name: '编辑',
@@ -248,6 +252,7 @@ export default {
         title: '工单评价',
         info: '无'
       },
+      workOrderInfo: {},
       infoData: [],
       defaultValue: {
         // contact: '15895642356',
@@ -379,8 +384,10 @@ export default {
         complaint_code: id
       }
       // this.$message(`${id}`)
+      this.workOrderInfo = {}
       this.$https.post(this.$urls.complaint.get_info, params).then((res) => {
         let data = res
+        this.workOrderInfo = res
         this.workOrderInfo_body1.info = [
           { name: '工单类型', value: data.type },
           { name: '发起人', value: data.originator },

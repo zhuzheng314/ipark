@@ -102,6 +102,10 @@
       <!-- <HeaderInfo type=1 :data="workOrderInfo_info"></HeaderInfo> -->
       <div class="drawer-body" style="height: 700px;">
         <BodyCard type=1 :data="workOrderInfo_body1"></BodyCard>
+        <BodyCard type='img' :data="{
+          title: '图片详情',
+          ...workOrderInfo
+        }"></BodyCard>
         <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard>
         <BodyCard type=3 :data="workOrderInfo_body3"></BodyCard>
       </div>
@@ -257,7 +261,8 @@ export default {
         page_no: 1,
         total: 0,
         page_size: 5
-      }
+      },
+      workOrderInfo: {}
     }
   },
   methods: {
@@ -369,6 +374,7 @@ export default {
       // this.$message(`${id}`)
       this.$https.post(this.$urls.repair.get_info, params).then((res) => {
         let data = res
+        this.workOrderInfo = res
         this.workOrderInfo_body1.info = [
           { name: '工单类型', value: data.type },
           { name: '发起人', value: data.originator },

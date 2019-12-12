@@ -40,6 +40,17 @@
     <div v-if="type==3">
       <div class="bodyCard-text">{{data.info ? data.info : '暂无备注'}}</div>
     </div>
+    <div v-if="type==='img'">
+      <slot name="img-cont"></slot>
+      <div style="padding: 0 20px 20px">
+        <img style="width: 300px; height: 200px; margin-right: 20px"
+         :key="'img'+ index"
+          v-for="(item, index) in data && data.attached && data.attached.upload"
+          :src="$urls.fileUrl + item.url"
+          @click="handleOpenImg($urls.fileUrl + item.url)"
+          alt="">
+      </div>
+    </div>
   </el-card>
 </div>
 </template>
@@ -56,14 +67,12 @@ export default {
     return {
       title: this.data.title,
       info: this.data.info
-      // {
-      //   name: this.data.info.name,
-      //   value: this.data.info.value,
-      //   tag: !this.data.info.tag ? false : this.data.info.tag
-      // }
     }
   },
   methods: {
+    handleOpenImg (url) {
+      window.open(url)
+    }
   }
 }
 </script>
