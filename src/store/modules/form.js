@@ -282,6 +282,12 @@ const form = {
       }).then(res => {
         if (res.code === 1000) {
           commit('commitParkList', res.list)
+          const activePark = storageGet('activePark')
+          if (activePark) {
+            commit('commitActivePark', activePark)
+          } else {
+            commit('commitActivePark', res.list[0])
+          }
           return res
         }
       })

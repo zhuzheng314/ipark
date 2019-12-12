@@ -163,6 +163,7 @@ const api = {
   },
   // 财务收入模块
   charge: {
+    top_info: '/assets.d_expense.get_info', // 房租物业水电其他统计信息
     info: `/assets.d_charge.get_info`, // 获取财务收入统计信息
     add: `/assets.charge.add`, // 添加财务收入
     modify: `/assets.charge.modify`, // 修改财务收入
