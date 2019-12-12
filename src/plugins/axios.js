@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { baseUrl } from './../config/api'
-// import store from '../store/index'
+import store from '../store/index'
 import { Message } from 'element-ui'
 
 const codeMessage = {
