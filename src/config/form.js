@@ -626,6 +626,16 @@ const addContractForm = [
     margin: '',
     children: [
       {
+        type: 'input',
+        label: '合同编号',
+        key: 'contract_code',
+        placeholder: '请输入合同编号',
+        rule: [
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
         type: 'select',
         label: '客户',
         key: 'customer_id',
@@ -641,7 +651,7 @@ const addContractForm = [
         key: 'follow_business',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -649,9 +659,9 @@ const addContractForm = [
         type: 'select',
         label: '合同类型',
         key: 'contract_type',
-        placeholder: '请输入',
+        placeholder: '请选择合同类型',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          { required: true, message: '请选择合同类型', trigger: 'change' }
         ],
         options: [
         ]
@@ -688,39 +698,81 @@ const addContractForm = [
       }
     ]
   },
+  // {
+  //   title: '房源租期条款',
+  //   span: 24,
+  //   itemSpan: 8,
+  //   minHeight: 150,
+  //   padding: '0 10px 0',
+  //   margin: '',
+  //   children: [
+  //   ]
+  // },
+  // {
+  //   title: '租户信息',
+  //   span: 24,
+  //   itemSpan: 8,
+  //   minHeight: 150,
+  //   padding: '0 10px 0',
+  //   margin: '',
+  //   children: [
+  //     {
+  //       type: 'input',
+  //       label: '品牌名称',
+  //       key: 'brand',
+  //       placeholder: '请输入',
+  //       rule: [
+  //         { required: true, message: '该项为必填', trigger: 'blur' }
+  //         // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  //       ]
+  //     },
+  //     {
+  //       type: 'select',
+  //       label: '经营范围',
+  //       key: 'scope',
+  //       placeholder: '请输入',
+  //       options: [
+  //       ]
+  //     },
+  //     {
+  //       type: 'input',
+  //       label: '联系人',
+  //       key: 'contacter',
+  //       placeholder: '请输入',
+  //       rule: [
+  //         { required: true, message: '请输入', trigger: 'blur' }
+  //         // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  //       ]
+  //     },
+  //     {
+  //       type: 'input',
+  //       label: '联系电话',
+  //       key: 'contact',
+  //       placeholder: '请输入',
+  //       rule: [
+  //         { required: true, message: '请输入', trigger: 'blur' }
+  //         // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  //       ]
+  //     },
+  //     {
+  //       type: 'input',
+  //       label: '联系邮箱',
+  //       key: 'email',
+  //       placeholder: '请输入',
+  //       rule: [
+  //         // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  //       ]
+  //     }
+  //   ]
+  // },
   {
-    title: '租户信息',
+    title: '联系方式',
     span: 24,
     itemSpan: 8,
     minHeight: 150,
     padding: '0 10px 0',
     margin: '',
     children: [
-      {
-        type: 'input',
-        label: '品牌名称',
-        key: 'brand',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'select',
-        label: '经营范围',
-        key: 'scope',
-        placeholder: '请输入',
-        options: [
-          // {
-          //   label: '互联网',
-          //   value: 1
-          // }, {
-          //   label: '金融',
-          //   value: 2
-          // }
-        ]
-      },
       {
         type: 'input',
         label: '联系人',
@@ -763,7 +815,7 @@ const addContractForm = [
         key: 'bank',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -773,7 +825,7 @@ const addContractForm = [
         key: 'bank_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -783,7 +835,7 @@ const addContractForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -793,7 +845,7 @@ const addContractForm = [
         key: 'taxpayer_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -820,7 +872,7 @@ const addContractForm = [
         key: 'social_credit_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -830,7 +882,7 @@ const addContractForm = [
         key: 'taxpayer_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -840,7 +892,7 @@ const addContractForm = [
         key: 'regist_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -850,7 +902,7 @@ const addContractForm = [
         key: 'organiz_code',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -860,27 +912,27 @@ const addContractForm = [
         key: 'representative',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
-      {
-        type: 'input',
-        label: '国籍',
-        key: 'nationality',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
+      // {
+      //   type: 'input',
+      //   label: '国籍',
+      //   key: 'nationality',
+      //   placeholder: '请输入',
+      //   rule: [
+      //     { required: true, message: '请输入合同编号', trigger: 'blur' }
+      //     // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //   ]
+      // },
       {
         type: 'input-num',
         label: '注册资本/万',
         key: 'regist_fund',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -905,7 +957,7 @@ const addContractForm = [
         key: 'establish_ts',
         placeholder: '请选择日期',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
@@ -929,7 +981,7 @@ const addContractForm = [
         key: 'operate_term',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -939,7 +991,7 @@ const addContractForm = [
         key: 'issuance',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -949,7 +1001,7 @@ const addContractForm = [
         key: 'authentic_ts',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -959,7 +1011,7 @@ const addContractForm = [
         key: 'en_name',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -969,7 +1021,7 @@ const addContractForm = [
         key: 'region',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -987,7 +1039,7 @@ const addContractForm = [
         key: 'address',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
@@ -1007,35 +1059,8 @@ const addContractForm = [
         key: 'rent_area',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '签订时间',
-        key: 'sign_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '计租时间',
-        key: 'fee_start_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '结束时间',
-        key: 'fee_end_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
@@ -1049,94 +1074,9 @@ const addContractForm = [
         ]
       },
       {
-        type: 'select',
-        label: '租期划分',
-        key: 'tenancy_divide',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          // {
-          //   label: '按起始日划分',
-          //   value: 1
-          // }, {
-          //   label: '商业',
-          //   value: 2
-          // }
-        ]
-      },
-      {
-        type: 'input-num',
-        label: '付款周期(月)',
-        key: 'pay_cycle',
-        placeholder: '几月一付',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input-num',
-        label: '收款日',
-        key: 'pay_date',
-        placeholder: '每月收款日',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input-num',
-        label: '提前收租(月)',
-        key: 'prepaid',
-        placeholder: '提前几个月收租金',
-        rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'select',
-        label: '计费类型',
-        key: 'charge_type',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          // {
-          //   label: '按实际天数计费',
-          //   value: 1
-          // }, {
-          //   label: '车位合同模板',
-          //   value: 2
-          // }
-        ]
-      }
-    ]
-  },
-  {
-    title: '房源租期条款',
-    span: 24,
-    itemSpan: 8,
-    minHeight: 150,
-    padding: '0 10px 0',
-    margin: '',
-    children: [
-      {
         type: 'date-picker',
-        label: '开始时间',
-        key: 'start_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '结束时间',
-        key: 'end_ts',
+        label: '签订时间',
+        key: 'sign_ts',
         placeholder: '请选择日期',
         rule: [
           { required: true, message: '请选择', trigger: 'change' }
@@ -1146,6 +1086,16 @@ const addContractForm = [
         type: 'input-num',
         label: '合同单价(元/㎡·天)',
         key: 'unit_price',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '月租金',
+        key: 'month_rent',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -1164,14 +1114,74 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '月租金',
-        key: 'month_rent',
-        placeholder: '请输入',
+        label: '付款周期(月)',
+        key: 'pay_cycle',
+        placeholder: '几月一付',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
+      },
+      {
+        type: 'input-num',
+        label: '提前收租(月)',
+        key: 'prepaid',
+        placeholder: '提前几个月收租金',
+        rule: [
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '收款日',
+        key: 'pay_date',
+        placeholder: '每月收款日',
+        rule: [
+          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'date-picker',
+        label: '计租时间',
+        key: 'start_ts',
+        placeholder: '请选择日期',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
+      },
+      {
+        type: 'date-picker',
+        label: '结束时间',
+        key: 'end_ts',
+        placeholder: '请选择日期',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
       }
+      // {
+      //   type: 'select',
+      //   label: '租期划分',
+      //   key: 'tenancy_divide',
+      //   placeholder: '请输入',
+      //   rule: [
+      //     { required: true, message: '请选择', trigger: 'change' }
+      //   ],
+      //   options: [
+      //   ]
+      // },
+      // {
+      //   type: 'select',
+      //   label: '计费类型',
+      //   key: 'charge_type',
+      //   placeholder: '请输入',
+      //   rule: [
+      //     { required: true, message: '请选择', trigger: 'change' }
+      //   ],
+      //   options: [
+      //   ]
+      // }
     ]
   },
   {
@@ -1201,24 +1211,6 @@ const addContractForm = [
         ]
       },
       {
-        type: 'date-picker',
-        label: '计费时间',
-        key: 'property_fee_start_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '结束时间',
-        key: 'property_fee_end_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
         type: 'input-num',
         label: '押金(元)',
         key: 'property_deposit',
@@ -1230,18 +1222,8 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '付款周期(月)',
-        key: 'property_pay_cycle',
-        placeholder: '几月一付',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
-        label: '收款日',
-        key: 'property_pay_date',
+        label: '合同单价(元/㎡·天)',
+        key: 'property_unit_price',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -1250,46 +1232,8 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '提前收费(月)',
-        key: 'property_prepaid',
-        placeholder: '提前几个月收物业费',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      }
-    ]
-  },
-  {
-    title: '物业费条款',
-    span: 24,
-    itemSpan: 8,
-    minHeight: 150,
-    padding: '0 10px 0',
-    margin: '',
-    children: [
-      {
-        type: 'date-picker',
-        label: '开始时间',
-        key: 'property_start_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '结束时间',
-        key: 'property_end_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ]
-      },
-      {
-        type: 'input-num',
-        label: '合同单价(元/㎡·天)',
-        key: 'property_unit_price',
+        label: '月物业费',
+        key: 'property_month_rent',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -1308,16 +1252,64 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '月物业费',
-        key: 'property_month_rent',
+        label: '付款周期(月)',
+        key: 'property_pay_cycle',
+        placeholder: '几月一付',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '提前收费(月)',
+        key: 'property_prepaid',
+        placeholder: '提前几个月收物业费',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '收款日',
+        key: 'property_pay_date',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
+      },
+      {
+        type: 'date-picker',
+        label: '计费时间',
+        key: 'property_fee_start_ts',
+        placeholder: '请选择日期',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
+      },
+      {
+        type: 'date-picker',
+        label: '结束时间',
+        key: 'property_fee_end_ts',
+        placeholder: '请选择日期',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ]
       }
     ]
   }
+  // {
+  //   title: '物业费条款',
+  //   span: 24,
+  //   itemSpan: 8,
+  //   minHeight: 150,
+  //   padding: '0 10px 0',
+  //   margin: '',
+  //   children: [
+  //   ]
+  // }
 ]
 // 合同模板
 const tamplateForm = [

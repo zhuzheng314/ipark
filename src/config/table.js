@@ -56,20 +56,16 @@ const contractList = [
     label: '客户名称'
   },
   {
-    prop: 'end_ts',
-    label: '截止时间'
-  },
-  {
     prop: 'sign_ts',
     label: '签订日'
   },
   {
-    prop: 'state',
-    label: '合同状态'
+    prop: 'end_ts',
+    label: '截止时间'
   },
   {
-    prop: 'manage_area',
-    label: '租赁数目'
+    prop: 'state',
+    label: '合同状态'
   },
   {
     prop: 'receiver',
@@ -117,11 +113,6 @@ const applyList = [
   {
     prop: 'company_type',
     label: '企业类型'
-  },
-  {
-    prop: 'area',
-    label: '入驻面积',
-    sortable: true
   },
   {
     prop: 'start_ts',

@@ -367,7 +367,7 @@ const form = {
     },
     getCustomerList ({ commit, state }, data) {
       return request.post(baseUrl + api.customer.get_list, {
-        park_id: state.activePark.domain_id,
+        // park_id: state.activePark.domain_id,
         page_no: 1,
         page_size: 999
       }).then(res => {
