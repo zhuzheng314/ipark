@@ -22,7 +22,7 @@
             size="small"
             style="width: 150px"
             class="mr-10"
-            v-model="requirement.area.value"
+            v-model="demand_area"
             placeholder="面积选择"
             @change="(data) => {
               this.handleSelect(data, 'area')
@@ -38,7 +38,7 @@
             size="small"
             style="width: 150px"
             class="mr-10"
-            v-model="requirement.timeLimit.value"
+            v-model="contract_term"
             placeholder="合同期限">
             <el-option
               v-for="item in this.$store.state.dictionary.dictionaryType['contract_term']"
@@ -282,122 +282,8 @@ export default {
         }
       ],
       infoBoxData: [],
-      requirement: {
-        area: {
-          areaList: [
-            {
-              value: 1,
-              label: '100m³以内'
-            },
-            {
-              value: 2,
-              label: '100-200m³'
-            },
-            {
-              value: 3,
-              label: '200-300m³'
-            },
-            {
-              value: 4,
-              label: '300m³以上'
-            }
-          ],
-          value: ''
-        },
-        state: {
-          stateList: [
-            {
-              value: 1,
-              label: '进驻'
-            },
-            {
-              value: 2,
-              label: '退驻'
-            }
-          ],
-          value: ''
-        },
-        timeLimit: {
-          timeLimitList: [
-            {
-              value: 1,
-              label: '半年以下'
-            },
-            {
-              value: 2,
-              label: '一年以内'
-            },
-            {
-              value: 3,
-              label: '三年以内'
-            },
-            {
-              value: 4,
-              label: '三年以上'
-            }
-          ],
-          value: ''
-        },
-        industry: {
-          industryList: [
-            {
-              value: 1,
-              label: '金融'
-            },
-            {
-              value: 2,
-              label: '物流'
-            },
-            {
-              value: 3,
-              label: '电商'
-            },
-            {
-              value: 4,
-              label: '互联网'
-            },
-            {
-              value: 0,
-              label: '其他'
-            }
-          ],
-          value: ''
-        },
-        source: {
-          sourceList: [
-            {
-              value: 1,
-              label: '中介'
-            },
-            {
-              value: 2,
-              label: '广告'
-            },
-            {
-              value: 0,
-              label: '其他'
-            }
-          ],
-          value: ''
-        },
-        empty: {
-          emptyList: [
-            {
-              value: 1,
-              label: '占用'
-            },
-            {
-              value: 2,
-              label: '预定'
-            },
-            {
-              value: 0,
-              label: '待租'
-            }
-          ],
-          value: ''
-        }
-      },
+      demand_area: '',
+      contract_term: '',
       roomInfoState: false, // 房间信息弹窗
       addContractVisible: false,
       roomInfo_header: {

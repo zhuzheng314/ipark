@@ -5,7 +5,9 @@
       <!--        <span>条件筛选</span>-->
       <!--      </div>-->
       <el-select  size="small"
-                  v-model="value1" placeholder="合同模板类型">
+                  clearable
+                  @change="fetchListSearch"
+                  v-model="template_type" placeholder="合同模板类型">
         <el-option
           v-for="item in this.$store.state.dictionary.dictionaryType['template_type']"
           :key="item.value"
@@ -19,7 +21,9 @@
         size="small"
         style="width: 220px; margin-left: 15px"
         prefix-icon="el-icon-search"
-        v-model="value2">
+        clearable
+        @change="fetchListSearch"
+        v-model="template_name">
       </el-input>
 
       <el-button
@@ -117,8 +121,8 @@ export default {
           value: 's6'
         }
       ],
-      value1: '',
-      value2: '',
+      template_type: '',
+      template_name: '',
       addVisible: false,
       modifyVisible: false,
       defaultValue: {},
@@ -198,15 +202,23 @@ export default {
     },
     fetchList () { // 获取合同模板列表
       let params = {
-        ...this.page
+        ...this.page,
+        template_type: this.template_type,
+        template_name: this.template_name
       }
       this.$https.post(this.$urls.template.get_list, params).then((res) => {
-        let list = res.list
-        let params = ['template_type']
-        this.$dictionary.tableData(list, params)
-        this.page.total = res.total
-        this.tableData = []
-        this.tableData = res.list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['template_type']
+          this.$dictionary.tableData(list, params)
+          this.page.total = res.total
+          this.tableData = []
+          this.tableData = res.list
+        } else {
+          this.page.total = 0
+          this.$message.warning('未找到相关数据')
+          this.tableData = []
+        }
       })
     },
     fetchListSearch () {

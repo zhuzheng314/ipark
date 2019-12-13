@@ -5,7 +5,8 @@
         <el-select
         size="small"
         style="width: 180px; margin-right: 15px"
-        v-model="value2"
+        v-model="approval_type"
+        @change="fetchListSearch"
         clearable
         placeholder="审批状态">
           <el-option
@@ -19,6 +20,7 @@
         <el-date-picker
           size="small"
           v-model="date"
+          @change="fetchListSearch"
           type="daterange"
           style="width: 220px; margin-right: 15px"
           range-separator="至"
@@ -30,7 +32,8 @@
           size="small"
           style="width: 180px; margin-right: 15px"
           prefix-icon="el-icon-search"
-          v-model="value3">
+          @change="fetchListSearch"
+          v-model="company_name">
         </el-input>
 
         <el-button
@@ -102,19 +105,18 @@
       :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
-      <HeaderCard :data="tenantsInfo_header">
+      <HeaderCard :data="info_header">
         <template #headerCardBtns>
-          <div class="btnBox" v-for="(item,i) in tenantsInfo_header.button" :key="(item,i)" @click="open(item.name)">
+          <div class="btnBox" v-for="(item,i) in info_header.button" :key="(item,i)" @click="open(item.name)">
             <i class="iconfont" v-html="item.icon"></i>
             <span class="headerCard-btn-name">{{item.name}}</span>
           </div>
         </template>
       </HeaderCard>
-      <HeaderInfo type=1 :data="tenantsInfo_info"></HeaderInfo>
+      <HeaderInfo type=1 :data="info_info"></HeaderInfo>
       <div class="drawer-body" style="height: 700px;">
-        <BodyCard type=1 :data="tenantsInfo_body1"></BodyCard>
-        <BodyCard type=1 :data="tenantsInfo_body2"></BodyCard>
-        <BodyCard type=2 :data="tenantsInfo_body_table1"></BodyCard>
+        <BodyCard type=1 :data="info_body"></BodyCard>
+        <BodyCard type=2 :data="info_body_table"></BodyCard>
       </div>
     </el-drawer>
   </div>
@@ -151,97 +153,54 @@ export default {
           label: '未通过'
         }
       ],
+      approval_type: '',
       date: [],
-      value1: '',
-      value2: '',
-      value3: '',
+      company_name: '',
       stackedAreaOptions: {},
       addVisible: false,
       InfoState: false,
       modifyVisible: false,
-      tenantsInfo_header: {
-        title: '杭州拓源科技有限公司',
+      info_header: {
+        title: '-',
         button: [
           {
             name: '编辑',
-            icon: '&#xe62a;',
-            function: 'click1'
+            icon: '&#xe62a;'
           },
           {
             name: '删除',
-            icon: '&#xe64a;',
-            function: 'click1'
+            icon: '&#xe64a;'
           }
         ],
         data: {}
       },
-      tenantsInfo_info: {
+      info_info: {
         label: [
-          { prop: 'a', label: '入驻时间' },
-          { prop: 'b', label: '法人' },
-          { prop: 'c', label: '成立时间' },
-          { prop: 'd', label: '行业分类' },
-          { prop: 'e', label: '联系人' },
-          { prop: 'f', label: '证件号码' },
-          { prop: 'g', label: '注册资本' },
-          { prop: 'h', label: '企业地址' },
-          { prop: 'i', label: '标签' },
-          { prop: 'j', label: '最新备注' }
+          { prop: 'state', label: '入驻状态' },
+          { prop: 'start_ts', label: '入驻时间' },
+          { prop: 'receiver', label: '跟进人' }
         ],
-        tableData: [{
-          a: '2018/10/28',
-          b: '王秀兰',
-          c: '2015/01/25',
-          d: '网络科技',
-          e: '-',
-          f: '313598198015243245',
-          g: '200万元人民币',
-          h: '杭州经济开发区',
-          i: '软件互联网',
-          j: '-'
-
-        }]
+        tableData: []
       },
-      tenantsInfo_body1: {
-        title: '入驻性质',
-        info: [
-          { name: '入驻性质', value: '企业入驻' }, // 企业入驻、个人入驻、工位租赁、其他
-          { name: '跟进人', value: '王秀兰' },
-          { name: '备注', value: '-' }
-
-        ]
+      info_body: {
+        title: '联系人',
+        info: []
       },
-      tenantsInfo_body2: {
-        title: '抬头发票',
-        info: [
-          { name: '纳税人识别号', value: '5465489518XX' },
-          { name: '账号', value: '35495448' },
-          { name: '开户银行', value: '中国银行股份有限公司杭州大学城支行' },
-          { name: '电话', value: '0517-88222222' },
-          { name: '开票地址', value: '杭州经济开发区' }
-
-        ]
-      },
-      tenantsInfo_body_table1: {
+      info_body_table: {
         title: '合同',
         info: {
           label: [
-            { prop: 'a', label: '合同编号' },
-            { prop: 'b', label: '楼宇/房间号/工位' },
-            { prop: 'c', label: '租赁数' },
-            { prop: 'h', label: '签订日期' },
-            { prop: 'd', label: '开始日' },
-            { prop: 'e', label: '结束日' },
-            { prop: 'f', label: '合同单价' },
-            { prop: 'g', label: '状态' },
-            { prop: 'i', label: '签订人' }
+            { prop: 'contract_code', label: '合同编号' },
+            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'rent_area', label: '租赁面积' },
+            { prop: 'contract_start_ts', label: '开始日' },
+            { prop: 'contract_end_ts', label: '结束日' },
+            { prop: 'unit_price', label: '合同单价' },
+            { prop: 'contract_state', label: '状态' },
+            { prop: 'contacter', label: '联系人' },
+            { prop: 'contact', label: '联系人电话' }
           ],
-          tableData: [
-            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' },
-            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' },
-            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' },
-            { a: 'XXXX-XXXXXXX-XXXX', b: '华润中心/701/20', c: '300.00㎡', d: '2019-10-30', e: '2020-10-30', f: '1.6元/平方米·天', g: '正常执行', h: '2019-09-15', i: '王秀兰' }
-          ]
+          tableData: []
         }
       },
       defaultValue: {},
@@ -426,16 +385,25 @@ export default {
     fetchList () { // 获取进驻列表
       let params = {
         ...this.page,
-        park_id: this.$store.state.form.activePark.domain_id
+        park_id: this.$store.state.form.activePark.domain_id,
+        state: this.approval_type,
+        start_ts: this.date && this.date.length ? this.date[0] : '',
+        end_ts: this.date && this.date.length ? this.date[1] : '',
+        company_name: this.company_name
       }
       this.$https.post(this.$urls.enter.get_list, params).then((res) => {
-        // console.log(res)
-        let list = res.list
-        let params = ['company_type', 'state']
-        this.$dictionary.tableData(list, params)
-        this.page.total = res.total
-        this.tableData = []
-        this.tableData = res.list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['company_type', 'state']
+          this.$dictionary.tableData(list, params)
+          this.page.total = res.total
+          this.tableData = []
+          this.tableData = res.list
+        } else {
+          this.page.total = 0
+          this.$message.warning('未找到相关数据')
+          this.tableData = []
+        }
       })
     },
     fetchListSearch () {
@@ -447,8 +415,24 @@ export default {
         contract_code: id
       }
       this.$https.post(this.$urls.enter.get_info, params).then((res) => {
-        // console.log(res);
-        let data = res
+        this.info_header.title = '-'
+        this.info_info.tableData = []
+        this.info_body.info = []
+        this.info_body_table.info.tableData = []
+        if (res.code === 1000) {
+          let data = res
+          data.state = this.$store.getters.getDicById(data.state)
+          data.contract_state = this.$store.getters.getDicById(data.contract_state)
+          this.info_header.title = data.customer_name
+          this.info_info.tableData.push({ ...data })
+          // console.log(this.info_info.tableData)
+          this.info_body.info = [
+            { name: '联系人', value: data.contacter || '-' },
+            { name: '电话', value: data.contact || '-' },
+            { name: '邮箱', value: data.email || '-' }
+          ]
+          this.info_body_table.info.tableData.push({ ...data })
+        }
       })
     },
     fetchGetBack () {
