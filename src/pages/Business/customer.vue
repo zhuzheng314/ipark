@@ -55,7 +55,7 @@
 
     </el-card>
     <el-card>
-      <div>
+      <div slot="header">
         <el-select  size="small"
         v-model="customer_state"
         clearable

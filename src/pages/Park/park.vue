@@ -39,8 +39,12 @@
               :key="'info' + index"
               :data="item"
             ></InfoBox>
-            <i class="el-icon-arrow-right"
-               style="font-size: 30px; line-height: 100px; margin-right: -10px;cursor: pointer;"
+            <i class="el-icon-arrow-right icon-close"
+               v-if="!show"
+               @click="show = !show"
+            ></i>
+            <i class="el-icon-arrow-down icon-close"
+               v-if="show"
                @click="show = !show"
             ></i>
 <!--            <div style="clear: both"></div>-->
@@ -213,6 +217,7 @@
       <div>
         <ParkForm
           ref="buildForm"
+          @onCancel="() => {this.addShowBuild = false}"
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
@@ -611,6 +616,15 @@ export default {
       display: flex;
       justify-content: space-between;
       padding: 0 10px;
+      .icon-close{
+        font-size: 30px;
+        line-height: 100px;
+        margin-right: -10px;
+        cursor: pointer;
+      }
+      .icon-close:hover{
+        color: #358dd8;
+      }
     }
     .tablecard{
       .img{

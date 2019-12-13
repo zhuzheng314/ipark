@@ -4,11 +4,13 @@
     <div class="value">
       <countTo :startVal='0' :endVal='Number(data.value)' :duration='1000'></countTo>
     </div>
-    <div v-if="type=='arrow'" class="chart" :class="data.chart<0 ? 'down' : 'up'">
-      <span>{{data.chart | Percent(0)}}</span>
-      <i v-if="data.chart<0" class="el-icon-bottom"></i>
-      <i v-if="data.chart>0" class="el-icon-top"></i>
-    </div>
+    <el-tooltip content="月环比" placement="top">
+      <div v-if="type=='arrow'" class="chart" :class="data.chart<0 ? 'down' : 'up'">
+        <span>{{data.chart | Percent(0)}}</span>
+        <i v-if="data.chart<0" class="el-icon-bottom"></i>
+        <i v-if="data.chart>0" class="el-icon-top"></i>
+      </div>
+    </el-tooltip>
     <div v-if="type==='chart'" class="chart">
       <el-progress
         type="circle"
@@ -48,7 +50,7 @@ export default {
   position: relative;
   .name{
     font-size: 12px;
-    color: rgb(152, 154, 163);
+    color: rgb(108, 110, 119);
     line-height: 12px;
     margin-bottom: 20px;
   }

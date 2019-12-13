@@ -375,6 +375,50 @@ const form = {
           commit('commitCustomerList', res.list)
         }
       })
+    },
+    validateContractName ({ state }, data) {
+      return request.post(baseUrl + api.contract.get_list, {
+        ...data,
+        park_id: state.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          return res
+        }
+      })
+    },
+    validateParkName ({ commit, state }, data) {
+      return request.post(baseUrl + api.park.get_list, {
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          return res
+        }
+      })
+    },
+    validateBuildName ({ commit, state }, data) {
+      return request.post(baseUrl + api.building.get_list, {
+        park_id: state.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          return res
+        }
+      })
+    },
+    validateRoomName ({ commit, state }, data) {
+      return request.post(baseUrl + api.room.get_list, {
+        park_id: state.activePark.domain_id,
+        page_no: 1,
+        page_size: 999
+      }).then(res => {
+        if (res.code === 1000) {
+          return res
+        }
+      })
     }
   }
 }

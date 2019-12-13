@@ -138,13 +138,6 @@
               </template>
             </BodyCard>
             <BodyCard type=2 :data="roomInfo_body_table2">
-              <!-- <template #btn>
-                <el-button
-                  :style="{height: '80%',margin: 'auto 8px'}"
-                  icon="el-icon-plus"
-                  size="mini"
-                >客户 </el-button>
-              </template> -->
             </BodyCard>
           </div>
         </el-drawer>
@@ -184,7 +177,7 @@
         <ParkForm
           ref="addRoomForm"
           v-if="modifyShow"
-          @onCancel="() => {this.modifyShow = false}"
+          @onCancel="modifyShow = false"
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
@@ -305,8 +298,8 @@ export default {
           { prop: 'area', label: '面积(㎡)' },
           { prop: 'state', label: '房源状态' },
           // { prop: 'state', label: '招商状态' },
-          { prop: 'price', label: '预租单价(元/㎡·天)' },
-          { prop: 'room_usage', label: '房源类型' },
+          { prop: 'price', label: '出租单价(元/㎡·天)' },
+          // { prop: 'room_usage', label: '房源类型' },
           { prop: 'decoration_standard', label: '装修' }
           // { prop: 'tag', label: '表签' }
         ],
@@ -326,7 +319,7 @@ export default {
         }
       },
       roomInfo_body_table2: {
-        title: '招商信息',
+        title: '租客信息',
         info: {
           label: [
             { prop: 'contacter', label: '租客' },
@@ -406,7 +399,7 @@ export default {
       this.fetchRoomInfo().then(res => {
         if (res.code === 1000) {
           let data = res
-          this.roomInfo_header.title = data.floor + '/' + data.name
+          this.roomInfo_header.title = data.floor + '-' + data.name
           this.roomInfo_info.tableData = []
           this.roomInfo_info.tableData.push({ ...data })
         } else {
@@ -436,7 +429,7 @@ export default {
       }
     },
     open (i) {
-      if (i === '编辑') {
+      if (i === '修改房间') {
         // this.modifyShow = true
         this.fetchRoomInfo().then(res => {
           if (res.code === 1000) {
