@@ -1,3 +1,4 @@
+import store from '../store/index'
 
 const validateUpload = (rule, value, callback) => {
   if (!value.upload || !value.upload.length) {
@@ -6,9 +7,62 @@ const validateUpload = (rule, value, callback) => {
     callback()
   }
 }
+
+const validateContractName = (rule, value, callback) => {
+  store.dispatch(
+    'validateContractName',
+    { check_contract_code: value }).then(res => {
+    if (res.list.length && value === '') {
+      callback(new Error('该项为必填'))
+    } else if (res.list.length) {
+      callback(new Error('该名称已存在'))
+    } else {
+      callback()
+    }
+  })
+}
+const validateParkName = (rule, value) => {
+  return store.dispatch(
+    'validateParkName',
+    { check_name: value }).then(res => {
+    if (res.list.length && value === '') {
+      callback(new Error('该项为必填'))
+    } else if (res.list.length) {
+      callback(new Error('该名称已存在'))
+    } else {
+      callback()
+    }
+  })
+}
+const validateBuildName = (rule, value) => {
+  return store.dispatch(
+    'validateBuildName',
+    { check_name: value }).then(res => {
+    if (res.list.length && value === '') {
+      callback(new Error('该项为必填'))
+    } else if (res.list.length) {
+      callback(new Error('该名称已存在'))
+    } else {
+      callback()
+    }
+  })
+}
+const validateRoomName = (rule, value) => {
+  store.dispatch(
+    'validateRoomName',
+    { check_name: value }).then(res => {
+    if (res.list.length && value === '') {
+      callback(new Error('该项为必填'))
+    } else if (res.list.length) {
+      callback(new Error('该名称已存在'))
+    } else {
+      callback()
+    }
+  })
+}
 /* -------------------- 园区 -------------------- */
 // 添加园区
-const addParkForm = [
+const addParkForm2 = [
   {
     title: '园区信息',
     children: [
@@ -18,7 +72,8 @@ const addParkForm = [
         key: 'name',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' },
+          { validator: validateParkName, trigger: ['blur', 'change'] }
         ]
       },
       {
@@ -144,22 +199,6 @@ const addParkForm = [
         key: 'state',
         placeholder: '请输入',
         options: [
-          // {
-          //   label: '在建',
-          //   value: 1
-          // },
-          // {
-          //   label: '招商',
-          //   value: 2
-          // },
-          // {
-          //   label: '运营',
-          //   value: 3
-          // },
-          // {
-          //   label: '其他',
-          //   value: 4
-          // }
         ],
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -189,7 +228,7 @@ const addParkForm = [
     ]
   }
 ]
-const addParkForm1 = [
+const addParkForm = [
   {
     title: '园区信息',
     children: [
@@ -199,7 +238,8 @@ const addParkForm1 = [
         key: 'name',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' },
+          { validator: validateParkName, trigger: ['blur', 'change'] }
         ]
       },
       {
@@ -226,7 +266,8 @@ const addBuildForm = [
         key: 'name',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' },
+          { validator: validateBuildName, trigger: ['blur', 'change'] }
         ]
       },
       {
@@ -295,7 +336,8 @@ const addRoomForm = [
         placeholder: '请选择',
         options: [],
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { validator: validateRoomName, trigger: ['blur', 'change'] }
         ]
       },
       {

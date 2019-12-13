@@ -10,11 +10,13 @@
     </div>
     <div class="infoBox-value">
       <span><countTo :startVal='0' :endVal='Number(data.value.value)' :duration='1000'></countTo>{{infoData.value.unit}}</span>
-      <div v-if="type==='num'" class="infoBox-chart" :class="infoData.value.chart<0 ? 'down' : 'up'">
-        <span>{{Number(infoData.value.chart) | Percent}}</span>
-        <i v-if="Number(infoData.value.chart)<0" class="el-icon-bottom"></i>
-        <i v-if="Number(infoData.value.chart)>0" class="el-icon-top"></i>
-      </div>
+      <el-tooltip content="月环比" placement="top">
+        <div v-if="type==='num'" class="infoBox-chart" :class="infoData.value.chart<0 ? 'down' : 'up'">
+          <span>{{Number(infoData.value.chart) | Percent}}</span>
+          <i v-if="Number(infoData.value.chart)<0" class="el-icon-bottom"></i>
+          <i v-if="Number(infoData.value.chart)>0" class="el-icon-top"></i>
+        </div>
+      </el-tooltip>
       <div v-if="type==='chart'" class="infoBox-chart">
         <el-progress
         type="circle"
