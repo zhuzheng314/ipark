@@ -420,7 +420,7 @@ export default {
           { prop: 'state', label: '房源状态' },
           // { prop: 'state', label: '招商状态' },
           { prop: 'price', label: '预租单价(元/㎡·天)' },
-          { prop: 'room_usage', label: '房源类型' },
+          // { prop: 'room_usage', label: '房源类型' },
           { prop: 'decoration_standard', label: '装修' }
           // { prop: 'tag', label: '表签' }
         ],
@@ -520,7 +520,7 @@ export default {
       this.fetchRoomInfo().then(res => {
         if (res.code === 1000) {
           let data = res
-          this.roomInfo_header.title = data.floor + '/' + data.name
+          this.roomInfo_header.title = data.floor + '-' + data.name
           this.roomInfo_info.tableData = []
           this.roomInfo_info.tableData.push({ ...data })
         } else {
@@ -550,7 +550,7 @@ export default {
       }
     },
     open (i) {
-      if (i === '编辑') {
+      if (i === '修改房间') {
         // this.modifyShow = true
         this.fetchRoomInfo().then(res => {
           if (res.code === 1000) {
