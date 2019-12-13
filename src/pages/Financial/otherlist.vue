@@ -370,8 +370,8 @@ export default {
         // is_overdue: this.value5
       }
       this.$https.post(this.$urls.expense.get_list, params).then((res) => {
-        let list = res.list
-        if (res.code === 1000 && list.length) {
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
           let params = ['state', 'type']
           this.$dictionary.tableData(list, params)
           this.page.total = res.total

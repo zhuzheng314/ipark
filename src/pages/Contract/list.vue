@@ -1,32 +1,36 @@
 <template>
   <div>
-<!--    <el-card style="width: 100%">-->
-<!--      <el-select  size="small"-->
-<!--                  v-model="value1" placeholder="合同状态">-->
-<!--        <el-option-->
-<!--          v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"-->
-<!--          :key="item.value"-->
-<!--          :label="item.label"-->
-<!--          :value="item.value">-->
-<!--        </el-option>-->
-<!--      </el-select>-->
+    <el-card style="width: 100%">
+      <el-select  size="small"
+                  clearable
+                  @change="fetchListSearch"
+                  v-model="contract_state" placeholder="合同状态">
+        <el-option
+          v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
 
-<!--      <el-input-->
-<!--        placeholder="搜索租客"-->
-<!--        size="small"-->
-<!--        style="width: 220px; margin-left: 15px"-->
-<!--        prefix-icon="el-icon-search"-->
-<!--        v-model="value2">-->
-<!--      </el-input>-->
+      <el-input
+        @change="fetchListSearch"
+        clearable
+        placeholder="搜索租客"
+        size="small"
+        style="width: 220px; margin-left: 15px"
+        prefix-icon="el-icon-search"
+        v-model="customer_name">
+      </el-input>
 
-<!--      <el-button-->
-<!--        style="float: right"-->
-<!--        type="primary"-->
-<!--        icon="el-icon-plus"-->
-<!--        size="small"-->
-<!--        @click="handleAddContract"-->
-<!--      >新建合同</el-button>-->
-<!--    </el-card>-->
+      <el-button
+        style="float: right"
+        type="primary"
+        icon="el-icon-plus"
+        size="small"
+        @click="handleAddContract"
+      >新建合同</el-button>
+    </el-card>
     <el-card style="margin-bottom: 20px">
       <div slot="header" class="clearfix">
         <span>到期监控图</span>
@@ -36,34 +40,6 @@
       </div>
     </el-card>
     <el-card>
-      <div slot="header">
-        <el-select
-          size="small"
-          v-model="value1" placeholder="合同状态">
-          <el-option
-            v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-
-        <el-input
-          placeholder="搜索租客"
-          size="small"
-          style="width: 220px; margin-left: 15px"
-          prefix-icon="el-icon-search"
-          v-model="value2">
-        </el-input>
-
-        <el-button
-          style="float: right"
-          type="primary"
-          icon="el-icon-plus"
-          size="small"
-          @click="handleAddContract"
-        >新建合同</el-button>
-      </div>
       <GTable
         @row-click="contractState"
         @current-change="handlePageClick"
@@ -211,8 +187,8 @@ export default {
           label: '到期未处理'
         }
       ],
-      value1: '',
-      value2: '',
+      contract_state: '',
+      customer_name: '',
       addContractVisible: false,
       modifyVisible: false,
       contractInfoState: false,
@@ -409,13 +385,29 @@ export default {
     fetchList () { // 获取合同列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
-        ...this.page
+        ...this.page,
+        state: this.contract_state,
+        customer_name: this.customer_name
       }
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
-        this.tableData = res.list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['state']
+          this.$dictionary.tableData(list, params)
+          this.page.total = res.total
+          this.tableData = []
+          this.tableData = list
+        } else {
+          this.page.total = 0
+          this.$message.warning('未找到相关数据')
+          this.tableData = []
+        }
       })
     },
-
+    fetchListSearch () {
+      this.page.page_no = 1
+      this.fetchList()
+    },
     fetchGetInfo (id) { // 获取合同信息
       let params = {
         contract_code: id

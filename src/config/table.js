@@ -119,22 +119,8 @@ const applyList = [
     label: '企业类型'
   },
   {
-    prop: 'regist_fund',
-    label: '注册资本'
-  },
-  {
-    prop: 'status',
-    label: '入驻性质',
-    sortable: true
-  },
-  {
     prop: 'area',
     label: '入驻面积',
-    sortable: true
-  },
-  {
-    prop: 'room_name',
-    label: '房间号',
     sortable: true
   },
   {

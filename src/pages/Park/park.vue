@@ -217,6 +217,7 @@
       <div>
         <ParkForm
           ref="buildForm"
+          @onCancel="() => {this.addShowBuild = false}"
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
