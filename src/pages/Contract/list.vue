@@ -115,8 +115,12 @@
         <template #headerCardSlot="data">
           <div style="color: #999;padding: 0 48px;">
             <p>
-              <span>合同摘要</span>
-              【起租日{{data.slotName.start_ts}}。租赁数{{data.slotName.rent_area}}㎡。{{data.slotName.pay_cycle}}月一付。租金单价{{data.slotName.unit_price}}元/㎡·天。】
+              <span>房租合同摘要</span>
+              【签订时间{{data.slotName.sign_ts}}。出租面积{{data.slotName.rent_area}}㎡。租金单价{{data.slotName.unit_price}}元/㎡·天。{{data.slotName.pay_cycle}}月一付，提前{{data.slotName.prepaid}}个月{{data.slotName.pay_date}}号收物业费。】
+            </p>
+            <p>
+              <span>物业合同摘要</span>
+              【签订时间{{data.slotName.property_sign_ts}}。管理面积{{data.slotName.manage_area}}㎡。物业费单价{{data.slotName.property_unit_price}}元/㎡·天。{{data.slotName.property_pay_cycle}}月一付，提前{{data.slotName.property_prepaid}}个月{{data.slotName.property_pay_date}}号收物业费。】
             </p>
             <p>
               <span>最新备注：{{data.slotName.demo || '暂无备注'}}</span>
@@ -201,7 +205,7 @@ export default {
       contractInfoState: false,
       id: '',
       contractInfo_header: {
-        title: '正常执行',
+        title: '-',
         button: [
           {
             name: '编辑',
@@ -327,6 +331,7 @@ export default {
       this.id = data.contract_code
       this.fetchGetInfo(this.id)
       this.contractInfoState = true
+      this.contractInfo_header.title = data.customer_name
       this.contractInfo_header.data = data
       this.contractInfo_body_contract = {
         title: '合同信息',
@@ -336,16 +341,12 @@ export default {
           { name: '合同租赁数', value: data.manage_area + '㎡' },
           { name: '合同签订日', value: data.sign_ts },
           { name: '合同起租日', value: data.start_ts },
-          { name: '合同失效日', value: data.end_ts },
-          { name: '单位保留小数', value: '2' },
-          { name: '计算精度', value: '精确计算结果保留两位小数' },
-          { name: '原合同失效日', value: '-' },
-          { name: '合同标签', value: '-' }
+          { name: '合同失效日', value: data.end_ts }
         ]
       }
       this.contractInfo_body_room.info.tableData = data.room
       this.contractInfo_body1.info = [
-        { name: '租客', value: data.company_name },
+        { name: '租客', value: data.customer_name },
         { name: '行业', value: data.trade },
         { name: '租客联系人', value: data.customer_name },
         { name: '法人', value: data.representative },

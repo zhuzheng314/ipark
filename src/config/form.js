@@ -542,7 +542,7 @@ const addCustomerForm = [
     ]
   },
   {
-    title: '房源信息',
+    title: '意向房源',
     span: 24,
     children: [
       {
@@ -550,7 +550,7 @@ const addCustomerForm = [
         label: '需求面积',
         key: 'demand_area',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
           // {
@@ -573,7 +573,7 @@ const addCustomerForm = [
         label: '需求工位',
         key: 'work_station',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
           // {
@@ -597,7 +597,7 @@ const addCustomerForm = [
         key: 'demand_ts',
         placeholder: '请选择',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
@@ -606,7 +606,7 @@ const addCustomerForm = [
         multiple: true, // 是否多选
         key: 'room',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: []
       }

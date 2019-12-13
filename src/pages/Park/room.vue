@@ -88,7 +88,9 @@
                 background: filterRoomState(subItem).color }">
                   <div class="text">{{subItem.name}}</div>
                   <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-                  <div class="sub-text">{{subItem.state === 0? '2022-11-11到期':'-' }}</div>
+                  <div class="sub-text">
+                    {{subItem.state === 292 ? subItem.end_ts + '到期' : '-' }}
+                    </div>
                   <div class="status">{{filterRoomState(subItem).str}}</div>
                 </div>
               </div>
@@ -189,6 +191,7 @@
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
           :defaultValue="defaultValue"
+          :disabled="disabled"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -232,24 +235,6 @@ export default {
       showTrueArea: true,
       modifyShow: false,
       buildInfo: {},
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       fakerList: [
       ],
@@ -345,6 +330,7 @@ export default {
       filterData: '',
       roomInfo: {},
       defaultValue: {},
+      disabled: [],
       defaultValueContract: {},
       roomParams: {
         area: null
@@ -366,6 +352,11 @@ export default {
     },
     buildId () {
       // this.fetchBuildingInfo()
+    },
+    roomInfoState () {
+      if (!this.roomInfoState) {
+        this.disabled = [] // 清空修改房间disabled
+      }
     }
   },
   methods: {
@@ -401,6 +392,9 @@ export default {
     //   this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
     // },
     handleRoomClick (room) {
+      if (room.state === 292) { // 房间在租时，状态不可改变
+        this.disabled.push('state')
+      }
       this.roomInfoState = true
       this.roomInfo = room
       this.fetchRoomInfo().then(res => {
@@ -436,7 +430,7 @@ export default {
       }
     },
     open (i) {
-      if (i === '编辑') {
+      if (i === '修改房间') {
         // this.modifyShow = true
         this.fetchRoomInfo().then(res => {
           if (res.code === 1000) {
