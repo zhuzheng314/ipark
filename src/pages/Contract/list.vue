@@ -35,9 +35,16 @@
       <div slot="header" class="clearfix">
         <span>到期监控图</span>
       </div>
-      <div class="chart">
-        <v-chart style="width:100%;height: 300px;" :options="barOptions"></v-chart>
-      </div>
+      <el-row :gutter="20">
+        <el-col :span="16">
+          <div class="chart">
+            <v-chart style="width:100%;height: 300px;" :options="barOptions"></v-chart>
+          </div>
+        </el-col>
+        <el-col :span="8">
+
+        </el-col>
+      </el-row>
     </el-card>
     <el-card>
       <GTable
@@ -67,7 +74,7 @@
         :options="$store.getters.contractListOptions"
         :default-value="{}"
         :itemList="[]"
-        :defaultValue="defaultValue"
+        :defaultValue="addDefaultValue"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -109,10 +116,10 @@
           <div style="color: #999;padding: 0 48px;">
             <p>
               <span>合同摘要</span>
-              【起租日{{data.slotName.start_ts}}。租赁数{{data.slotName.manage_area}}㎡。首期租赁3月一付。租金单价4元/㎡·天。】
+              【起租日{{data.slotName.start_ts}}。租赁数{{data.slotName.rent_area}}㎡。{{data.slotName.pay_cycle}}月一付。租金单价{{data.slotName.unit_price}}元/㎡·天。】
             </p>
             <p>
-              <span>最新备注</span>
+              <span>最新备注：{{data.slotName.demo || '暂无备注'}}</span>
             </p>
           </div>
         </template>
@@ -298,6 +305,10 @@ export default {
         },
         barWidth: '20'
       },
+      addDefaultValue: {
+        state: 328, // 新增合同默认状态[签订]
+        contract_type: 1 // 新增合同默认合同类型[房租]
+      },
       defaultValue: {
       },
       page: {
@@ -399,7 +410,7 @@ export default {
           this.tableData = list
         } else {
           this.page.total = 0
-          this.$message.warning('未找到相关数据')
+          // this.$message.warning('未找到相关数据')
           this.tableData = []
         }
       })
@@ -447,6 +458,7 @@ export default {
         if (res.code === 1000) {
           this.$message.success('修改成功')
           this.defaultValue = {}
+          this.fetchGetInfo(this.id)
           this.fetchList()
           this.modifyVisible = false
         } else {
