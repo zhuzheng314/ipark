@@ -1,6 +1,60 @@
 <template>
   <div>
-    <el-card style="width: 100%">
+<!--    <el-card style="width: 100%">-->
+<!--      <div>-->
+<!--        <el-select  size="small"-->
+<!--        v-model="value1"-->
+<!--        clearable-->
+<!--        @change="fetchListSearch"-->
+<!--        placeholder="进度阶段">-->
+<!--          <el-option-->
+<!--            v-for="item in this.$store.state.dictionary.dictionaryType['customer_state']"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--        <el-select  size="small"-->
+<!--        v-model="value2"-->
+<!--        clearable-->
+<!--        style="width: 220px; margin-left: 15px"-->
+<!--        @change="fetchListSearch"-->
+<!--        placeholder="来源渠道">-->
+<!--          <el-option-->
+<!--            v-for="item in this.$store.state.dictionary.dictionaryType['customer_info_source']"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+
+<!--        <el-input-->
+<!--          placeholder="搜索客户名称"-->
+<!--          size="small"-->
+<!--          style="width: 220px; margin-left: 15px"-->
+<!--          prefix-icon="el-icon-search"-->
+<!--          clearable-->
+<!--          @change="fetchListSearch"-->
+<!--          v-model="value3">-->
+<!--        </el-input>-->
+<!--        <el-button-->
+<!--          style="float: right"-->
+<!--          type="primary"-->
+<!--          icon="el-icon-plus"-->
+<!--          size="small"-->
+<!--          @click="handleAddCustomer"-->
+<!--        >客户</el-button>-->
+<!--      </div>-->
+<!--    </el-card>-->
+    <el-card>
+      <div>
+        <div :key="item.name" v-for="item in infoData" class="simple-item">
+           <Comparison :type="item.type" :data="item"></Comparison>
+        </div>
+      </div>
+
+    </el-card>
+    <el-card>
       <div>
         <el-select  size="small"
         v-model="customer_state"
@@ -45,16 +99,6 @@
           @click="handleAddCustomer"
         >客户</el-button>
       </div>
-    </el-card>
-    <el-card>
-      <div>
-        <div :key="item.name" v-for="item in infoData" class="simple-item">
-           <Comparison :type="item.type" :data="item"></Comparison>
-        </div>
-      </div>
-
-    </el-card>
-    <el-card>
       <GTable
         @row-click="customerState"
         @current-change="handlePageClick"
@@ -434,13 +478,18 @@ export default {
         name: this.name
       }
       this.$https.post(this.$urls.customer.get_list, params).then((res) => {
-        // console.log(res)
-        let list = res.list
-        let params = ['state', 'info_source', 'demand_area', 'status']
-        this.$dictionary.tableData(list, params)
-        this.page.total = res.total
-        this.tableData = []
-        this.tableData = list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['state', 'info_source', 'demand_area', 'status']
+          this.$dictionary.tableData(list, params)
+          this.page.total = res.total
+          this.tableData = []
+          this.tableData = list
+        } else {
+          this.page.total = 0
+          this.$message.warning('未找到相关数据')
+          this.tableData = []
+        }
       })
     },
     fetchListSearch () {

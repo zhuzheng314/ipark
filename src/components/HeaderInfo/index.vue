@@ -1,7 +1,7 @@
 <template>
 <div class="headerInfo">
   <el-card class="box-card" shadow="never">
-    <el-table v-if="type==1" :data="tableData" style="width: 100%">
+    <el-table v-if="type==1" :data="data.tableData" style="width: 100%">
       <el-table-column
         v-for="(item,i) in label"
         :key="(item,i)"

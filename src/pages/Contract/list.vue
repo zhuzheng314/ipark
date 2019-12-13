@@ -390,12 +390,18 @@ export default {
         customer_name: this.customer_name
       }
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
-        let list = res.list
-        let params = ['state']
-        this.$dictionary.tableData(list, params)
-        this.page.total = res.total
-        this.tableData = []
-        this.tableData = list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['state']
+          this.$dictionary.tableData(list, params)
+          this.page.total = res.total
+          this.tableData = []
+          this.tableData = list
+        } else {
+          this.page.total = 0
+          this.$message.warning('未找到相关数据')
+          this.tableData = []
+        }
       })
     },
     fetchListSearch () {
