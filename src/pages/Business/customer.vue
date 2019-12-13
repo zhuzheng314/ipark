@@ -472,7 +472,7 @@ export default {
     fetchList () { // 获取客户列表
       let params = {
         ...this.page,
-        park_id: this.$store.state.form.activePark.domain_id,
+        // park_id: this.$store.state.form.activePark.domain_id,
         state: this.customer_state,
         info_source: this.customer_info_source,
         name: this.name
