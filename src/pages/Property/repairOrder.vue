@@ -1,13 +1,55 @@
 <template>
   <div>
     <el-card style="width: 100%">
+<!--      <div slot="header">-->
+<!--        <el-select-->
+<!--        size="small"-->
+<!--        v-model="value1"-->
+<!--        clearable-->
+<!--        @change="fetchListSearch"-->
+<!--        placeholder="工单状态">-->
+<!--          <el-option-->
+<!--            v-for="item in this.$store.state.dictionary.dictionaryType['work_state']"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+
+<!--        <el-input-->
+<!--          placeholder="搜索工单"-->
+<!--          clearable-->
+<!--          @change="fetchListSearch"-->
+<!--          size="small"-->
+<!--          style="width: 220px; margin-left: 15px"-->
+<!--          prefix-icon="el-icon-search"-->
+<!--          v-model="value2">-->
+<!--        </el-input>-->
+
+<!--        <el-button-->
+<!--          style="float: right"-->
+<!--          type="primary"-->
+<!--          icon="el-icon-plus"-->
+<!--          size="small"-->
+<!--          @click="handleAddContract"-->
+<!--        >报修</el-button>-->
+<!--      </div>-->
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in infoData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+      </div>
+    </el-card>
+    <el-card>
       <div slot="header">
         <el-select
-        size="small"
-        v-model="value1"
-        clearable
-        @change="fetchListSearch"
-        placeholder="工单状态">
+          size="small"
+          v-model="value1"
+          clearable
+          @change="fetchListSearch"
+          placeholder="工单状态">
           <el-option
             v-for="item in this.$store.state.dictionary.dictionaryType['work_state']"
             :key="item.value"
@@ -34,15 +76,6 @@
           @click="handleAddContract"
         >报修</el-button>
       </div>
-      <div>
-        <Comparison
-          :type="item.type"
-          :key="item.name"
-          v-for="item in infoData"
-          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
-      </div>
-    </el-card>
-    <el-card>
       <GTable
         @row-click="workOrderState"
         @current-change="handlePageClick"

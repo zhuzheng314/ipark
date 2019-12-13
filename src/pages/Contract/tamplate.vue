@@ -1,36 +1,63 @@
 <template>
   <div>
-    <el-card style="width: 100%">
-      <!--      <div slot="header" class="clearfix">-->
-      <!--        <span>条件筛选</span>-->
-      <!--      </div>-->
-      <el-select  size="small"
-                  v-model="value1" placeholder="合同模板类型">
-        <el-option
-          v-for="item in this.$store.state.dictionary.dictionaryType['template_type']"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+<!--    <el-card style="width: 100%">-->
+<!--      &lt;!&ndash;      <div slot="header" class="clearfix">&ndash;&gt;-->
+<!--      &lt;!&ndash;        <span>条件筛选</span>&ndash;&gt;-->
+<!--      &lt;!&ndash;      </div>&ndash;&gt;-->
+<!--      <el-select  size="small"-->
+<!--                  v-model="value1" placeholder="合同模板类型">-->
+<!--        <el-option-->
+<!--          v-for="item in this.$store.state.dictionary.dictionaryType['template_type']"-->
+<!--          :key="item.value"-->
+<!--          :label="item.label"-->
+<!--          :value="item.value">-->
+<!--        </el-option>-->
+<!--      </el-select>-->
 
-      <el-input
-        placeholder="搜索合同模板"
-        size="small"
-        style="width: 220px; margin-left: 15px"
-        prefix-icon="el-icon-search"
-        v-model="value2">
-      </el-input>
+<!--      <el-input-->
+<!--        placeholder="搜索合同模板"-->
+<!--        size="small"-->
+<!--        style="width: 220px; margin-left: 15px"-->
+<!--        prefix-icon="el-icon-search"-->
+<!--        v-model="value2">-->
+<!--      </el-input>-->
 
-      <el-button
-        style="float: right"
-        type="primary"
-        icon="el-icon-plus"
-        size="small"
-        @click="handleAddContract"
-      >新建合同模板</el-button>
-    </el-card>
+<!--      <el-button-->
+<!--        style="float: right"-->
+<!--        type="primary"-->
+<!--        icon="el-icon-plus"-->
+<!--        size="small"-->
+<!--        @click="handleAddContract"-->
+<!--      >新建合同模板</el-button>-->
+<!--    </el-card>-->
     <el-card>
+      <div slot="header">
+        <el-select  size="small"
+                    v-model="value1" placeholder="合同模板类型">
+          <el-option
+            v-for="item in this.$store.state.dictionary.dictionaryType['template_type']"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+
+        <el-input
+          placeholder="搜索合同模板"
+          size="small"
+          style="width: 220px; margin-left: 15px"
+          prefix-icon="el-icon-search"
+          v-model="value2">
+        </el-input>
+
+        <el-button
+          style="float: right"
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="handleAddContract"
+        >新建合同模板</el-button>
+      </div>
       <GTable
         @current-change="handlePageClick"
         @prev-click="handlePageClick"

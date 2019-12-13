@@ -1,12 +1,53 @@
 <template>
   <div>
     <el-card>
+<!--      <div slot="header">-->
+<!--        <el-select  size="small"-->
+<!--        v-model="value1"-->
+<!--        clearable-->
+<!--        @change="fetchListSearch"-->
+<!--        placeholder="费用类型">-->
+<!--          <el-option-->
+<!--            v-for="item in this.$store.state.dictionary.dictionaryType['payment_type']"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+
+<!--        <el-input-->
+<!--          placeholder="搜索"-->
+<!--          size="small"-->
+<!--          clearable-->
+<!--          @change="fetchListSearch"-->
+<!--          style="width: 220px; margin-left: 15px"-->
+<!--          prefix-icon="el-icon-search"-->
+<!--          v-model="value2">-->
+<!--        </el-input>-->
+<!--        <el-button-->
+<!--          style="float: right"-->
+<!--          type="primary"-->
+<!--          icon="el-icon-plus"-->
+<!--          size="small"-->
+<!--          @click="handleAddContract"-->
+<!--        >新增催缴</el-button>-->
+<!--      </div>-->
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in infoData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+      </div>
+
+    </el-card>
+    <el-card>
       <div slot="header">
         <el-select  size="small"
-        v-model="value1"
-        clearable
-        @change="fetchListSearch"
-        placeholder="费用类型">
+                    v-model="value1"
+                    clearable
+                    @change="fetchListSearch"
+                    placeholder="费用类型">
           <el-option
             v-for="item in this.$store.state.dictionary.dictionaryType['payment_type']"
             :key="item.value"
@@ -32,16 +73,6 @@
           @click="handleAddContract"
         >新增催缴</el-button>
       </div>
-      <div>
-        <Comparison
-          :type="item.type"
-          :key="item.name"
-          v-for="item in infoData"
-          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
-      </div>
-
-    </el-card>
-    <el-card>
       <GTable
         @row-click="financialState"
         @current-change="handlePageClick"
