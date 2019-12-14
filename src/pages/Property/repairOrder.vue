@@ -1,13 +1,55 @@
 <template>
   <div>
     <el-card style="width: 100%">
+<!--      <div slot="header">-->
+<!--        <el-select-->
+<!--        size="small"-->
+<!--        v-model="value1"-->
+<!--        clearable-->
+<!--        @change="fetchListSearch"-->
+<!--        placeholder="工单状态">-->
+<!--          <el-option-->
+<!--            v-for="item in this.$store.state.dictionary.dictionaryType['work_state']"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+
+<!--        <el-input-->
+<!--          placeholder="搜索工单"-->
+<!--          clearable-->
+<!--          @change="fetchListSearch"-->
+<!--          size="small"-->
+<!--          style="width: 220px; margin-left: 15px"-->
+<!--          prefix-icon="el-icon-search"-->
+<!--          v-model="value2">-->
+<!--        </el-input>-->
+
+<!--        <el-button-->
+<!--          style="float: right"-->
+<!--          type="primary"-->
+<!--          icon="el-icon-plus"-->
+<!--          size="small"-->
+<!--          @click="handleAddContract"-->
+<!--        >报修</el-button>-->
+<!--      </div>-->
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in infoData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+      </div>
+    </el-card>
+    <el-card>
       <div slot="header">
         <el-select
-        size="small"
-        v-model="value1"
-        clearable
-        @change="fetchListSearch"
-        placeholder="工单状态">
+          size="small"
+          v-model="value1"
+          clearable
+          @change="fetchListSearch"
+          placeholder="工单状态">
           <el-option
             v-for="item in this.$store.state.dictionary.dictionaryType['work_state']"
             :key="item.value"
@@ -34,15 +76,6 @@
           @click="handleAddContract"
         >报修</el-button>
       </div>
-      <div>
-        <Comparison
-          :type="item.type"
-          :key="item.name"
-          v-for="item in infoData"
-          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
-      </div>
-    </el-card>
-    <el-card>
       <GTable
         @row-click="workOrderState"
         @current-change="handlePageClick"
@@ -65,7 +98,7 @@
         :formList="$formsLabels.repairForm"
         :itemList="[]"
         :options="$store.getters.repairListOptions"
-        :defaultValue="{}"
+        :defaultValue="addDefaultValue"
         ></ParkForm>
       </div>
     </el-dialog>
@@ -106,7 +139,7 @@
           title: '图片详情',
           ...workOrderInfo
         }"></BodyCard>
-        <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard>
+        <!-- <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard> -->
         <BodyCard type=3 :data="workOrderInfo_body3"></BodyCard>
       </div>
     </el-drawer>
@@ -248,6 +281,9 @@ export default {
         info: '无'
       },
       infoData: [],
+      addDefaultValue: {
+        repair_state: 316
+      },
       defaultValue: {
         // attached: { upload: [{ name: 'hotSearchBox.png', url: '1575471117333/d3d90bd06b6535541c17e138f8cdc838.png' }] },
         // contact: 13333333333,
@@ -276,6 +312,7 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -375,12 +412,13 @@ export default {
       this.$https.post(this.$urls.repair.get_info, params).then((res) => {
         let data = res
         this.workOrderInfo = res
+        data.repair_state = this.$store.getters.getDicById(data.repair_state)
         this.workOrderInfo_body1.info = [
-          { name: '工单类型', value: data.type },
+          { name: '工单类型', value: '维修工单' },
           { name: '发起人', value: data.originator },
           { name: '工单号', value: data.repair_code },
           { name: '工单摘要', value: data.describe },
-          { name: '工单状态', value: data.state },
+          { name: '工单状态', value: data.repair_state },
           { name: '预约时间', value: data.reserve_ts }
         ]
         this.workOrderInfo_body2.info = [

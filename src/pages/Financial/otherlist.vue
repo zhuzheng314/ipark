@@ -270,6 +270,7 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -378,7 +379,7 @@ export default {
           this.tableData = []
           this.tableData = list
         } else {
-          this.$message.warning('未找到相关数据')
+          // this.$message.warning('未找到相关数据')
           this.tableData = []
         }
       })

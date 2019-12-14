@@ -1,7 +1,57 @@
 <template>
   <div>
+<!--    <el-card>-->
+<!--      <div>-->
+<!--        <el-select  size="small"-->
+<!--                    multiple-->
+<!--                    style="width: 180px; margin-right: 15px"-->
+<!--                    v-model="value2"-->
+<!--                    clearable-->
+<!--                    placeholder="审批状态">-->
+<!--          <el-option-->
+<!--            v-for="item in this.$store.state.dictionary.dictionaryType['approval_type']"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+
+<!--        <el-date-picker-->
+<!--          size="small"-->
+<!--          v-model="date"-->
+<!--          type="daterange"-->
+<!--          style="width: 220px; margin-right: 15px"-->
+<!--          range-separator="至"-->
+<!--          start-placeholder="开始日期"-->
+<!--          end-placeholder="结束日期">-->
+<!--        </el-date-picker>-->
+<!--        <el-input-->
+<!--          placeholder="搜索企业"-->
+<!--          size="small"-->
+<!--          style="width: 180px; margin-right: 15px"-->
+<!--          prefix-icon="el-icon-search"-->
+<!--          v-model="value3">-->
+<!--        </el-input>-->
+
+<!--        &lt;!&ndash; <el-button-->
+<!--          style="float: right;"-->
+<!--          type="primary"-->
+<!--          icon="el-icon-plus"-->
+<!--          size="small"-->
+<!--          @click="handleAddContract"-->
+<!--        >新增</el-button> &ndash;&gt;-->
+<!--      </div>-->
+<!--    </el-card>-->
+    <el-card style="margin-bottom: 20px">
+      <div slot="header" class="clearfix">
+        <span>退驻监控图</span>
+      </div>
+      <div class="chart">
+        <v-chart style="width:100%;height: 300px;" :options="stackedAreaOptions"></v-chart>
+      </div>
+    </el-card>
     <el-card>
-      <div>
+      <div slot="header">
         <el-select  size="small"
                     style="width: 180px; margin-right: 15px"
                     v-model="approval_type"
@@ -42,16 +92,6 @@
           @click="handleAddContract"
         >新增</el-button> -->
       </div>
-    </el-card>
-    <el-card style="margin-bottom: 20px">
-      <div slot="header" class="clearfix">
-        <span>退驻监控图</span>
-      </div>
-      <div class="chart">
-        <v-chart style="width:100%;height: 300px;" :options="stackedAreaOptions"></v-chart>
-      </div>
-    </el-card>
-    <el-card>
       <GTable
         @row-click="tenantsState"
         @current-change="handlePageClick"
@@ -78,9 +118,9 @@
         ></ParkForm>
       </div>
     </el-dialog>
-    <!--      租客详细信息-->
+    <!--      企业详细信息-->
     <el-drawer
-      title="租客详细信息"
+      title="企业详细信息"
       custom-class="drawer-r"
       :visible.sync="InfoState"
       size="1186px"
@@ -218,6 +258,7 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -243,7 +284,7 @@ export default {
           this.tableData = res.list
         } else {
           this.page.total = 0
-          this.$message.warning('未找到相关数据')
+          // this.$message.warning('未找到相关数据')
           this.tableData = []
         }
       })

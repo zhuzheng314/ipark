@@ -140,13 +140,6 @@
               </template>
             </BodyCard>
             <BodyCard type=2 :data="roomInfo_body_table2">
-              <!-- <template #btn>
-                <el-button
-                  :style="{height: '80%',margin: 'auto 8px'}"
-                  icon="el-icon-plus"
-                  size="mini"
-                >客户 </el-button>
-              </template> -->
             </BodyCard>
           </div>
         </el-drawer>
@@ -171,7 +164,7 @@
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
-          :defaultValue="{}"
+          :defaultValue="addRoomDefaultValue"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -186,7 +179,7 @@
         <ParkForm
           ref="addRoomForm"
           v-if="modifyShow"
-          @onCancel="() => {this.modifyShow = false}"
+          @onCancel="modifyShow = false"
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
@@ -280,8 +273,7 @@ export default {
           },
           {
             name: '删除',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe7d1;'
           }
         ]
       },
@@ -290,10 +282,7 @@ export default {
           { prop: 'area', label: '面积(㎡)' },
           { prop: 'state', label: '房源状态' },
           // { prop: 'state', label: '招商状态' },
-          { prop: 'price', label: '预租单价(元/㎡·天)' },
-          { prop: 'room_usage', label: '房源类型' },
-          { prop: 'decoration_standard', label: '装修' }
-          // { prop: 'tag', label: '表签' }
+          { prop: 'price', label: '出租单价(元/㎡·天)' }
         ],
         tableData: []
       },
@@ -301,20 +290,24 @@ export default {
         title: '合同信息',
         info: {
           label: [
-            { prop: 'company_name', label: '租户' },
-            { prop: 'fee_start_ts', label: '计租日' },
+            { prop: 'contract_code', label: '合同编号' },
+            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'rent_area', label: '租赁面积' },
+            { prop: 'fee_start_ts', label: '开始日' },
             { prop: 'fee_end_ts', label: '结束日' },
-            { prop: 'property_unit_price', label: '合同单价' },
-            { prop: 'state', label: '状态' }
+            { prop: 'unit_price', label: '合同单价' },
+            { prop: 'state', label: '状态' },
+            { prop: 'contacter', label: '联系人' },
+            { prop: 'contact', label: '联系人电话' }
           ],
           tableData: []
         }
       },
       roomInfo_body_table2: {
-        title: '招商信息',
+        title: '企业信息',
         info: {
           label: [
-            { prop: 'contacter', label: '租客' },
+            { prop: 'contacter', label: '企业' },
             { prop: 'contact', label: '联系电话' },
             { prop: 'state', label: '客户状态' },
             { prop: 'receiver', label: '跟进人员' },
@@ -330,8 +323,9 @@ export default {
       filterData: '',
       roomInfo: {},
       defaultValue: {},
-      disabled: [],
+      disabled: {},
       defaultValueContract: {},
+      addRoomDefaultValue: {},
       roomParams: {
         area: null
 
@@ -351,11 +345,14 @@ export default {
       this.fetchBuildingInfo()
     },
     buildId () {
+      this.addRoomDefaultValue = {
+        pid: this.buildId
+      }
       // this.fetchBuildingInfo()
     },
-    roomInfoState () {
-      if (!this.roomInfoState) {
-        this.disabled = [] // 清空修改房间disabled
+    modifyShow () {
+      if (!this.modifyShow) {
+        this.disabled = {} // 清空修改房间disabled
       }
     }
   },
@@ -392,19 +389,17 @@ export default {
     //   this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
     // },
     handleRoomClick (room) {
-      if (room.state === 292) { // 房间在租时，状态不可改变
-        this.disabled.push('state')
-      }
       this.roomInfoState = true
       this.roomInfo = room
       this.fetchRoomInfo().then(res => {
         if (res.code === 1000) {
           let data = res
-          this.roomInfo_header.title = data.floor + '/' + data.name
+          data.state = this.$store.getters.getDicById(data.state)
+          this.roomInfo_header.title = data.floor + '-' + data.name
           this.roomInfo_info.tableData = []
           this.roomInfo_info.tableData.push({ ...data })
         } else {
-          this.$message.error('获取房间详情失败')
+          // this.$message.error('获取房间详情失败')
         }
       })
       this.$https.post(this.$urls.contract.get_list_by_room, {
@@ -431,10 +426,13 @@ export default {
     },
     open (i) {
       if (i === '修改房间') {
-        // this.modifyShow = true
+        this.roomInfoState = false
         this.fetchRoomInfo().then(res => {
           if (res.code === 1000) {
             this.defaultValue = res
+            if (res.state === 292) { // 房间在租时，状态不可改变
+              this.disabled.state = true
+            }
             this.modifyShow = true
           }
         })
@@ -496,18 +494,28 @@ export default {
       })
     },
     fetchDelRoom () {
-      this.$https.post(this.$urls.room.remove, {
-        domain_id: this.roomInfo.domain_id
-      }).then(res => {
-        if (res.code === 1000) {
-          this.$message.success('删除成功')
-          this.roomInfoState = false
-          this.fetchRoomList()
-          this.$store.dispatch('getParkTreeList')
-        } else {
-          this.$message.warning('删除失败')
-        }
-      })
+      if (this.roomInfo.state !== 292) {
+        this.$confirm('此操作将永久删除该房间, 是否继续?', '提示', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(() => {
+          this.$https.post(this.$urls.room.remove, {
+            domain_id: this.roomInfo.domain_id
+          }).then(res => {
+            if (res.code === 1000) {
+              this.$message.success('删除成功')
+              this.roomInfoState = false
+              this.fetchRoomList()
+              this.$store.dispatch('getParkTreeList')
+            } else {
+              this.$message.warning('删除失败')
+            }
+          })
+        })
+      } else {
+        this.$message.error('此房间不可删除')
+      }
     },
     fetchRoomList () {
       if (!this.buildId) {
@@ -585,6 +593,7 @@ export default {
     this.buildId = this.propBuildId
     this.fetchBuildingInfo()
     this.fetchRoomList()
+    console.log(this.$store.state.dictionary.dictionaryType['demand_area'])
   }
 }
 </script>

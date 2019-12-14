@@ -98,9 +98,9 @@
       </div>
     </el-dialog>
 
-<!--      租客详细信息-->
+<!--      企业详细信息-->
       <el-drawer
-      title="租客详细信息"
+      title="企业详细信息"
       custom-class="drawer-r"
       :visible.sync="InfoState"
       size="1186px"
@@ -226,6 +226,7 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -401,7 +402,7 @@ export default {
           this.tableData = res.list
         } else {
           this.page.total = 0
-          this.$message.warning('未找到相关数据')
+          // this.$message.warning('未找到相关数据')
           this.tableData = []
         }
       })

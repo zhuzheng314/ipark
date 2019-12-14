@@ -55,7 +55,7 @@
 
     </el-card>
     <el-card>
-      <div>
+      <div slot="header">
         <el-select  size="small"
         v-model="customer_state"
         clearable
@@ -181,7 +181,6 @@
       <div class="drawer-body" style="height: 660px;">
         <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_2"></BodyCard>
-        <BodyCard type=3 :data="customerInfo_body_3"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
           <template #btn>
             <el-button
@@ -191,7 +190,7 @@
             >发起合同</el-button>
           </template>
         </BodyCard>
-
+        <BodyCard type=3 :data="customerInfo_body_3"></BodyCard>
       </div>
     </el-drawer>
   </div>
@@ -390,9 +389,9 @@ export default {
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
-    handleClose () { },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
