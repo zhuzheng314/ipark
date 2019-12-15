@@ -116,6 +116,12 @@ const form = {
               disabled = true
             }
           }
+          if (item.path.split('.').length === 4) {
+            console.log(item, 292)
+            if (item.state === 292) {
+              disabled = true
+            }
+          }
           return {
             label: item.name,
             value: item.domain_id,
@@ -131,6 +137,53 @@ const form = {
         return []
       }
     },
+    // 带禁止选择房子的 园区树
+    parkTreeWithDisabled: state => {
+      const filterList = (list) => {
+        return list.map(item => {
+          if (!item) {
+            return {
+              label: '暂无',
+              disabled: true
+            }
+          }
+          let children = item.children && item.children.length ? filterList(item.children) : null
+          let disabled = false
+          if (item.path.split('.').length !== 4) {
+            if (!item.children || !item.children.length) {
+              disabled = true
+            }
+          }
+          if (item.path.split('.').length === 4) {
+            if (item.state === 292) {
+              disabled = true
+            }
+          }
+          return {
+            label: item.name,
+            value: item.domain_id,
+            path: item.path,
+            children,
+            disabled
+          }
+        })
+      }
+      if (state.parkTreeList) {
+        return filterList(state.parkTreeList)
+      } else {
+        return []
+      }
+    },
+    buildTreeWithDisabled (state, getters) {
+      return getters.parkTreeWithDisabled.filter(x => {
+        return x.value === state.activePark.domain_id
+      })
+    },
+    buildPrueTree (state, getters) {
+      return getters.parkTreeOptions.filter(x => {
+        return x.value === state.activePark.domain_id
+      })
+    },
     // 合同
     contractListOptions: (state, getters) => {
       return {
@@ -140,8 +193,7 @@ const form = {
             value: x.domain_id
           }
         }) : [],
-        room: getters.parkTreeOptions,
-        domain_id: getters.parkTreeOptions,
+        room: getters.buildTreeWithDisabled,
         customer_id: state.customerList,
         contract_type: state.contractTamplateList,
         // contract_type: dictionary.state.dictionaryType['template_type'],
@@ -171,7 +223,7 @@ const form = {
     // 客户
     customerListOptions: (state, getters) => {
       return {
-        room: getters.parkTreeOptions,
+        room: getters.buildTreeWithDisabled,
         state: dictionary.state.dictionaryType['customer_state'],
         status: dictionary.state.dictionaryType['customer_status'],
         info_source: dictionary.state.dictionaryType['customer_info_source'],
@@ -182,7 +234,7 @@ const form = {
     // 报修
     repairListOptions: (state, getters) => {
       return {
-        domain_id: getters.parkTreeOptions,
+        domain_id: getters.buildPrueTree,
         customer_id: state.customerList,
         repair_state: dictionary.state.dictionaryType['work_state']
       }
@@ -190,7 +242,7 @@ const form = {
     // 投诉
     complaintListOptions: (state, getters) => {
       return {
-        domain_id: getters.parkTreeOptions,
+        domain_id: getters.buildPrueTree,
         customer_id: state.customerList,
         complaint_state: dictionary.state.dictionaryType['work_state']
       }
@@ -199,7 +251,7 @@ const form = {
     paymentListOptions: (state, getters) => {
       return {
         customer_id: state.customerList,
-        domain_id: getters.parkTreeOptions,
+        domain_id: getters.buildPrueTree,
         contract_code: state.contractList,
         type: dictionary.state.dictionaryType['payment_type']
       }

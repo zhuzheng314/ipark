@@ -98,6 +98,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
+        @onCancel="addVisible = false"
         :formList="$formsLabels.complaintForm"
         v-if="addVisible"
         :options="$store.getters.complaintListOptions"

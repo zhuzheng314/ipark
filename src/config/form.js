@@ -729,17 +729,6 @@ const addContractForm = [
     itemSpan: 12,
     children: [
       {
-        type: 'select',
-        label: '所属园区',
-        key: 'park_id',
-        placeholder: '请选择',
-        options: [
-        ],
-        rule: [
-          { required: true, message: '该项为必填', trigger: ['change', 'blur'] }
-        ]
-      },
-      {
         type: 'cascader',
         label: '房源信息',
         multiple: true, // 是否多选

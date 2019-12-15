@@ -95,6 +95,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
+        @onCancel="addVisible = false"
         :formList="$formsLabels.repairForm"
         :itemList="[]"
         :options="$store.getters.repairListOptions"
