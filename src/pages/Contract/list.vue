@@ -102,8 +102,15 @@
         v-if="modifyVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
-        :itemList="[]"
+        :default-disabled="{
+          contract_code: true
+        }"
         :defaultValue="defaultValue"
+        :default-rules="{
+            contract_code:  [
+              { required: true, message: '该项为必填', trigger: 'blur' },
+            ]
+          }"
         ></ParkForm>
       </div>
     </el-dialog>

@@ -204,6 +204,15 @@
         :formList="$formsLabels.addParkForm"
         :options="$store.getters.modifyParkOptions"
         :default-value="modifyParkDefaultValue"
+        :default-rules="{
+            name:  [
+              { required: true, message: '该项为必填', trigger: 'blur' },
+              {
+                validator: validateParkModify,
+                trigger: ['blur', 'change']
+              }
+            ]
+          }"
         :itemList="[]">
       </ParkForm>
 
@@ -287,6 +296,29 @@ export default {
     }
   },
   methods: {
+    validateParkModify (rule, value, callback) {
+      return this.$store.dispatch(
+        'validateParkName',
+        { check_name: value }).then(res => {
+        if (res.list.length && value === '') {
+          callback(new Error('该项为必填'))
+        } else if (res.list.length) {
+          let canEdit = false
+          res.list.forEach(item => {
+            if (item.domain_id === this.modifyParkDefaultValue.domain_id) {
+              canEdit = true
+            }
+          })
+          if (canEdit) {
+            callback()
+          } else {
+            callback(new Error('该名称已存在'))
+          }
+        } else {
+          callback()
+        }
+      })
+    },
     handleRowClick (row) {
       this.$router.push(`/park/build?buildId=${row.domain_id}`)
     },
@@ -420,7 +452,7 @@ export default {
             },
             {
               type: 'chart',
-              title: { name: '当前计租率', note: '当前计租房间数量占比' },
+              title: { name: '当前计租率', note: '累计租出房屋平均数/可租出房屋总数' },
               value: { value: data.pay_rate, unit: '%', chart: Number(data.pay_rate) },
               subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
             }

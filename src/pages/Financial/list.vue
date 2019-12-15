@@ -81,6 +81,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
+        @onCancel="addVisible = false"
         v-if="addVisible"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
@@ -97,6 +98,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        @onCancel="modifyVisible = false"
         v-if="modifyVisible"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
