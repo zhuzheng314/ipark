@@ -134,6 +134,12 @@ const form = {
     // 合同
     contractListOptions: (state, getters) => {
       return {
+        park_id: state.parkList.length ? state.parkList.map(x => {
+          return {
+            label: x.name,
+            value: x.domain_id
+          }
+        }) : [],
         room: getters.parkTreeOptions,
         domain_id: getters.parkTreeOptions,
         customer_id: state.customerList,

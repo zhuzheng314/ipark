@@ -73,7 +73,7 @@ const dictionary = {
             type.dicinfo.forEach(dictionary => {
               state.dictionaryList.push({ ...dictionary })
               state.dictionary[dictionary.id] = dictionary.dic_info
-              state.dictionaryType[type.type_code].push({
+              state.dictionaryType[type.type_code][dictionary.order_num] = ({
                 value: dictionary.id,
                 label: dictionary.dic_info
               })

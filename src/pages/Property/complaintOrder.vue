@@ -101,7 +101,7 @@
         :formList="$formsLabels.complaintForm"
         v-if="addVisible"
         :options="$store.getters.complaintListOptions"
-        :defaultValue="{}"
+        :defaultValue="addDefaultValue"
         :itemList="[]"
         ></ParkForm>
       </div>
@@ -144,7 +144,7 @@
           title: '图片详情',
           ...workOrderInfo
         }"></BodyCard>
-        <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard>
+        <!-- <BodyCard type=1 :data="workOrderInfo_body2"></BodyCard> -->
         <BodyCard type=3 :data="workOrderInfo_body3"></BodyCard>
       </div>
     </el-drawer>
@@ -287,22 +287,10 @@ export default {
       },
       workOrderInfo: {},
       infoData: [],
-      defaultValue: {
-        // contact: '15895642356',
-        // contacter: '金',
-        // create_ts: '2019-12-30T16:00:00.000Z',
-        // demand_area: 1,
-        // demand_ts: '2019-12-30T16:00:00.000Z',
-        // email: '',
-        // info_source: 0,
-        // memo: '',
-        // name: '客户丙',
-        // receiver: '金',
-        // room: [[17, 21, 23]],
-        // state: 0,
-        // status: 0,
-        // work_station: 2
+      addDefaultValue: {
+        complaint_state: 316
       },
+      defaultValue: {},
       page: {
         page_no: 1,
         total: 0,
@@ -322,6 +310,7 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -421,12 +410,15 @@ export default {
       this.$https.post(this.$urls.complaint.get_info, params).then((res) => {
         let data = res
         this.workOrderInfo = res
+        data.complaint_state = this.$store.getters.getDicById(data.complaint_state)
+        console.log(data.complaint_state)
+
         this.workOrderInfo_body1.info = [
-          { name: '工单类型', value: data.type },
+          { name: '工单类型', value: data.type || '投诉' },
           { name: '发起人', value: data.originator },
           { name: '工单号', value: data.complaint_code },
           { name: '工单摘要', value: data.describe },
-          { name: '工单状态', value: data.state },
+          { name: '工单状态', value: data.complaint_state },
           { name: '预约时间', value: data.reserve_ts }
         ]
         this.workOrderInfo_body2.info = [

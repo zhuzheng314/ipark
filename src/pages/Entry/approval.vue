@@ -113,9 +113,9 @@
       </span>
     </el-dialog>
 
-<!--      租客详细信息-->
+<!--      企业详细信息-->
       <el-drawer
-      title="租客详细信息"
+      title="企业详细信息"
       custom-class="drawer-r"
       :visible.sync="tenantsInfoState"
       size="1186px"
@@ -178,7 +178,7 @@ export default {
           children: [
             {
               type: 'input',
-              label: '租客名称',
+              label: '企业名称',
               key: 'i',
               placeholder: '请输入',
               rule: [
@@ -246,7 +246,7 @@ export default {
             },
             {
               type: 'input',
-              label: '租客编码',
+              label: '企业编码',
               key: 'i',
               placeholder: '请输入',
               rule: [
@@ -587,7 +587,7 @@ export default {
         title: '合同',
         info: {
           label: [
-            { prop: 'a', label: '租客' },
+            { prop: 'a', label: '企业' },
             { prop: 'b', label: '楼宇/房间号' },
             { prop: 'c', label: '租赁数' },
             { prop: 'd', label: '开始日' },

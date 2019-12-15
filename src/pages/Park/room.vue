@@ -88,7 +88,9 @@
                 background: filterRoomState(subItem).color }">
                   <div class="text">{{subItem.name}}</div>
                   <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
-                  <div class="sub-text">{{subItem.state === 0? '2022-11-11到期':'-' }}</div>
+                  <div class="sub-text">
+                    {{subItem.state === 292 ? subItem.end_ts + '到期' : '-' }}
+                    </div>
                   <div class="status">{{filterRoomState(subItem).str}}</div>
                 </div>
               </div>
@@ -162,7 +164,6 @@
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
-          :defaultValue="{}"
           :default-rules="{
             name:  [
               { required: true, message: '该项为必填', trigger: 'blur' },
@@ -172,6 +173,7 @@
               }
             ]
           }"
+          :defaultValue="addRoomDefaultValue"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -190,8 +192,8 @@
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
-          :default-disabled="{}"
           :defaultValue="defaultValue"
+          :disabled="disabled"
           :default-rules="{
             name:  [
               { required: true, message: '该项为必填', trigger: 'blur' },
@@ -244,24 +246,6 @@ export default {
       showTrueArea: true,
       modifyShow: false,
       buildInfo: {},
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       fakerList: [
       ],
@@ -307,8 +291,7 @@ export default {
           },
           {
             name: '删除',
-            icon: '&#xe7d1;',
-            function: 'click1'
+            icon: '&#xe7d1;'
           }
         ]
       },
@@ -317,10 +300,7 @@ export default {
           { prop: 'area', label: '面积(㎡)' },
           { prop: 'state', label: '房源状态' },
           // { prop: 'state', label: '招商状态' },
-          { prop: 'price', label: '出租单价(元/㎡·天)' },
-          // { prop: 'room_usage', label: '房源类型' },
-          { prop: 'decoration_standard', label: '装修' }
-          // { prop: 'tag', label: '表签' }
+          { prop: 'price', label: '出租单价(元/㎡·天)' }
         ],
         tableData: []
       },
@@ -328,20 +308,24 @@ export default {
         title: '合同信息',
         info: {
           label: [
-            { prop: 'company_name', label: '租户' },
-            { prop: 'fee_start_ts', label: '计租日' },
+            { prop: 'contract_code', label: '合同编号' },
+            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'rent_area', label: '租赁面积' },
+            { prop: 'fee_start_ts', label: '开始日' },
             { prop: 'fee_end_ts', label: '结束日' },
-            { prop: 'property_unit_price', label: '合同单价' },
-            { prop: 'state', label: '状态' }
+            { prop: 'unit_price', label: '合同单价' },
+            { prop: 'state', label: '状态' },
+            { prop: 'contacter', label: '联系人' },
+            { prop: 'contact', label: '联系人电话' }
           ],
           tableData: []
         }
       },
       roomInfo_body_table2: {
-        title: '租客信息',
+        title: '企业信息',
         info: {
           label: [
-            { prop: 'contacter', label: '租客' },
+            { prop: 'contacter', label: '企业' },
             { prop: 'contact', label: '联系电话' },
             { prop: 'state', label: '客户状态' },
             { prop: 'receiver', label: '跟进人员' },
@@ -357,7 +341,9 @@ export default {
       filterData: '',
       roomInfo: {},
       defaultValue: {},
+      disabled: {},
       defaultValueContract: {},
+      addRoomDefaultValue: {},
       roomParams: {
         area: null
 
@@ -377,7 +363,15 @@ export default {
       this.fetchBuildingInfo()
     },
     buildId () {
+      this.addRoomDefaultValue = {
+        pid: this.buildId
+      }
       // this.fetchBuildingInfo()
+    },
+    modifyShow () {
+      if (!this.modifyShow) {
+        this.disabled = {} // 清空修改房间disabled
+      }
     }
   },
   methods: {
@@ -455,11 +449,12 @@ export default {
       this.fetchRoomInfo().then(res => {
         if (res.code === 1000) {
           let data = res
+          data.state = this.$store.getters.getDicById(data.state)
           this.roomInfo_header.title = data.floor + '-' + data.name
           this.roomInfo_info.tableData = []
           this.roomInfo_info.tableData.push({ ...data })
         } else {
-          this.$message.error('获取房间详情失败')
+          // this.$message.error('获取房间详情失败')
         }
       })
       this.$https.post(this.$urls.contract.get_list_by_room, {
@@ -486,10 +481,13 @@ export default {
     },
     open (i) {
       if (i === '修改房间') {
-        // this.modifyShow = true
+        this.roomInfoState = false
         this.fetchRoomInfo().then(res => {
           if (res.code === 1000) {
             this.defaultValue = res
+            if (res.state === 292) { // 房间在租时，状态不可改变
+              this.disabled.state = true
+            }
             this.modifyShow = true
           }
         })
@@ -529,7 +527,6 @@ export default {
       return state
     },
     fetchModifyRoom (data) {
-      // this.$refs.addRoomForm.validateField()
       this.$https.post(this.$urls.room.modify, {
         domain_id: this.roomInfo.domain_id,
         ...data
@@ -552,18 +549,28 @@ export default {
       })
     },
     fetchDelRoom () {
-      this.$https.post(this.$urls.room.remove, {
-        domain_id: this.roomInfo.domain_id
-      }).then(res => {
-        if (res.code === 1000) {
-          this.$message.success('删除成功')
-          this.roomInfoState = false
-          this.fetchRoomList()
-          this.$store.dispatch('getParkTreeList')
-        } else {
-          this.$message.warning('删除失败')
-        }
-      })
+      if (this.roomInfo.state !== 292) {
+        this.$confirm('此操作将永久删除该房间, 是否继续?', '提示', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(() => {
+          this.$https.post(this.$urls.room.remove, {
+            domain_id: this.roomInfo.domain_id
+          }).then(res => {
+            if (res.code === 1000) {
+              this.$message.success('删除成功')
+              this.roomInfoState = false
+              this.fetchRoomList()
+              this.$store.dispatch('getParkTreeList')
+            } else {
+              this.$message.warning('删除失败')
+            }
+          })
+        })
+      } else {
+        this.$message.error('此房间不可删除')
+      }
     },
     fetchRoomList () {
       if (!this.buildId) {
