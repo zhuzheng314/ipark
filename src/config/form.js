@@ -1169,7 +1169,7 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '收款日',
+        label: '每月收款日',
         key: 'pay_date',
         placeholder: '每月收款日',
         rule: [
@@ -1307,7 +1307,7 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '收款日',
+        label: '每月收款日',
         key: 'property_pay_date',
         placeholder: '请输入',
         rule: [
