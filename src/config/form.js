@@ -15,13 +15,13 @@ const validateContractName = (rule, value, callback) => {
     if (res.list.length && value === '') {
       callback(new Error('该项为必填'))
     } else if (res.list.length) {
-      callback(new Error('该名称已存在'))
+      callback(new Error('该编号已存在'))
     } else {
       callback()
     }
   })
 }
-const validateParkName = (rule, value) => {
+const validateParkName = (rule, value, callback) => {
   return store.dispatch(
     'validateParkName',
     { check_name: value }).then(res => {
@@ -34,7 +34,7 @@ const validateParkName = (rule, value) => {
     }
   })
 }
-const validateBuildName = (rule, value) => {
+const validateBuildName = (rule, value, callback) => {
   return store.dispatch(
     'validateBuildName',
     { check_name: value }).then(res => {
@@ -47,22 +47,10 @@ const validateBuildName = (rule, value) => {
     }
   })
 }
-const validateRoomName = (rule, value) => {
-  store.dispatch(
-    'validateRoomName',
-    { check_name: value }).then(res => {
-    if (res.list.length && value === '') {
-      callback(new Error('该项为必填'))
-    } else if (res.list.length) {
-      callback(new Error('该名称已存在'))
-    } else {
-      callback()
-    }
-  })
-}
+
 /* -------------------- 园区 -------------------- */
 // 添加园区
-const addParkForm2 = [
+const addParkForm = [
   {
     title: '园区信息',
     children: [
@@ -160,8 +148,8 @@ const addParkForm2 = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' },
+          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
         ]
       },
       {
@@ -228,7 +216,7 @@ const addParkForm2 = [
     ]
   }
 ]
-const addParkForm = [
+const addParkForm1 = [
   {
     title: '园区信息',
     children: [
@@ -336,8 +324,7 @@ const addRoomForm = [
         placeholder: '请选择',
         options: [],
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator: validateRoomName, trigger: ['blur', 'change'] }
+          { required: true, message: '请输入', trigger: 'blur' }
         ]
       },
       {
@@ -418,7 +405,8 @@ const addRoomForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' },
+          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
         ]
       },
       {
@@ -477,8 +465,8 @@ const addCustomerForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' },
+          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
         ]
       },
       {
@@ -673,7 +661,8 @@ const addContractForm = [
         key: 'contract_code',
         placeholder: '请输入合同编号',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' },
+          { validator: validateContractName, trigger: ['blur', 'change'] }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -792,8 +781,8 @@ const addContractForm = [
   //       key: 'contact',
   //       placeholder: '请输入',
   //       rule: [
-  //         { required: true, message: '请输入', trigger: 'blur' }
-  //         // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  //         { required: true, message: '请输入', trigger: 'blur' },
+  //         { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
   //       ]
   //     },
   //     {
@@ -831,8 +820,8 @@ const addContractForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
         ]
       },
       {
@@ -841,7 +830,7 @@ const addContractForm = [
         key: 'email',
         placeholder: '请输入',
         rule: [
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -1870,8 +1859,8 @@ const repairForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入合同编号', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入合同编号', trigger: 'blur' },
+          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
         ]
       },
       {
@@ -1960,8 +1949,8 @@ const complaintForm = [
         key: 'contact',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
         ]
       },
       {

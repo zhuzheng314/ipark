@@ -204,6 +204,15 @@
         :formList="$formsLabels.addParkForm"
         :options="$store.getters.modifyParkOptions"
         :default-value="modifyParkDefaultValue"
+        :default-rules="{
+            name:  [
+              { required: true, message: '该项为必填', trigger: 'blur' },
+              {
+                validator: validateParkModify,
+                trigger: ['blur', 'change']
+              }
+            ]
+          }"
         :itemList="[]">
       </ParkForm>
 
@@ -287,6 +296,29 @@ export default {
     }
   },
   methods: {
+    validateParkModify (rule, value, callback) {
+      return this.$store.dispatch(
+        'validateParkName',
+        { check_name: value }).then(res => {
+        if (res.list.length && value === '') {
+          callback(new Error('该项为必填'))
+        } else if (res.list.length) {
+          let canEdit = false
+          res.list.forEach(item => {
+            if (item.domain_id === this.modifyParkDefaultValue.domain_id) {
+              canEdit = true
+            }
+          })
+          if (canEdit) {
+            callback()
+          } else {
+            callback(new Error('该名称已存在'))
+          }
+        } else {
+          callback()
+        }
+      })
+    },
     handleRowClick (row) {
       this.$router.push(`/park/build?buildId=${row.domain_id}`)
     },

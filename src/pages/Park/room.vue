@@ -163,6 +163,15 @@
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
           :defaultValue="{}"
+          :default-rules="{
+            name:  [
+              { required: true, message: '该项为必填', trigger: 'blur' },
+              {
+                validator: validateRoomAdd,
+                trigger: ['blur', 'change']
+              }
+            ]
+          }"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -181,7 +190,17 @@
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
+          :default-disabled="{}"
           :defaultValue="defaultValue"
+          :default-rules="{
+            name:  [
+              { required: true, message: '该项为必填', trigger: 'blur' },
+              {
+                validator: validateRoomModify,
+                trigger: ['blur', 'change']
+              }
+            ]
+          }"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -362,6 +381,43 @@ export default {
     }
   },
   methods: {
+    validateRoomAdd (rule, value, callback) {
+      console.log('add')
+      return this.$store.dispatch(
+        'validateRoomName',
+        { check_name: value, pid: this.buildId }).then(res => {
+        if (res.list.length && value === '') {
+          callback(new Error('该项为必填'))
+        } else if (res.list.length) {
+          callback(new Error('该名称已存在'))
+        } else {
+          callback()
+        }
+      })
+    },
+    validateRoomModify (rule, value, callback) {
+      return this.$store.dispatch(
+        'validateRoomName',
+        { check_name: value, pid: this.buildId }).then(res => {
+        if (res.list.length && value === '') {
+          callback(new Error('该项为必填'))
+        } else if (res.list.length) {
+          let canEdit = false
+          res.list.forEach(item => {
+            if (item.domain_id === this.roomInfo.domain_id) {
+              canEdit = true
+            }
+          })
+          if (canEdit) {
+            callback()
+          } else {
+            callback(new Error('该名称已存在'))
+          }
+        } else {
+          callback()
+        }
+      })
+    },
     addContract () { // 打开添加合同表单
       this.defaultValueContract = {
         room: [this.roomInfo.domain_id]
@@ -473,6 +529,7 @@ export default {
       return state
     },
     fetchModifyRoom (data) {
+      // this.$refs.addRoomForm.validateField()
       this.$https.post(this.$urls.room.modify, {
         domain_id: this.roomInfo.domain_id,
         ...data

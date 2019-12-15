@@ -92,7 +92,9 @@
         v-if="modifyVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
-        :itemList="[]"
+        :default-disabled="{
+          contract_code: true
+        }"
         :defaultValue="defaultValue"
         ></ParkForm>
       </div>

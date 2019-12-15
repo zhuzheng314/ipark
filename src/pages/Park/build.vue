@@ -62,6 +62,15 @@
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
           :default-value="modifyDefaultValue"
+          :default-rules="{
+            name:  [
+              { required: true, message: '该项为必填', trigger: 'blur' },
+              {
+                validator: validateBuildModify,
+                trigger: ['blur', 'change']
+              }
+            ]
+          }"
           :itemList="[]">
         </ParkForm>
       </div>
@@ -91,10 +100,32 @@ export default {
       buildIndex: 0,
       modifyDefaultValue: {},
       editShow: false
-
     }
   },
   methods: {
+    validateBuildModify (rule, value, callback) {
+      return this.$store.dispatch(
+        'validateBuildName',
+        { check_name: value }).then(res => {
+        if (res.list.length && value === '') {
+          callback(new Error('该项为必填'))
+        } else if (res.list.length) {
+          let canEdit = false
+          res.list.forEach(item => {
+            if (item.domain_id === this.modifyDefaultValue.domain_id) {
+              canEdit = true
+            }
+          })
+          if (canEdit) {
+            callback()
+          } else {
+            callback(new Error('该名称已存在'))
+          }
+        } else {
+          callback()
+        }
+      })
+    },
     goBack () {
       this.$router.go(-1) // 后退
     },

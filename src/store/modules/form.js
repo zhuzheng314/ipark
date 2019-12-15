@@ -390,6 +390,7 @@ const form = {
     },
     validateParkName ({ commit, state }, data) {
       return request.post(baseUrl + api.park.get_list, {
+        ...data,
         page_no: 1,
         page_size: 999
       }).then(res => {
@@ -400,7 +401,8 @@ const form = {
     },
     validateBuildName ({ commit, state }, data) {
       return request.post(baseUrl + api.building.get_list, {
-        park_id: state.activePark.domain_id,
+        ...data,
+        pid: state.activePark.domain_id,
         page_no: 1,
         page_size: 999
       }).then(res => {
@@ -411,9 +413,10 @@ const form = {
     },
     validateRoomName ({ commit, state }, data) {
       return request.post(baseUrl + api.room.get_list, {
-        park_id: state.activePark.domain_id,
+        pid: state.activePark.domain_id,
         page_no: 1,
-        page_size: 999
+        page_size: 999,
+        ...data
       }).then(res => {
         if (res.code === 1000) {
           return res

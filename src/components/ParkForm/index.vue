@@ -26,6 +26,7 @@
                   >
                     <!-- input -->
                     <el-input
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-if="item.type === 'input'"
                       v-model="form[item.key]"
                       :placeholder="item.placeholder"
@@ -34,6 +35,7 @@
 
                     <!-- input-num -->
                     <el-input-number
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-if="item.type === 'input-num'"
                       v-model="form[item.key]"
                       style="width: 100%"
@@ -43,6 +45,7 @@
 
                     <!-- textarea -->
                     <el-input
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-if="item.type === 'textarea'"
                       type="textarea"
                       v-model="form[item.key]"
@@ -51,7 +54,10 @@
                     </el-input>
 
                     <!-- radio -->
-                    <el-radio-group v-if="item.type === 'radio'" v-model="form[item.key]">
+                    <el-radio-group
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                      v-if="item.type === 'radio'"
+                      v-model="form[item.key]">
                       <el-radio
                         v-for="(subItem, subIndex) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
                         :key="subItem.label + subIndex"
@@ -62,6 +68,7 @@
 
                     <!--          日期-->
                     <el-date-picker
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-if="item.type === 'date-picker'"
                       :placeholder="item.placeholder"
                       v-model="form[item.key]"
@@ -70,6 +77,7 @@
                     </el-date-picker>
 
                     <el-date-picker
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-if="item.type === 'date-picker-range'"
                       v-model="form[item.key]"
                       type="daterange"
@@ -79,7 +87,10 @@
                     </el-date-picker>
 
                     <!-- checkbox -->
-                    <el-checkbox-group v-if="item.type === 'checkbox'" v-model="form[item.key]">
+                    <el-checkbox-group
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                      v-if="item.type === 'checkbox'"
+                      v-model="form[item.key]">
                       <el-checkbox
                         v-for="(subItem, subIndex) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
                         :key="subItem.label + subIndex"
@@ -90,6 +101,7 @@
 
                     <!-- select -->
                     <el-select
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       style="width: 100%"
                       v-if="item.type === 'select'"
                       v-model="form[item.key]"
@@ -107,10 +119,14 @@
                     </el-select>
 
                     <!-- switch -->
-                    <el-switch v-if="item.type === 'switch'" v-model="form[item.key]"></el-switch>
+                    <el-switch
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                      v-if="item.type === 'switch'"
+                      v-model="form[item.key]"></el-switch>
 
                     <!--          cascader-->
                     <el-cascader
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-model="form[item.key]"
                       v-if="item.type==='cascader'"
                       style="width: 300px"
@@ -120,22 +136,26 @@
                     ></el-cascader>
 
                     <!--            upload-->
-                    <el-upload
-                      :action="$urls.upload"
-                      list-type="picture-card"
-                      ref="picture-card"
-                      :before-upload="handleBeforeUpload"
-                      :on-success="handleUploadImgSuccess"
-                      :on-remove="handleUploadImgRemove"
-                      :fileList="imgFileList"
-                      v-if="item.type === 'upload-img'"
-                      multiple
-                      :limit="3">
-                      <i class="el-icon-plus"></i>
-                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>
+                    <div :class="(defaultDisabled && defaultDisabled[item.key]) ? '_is-disabled' : ''">
+                      <el-upload
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        :action="$urls.upload"
+                        list-type="picture-card"
+                        ref="picture-card"
+                        :before-upload="handleBeforeUpload"
+                        :on-success="handleUploadImgSuccess"
+                        :on-remove="handleUploadImgRemove"
+                        :fileList="imgFileList"
+                        v-if="item.type === 'upload-img'"
+                        multiple
+                        :limit="3">
+                        <i class="el-icon-plus"></i>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                      </el-upload>
+                    </div>
 
                     <el-upload
+                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       class="upload-demo"
                       :action="$urls.upload"
                       :fileList="fileList"
@@ -146,24 +166,6 @@
                       <el-button size="small" type="primary">点击上传</el-button>
                       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                     </el-upload>
-
-                    <div v-if="item.type === 'addGroup'">
-                      <el-input
-                        style="width: 25%"
-                        type="input"
-                      >
-                      </el-input>
-                      <el-input
-                        style="width: 25%"
-                        type="input"
-                      >
-                      </el-input>
-                      <el-input
-                        style="width: 25%"
-                        type="input"
-                      >
-                      </el-input>
-                    </div>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -189,7 +191,9 @@ export default {
     formList: [String, Number, Array, Object],
     itemList: [String, Number, Array, Object],
     options: [String, Number, Array, Object],
-    defaultValue: [String, Number, Array, Object]
+    defaultValue: [String, Number, Array, Object],
+    defaultRules: [String, Number, Array, Object],
+    defaultDisabled: [String, Number, Array, Object]
   },
   computed: {
   },
@@ -329,6 +333,10 @@ export default {
         form[item.key] = formInitValue // form初始化
       })
       this.form = form
+      rules = {
+        ...rules,
+        ...this.defaultRules
+      }
       this.rules = rules
     },
     setDefaultValue () { // 设置默认值
@@ -378,5 +386,14 @@ export default {
     width: 100px;
     height: 100px;
     line-height: 100px;
+  }
+  /deep/ ._is-disabled{
+    cursor: not-allowed;
+    div{
+      cursor: not-allowed !important;
+    }
+    * {
+      cursor: not-allowed !important;
+    }
   }
 </style>
