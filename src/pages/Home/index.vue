@@ -213,24 +213,29 @@ export default {
     },
     // 曲线图
     setLineOptions (data) {
-      let axis = []
-      let value = []
-      data.forEach(v => {
-        axis.push(v.name)
-        value.push(v.value)
-      })
+      let axis = data.axis
+      let value = data.data
       // let options = { ...this.publicOptions }
       let options = JSON.parse(JSON.stringify(this.publicOptions))
       options.xAxis.type = 'category'
       options.xAxis.boundaryGap = false
       options.xAxis.data = axis
-      options.series = {
-        name: '合同数',
-        data: value,
-        type: 'line',
-        color: '#7191FE',
-        smooth: true
-      }
+      options.series = [
+        {
+          name: '合同数1',
+          data: value[0],
+          type: 'line',
+          color: '#7191FE',
+          smooth: true
+        },
+        {
+          name: '合同数2',
+          data: value[1],
+          type: 'line',
+          color: '#B671BB',
+          smooth: true
+        }
+      ]
       return options
     },
     // 仪表盘
@@ -253,11 +258,9 @@ export default {
       options.series = [
         {
           type: 'gauge',
-          name: '外层辅助',
           radius: '62.5%',
           startAngle: '225',
           endAngle: '-45',
-          splitNumber: '120',
           pointer: {
             show: false
           },
@@ -265,22 +268,8 @@ export default {
             show: false
           },
           data: [
-            {
-              value: 1
-            }
+            { value: 1 }
           ],
-          // data: [{value: 1, name: 90}],
-          title: {
-            show: true,
-            offsetCenter: [0, 30],
-            textStyle: {
-              color: '#fff',
-              fontStyle: 'normal',
-              fontWeight: 'normal',
-              fontFamily: '微软雅黑',
-              fontSize: 20
-            }
-          },
           axisLine: {
             show: true,
             lineStyle: {
@@ -420,7 +409,7 @@ export default {
               ['十二月', 5, 4, 9]
             ]
             this.columnOptions = this.setColumnOptions(columnData)
-            let lineData = [
+            let areaData = [
               { name: '7月', value: 3 },
               { name: '8月', value: 5 },
               { name: '9月', value: 1 },
@@ -428,8 +417,33 @@ export default {
               { name: '11月', value: 5 },
               { name: '12月', value: 2 }
             ]
-            this.areaOptions1 = this.setAreaOptions(lineData)
-            this.areaOptions2 = this.setAreaOptions(lineData)
+            this.areaOptions1 = this.setAreaOptions(areaData)
+            this.areaOptions2 = this.setAreaOptions(areaData)
+            let lineData = {
+              axis: ['7月', '8月', '9月', '10月', '11月', '12月'],
+              data: [
+                [3, 4, 6, 3, 7, 5],
+                [5, 3, 7, 4, 6, 3]
+              ]
+            }
+            // [
+            //   [
+            //     { name: '7月', value: 3 },
+            //     { name: '8月', value: 5 },
+            //     { name: '9月', value: 1 },
+            //     { name: '10月', value: 6 },
+            //     { name: '11月', value: 5 },
+            //     { name: '12月', value: 2 }
+            //   ],
+            //   [
+            //     { name: '7月', value: 4 },
+            //     { name: '8月', value: 6 },
+            //     { name: '9月', value: 2 },
+            //     { name: '10月', value: 7 },
+            //     { name: '11月', value: 6 },
+            //     { name: '12月', value: 3 }
+            //   ],
+            // ]
             this.lineOptions = this.setLineOptions(lineData)
             this.gaugeOptions = this.setGaugeOptions({
               name: '完成度',
