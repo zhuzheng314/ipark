@@ -48,11 +48,11 @@ const routes = [
       requireAuth: true
     },
     children: [
-      // {
-      //   path: '/home',
-      //   name: 'home',
-      //   component: ContractList
-      // },
+      {
+        path: '/home2',
+        name: 'home2',
+        component: Home
+      },
       {
         path: '/overview',
         name: 'overview1',

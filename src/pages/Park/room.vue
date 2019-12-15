@@ -407,16 +407,20 @@ export default {
         page_no: 1,
         room_id: this.roomInfo.domain_id
       }).then(res => {
+        this.roomInfo_body_table1.info.tableData = []
         if (res.code === 1000) {
-          this.roomInfo_body_table1.info.tableData = []
-          this.roomInfo_body_table1.info.tableData = res.list
+          let contractList = res.list
+          this.$dictionary.tableData(contractList, ['state'])
+          // console.log(contractList)
+          this.roomInfo_body_table1.info.tableData = contractList
         }
       })
       this.$https.post(this.$urls.customer.get_info, { room_id: this.roomInfo.domain_id }).then(res => {
+        this.roomInfo_body_table2.info.tableData = []
         if (res.code === 1000) {
-          let data = res
-          this.roomInfo_body_table2.info.tableData = []
-          this.roomInfo_body_table2.info.tableData.push({ ...data })
+          let data = [res]
+          this.$dictionary.tableData(data, ['info_source', 'state'])
+          this.roomInfo_body_table2.info.tableData = data
         }
       })
     },
@@ -593,7 +597,6 @@ export default {
     this.buildId = this.propBuildId
     this.fetchBuildingInfo()
     this.fetchRoomList()
-    console.log(this.$store.state.dictionary.dictionaryType['demand_area'])
   }
 }
 </script>
