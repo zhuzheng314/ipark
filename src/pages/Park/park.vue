@@ -452,7 +452,7 @@ export default {
             },
             {
               type: 'chart',
-              title: { name: '当前计租率', note: '当前计租房间数量占比' },
+              title: { name: '当前计租率', note: '累计租出房屋平均数/可租出房屋总数' },
               value: { value: data.pay_rate, unit: '%', chart: Number(data.pay_rate) },
               subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
             }
