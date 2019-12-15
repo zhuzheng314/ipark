@@ -27,7 +27,14 @@
         </el-col>
         <el-col :span="12">
           <el-card class="chartBox">
-            <!-- <v-chart :options="columnOptions"></v-chart> -->
+            <el-row style="height: 100%;">
+              <el-col :span="8" style="height: 100%;">
+                <v-chart :options="gaugeOptions"></v-chart>
+              </el-col>
+              <el-col :span="16" style="height: 100%;">
+                <v-chart :options="columnOptions"></v-chart>
+              </el-col>
+            </el-row>
           </el-card>
         </el-col>
       </el-row>
@@ -37,12 +44,10 @@
 
 <script>
 import Statistic from './Statistic/index.vue'
-// import ChartBox from './ChartBox/index.vue'
 export default {
   name: 'home2',
   components: {
     Statistic
-    // ChartBox
   },
   data () {
     return {
@@ -51,28 +56,33 @@ export default {
       areaOptions1: {},
       areaOptions2: {},
       lineOptions: {},
+      gaugeOptions: {},
       publicOptions: {
         // 颜色
         color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
-        grid: { // 表距离边框距离
+        grid: {
+          // 表距离边框距离
           left: '40px',
           right: '20px',
           top: '40px',
           bottom: '40px'
         },
-        legend: { // 图例
+        legend: {
+          // 图例
           right: '40px',
           top: '8px',
           itemWidth: 30,
           height: 12,
           borderRadius: 10,
-          textStyle: { // 文字
+          textStyle: {
+            // 文字
             color: '#999999',
             fontSize: 14
           },
           itemGap: 16
         },
-        xAxis: { // x轴
+        xAxis: {
+          // x轴
           // type: 'category',
           axisLine: {
             // 轴线
@@ -86,7 +96,8 @@ export default {
             show: false
           }
         },
-        yAxis: { // y轴
+        yAxis: {
+          // y轴
           axisLine: {
             show: false,
             lineStyle: {
@@ -125,7 +136,8 @@ export default {
         ['#A0A7E6', '#977EFE'],
         ['#70DFDC', '#54BAB8']
       ]
-      let options = { ...this.publicOptions }
+      // let options = { ...this.publicOptions }
+      let options = JSON.parse(JSON.stringify(this.publicOptions))
       options.tooltip = {
         trigger: 'item',
         formatter: params => {
@@ -137,6 +149,7 @@ export default {
         // 数据
         source: [productData, ...data]
       }
+
       options.xAxis.type = 'category' // 类型
       options.series = []
       for (let i = 0; i < productData.length - 1; i++) {
@@ -150,7 +163,8 @@ export default {
               y: 0,
               x2: 0,
               y2: 1,
-              colorStops: [ // 渐变颜色
+              colorStops: [
+                // 渐变颜色
                 { offset: 0, color: colorList[i][0] },
                 { offset: 1, color: colorList[i][1] }
               ],
@@ -169,9 +183,11 @@ export default {
         axis.push(v.name)
         value.push(v.value)
       })
-      let options = { ...this.publicOptions }
+      // let options = { ...this.publicOptions }
+      let options = JSON.parse(JSON.stringify(this.publicOptions))
       options.xAxis.type = 'category'
       options.xAxis.data = axis
+      options.xAxis.boundaryGap = false
       options.series = {
         name: '合同数',
         data: value,
@@ -203,30 +219,130 @@ export default {
         axis.push(v.name)
         value.push(v.value)
       })
-      let options = { ...this.publicOptions }
+      // let options = { ...this.publicOptions }
+      let options = JSON.parse(JSON.stringify(this.publicOptions))
       options.xAxis.type = 'category'
+      options.xAxis.boundaryGap = false
       options.xAxis.data = axis
       options.series = {
         name: '合同数',
         data: value,
         type: 'line',
         color: '#7191FE',
-        smooth: true,
-        areaStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              { offset: 0, color: '#4FB0FD' },
-              { offset: 1, color: '#fff' }
-            ],
-            global: false // 缺省为 false
-          }
-        }
+        smooth: true
       }
+      return options
+    },
+    // 仪表盘
+    setGaugeOptions (data) {
+      // let options = { ...this.publicOptions }
+      let options = JSON.parse(JSON.stringify(this.publicOptions))
+      let color = {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          // 渐变颜色
+          { offset: 0, color: '#358DD7' },
+          { offset: 1, color: '#85C3FE' }
+        ]
+      }
+      options.xAxis.show = false
+      options.series = [
+        {
+          type: 'gauge',
+          name: '外层辅助',
+          radius: '62.5%',
+          startAngle: '225',
+          endAngle: '-45',
+          splitNumber: '120',
+          pointer: {
+            show: false
+          },
+          detail: {
+            show: false
+          },
+          data: [
+            {
+              value: 1
+            }
+          ],
+          // data: [{value: 1, name: 90}],
+          title: {
+            show: true,
+            offsetCenter: [0, 30],
+            textStyle: {
+              color: '#fff',
+              fontStyle: 'normal',
+              fontWeight: 'normal',
+              fontFamily: '微软雅黑',
+              fontSize: 20
+            }
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: [[1, 'rgba(175, 175, 175, 0.3)']],
+              width: 4,
+              opacity: 1
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            show: true,
+            length: 20,
+            lineStyle: {
+              color: '#051932',
+              width: 0,
+              type: 'solid'
+            }
+          },
+          axisLabel: {
+            show: false
+          }
+        },
+        {
+          type: 'gauge',
+          radius: '65%',
+          axisTick: { show: false }, // 小刻度
+          splitLine: {
+            lineStyle: {
+              color: '#14B2FF',
+              width: 0
+            },
+            length: 10
+          }, // 分隔线
+          pointer: { show: false }, // 指针
+          axisLabel: { show: false }, // 标签
+          axisLine: {
+            // 表盘
+            show: true,
+            lineStyle: {
+              width: 10,
+              color: [[data.value * 0.01, color], [1, 'rgba(0,0,0,0)']]
+            }
+          },
+          title: {
+            // 标题
+            offsetCenter: [0, '30%'],
+            fontSize: 16,
+            color: '#666'
+          },
+          detail: {
+            // 数值
+            formatter: '{value}%',
+            color: '#358DD7',
+            offsetCenter: [0, '0%'],
+            fontSize: 32
+          },
+          data: [{ value: data.value, name: data.name }]
+        }
+      ]
+
       return options
     },
     fetchGetInfo () {
@@ -312,9 +428,13 @@ export default {
               { name: '11月', value: 5 },
               { name: '12月', value: 2 }
             ]
-            // this.areaOptions1 = this.setAreaOptions(lineData);
-            // this.areaOptions2 = this.setAreaOptions(lineData);
-            // this.lineOptions = this.setLineOptions(lineData);
+            this.areaOptions1 = this.setAreaOptions(lineData)
+            this.areaOptions2 = this.setAreaOptions(lineData)
+            this.lineOptions = this.setLineOptions(lineData)
+            this.gaugeOptions = this.setGaugeOptions({
+              name: '完成度',
+              value: 55
+            })
           }
         })
     }
