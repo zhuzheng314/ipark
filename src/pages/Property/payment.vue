@@ -385,6 +385,7 @@ export default {
     handleClose () { },
     open (i) {
       if (i === '编辑') {
+        this.InfoState = false
         this.fetchGetBack()
         // this.modifyShow = true
         // this.fetchModify(this.id)

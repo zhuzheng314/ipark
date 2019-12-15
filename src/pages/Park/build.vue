@@ -45,6 +45,7 @@
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
+          :defaultValue="addDefaultValue"
          >
         </ParkForm>
       </div>
@@ -89,6 +90,9 @@ export default {
       addParkShow: false,
       addBuildShow: false,
       buildIndex: 0,
+      addBuildDefaultValue: {
+        pid: this.$store.state.form.activePark.domain_id
+      },
       modifyDefaultValue: {},
       editShow: false
 

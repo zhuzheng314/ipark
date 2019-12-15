@@ -16,7 +16,7 @@
       <el-input
         @change="fetchListSearch"
         clearable
-        placeholder="搜索租客"
+        placeholder="搜索企业"
         size="small"
         style="width: 220px; margin-left: 15px"
         prefix-icon="el-icon-search"
@@ -36,13 +36,23 @@
         <span>到期监控图</span>
       </div>
       <el-row :gutter="20">
-        <el-col :span="16">
+        <el-col :span="18">
           <div class="chart">
             <v-chart style="width:100%;height: 300px;" :options="barOptions"></v-chart>
           </div>
         </el-col>
-        <el-col :span="8">
-
+        <el-col :span="6">
+          <el-card class="infoBox" v-for="(item,i) in infoList" :key="i">
+            <el-row :gutter="40">
+              <el-col :span="12">
+                <p class="name">{{item.name}}</p>
+                <p class="unit">单位：{{item.unit}}</p>
+              </el-col>
+              <el-col :span="12">
+                <span class="value">{{item.value}}</span>
+              </el-col>
+            </el-row>
+          </el-card>
         </el-col>
       </el-row>
     </el-card>
@@ -115,8 +125,12 @@
         <template #headerCardSlot="data">
           <div style="color: #999;padding: 0 48px;">
             <p>
-              <span>合同摘要</span>
-              【起租日{{data.slotName.start_ts}}。租赁数{{data.slotName.rent_area}}㎡。{{data.slotName.pay_cycle}}月一付。租金单价{{data.slotName.unit_price}}元/㎡·天。】
+              <span>房租合同摘要</span>
+              【签订时间{{data.slotName.sign_ts}}。出租面积{{data.slotName.rent_area}}㎡。租金单价{{data.slotName.unit_price}}元/㎡·天。{{data.slotName.pay_cycle}}月一付，提前{{data.slotName.prepaid}}个月{{data.slotName.pay_date}}号收物业费。】
+            </p>
+            <p>
+              <span>物业合同摘要</span>
+              【签订时间{{data.slotName.property_sign_ts}}。管理面积{{data.slotName.manage_area}}㎡。物业费单价{{data.slotName.property_unit_price}}元/㎡·天。{{data.slotName.property_pay_cycle}}月一付，提前{{data.slotName.property_prepaid}}个月{{data.slotName.property_pay_date}}号收物业费。】
             </p>
             <p>
               <span>最新备注：{{data.slotName.demo || '暂无备注'}}</span>
@@ -125,13 +139,10 @@
         </template>
       </HeaderCard>
       <div class="drawer-body" style="height: 700px;">
-        <BodyCard type=1 :data="contractInfo_body_contract"></BodyCard>
-        <BodyCard type=2 :data="contractInfo_body_room"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body2"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body5"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body6"></BodyCard>
-        <BodyCard type=1 :data="contractInfo_body7"></BodyCard>
+        <BodyCard type=2 :data="contractInfo_body_room"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body_contract"></BodyCard>
+        <BodyCard type=1 :data="contractInfo_body_property"></BodyCard>
       </div>
     </el-drawer>
 
@@ -163,7 +174,8 @@ export default {
         grid: {
           top: '20px',
           left: '50px',
-          right: '20px'
+          right: '20px',
+          bottom: '20px'
         },
         xAxis: {
           type: 'category',
@@ -179,6 +191,7 @@ export default {
           barWidth: 20
         }]
       },
+      infoList: [],
       options: [
         {
           value: '选项1',
@@ -201,7 +214,7 @@ export default {
       contractInfoState: false,
       id: '',
       contractInfo_header: {
-        title: '正常执行',
+        title: '-',
         button: [
           {
             name: '编辑',
@@ -217,18 +230,7 @@ export default {
       },
       contractInfo_body_contract: {
         title: '合同信息',
-        info: [
-          { name: '合同编号', value: '-' },
-          { name: '跟进人', value: '-' },
-          { name: '合同租赁数', value: '-' + '㎡' },
-          { name: '合同签订日', value: '-' },
-          { name: '合同起租日', value: '-' },
-          { name: '合同失效日', value: '-' },
-          { name: '单位保留小数', value: '-' },
-          { name: '计算精度', value: '-' },
-          { name: '原合同失效日', value: '-' },
-          { name: '合同标签', value: '-' }
-        ]
+        info: []
       },
       contractInfo_body_room: {
         title: '房源信息',
@@ -242,60 +244,12 @@ export default {
         }
       },
       contractInfo_body1: {
-        title: '租客信息',
-        info: [
-          { name: '租客', value: '-' },
-          { name: '行业', value: '-' },
-          { name: '租客联系人', value: '-' },
-          { name: '法人', value: '-' },
-          { name: '签订人', value: '-' }
-        ]
-      },
-      contractInfo_body2: {
-        title: '其他关键信息',
+        title: '企业信息',
         info: []
       },
-      contractInfo_body3: {
-        title: '滞纳金',
-        info: [
-          { name: '滞纳金比例', value: '0.5%/天' },
-          { name: '滞纳金上限', value: '1%' }
-        ]
-      },
-      contractInfo_body4: {
-        title: '滞纳金',
-        info: [
-          { name: '滞纳金比例', value: '0.5%/天' },
-          { name: '滞纳金上限', value: '1%' }
-        ]
-      },
-      contractInfo_body5: {
-        title: '基本条款',
-        info: [
-          { name: '房源信息', value: '-' },
-          { name: '租赁数', value: '-' }
-        ]
-      },
-      contractInfo_body6: {
-        title: '保证金条款',
-        info: [
-          { name: '保证金类型', value: '租金保证金' },
-          { name: '保证金额', value: '10000元' }
-        ]
-      },
-      contractInfo_body7: {
-        title: '租期条款',
-        info: [
-          { name: '开始时间', value: '-' },
-          { name: '结束时间', value: '-' },
-          { name: '付款时间', value: '-' },
-          { name: '基础单价', value: '-' },
-          { name: '计费类型', value: '-' },
-          { name: '租期划分方式', value: '-' },
-          { name: '天单价换算规则', value: '-' },
-          { name: '年天数', value: '-' },
-          { name: '支付类型', value: '-' }
-        ]
+      contractInfo_body_property: {
+        title: '物业信息',
+        info: []
       },
       publicOptions: {
         color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
@@ -307,7 +261,8 @@ export default {
       },
       addDefaultValue: {
         state: 328, // 新增合同默认状态[签订]
-        contract_type: 1 // 新增合同默认合同类型[房租]
+        contract_type: 1, // 新增合同默认合同类型[房租]
+        park_id: this.$store.state.form.activePark.domain_id
       },
       defaultValue: {
       },
@@ -327,52 +282,51 @@ export default {
       this.id = data.contract_code
       this.fetchGetInfo(this.id)
       this.contractInfoState = true
+      this.contractInfo_header.title = data.customer_name
       this.contractInfo_header.data = data
-      this.contractInfo_body_contract = {
-        title: '合同信息',
-        info: [
-          { name: '合同编号', value: data.contract_code },
-          { name: '跟进人', value: data.receiver },
-          { name: '合同租赁数', value: data.manage_area + '㎡' },
-          { name: '合同签订日', value: data.sign_ts },
-          { name: '合同起租日', value: data.start_ts },
-          { name: '合同失效日', value: data.end_ts },
-          { name: '单位保留小数', value: '2' },
-          { name: '计算精度', value: '精确计算结果保留两位小数' },
-          { name: '原合同失效日', value: '-' },
-          { name: '合同标签', value: '-' }
-        ]
-      }
+      this.contractInfo_body_contract.info = [
+        { name: '合同编号', value: (data.contract_code || '-') },
+        { name: '合同类型', value: (data.contract_type || '-') },
+        { name: '合同状态', value: (data.state || '-') },
+        { name: '合同签订日', value: (data.sign_ts || '-') },
+        { name: '合同起租日', value: (data.start_ts || '-') },
+        { name: '合同失效日', value: (data.end_ts || '-') },
+        { name: '租赁面积', value: (data.rent_area || '-') + '㎡' },
+        { name: '计租时间', value: (data.start_ts || '-') },
+        { name: '结束时间', value: (data.end_ts || '-') },
+        { name: '合同单价', value: (data.unit_price || '-') + '元/㎡·天' },
+        { name: '月租金', value: (data.month_rent || '-') + '元' },
+        { name: '年租金', value: (data.year_rent || '-') + '元' },
+        { name: '付款周期', value: (data.pay_cycle || '-') + '月一付' },
+        { name: '提前收租', value: (data.prepaid || '-') + '月' },
+        { name: '收款日', value: '每月' + (data.pay_date || '-') + '日' },
+        { name: '押金', value: (data.deposit || '-') + '元' }
+      ]
       this.contractInfo_body_room.info.tableData = data.room
       this.contractInfo_body1.info = [
-        { name: '租客', value: data.company_name },
+        { name: '企业', value: data.customer_name },
         { name: '行业', value: data.trade },
-        { name: '租客联系人', value: data.customer_name },
         { name: '法人', value: data.representative },
+        { name: '企业联系人', value: data.customer_name },
         { name: '签订人', value: data.customer_name }
       ]
-      this.contractInfo_body5.info = [
-        { name: '房源信息', value: '-' },
-        { name: '租赁数', value: '-' }
-      ]
-      this.contractInfo_body6.info = [
-        { name: '保证金类型', value: '租金保证金' },
-        { name: '保证金额', value: data.deposit }
-      ]
-      this.contractInfo_body7.info = [
-        { name: '开始时间', value: data.fee_start_ts },
-        { name: '结束时间', value: data.fee_end_ts },
-        { name: '付款时间', value: data.pay_date },
-        { name: '基础单价', value: data.unit_price },
-        { name: '计费类型', value: data.charge_type },
-        { name: '租期划分方式', value: data.tenancy_divide },
-        { name: '天单价换算规则', value: '-' },
-        { name: '年天数', value: '365天' },
-        { name: '支付类型', value: '3月一付' }
+      this.contractInfo_body_property.info = [
+        { name: '管理面积', value: (data.manage_area || '-') + '㎡' },
+        { name: '签订时间', value: (data.property_sign_ts || '-') },
+        { name: '押金', value: (data.property_deposit || '-') + '元' },
+        { name: '合同单价', value: (data.property_unit_price || '-') + '元/㎡·天' },
+        { name: '月物业费', value: (data.property_month_rent || '-') + '元' },
+        { name: '年物业费', value: (data.property_year_rent || '-') + '元' },
+        { name: '付款周期', value: (data.property_pay_cycle || '-') + '月一付' },
+        { name: '提前收费', value: (data.property_prepaid || '-') + '月' },
+        { name: '收款日', value: '每月' + (data.property_pay_date || '-') + '日' },
+        { name: '计费时间', value: (data.property_fee_start_ts || '-') },
+        { name: '结束时间', value: (data.property_fee_end_ts || '-') }
       ]
     },
     open (i) {
       if (i === '编辑') {
+        this.contractInfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -403,7 +357,7 @@ export default {
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
         if (res.code === 1000 && res.list.length) {
           let list = res.list
-          let params = ['state']
+          let params = ['state', 'trade', 'charge_type', 'tenancy_divide', 'contract_type']
           this.$dictionary.tableData(list, params)
           this.page.total = res.total
           this.tableData = []
@@ -497,6 +451,12 @@ export default {
             arr.push(res.list[item])
           })
           this.barOptions.series[0].data = arr
+          this.infoList = [
+            { name: '合同总数量', unit: '个', value: 0 },
+            { name: '合同总金额', unit: '万元', value: 0 },
+            { name: '本月新增数量', unit: '个', value: 0 },
+            { name: '本月到期合同', unit: '个', value: 0 }
+          ]
         }
       })
     }
@@ -521,5 +481,34 @@ export default {
 @import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
+  }
+  .infoBox /deep/ .el-card__body{
+      padding: 0;
+    }
+  .infoBox{
+    height: 68px;
+    width: 320px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    p{
+      margin: 8px;
+    }
+    .name{
+      text-align: left;
+      color: @text-color;
+      font-size: 16px;
+    }
+    .unit{
+      text-align: center;
+      color: @text-color-light;
+      font-size: 12px;
+    }
+    .value{
+      text-align: left;
+      color: @blue;
+      font-size: 24px;
+      line-height: 60px;
+    }
   }
 </style>

@@ -261,6 +261,17 @@ const addBuildForm = [
     title: '楼宇信息',
     children: [
       {
+        type: 'select',
+        label: '所属园区',
+        key: 'pid',
+        placeholder: '请输入',
+        options: [
+        ],
+        rule: [
+          { required: true, message: '请输入', trigger: ['change', 'blur'] }
+        ]
+      },
+      {
         type: 'input',
         label: '楼宇名称',
         key: 'name',
@@ -286,19 +297,8 @@ const addBuildForm = [
         key: 'rent_area',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '请输入企业名称', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'select',
-        label: '所属园区',
-        key: 'pid',
-        placeholder: '请输入',
-        options: [
-        ],
-        rule: [
-          { required: true, message: '请输入', trigger: ['change', 'blur'] }
         ]
       },
       {
@@ -307,7 +307,7 @@ const addBuildForm = [
         key: 'memo',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '请输入企业名称', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -362,6 +362,15 @@ const addRoomForm = [
         type: 'input',
         label: '面积',
         key: 'area',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input',
+        label: '地址',
+        key: 'address',
         placeholder: '请输入',
         rule: [
           { required: true, message: '该项为必填', trigger: 'blur' }
@@ -485,9 +494,9 @@ const addCustomerForm = [
         type: 'input',
         label: '跟进人',
         key: 'receiver',
-        placeholder: '请输入租客名称',
+        placeholder: '请输入企业名称',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '请输入企业名称', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -567,7 +576,7 @@ const addCustomerForm = [
         key: 'email',
         placeholder: '请输入邮箱',
         rule: [
-          // { required: true, message: '请输入租客名称', trigger: 'blur' },
+          // { required: true, message: '请输入企业名称', trigger: 'blur' },
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -584,7 +593,7 @@ const addCustomerForm = [
     ]
   },
   {
-    title: '房源信息',
+    title: '意向房源',
     span: 24,
     children: [
       {
@@ -592,7 +601,7 @@ const addCustomerForm = [
         label: '需求面积',
         key: 'demand_area',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
           // {
@@ -615,7 +624,7 @@ const addCustomerForm = [
         label: '需求工位',
         key: 'work_station',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: [
           // {
@@ -639,7 +648,7 @@ const addCustomerForm = [
         key: 'demand_ts',
         placeholder: '请选择',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       {
@@ -648,7 +657,7 @@ const addCustomerForm = [
         multiple: true, // 是否多选
         key: 'room',
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: []
       }
@@ -727,7 +736,20 @@ const addContractForm = [
   },
   {
     title: '房源信息',
+    span: 24,
+    itemSpan: 12,
     children: [
+      {
+        type: 'select',
+        label: '所属园区',
+        key: 'park_id',
+        placeholder: '请选择',
+        options: [
+        ],
+        rule: [
+          { required: true, message: '请选择', trigger: ['change', 'blur'] }
+        ]
+      },
       {
         type: 'cascader',
         label: '房源信息',
@@ -984,13 +1006,6 @@ const addContractForm = [
         key: 'operate_state',
         placeholder: '请选择',
         options: [
-          // {
-          //   label: '互联网',
-          //   value: 1
-          // }, {
-          //   label: '金融',
-          //   value: 2
-          // }
         ]
       },
       {
@@ -1493,7 +1508,7 @@ const leaveForm = [
     children: [
       {
         type: 'input',
-        label: '租客名称',
+        label: '企业名称',
         key: 'i',
         placeholder: '请输入',
         rule: [
@@ -1561,7 +1576,7 @@ const leaveForm = [
       },
       {
         type: 'input',
-        label: '租客编码',
+        label: '企业编码',
         key: 'i',
         placeholder: '请输入',
         rule: [
@@ -1997,7 +2012,7 @@ const complaintForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请上传图片', trigger: 'blur' },
+          // { required: true, message: '请上传图片', trigger: 'blur' },
           { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
@@ -2012,7 +2027,7 @@ const complaintForm = [
         key: 'domain_id',
         multiple: false, // 是否多选
         rule: [
-          { required: true, message: '请选择', trigger: 'change' }
+          // { required: true, message: '请选择', trigger: 'change' }
         ],
         options: []
       }
@@ -2039,9 +2054,9 @@ const paymentForm = [
         type: 'input',
         label: '付款方',
         key: 'payer',
-        placeholder: '请输入租客名称',
+        placeholder: '请输入企业名称',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '请输入企业名称', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -2049,9 +2064,9 @@ const paymentForm = [
         type: 'input',
         label: '联系人',
         key: 'contacter',
-        placeholder: '请输入租客名称',
+        placeholder: '请输入企业名称',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '请输入企业名称', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -2215,7 +2230,7 @@ const financialForm = [
         key: 'cost',
         placeholder: '请输入金额',
         rule: [
-          { required: true, message: '请输入租客名称', trigger: 'blur' }
+          { required: true, message: '请输入企业名称', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },

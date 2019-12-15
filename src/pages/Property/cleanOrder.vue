@@ -140,17 +140,17 @@ export default {
       addContractVisible: false,
       addContractFormList: [
         {
-          title: '租客信息',
+          title: '企业信息',
           span: 12,
           minHeight: 350,
           children: [
             {
               type: 'input',
-              label: '租客名称',
+              label: '企业名称',
               key: 'i',
-              placeholder: '请输入租客名称',
+              placeholder: '请输入企业名称',
               rule: [
-                { required: true, message: '请输入租客名称', trigger: 'blur' },
+                { required: true, message: '请输入企业名称', trigger: 'blur' },
                 { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
               ]
             }

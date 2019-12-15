@@ -33,7 +33,7 @@ const businessCustomer = [
     label: '联系方式'
   },
   {
-    prop: 'i',
+    prop: 'demand_ts',
     label: '预计签约时间'
   },
   {
@@ -219,7 +219,7 @@ const equipmentList = [
 const repairList = [
   {
     prop: 'customer',
-    label: '租客名称'
+    label: '企业名称'
   },
   {
     prop: 'originator',
@@ -251,7 +251,7 @@ const repairList = [
 const complaintList = [
   {
     prop: 'customer',
-    label: '租客名称'
+    label: '企业名称'
   },
   {
     prop: 'originator',
