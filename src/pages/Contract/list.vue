@@ -38,7 +38,7 @@
       <el-row :gutter="20">
         <el-col :span="18">
           <div class="chart">
-            <v-chart style="width:100%;height: 300px;" :options="barOptions"></v-chart>
+            <v-chart style="width:100%;height: 300px;" :options="barOptions" @click="endContract"></v-chart>
           </div>
         </el-col>
         <el-col :span="6">
@@ -278,10 +278,16 @@ export default {
         total: 0,
         page_size: 5
       },
-      company_id: ''
+      company_id: '',
+      end_ts: 0
     }
   },
   methods: {
+    endContract (event, instance, echarts) {
+      this.end_ts = event.dataIndex + 1
+      this.fetchList()
+    },
+
     handleAddContract () {
       this.addContractVisible = true
     },
@@ -322,6 +328,8 @@ export default {
         { name: '签订时间', value: (data.property_sign_ts || '-') },
         { name: '押金', value: (data.property_deposit || '-') + '元' },
         { name: '合同单价', value: (data.property_unit_price || '-') + '元/㎡·天' },
+        { name: '公摊', value: (data.equal_share || '-') + '元/㎡·天' },
+        { name: '能耗', value: (data.energy_consume || '-') + '元/㎡·天' },
         { name: '月物业费', value: (data.property_month_rent || '-') + '元' },
         { name: '年物业费', value: (data.property_year_rent || '-') + '元' },
         { name: '付款周期', value: (data.property_pay_cycle || '-') + '月一付' },
@@ -361,7 +369,12 @@ export default {
         state: this.contract_state,
         customer_name: this.customer_name
       }
+      if (this.end_ts) {
+        params.end_ts = this.end_ts
+      }
+      console.log(params.end_ts)
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
+        this.end_ts = 0
         if (res.code === 1000 && res.list.length) {
           let list = res.list
           let params = ['state', 'trade', 'charge_type', 'tenancy_divide', 'contract_type']
@@ -457,7 +470,10 @@ export default {
           dateArr.forEach(item => {
             arr.push(res.list[item])
           })
+          console.log(res)
+
           this.barOptions.series[0].data = arr
+
           this.infoList = [
             { name: '合同总数量', unit: '个', value: 0 },
             { name: '合同总金额', unit: '万元', value: 0 },

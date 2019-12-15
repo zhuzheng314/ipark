@@ -27,13 +27,13 @@
       </div>
     </div>
     <div v-if="type==2">
-      <el-table :data="info.tableData" :style="{width: 144 * info.label.length}">
+      <el-table :data="info.tableData" :style="{width: 144 * info.label.length,minWidth: '1146px'}">
       <el-table-column
         v-for="(item,i) in info.label"
         :key="(item,i)"
         :prop="item.prop"
         :label="item.label"
-        :width="144">
+        :width="144 * info.label.length >= 1146 ? 144 : 1146 / info.label.length">
         </el-table-column>
       </el-table>
     </div>
@@ -73,6 +73,13 @@ export default {
     handleOpenImg (url) {
       window.open(url)
     }
+  },
+  mounted () {
+    this.info.tableData.forEach(arr => {
+      for (var i in arr) {
+        arr[i] = arr[i] || '-'
+      }
+    })
   }
 }
 </script>

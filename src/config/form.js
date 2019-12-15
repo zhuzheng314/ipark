@@ -1267,6 +1267,26 @@ const addContractForm = [
       },
       {
         type: 'input-num',
+        label: '公摊(元/㎡·天)',
+        key: 'equal_share',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
+        label: '能耗(元/㎡·天)',
+        key: 'energy_consume',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input-num',
         label: '月物业费',
         key: 'property_month_rent',
         placeholder: '请输入',
