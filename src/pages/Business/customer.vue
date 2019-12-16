@@ -112,6 +112,13 @@
     </el-card>
 <!-- 新增客户 -->
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建客户"
       :visible.sync="addVisible"
       width="600px">
@@ -129,6 +136,13 @@
     </el-dialog>
 <!-- 修改客户 -->
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改客户"
       :visible.sync="modifyVisible"
       width="600px">
@@ -145,6 +159,13 @@
     </el-dialog>
 <!-- 新建合同 -->
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建合同"
       top="10px"
       width="950px"

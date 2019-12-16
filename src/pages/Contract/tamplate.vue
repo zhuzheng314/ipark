@@ -53,6 +53,13 @@
       </GTable>
     </el-card>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建合同模板"
       :visible.sync="addVisible"
       width="600px">
@@ -69,6 +76,13 @@
       </div>
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改合同模板"
       :visible.sync="modifyVisible"
       width="600px">

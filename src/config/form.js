@@ -1094,7 +1094,7 @@ const addContractForm = [
         key: 'rent_area',
         placeholder: '请输入',
         rule: [
-          // { required: true, message: '该项为必填', trigger: 'blur' }
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -1119,7 +1119,7 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '合同单价(元/㎡·天)',
+        label: '合同单价(元/㎡·月)',
         key: 'unit_price',
         placeholder: '请输入',
         rule: [
@@ -1233,6 +1233,7 @@ const addContractForm = [
         key: 'manage_area',
         placeholder: '请输入',
         rule: [
+          { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -1257,7 +1258,7 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '合同单价(元/㎡·天)',
+        label: '合同单价(元/㎡·月)',
         key: 'property_unit_price',
         placeholder: '请输入',
         rule: [
@@ -1271,7 +1272,7 @@ const addContractForm = [
         key: 'property_month_rent',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -1323,28 +1324,37 @@ const addContractForm = [
         rule: [
           { required: true, message: '该项为必填', trigger: 'change' }
         ]
+      }
+    ]
+  },
+  {
+    title: '合同备注',
+    span: 24,
+    itemSpan: 15,
+    minHeight: 150,
+    padding: '0 10px 0',
+    margin: '',
+    children: [
+      {
+        type: 'upload-img',
+        label: '图片',
+        key: 'attached',
+        placeholder: '请输入',
+        rule: [
+        ]
       },
       {
-        type: 'date-picker',
-        label: '结束时间',
-        key: 'property_fee_end_ts',
-        placeholder: '请选择日期',
+        type: 'textarea',
+        label: '备注',
+        key: 'memo',
+        placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'change' }
+          // { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
     ]
   }
-  // {
-  //   title: '物业费条款',
-  //   span: 24,
-  //   itemSpan: 8,
-  //   minHeight: 150,
-  //   padding: '0 10px 0',
-  //   margin: '',
-  //   children: [
-  //   ]
-  // }
 ]
 // 合同模板
 const tamplateForm = [

@@ -19,8 +19,8 @@
                 <div class="value">{{item.cover_area || '-'}}㎡</div>
               </div>
             </div>
-            <i class="el-icon-edit" @click="handleEditParkClick(item)"></i>
-            <i class="el-icon-delete" @click="handleRemovePark(item)"></i>
+<!--            <i class="el-icon-edit" @click="handleEditParkClick(item)"></i>-->
+<!--            <i class="el-icon-delete" @click="handleRemovePark(item)"></i>-->
           </div>
         </div>
         <div v-else>
@@ -31,7 +31,24 @@
     <div class="right">
       <div v-if="$store.state.form.parkList.length">
         <el-card v-loading="$store.state.loading" style="margin-bottom: 10px">
-          <div style="color: #666; font-size: 16px;" slot="header">{{$store.state.form.activePark.name}}</div>
+          <div style="color: #666; font-size: 16px;" slot="header">
+            <div style="width: 30%; float: left; font-size: 20px">
+              {{$store.state.form.activePark.name}}
+            </div>
+            <div style="width: 69%; float: right; text-align: right">
+              <el-button
+                size="small"
+                icon="el-icon-edit"
+                @click="handleEditParkClick($store.state.form.activePark)"
+              >修改</el-button>
+              <el-button
+                size="small"
+                icon="el-icon-delete"
+                @click="handleRemovePark($store.state.form.activePark)"
+              >删除</el-button>
+            </div>
+            <div style="clear: both"></div>
+          </div>
           <div class="top-card-wrap">
             <InfoBox
               style="float: left; margin:0 30px 10px 0px"
@@ -39,14 +56,7 @@
               :key="'info' + index"
               :data="item"
             ></InfoBox>
-            <i class="el-icon-arrow-right icon-close"
-               v-if="!show"
-               @click="show = !show"
-            ></i>
-            <i class="el-icon-arrow-down icon-close"
-               v-if="show"
-               @click="show = !show"
-            ></i>
+
 <!--            <div style="clear: both"></div>-->
           </div>
           <el-collapse-transition>
@@ -70,6 +80,14 @@
               </div>
             </div>
           </el-collapse-transition>
+          <div class="handle-close" @click="show = !show">
+            <i class="el-icon-arrow-down icon-close"
+               v-if="!show"
+            ></i>
+            <i class="el-icon-arrow-up icon-close"
+               v-if="show"
+            ></i>
+          </div>
         </el-card>
         <el-card>
           <div slot="header">
@@ -95,6 +113,7 @@
           <el-table
             ref="filterTable"
             :data="$store.state.form.buildList"
+            @row-click="handleRowClick"
             style="width: 100%">
             <el-table-column
               prop="name"
@@ -145,15 +164,15 @@
               prop="rent_rooms"
               label="可招租房源数量">
             </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作"
-              width="100">
-              <template slot-scope="scope">
-                <el-button @click="handleRowClick(scope.row)" type="text" size="small">查看</el-button>
-                <el-button @click="fetchRemoveBuild(scope.row)"  type="text" size="small">删除</el-button>
-              </template>
-            </el-table-column>
+<!--            <el-table-column-->
+<!--              fixed="right"-->
+<!--              label="操作"-->
+<!--              width="100">-->
+<!--              <template slot-scope="scope">-->
+<!--                <el-button @click="handleRowClick(scope.row)" type="text" size="small">查看</el-button>-->
+<!--                <el-button @click="fetchRemoveBuild(scope.row)"  type="text" size="small">删除</el-button>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
           </el-table>
           <el-pagination
             style="text-align: right;margin-top: 20px"
@@ -172,6 +191,13 @@
       </el-card>
     </div>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       destroy-on-close
       title="添加园区"
       :visible.sync="addShow"
@@ -191,6 +217,13 @@
 
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       :destroy-on-close="true"
       title="修改园区信息"
       :visible.sync="editParkShow"
@@ -218,6 +251,13 @@
 
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       :destroy-on-close="true"
       title="添加楼宇"
       :visible.sync="addShowBuild"
@@ -648,16 +688,20 @@ export default {
       display: flex;
       justify-content: space-between;
       padding: 0 10px;
+    }
+    .handle-close{
+      width: 100%;
+      text-align: center;
+      margin: 5px 0 -15px;
+      cursor: pointer;
       .icon-close{
         font-size: 30px;
-        line-height: 100px;
-        margin-right: -10px;
-        cursor: pointer;
       }
       .icon-close:hover{
         color: #358dd8;
       }
     }
+
     .tablecard{
       .img{
         width: 96px;
