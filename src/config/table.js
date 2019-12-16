@@ -107,7 +107,7 @@ const applyList = [
     label: '所属园区'
   },
   {
-    prop: 'company_name',
+    prop: 'customer_name',
     label: '企业名称'
   },
   {
@@ -218,7 +218,7 @@ const equipmentList = [
 // 报修管理
 const repairList = [
   {
-    prop: 'customer',
+    prop: 'customer_name',
     label: '企业名称'
   },
   {
@@ -250,7 +250,7 @@ const repairList = [
 // 投诉管理
 const complaintList = [
   {
-    prop: 'customer',
+    prop: 'customer_name',
     label: '企业名称'
   },
   {

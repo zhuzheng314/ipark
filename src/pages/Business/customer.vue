@@ -199,7 +199,7 @@
           </div>
         </template>
       </HeaderCard>
-      <div class="drawer-body" style="height: 660px;">
+      <div class="drawer-body">
         <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_2"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
@@ -547,14 +547,10 @@ export default {
         this.customerInfo_body_table.info.tableData = []
         if (res.list.length) {
           let roomList = res.list[0].room
-          for (let i = 0; i < roomList.length; i++) {
-            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
-          }
-          this.customerInfo_body_2.info.tableData = roomList
+          this.$dictionary.tableData(roomList, ['state'])
+          this.customerInfo_body_2.info.tableData = roomLists
           let contractList = res.list
-          for (let i = 0; i < contractList.length; i++) {
-            contractList[i].state = this.$store.getters.getDicById(contractList[i].state)
-          }
+          this.$dictionary.tableData(contractList, ['state'])
           this.customerInfo_body_table.info.tableData = contractList
         }
       })
@@ -590,5 +586,8 @@ export default {
 @import '../../assets/style/index.less';
   .el-card{
     margin-bottom: 20px;
+  }
+  .drawer-body{
+    // height: ~"calc(100% - 110px)";
   }
 </style>
