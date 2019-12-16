@@ -17,6 +17,7 @@ import CleanOrder from '@/pages/Property/cleanOrder.vue' // 保洁
 import RepairOrder from '@/pages/Property/repairOrder.vue' // 报修
 import ReportOrder from '@/pages/Property/reportOrder.vue' // 报事
 import ComplaintOrder from '@/pages/Property/complaintOrder.vue' // 投诉
+import Charges from '@/pages/Financial/charges.vue' // 财务列表
 import FinancialList from '@/pages/Financial/list.vue' // 财务列表
 import FinancialIncome from '@/pages/Financial/income.vue' // 财务收入
 import FinancialOther from '@/pages/Financial/otherlist.vue' // 财务其他
@@ -213,7 +214,12 @@ const routes = [
     component: BasicLayout,
     children: [
       {
-        path: 'list',
+        path: 'charges', // 费用收取
+        name: 'charges',
+        component: Charges
+      },
+      {
+        path: 'list', // 费用列支
         name: 'financialList',
         component: FinancialList
       },

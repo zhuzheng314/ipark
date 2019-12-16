@@ -4,7 +4,7 @@
 <!--      <div slot="header">-->
 <!--        <el-select-->
 <!--        size="small"-->
-<!--        v-model="value1"-->
+<!--        v-model="work_state"-->
 <!--        clearable-->
 <!--        @change="fetchListSearch"-->
 <!--        placeholder="工单状态">-->
@@ -46,7 +46,7 @@
       <div slot="header">
         <el-select
           size="small"
-          v-model="value1"
+          v-model="work_state"
           clearable
           @change="fetchListSearch"
           placeholder="工单状态">
@@ -191,7 +191,7 @@ export default {
           label: '待解决'
         }
       ],
-      value1: '',
+      work_state: '',
       value2: '',
       addVisible: false,
       tamplateFormList: [
@@ -389,7 +389,8 @@ export default {
     fetchList () { // 获取报修工单列表
       let params = {
         ...this.page,
-        park_id: this.$store.state.form.activePark.domain_id
+        park_id: this.$store.state.form.activePark.domain_id,
+        repair_state: this.work_state
       }
       this.$https.post(this.$urls.repair.get_list, params).then((res) => {
         // console.log(res)

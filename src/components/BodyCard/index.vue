@@ -27,7 +27,7 @@
       </div>
     </div>
     <div v-if="type==2">
-      <el-table :data="info.tableData" :style="{width: 144 * info.label.length,minWidth: '1146px'}">
+      <!-- <el-table :data="info.tableData" :style="{width: 144 * info.label.length,minWidth: '1146px'}">
       <el-table-column
         v-for="(item,i) in info.label"
         :key="(item,i)"
@@ -35,7 +35,11 @@
         :label="item.label"
         :width="144 * info.label.length >= 1146 ? 144 : 1146 / info.label.length">
         </el-table-column>
-      </el-table>
+      </el-table> -->
+      <GTable
+        :tableLabel="info.label"
+        :tableData="info.tableData">
+      </GTable>
     </div>
     <div v-if="type==3">
       <div class="bodyCard-text">{{data.info ? data.info : '暂无备注'}}</div>

@@ -104,21 +104,25 @@ const menuList = [
     icon: '\ue604',
     children: [
       {
-        name: '房租费用',
-        path: '/financial/rent'
+        name: '费用收取',
+        path: '/financial/charges'
       },
-      {
-        name: '物业费用',
-        path: '/financial/property'
-      },
-      {
-        name: '水电费用',
-        path: '/financial/water'
-      },
-      {
-        name: '其他费用',
-        path: '/financial/other'
-      },
+      // {
+      //   name: '房租费用',
+      //   path: '/financial/rent'
+      // },
+      // {
+      //   name: '物业费用',
+      //   path: '/financial/property'
+      // },
+      // {
+      //   name: '水电费用',
+      //   path: '/financial/water'
+      // },
+      // {
+      //   name: '其他费用',
+      //   path: '/financial/other'
+      // },
       {
         name: '费用列支',
         path: '/financial/list'

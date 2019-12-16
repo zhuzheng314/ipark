@@ -45,7 +45,7 @@
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
-          :defaultValue="addDefaultValue"
+          :defaultValue="addBuildDefaultValue"
          >
         </ParkForm>
       </div>
