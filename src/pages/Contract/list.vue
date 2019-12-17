@@ -379,6 +379,7 @@ export default {
           let list = res.list
           let params = ['state', 'trade', 'charge_type', 'tenancy_divide', 'contract_type']
           this.$dictionary.tableData(list, params)
+          this.$utils.getRooms(list)
           this.page.total = res.total
           this.tableData = []
           this.tableData = list

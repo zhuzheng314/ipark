@@ -473,6 +473,7 @@ export default {
         let list = res.list
         let params = ['type']
         this.$dictionary.tableData(list, params)
+        // this.$utils.getRooms(res.list)
         this.page.total = res.total
         this.tableData = []
         this.tableData = res.list
