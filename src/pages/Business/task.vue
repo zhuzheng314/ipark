@@ -80,9 +80,16 @@
 
     <el-dialog
       title="新建客户"
+      v-if="addContractVisible"
       :visible.sync="addContractVisible"
-      width="600px"
-      :before-close="handleClose">
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+      width="600px">
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>

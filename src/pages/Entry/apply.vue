@@ -68,13 +68,20 @@
 
     <el-dialog
       title="新建进驻"
+      v-if="addVisible"
       :visible.sync="addVisible"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
         @onCancel="() => {this.addVisible = false}"
-        v-if="addVisible"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"
         :defaultValue="{}"
@@ -84,13 +91,20 @@
     </el-dialog>
     <el-dialog
       title="修改进驻"
+      v-if="modifyVisible"
       :visible.sync="modifyVisible"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       width="800px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
         @onCancel="() => {this.modifyVisible = false}"
-        v-if="modifyVisible"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"
         :defaultValue="defaultValue"
