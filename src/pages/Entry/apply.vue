@@ -358,7 +358,11 @@ export default {
             this.addVisible = false
             this.$message.success('添加成功')
           } else {
-            this.$message.error('添加失败')
+            if (res.code === 1001) {
+              this.$message.error('该用户已经入驻')
+            } else {
+              this.$message.error('添加失败')
+            }
           }
         })
     },

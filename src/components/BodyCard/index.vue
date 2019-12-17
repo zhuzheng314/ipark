@@ -7,7 +7,7 @@
         <slot name="btn"></slot>
       </div>
     </div>
-    <div v-if="type==1" style="padding: 20px">
+    <div v-if="type==1" style="padding: 20px; overflow: hidden">
       <div class="bodyCard-infoBox" v-for="(item,i) of data.info" :key="(item,i)">
         <span class="bodyCard-infoBox-name">{{item.name}}</span>
         <span>:</span>
@@ -106,7 +106,7 @@ export default {
     }
   }
   .bodyCard-infoBox{
-    width: 376px;
+    width: 33%;
     height: 40px;
     line-height: 40px;
     float: left;
