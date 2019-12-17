@@ -135,7 +135,7 @@
           </HeaderCard>
           <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
 
-          <div class="drawer-body" style="height: 500px;">
+          <div class="drawer-body" style="height: 600px">
             <BodyCard type='img' :data="{
               title: '房屋图片',
               ...roomInfo
@@ -509,21 +509,6 @@ export default {
           this.roomInfo_body_table2.info.tableData = data
         }
       })
-    },
-    handleSelect (data, type) {
-      // if (type === 'area') {
-
-      // } else if (type === 'end_ts') {
-
-      // }
-      // let params = {
-      //     pid: this.buildId,
-      //     page_no: 1,
-      //     page_size: 20,
-      //     area: this.demand_area,
-      //     end_ts: this.contract_term
-      //   }
-      // this.$store.dispatch('getRoomList', params)
     },
     open (i) {
       if (i === '修改房间') {

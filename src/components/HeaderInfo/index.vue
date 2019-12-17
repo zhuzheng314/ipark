@@ -1,6 +1,6 @@
 <template>
 <div class="headerInfo">
-  <el-card class="box-card" shadow="never">
+  <el-card class="box-card">
     <el-table v-if="type==1" :data="data.tableData" style="width: 100%">
       <el-table-column
         v-for="(item,i) in label"
@@ -37,8 +37,9 @@ export default {
 @import '../../assets/style/index.less';
 
 .headerInfo{
-
-    border-top: 2px solid #B2E0F4;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid #B2E0F4;
   /deep/ .box-card{
     height: 99px;
     border-bottom: none;

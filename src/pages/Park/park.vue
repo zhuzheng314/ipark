@@ -270,6 +270,9 @@
           @onSubmit="fetchAddBuild"
           :formList="$formsLabels.addBuildForm"
           :options="$store.getters.parkListOptions"
+          :defaultValue="{
+            pid: this.$store.state.form.activePark.domain_id
+          }"
           :itemList="[]">
         </ParkForm>
       </div>
