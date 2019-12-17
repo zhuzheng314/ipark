@@ -360,7 +360,7 @@ const addRoomForm = [
         key: 'address',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { required: true, message: '该项为必填', trigger: 'blur' }
         ]
       },
       {
@@ -434,8 +434,8 @@ const addRoomForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { validator: validateUpload, trigger: ['blur', 'change'] }
+          // { required: true, message: '该项为必填', trigger: 'blur' },
+          // { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -676,16 +676,6 @@ const addContractForm = [
         ]
       },
       {
-        type: 'select',
-        label: '客户',
-        key: 'customer_id',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'change' }
-        ],
-        options: []
-      },
-      {
         type: 'input',
         label: '跟进商务',
         key: 'follow_business',
@@ -720,6 +710,22 @@ const addContractForm = [
           //   value: 2
           // }
         ]
+      },
+      {
+        type: 'select',
+        label: '客户',
+        key: 'customer_id',
+        placeholder: '请输入',
+        span: 11,
+        showIcon: true,
+        iconName: '',
+        iconMethods: () => {
+          window.open('/#/business/customer')
+        },
+        rule: [
+          { required: true, message: '该项为必填', trigger: 'change' }
+        ],
+        options: []
       }
     ]
   },
@@ -1237,15 +1243,15 @@ const addContractForm = [
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
-      {
-        type: 'date-picker',
-        label: '签订时间',
-        key: 'property_sign_ts',
-        placeholder: '请选择日期',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'change' }
-        ]
-      },
+      // {
+      //   type: 'date-picker',
+      //   label: '签订时间',
+      //   key: 'property_sign_ts',
+      //   placeholder: '请选择日期',
+      //   rule: [
+      //     { required: true, message: '该项为必填', trigger: 'change' }
+      //   ]
+      // },
       {
         type: 'input-num',
         label: '押金(元)',
@@ -1268,7 +1274,7 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '公摊(元/㎡·天)',
+        label: '公摊(元/㎡·月)',
         key: 'equal_share',
         placeholder: '请输入',
         rule: [
@@ -1278,7 +1284,7 @@ const addContractForm = [
       },
       {
         type: 'input-num',
-        label: '能耗(元/㎡·天)',
+        label: '能耗(元/㎡·月)',
         key: 'energy_consume',
         placeholder: '请输入',
         rule: [
