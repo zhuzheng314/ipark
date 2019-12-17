@@ -47,21 +47,19 @@
 // 小标题竖线
 .title-style(){
 	width: 100%;
-	height: 48px;
-	padding-left: 30px;
 	position: relative;
 	color: @text-color;
 	font-size: 18px;
-	line-height: 48px;
+	padding-left: 10px;
 	box-sizing: border-box;
 	&:before{
 		content: "";
 		display: block;
 		width: 4px;
 		height: 18px;
+		left: 0px;
 		position: absolute;
 		top: 50%;
-    left: 16px;
 		transform: translateY(-50%);
 		background: @blue;
 	}
