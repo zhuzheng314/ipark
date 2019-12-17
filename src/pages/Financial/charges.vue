@@ -388,7 +388,9 @@ export default {
         ...this.$store.getters.expenseListOptions
         // type: this.$store.state.dictionary.dictionaryType['charge_type']
       },
-      addDefaultValue: {},
+      addDefaultValue: {
+
+      },
       defaultValue: {},
       page: {
         page_no: 1,
@@ -466,7 +468,7 @@ export default {
               type: 'cascader',
               label: '房源信息',
               multiple: true, // 是否多选
-              key: 'room_id',
+              key: 'charge_room',
               rule: [
                 // { required: true, message: '请选择', trigger: 'change' }
               ],

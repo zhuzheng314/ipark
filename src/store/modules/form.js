@@ -280,7 +280,7 @@ const form = {
         // state: dictionary.state.dictionaryType['expense_state'],
         type: dictionary.state.dictionaryType['charge_type'],
         customer_id: state.customerList,
-        room_id: getters.buildTreeWithDisabled
+        charge_room: getters.buildTreeWithDisabled
 
       }
     }
@@ -331,7 +331,7 @@ const form = {
         return {
           ...x,
           label: x.name,
-          value: x.customer_id
+          value: x.id
         }
       })
     }
