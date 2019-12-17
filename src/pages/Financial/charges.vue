@@ -609,11 +609,11 @@ export default {
         let customer = this.$store.state.form.customerList
         customer.forEach(v => {
           if (v.id === data.value) {
-            this.formOptions.contacter = v.contacter
-            this.formOptions.contact = v.contact
+            this.addDefaultValue.contacter = v.contacter
+            this.addDefaultValue.contact = v.contact
           }
         })
-        console.log(this.formOptions.contacter)
+        console.log(this.addDefaultValue.contacter)
       }
     },
     // setForm (keys) {
