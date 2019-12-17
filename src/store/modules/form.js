@@ -276,8 +276,12 @@ const form = {
     // 费用
     expenseListOptions: (state, getters) => {
       return {
-        contract_code: state.contractList,
-        state: dictionary.state.dictionaryType['expense_state']
+        // contract_code: state.contractList,
+        // state: dictionary.state.dictionaryType['expense_state'],
+        type: dictionary.state.dictionaryType['charge_type'],
+        customer_id: state.customerList,
+        room_id: getters.buildTreeWithDisabled
+
       }
     }
   },

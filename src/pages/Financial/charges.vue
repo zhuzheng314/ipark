@@ -101,12 +101,18 @@
       width="600px">
       <div>
         <ParkForm
+          @onChange="selectType"
           @onSubmit="fetchAdd"
           @onCancel="() => {this.addVisible = false}"
           v-if="addVisible"
-          :formList="$formsLabels.expenseForm"
+          :defaultHidden="defaultHidden"
+          :formList="expenseForm"
           :options="formOptions"
           :defaultValue="addDefaultValue"
+          :default-disabled="{
+            create_ts: true,
+            updater: true
+          }"
           :itemList="[]"
         ></ParkForm>
       </div>
@@ -151,7 +157,6 @@
         <BodyCard type=2 :data="info_body_water"></BodyCard>
         <BodyCard type=2 :data="info_body_electric"></BodyCard>
         <BodyCard type=2 :data="info_body_gas"></BodyCard>
-        <BodyCard type=2 :data="info_body_property"></BodyCard>
         <BodyCard type=2 :data="info_body_lease"></BodyCard>
         <BodyCard type=2 :data="info_body_other"></BodyCard>
       </div>
@@ -348,9 +353,6 @@ export default {
           tableData: []
         }
       },
-      info_body_property: {
-
-      },
       info_body_lease: {
         title: '租赁信息',
         info: {
@@ -383,8 +385,8 @@ export default {
         }
       },
       formOptions: {
-        ...this.$store.getters.expenseListOptions,
-        type: this.$store.state.dictionary.dictionaryType['charge_type']
+        ...this.$store.getters.expenseListOptions
+        // type: this.$store.state.dictionary.dictionaryType['charge_type']
       },
       addDefaultValue: {},
       defaultValue: {},
@@ -394,11 +396,238 @@ export default {
         page_size: 5
       },
       receipt: '',
-      receiptNum: 0
-
+      receiptNum: 0,
+      defaultHidden: {},
+      expenseForm: [
+        {
+          title: '账单',
+          children: [
+            {
+              type: 'select',
+              label: '费用类型',
+              key: 'type',
+              placeholder: '请选择费用类型',
+              rule: [
+                { required: true, message: '请选择费用类型', trigger: 'change' }
+              ],
+              options: [
+              ]
+            },
+            {
+              type: 'select',
+              label: '客户名称',
+              key: 'customer_id',
+              placeholder: '请选择客户名称',
+              rule: [
+                { required: true, message: '请选择客户名称', trigger: 'change' }
+              ],
+              options: [
+              ]
+            },
+            {
+              type: 'input',
+              label: '联系人',
+              key: 'contacter',
+              placeholder: '请输入',
+              rule: [
+                // { required: true, message: '该项为必填', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '联系方式',
+              key: 'contact',
+              placeholder: '请输入',
+              rule: [
+                // { required: true, message: '该项为必填', trigger: 'blur' },
+                { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '计费周期开始',
+              key: 'start_ts',
+              placeholder: '请选择',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '计费周期结束',
+              key: 'end_ts',
+              placeholder: '请选择',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'cascader',
+              label: '房源信息',
+              multiple: true, // 是否多选
+              key: 'room_id',
+              rule: [
+                // { required: true, message: '请选择', trigger: 'change' }
+              ],
+              options: []
+            },
+            {
+              type: 'input-num',
+              label: '期初数',
+              key: 'previous_val',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '期末数',
+              key: 'current_val',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'input-num',
+              label: '应收金额',
+              key: 'bill_money',
+              placeholder: '请输入',
+              rule: [
+                { required: true, message: '请输入', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '应收日期',
+              key: 'pay_date',
+              placeholder: '请选择',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '租赁物',
+              key: 'rental',
+              placeholder: '请输入租赁物名称',
+              rule: [
+                { required: true, message: '请输入租赁物名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'textarea',
+              label: '内容',
+              key: 'memo',
+              placeholder: '请输入租赁物名称',
+              rule: [
+                { required: true, message: '请输入租赁物名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '日期',
+              key: 'generate_ts',
+              placeholder: '请选择',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'date-picker',
+              label: '填单日',
+              key: 'create_ts',
+              placeholder: '请选择',
+              rule: [
+                { required: true, message: '请选择', trigger: 'change' }
+              ]
+            },
+            {
+              type: 'input',
+              label: '操作人',
+              key: 'updater',
+              placeholder: '请输入操作人名称',
+              rule: [
+                { required: true, message: '请输入操作人名称', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   methods: {
+    selectType (data) {
+      if (data.key === 'type') {
+        if (data.value === 413 || data.value === 414 || data.value === 458) { // 水费 电费 煤气
+          this.defaultHidden = {
+            room_id: true,
+            rental: true,
+            memo: true,
+            generate_ts: true
+          }
+          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'previous_val', 'current_val', 'bill_money', 'pay_date', 'create_ts', 'updater']
+          // this.setForm(keys)
+        } else if (data.value === 450 || data.value === 451) { // 房租 物业
+          this.defaultHidden = {
+            rental: true,
+            memo: true,
+            generate_ts: true,
+            previous_val: true,
+            current_val: true
+          }
+          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'room_id', 'bill_money', 'pay_date', 'create_ts', 'updater']
+          // this.setForm(keys)
+        } else if (data.value === 453) { // 租赁
+          this.defaultHidden = {
+            room_id: true,
+            memo: true,
+            generate_ts: true,
+            previous_val: true,
+            current_val: true
+          }
+          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'bill_money', 'pay_date', 'rental', 'create_ts', 'updater']
+          // this.setForm(keys)
+        } else if (data.value === 456) { // 其他
+          this.defaultHidden = {
+            room_id: true,
+            rental: true,
+            previous_val: true,
+            current_val: true
+          }
+          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'bill_money', 'pay_date', 'memo', 'generate_ts', 'create_ts', 'updater']
+          // this.setForm(keys)
+        }
+      }
+      if (data.key === 'customer_id') {
+        console.log(data)
+        let customer = this.$store.state.form.customerList
+        customer.forEach(v => {
+          if (v.id === data.value) {
+            this.formOptions.contacter = v.contacter
+            this.formOptions.contact = v.contact
+          }
+        })
+        console.log(this.formOptions.contacter)
+      }
+    },
+    // setForm (keys) {
+    //   let formKeys = [];
+    //   this.expenseForm[0].children = []
+    //   this.expenseFormOptions.forEach(options => {
+    //     keys.forEach(key => {
+    //       if(key === options.key){
+    //         formKeys.push(options)
+    //       }
+    //     })
+    //   });
+    //   this.expenseForm[0].children = formKeys
+    // },
     handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -417,6 +646,7 @@ export default {
       this.receipt = data
     },
     handleAdd () {
+      this.defaultHidden = {}
       this.addVisible = true
     },
     financialState (data) {
@@ -442,7 +672,6 @@ export default {
       this.fetchGetInfo(this.id)
       this.InfoState = true
     },
-    // handleClose () { },
     open (i) {
       if (i === '编辑') {
         this.InfoState = false

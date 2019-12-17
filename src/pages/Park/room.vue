@@ -194,7 +194,7 @@
           :formList="$formsLabels.addRoomForm"
           :options="$store.getters.buildListOptions"
           :defaultValue="defaultValue"
-          :disabled="disabled"
+          :default-disabled="disabled"
           :default-rules="{
             name:  [
               { required: true, message: '该项为必填', trigger: 'blur' },
