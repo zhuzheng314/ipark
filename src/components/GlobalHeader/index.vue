@@ -197,6 +197,7 @@ export default {
       }
     },
     axiosAll () {
+      this.$store.dispatch('getAccount')
       this.$store.dispatch('getDictionaryTree')
       this.$store.dispatch('getParkList', {
         page_no: 1,

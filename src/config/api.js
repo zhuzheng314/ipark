@@ -12,6 +12,8 @@ const baseUrl = domin + 'api'
 const uploadUrl = domin + 'upload'
 
 const api = {
+  // 获取用户名
+  account: `account.self.get_info`,
   // 获取域树
   tree: `account.domain.get_tree`,
   // 修改密码

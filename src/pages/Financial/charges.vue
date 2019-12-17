@@ -101,7 +101,7 @@
       width="600px">
       <div>
         <ParkForm
-          @onChange="selectType"
+          @onChange="formActive"
           @onSubmit="fetchAdd"
           @onCancel="() => {this.addVisible = false}"
           v-if="addVisible"
@@ -127,9 +127,16 @@
           @onSubmit="fetchModify"
           @onCancel="() => {this.modifyVisible = false}"
           v-if="modifyVisible"
-          :formList="$formsLabels.expenseForm"
+          :defaultHidden="defaultHidden"
+          :formList="expenseForm"
           :options="formOptions"
           :defaultValue="defaultValue"
+          :default-disabled="{
+            type: true,
+            customer_id: true,
+            create_ts: true,
+            updater: true
+          }"
           :itemList="[]"
         ></ParkForm>
       </div>
@@ -180,7 +187,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="visibleReceipt = false">取 消</el-button>
-        <el-button type="primary" @click="visibleReceipt = false">确 定</el-button>
+        <el-button type="primary" @click="fetchReceipt">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -201,7 +208,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="visibleSettle = false">取 消</el-button>
-        <el-button type="primary" @click="visibleSettle = false">确 定</el-button>
+        <el-button type="primary" @click="fetchSettle">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -388,7 +395,10 @@ export default {
         ...this.$store.getters.expenseListOptions
         // type: this.$store.state.dictionary.dictionaryType['charge_type']
       },
-      addDefaultValue: {},
+      addDefaultValue: {
+        create_ts: new Date(),
+        updater: this.$store.state.form.account || '工作人员'
+      },
       defaultValue: {},
       page: {
         page_no: 1,
@@ -466,9 +476,9 @@ export default {
               type: 'cascader',
               label: '房源信息',
               multiple: true, // 是否多选
-              key: 'room_id',
+              key: 'record_room',
               rule: [
-                // { required: true, message: '请选择', trigger: 'change' }
+                { required: true, message: '请选择', trigger: 'change' }
               ],
               options: []
             },
@@ -563,49 +573,45 @@ export default {
   },
   methods: {
     selectType (data) {
-      if (data.key === 'type') {
-        if (data.value === 413 || data.value === 414 || data.value === 458) { // 水费 电费 煤气
-          this.defaultHidden = {
-            room_id: true,
-            rental: true,
-            memo: true,
-            generate_ts: true
-          }
-          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'previous_val', 'current_val', 'bill_money', 'pay_date', 'create_ts', 'updater']
-          // this.setForm(keys)
-        } else if (data.value === 450 || data.value === 451) { // 房租 物业
-          this.defaultHidden = {
-            rental: true,
-            memo: true,
-            generate_ts: true,
-            previous_val: true,
-            current_val: true
-          }
-          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'room_id', 'bill_money', 'pay_date', 'create_ts', 'updater']
-          // this.setForm(keys)
-        } else if (data.value === 453) { // 租赁
-          this.defaultHidden = {
-            room_id: true,
-            memo: true,
-            generate_ts: true,
-            previous_val: true,
-            current_val: true
-          }
-          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'bill_money', 'pay_date', 'rental', 'create_ts', 'updater']
-          // this.setForm(keys)
-        } else if (data.value === 456) { // 其他
-          this.defaultHidden = {
-            room_id: true,
-            rental: true,
-            previous_val: true,
-            current_val: true
-          }
-          // keys = ['type', 'customer_id', 'contacter', 'contact', 'start_ts', 'end_ts', 'bill_money', 'pay_date', 'memo', 'generate_ts', 'create_ts', 'updater']
-          // this.setForm(keys)
+      if (data.value === 413 || data.value === 414 || data.value === 458) { // 水费 电费 煤气
+        this.defaultHidden = {
+          record_room: true,
+          rental: true,
+          memo: true,
+          generate_ts: true
+        }
+      } else if (data.value === 450 || data.value === 451) { // 房租 物业
+        this.defaultHidden = {
+          rental: true,
+          memo: true,
+          generate_ts: true,
+          previous_val: true,
+          current_val: true
+        }
+      } else if (data.value === 453) { // 租赁
+        this.defaultHidden = {
+          record_room: true,
+          memo: true,
+          generate_ts: true,
+          previous_val: true,
+          current_val: true
+        }
+      } else if (data.value === 456) { // 其他
+        this.defaultHidden = {
+          record_room: true,
+          rental: true,
+          previous_val: true,
+          current_val: true
         }
       }
+    },
+    formActive (data) {
+      console.log(this.$store.getters.expenseListOptions)
+
+      if (data.key === 'type') {
+        this.selectType(data)
+      }
       if (data.key === 'customer_id') {
-        console.log(data)
         let customer = this.$store.state.form.customerList
         let obj = {}
         customer.forEach(v => {
@@ -614,22 +620,16 @@ export default {
             obj.contact = v.contact
           }
         })
-        this.addDefaultValue = obj
-        console.log(this.addDefaultValue.contacter)
+        this.addDefaultValue = { ...this.addDefaultValue, ...obj }
+        this.$https.post(this.$urls.park.get_tree_list, {
+          page_size: 999,
+          page_no: 1,
+          customer_id: data.value
+        }).then(res => {
+          console.log(res)
+        })
       }
     },
-    // setForm (keys) {
-    //   let formKeys = [];
-    //   this.expenseForm[0].children = []
-    //   this.expenseFormOptions.forEach(options => {
-    //     keys.forEach(key => {
-    //       if(key === options.key){
-    //         formKeys.push(options)
-    //       }
-    //     })
-    //   });
-    //   this.expenseForm[0].children = formKeys
-    // },
     handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -637,18 +637,54 @@ export default {
         })
         .catch(_ => {})
     },
-    handleReceipt (data) {
+    handleReceipt (data) { // 收款
       this.receipt = {}
       this.visibleReceipt = true
       this.receipt = data
     },
-    handleSettle (data) {
+    handleSettle (data) { // 结清
       this.receipt = {}
       this.visibleSettle = true
       this.receipt = data
     },
+    fetchReceipt () {
+      let receipt = this.receipt
+      let params = {
+        expense_code: receipt.expense_code,
+        receive_money: receipt.receive_money + this.receiptNum
+      }
+      this.$https.post(this.$urls.expense.modify, params).then(res => {
+        this.receiptNum = 0
+        if (res.code === 1000) {
+          this.fetchList()
+          this.visibleReceipt = false
+          this.$message.success('收款成功')
+        } else {
+          this.$message.error('收款失败')
+        }
+      })
+    },
+    fetchSettle () {
+      let receipt = this.receipt
+      let params = {
+        expense_code: receipt.expense_code,
+        receive_money: receipt.bill_money
+      }
+      this.$https.post(this.$urls.expense.modify, params).then(res => {
+        this.receiptNum = 0
+        if (res.code === 1000) {
+          this.fetchList()
+          this.visibleSettle = false
+          this.$message.success(`已结清${receipt.customer_name}的${receipt.type}费用`)
+        } else {
+          this.$message.error('结清失败')
+        }
+      })
+    },
     handleAdd () {
       this.defaultHidden = {}
+      this.addDefaultValue.contacter = ''
+      this.addDefaultValue.contact = ''
       this.addVisible = true
     },
     financialState (data) {
@@ -685,7 +721,9 @@ export default {
     },
     fetchAdd (data) { // 添加房租费用
       let params = {
-        ...data
+        ...data,
+        receive_money: 0,
+        state: 441
       }
       this.$https.post(this.$urls.expense.add, params)
         .then(res => {
@@ -762,6 +800,8 @@ export default {
       this.$https.post(this.$urls.expense.get_back, params).then(res => {
         if (res.code === 1000) {
           let data = res
+          data.value = data.type
+          this.selectType(data)
           this.defaultValue = data
           this.modifyVisible = true
         } else {
@@ -775,19 +815,20 @@ export default {
         ...this.page,
         type: this.charge_type,
         customer_name: this.customer_name,
-        start_ts: this.date.length ? this.date[0] : '',
-        end_ts: this.date.length ? this.date[1] : '',
+        start_ts: this.date && this.date.length ? this.date[0] : '',
+        end_ts: this.date && this.date.length ? this.date[1] : '',
         is_overdue: this.overdue === false ? false : this.overdue === true ? true : null,
-        expense_state: this.expense_state
+        state: this.expense_state
       }
       this.$https.post(this.$urls.expense.get_list, params).then((res) => {
         let list = []
-        list = res.list
-        let params = ['state', 'type']
-        this.$dictionary.tableData(list, params)
-        this.$utils.getRooms(list)
-        this.page.total = res.total
-        this.tableData = []
+        if (res.code === 1000) {
+          list = res.list
+          let params = ['state', 'type']
+          this.$dictionary.tableData(list, params)
+          this.$utils.getRooms(list)
+          this.page.total = res.total
+        }
         this.tableData = list
       })
     },
@@ -809,12 +850,12 @@ export default {
         this.info_header.title = '客户名称：' + data.customer_name
         this.info_info.tableData.push({ ...data })
         this.info_body_expense.info = [
-          { name: '费用编号', value: data.expense_code },
-          { name: '合同编号', value: data.contract_code },
-          { name: '费用类型', value: data.type },
-          { name: '账单金额', value: data.bill_money },
-          { name: '实收金额', value: data.receive_money },
-          { name: '开票金额', value: data.invoice_money },
+          { name: '费用编号', value: data.expense_code || '-' },
+          { name: '合同编号', value: data.contract_code || '-' },
+          { name: '费用类型', value: data.type || '-' },
+          { name: '账单金额', value: data.bill_money || '-' },
+          { name: '实收金额', value: data.receive_money || '-' },
+          { name: '开票金额', value: data.invoice_money || '-' },
           // { name: '应收日期', value: data.pay_date },
           // { name: '跟进人', value: data.receiver },
           // { name: '结清状态', value: data.state },
@@ -823,7 +864,7 @@ export default {
           // { name: '合同截至日期', value: data.end_ts },
           // { name: '用户名', value: data.customer_name },
           // { name: '备注', value: data.memo ? data.memo : '-' }
-          { name: '计费周期', value: data.start_ts + '-' + data.end_ts },
+          { name: '计费周期', value: (data.start_ts + '-' + data.end_ts) || '-' },
           { name: '联系人', value: data.contacter || '-' },
           { name: '联系电话', value: data.contact || '-' }
         ]
