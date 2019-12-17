@@ -97,10 +97,18 @@
     <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
 
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建合同"
+      v-if="addContractVisible"
       :visible.sync="addContractVisible"
       width="600px"
-      :before-close="handleClose">
+      >
       <div>
         <ParkForm
           :formList="addContractFormList"

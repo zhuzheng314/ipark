@@ -1,6 +1,7 @@
 import request from '@/plugins/axios'
 import { baseUrl, api } from '@/config/api'
 import { storageSet, storageGet } from '@/utils/utils'
+import { cloneDeep } from 'lodash'
 import dictionary from './dictionary' //  字典
 const form = {
   state: {
@@ -117,11 +118,6 @@ const form = {
               disabled = true
             }
           }
-          if (item.path.split('.').length === 4) {
-            if (item.state === 292) {
-              disabled = true
-            }
-          }
           return {
             label: item.name,
             value: item.domain_id,
@@ -132,7 +128,7 @@ const form = {
         })
       }
       if (state.parkTreeList) {
-        return filterList(state.parkTreeList)
+        return filterList(cloneDeep(state.parkTreeList))
       } else {
         return []
       }
@@ -169,7 +165,7 @@ const form = {
         })
       }
       if (state.parkTreeList) {
-        return filterList(state.parkTreeList)
+        return filterList(cloneDeep(state.parkTreeList))
       } else {
         return []
       }
@@ -226,7 +222,7 @@ const form = {
     // 客户
     customerListOptions: (state, getters) => {
       return {
-        room: getters.buildTreeWithDisabled,
+        room: getters.buildPrueTree,
         state: dictionary.state.dictionaryType['customer_state'],
         status: dictionary.state.dictionaryType['customer_status'],
         info_source: dictionary.state.dictionaryType['customer_info_source'],

@@ -1892,6 +1892,16 @@ const repairForm = [
       },
       {
         type: 'input',
+        label: '地址',
+        key: 'address',
+        placeholder: '请输入',
+        rule: [
+          // { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      },
+      {
+        type: 'input',
         label: '联系电话',
         key: 'contact',
         placeholder: '请输入',
@@ -1988,6 +1998,16 @@ const complaintForm = [
         rule: [
           { required: true, message: '请输入', trigger: 'blur' },
           { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号码格式错误' }
+        ]
+      },
+      {
+        type: 'input',
+        label: '地址',
+        key: 'address',
+        placeholder: '请输入',
+        rule: [
+          // { required: true, message: '该项为必填', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {

@@ -60,10 +60,18 @@
     </el-card>
 
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建工单模板"
+      v-if="addContractVisible"
       :visible.sync="addContractVisible"
       width="800px"
-      :before-close="handleClose">
+      >
       <div>
         <ParkForm :formList="addContractFormList" :itemList="[]"></ParkForm>
       </div>

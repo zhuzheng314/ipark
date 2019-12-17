@@ -200,6 +200,7 @@
         }"
       destroy-on-close
       title="添加园区"
+      v-if="addShow"
       :visible.sync="addShow"
       width="600px"
     >
@@ -207,7 +208,6 @@
         <ParkForm
           @onCancel="() => {this.addShow = false}"
           ref="parkForm"
-          v-if="addShow"
           @onSubmit="handleAddPark"
           :options="$store.getters.addParkOptions"
           :formList="$formsLabels.addParkForm"
@@ -226,6 +226,7 @@
         }"
       :destroy-on-close="true"
       title="修改园区信息"
+      v-if="editParkShow"
       :visible.sync="editParkShow"
       width="600px"
     >
@@ -260,6 +261,7 @@
         }"
       :destroy-on-close="true"
       title="添加楼宇"
+      v-if="addShowBuild"
       :visible.sync="addShowBuild"
       width="600px"
     >
