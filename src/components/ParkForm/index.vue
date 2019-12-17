@@ -209,6 +209,11 @@ export default {
   computed: {
   },
   watch: {
+    defaultValue (val) {
+      if (val) { // 如果有默认值再次赋予默认值
+        this.setDefaultValue()
+      }
+    }
   },
   data () {
     return {
