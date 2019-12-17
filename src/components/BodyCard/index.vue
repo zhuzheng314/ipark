@@ -30,6 +30,9 @@
       <GTable
         :tableLabel="info.label"
         :tableData="info && info.tableData">
+        <template #renderButton="data">
+          <slot name="btns" :slotName="data.slotName"></slot>
+        </template>
       </GTable>
     </div>
     <div v-if="type==3" style="padding: 20px">>

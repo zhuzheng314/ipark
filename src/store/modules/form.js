@@ -283,8 +283,8 @@ const form = {
         // contract_code: state.contractList,
         // state: dictionary.state.dictionaryType['expense_state'],
         type: dictionary.state.dictionaryType['charge_type'],
-        customer_id: state.customerList,
-        record_room: getters.buildTreeWithDisabled
+        customer_id: state.customerList
+        // record_room: getters.buildTreeWithDisabled
       }
     }
   },

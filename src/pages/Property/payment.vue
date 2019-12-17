@@ -44,7 +44,7 @@
     <el-card>
       <div slot="header">
         <el-select  size="small"
-                    v-model="value1"
+                    v-model="payment_type"
                     clearable
                     @change="fetchListSearch"
                     placeholder="费用类型">
@@ -164,16 +164,7 @@ export default {
       ],
       infoData: [
       ],
-      options: [
-        {
-          value: 1,
-          label: '租金'
-        }, {
-          value: 2,
-          label: '物业费用'
-        }
-      ],
-      value1: '',
+      payment_type: '',
       value2: '',
       addVisible: false,
       tamplateFormList: [
@@ -466,17 +457,19 @@ export default {
     fetchList () { // 获取费用催缴列表
       let params = {
         ...this.page,
-        park_id: this.$store.state.form.activePark.domain_id
+        park_id: this.$store.state.form.activePark.domain_id,
+        type: this.payment_type
       }
       this.$https.post(this.$urls.payment.get_list, params).then((res) => {
-        // console.log(res)
-        let list = res.list
-        let params = ['type']
-        this.$dictionary.tableData(list, params)
-        // this.$utils.getRooms(res.list)
-        this.page.total = res.total
         this.tableData = []
-        this.tableData = res.list
+        if (res.code === 1000 && res.list && res.list.length) {
+          let list = res.list
+          let params = ['type']
+          this.$dictionary.tableData(list, params)
+          // this.$utils.getRooms(res.list)
+          this.page.total = res.total
+          this.tableData = res.list
+        }
       })
     },
     fetchListSearch () {
@@ -499,11 +492,15 @@ export default {
     },
     fetchGetInfo (id) { // 获取费用催缴信息
       let params = {
-        expense_code: id
+        id: id
       }
       this.$https.post(this.$urls.payment.get_info, params).then((res) => {
-        // console.log(res)
+        console.log(res)
       })
+    },
+    handlePageClick (num) { // 点击页码时
+      this.page.page_no = num
+      this.fetchList()
     }
   },
   created () {
