@@ -209,8 +209,8 @@ const addParkForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { validator: validateUpload, trigger: ['blur', 'change'] }
+          // { required: true, message: '该项为必填', trigger: 'blur' },
+          // { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -236,8 +236,8 @@ const addParkForm1 = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { validator: validateUpload, trigger: ['blur', 'change'] }
+          // { required: true, message: '该项为必填', trigger: 'blur' },
+          // { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -305,8 +305,8 @@ const addBuildForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { validator: validateUpload, trigger: ['blur', 'change'] }
+          // { required: true, message: '该项为必填', trigger: 'blur' },
+          // { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -1891,7 +1891,7 @@ const repairForm = [
         ]
       },
       {
-        type: 'input-num',
+        type: 'input',
         label: '联系电话',
         key: 'contact',
         placeholder: '请输入',
@@ -1901,7 +1901,7 @@ const repairForm = [
         ]
       },
       {
-        type: 'date-picker',
+        type: 'date-time',
         label: '预约服务时间',
         key: 'reserve_ts',
         placeholder: '请输入',
@@ -1923,7 +1923,7 @@ const repairForm = [
         key: 'describe',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请输入报修详情', trigger: 'blur' }
+          // { required: true, message: '请输入报修详情', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -1933,8 +1933,8 @@ const repairForm = [
         key: 'attached',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '请上传图片', trigger: 'blur' },
-          { validator: validateUpload, trigger: ['blur', 'change'] }
+          // { required: true, message: '请上传图片', trigger: 'blur' },
+          // { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]
@@ -1991,7 +1991,7 @@ const complaintForm = [
         ]
       },
       {
-        type: 'date-picker',
+        type: 'date-time',
         label: '预约服务时间',
         key: 'reserve_ts',
         placeholder: '请输入',
@@ -2024,7 +2024,7 @@ const complaintForm = [
         placeholder: '请输入',
         rule: [
           // { required: true, message: '请上传图片', trigger: 'blur' },
-          { validator: validateUpload, trigger: ['blur', 'change'] }
+          // { validator: validateUpload, trigger: ['blur', 'change'] }
         ]
       }
     ]

@@ -1,13 +1,13 @@
 <template>
 <div class="bodyCard">
   <el-card class="box-card">
-    <div class="bodyCard-title">
+    <div class="bodyCard-title" slot="header">
       {{title}}
       <div class="bodyCard-btns">
         <slot name="btn"></slot>
       </div>
     </div>
-    <div v-if="type==1">
+    <div v-if="type==1" style="padding: 20px">
       <div class="bodyCard-infoBox" v-for="(item,i) of data.info" :key="(item,i)">
         <span class="bodyCard-infoBox-name">{{item.name}}</span>
         <span>:</span>
@@ -26,33 +26,27 @@
 
       </div>
     </div>
-    <div v-if="type==2">
-      <!-- <el-table :data="info.tableData" :style="{width: 144 * info.label.length,minWidth: '1146px'}">
-      <el-table-column
-        v-for="(item,i) in info.label"
-        :key="(item,i)"
-        :prop="item.prop"
-        :label="item.label"
-        :width="144 * info.label.length >= 1146 ? 144 : 1146 / info.label.length">
-        </el-table-column>
-      </el-table> -->
+    <div v-if="type==2" style="padding: 20px">
       <GTable
         :tableLabel="info.label"
-        :tableData="info.tableData">
+        :tableData="info && info.tableData">
       </GTable>
     </div>
-    <div v-if="type==3">
+    <div v-if="type==3" style="padding: 20px">>
       <div class="bodyCard-text">{{data.info ? data.info : '暂无备注'}}</div>
     </div>
     <div v-if="type==='img'">
       <slot name="img-cont"></slot>
       <div style="padding: 0 20px 20px">
-        <img style="width: 300px; height: 200px; margin-right: 20px"
-         :key="'img'+ index"
-          v-for="(item, index) in data && data.attached && data.attached.upload"
-          :src="$urls.fileUrl + item.url"
-          @click="handleOpenImg($urls.fileUrl + item.url)"
-          alt="">
+        <div v-if="data && data.attached && data.attached.upload && data.attached.upload.length">
+          <img style="width: 300px; height: 200px; margin-right: 20px"
+               :key="'img'+ index"
+               v-for="(item, index) in data && data.attached && data.attached.upload"
+               :src="$urls.fileUrl + item.url"
+               @click="handleOpenImg($urls.fileUrl + item.url)"
+               alt="">
+        </div>
+        <None v-else></None>
       </div>
     </div>
   </el-card>
@@ -79,7 +73,7 @@ export default {
     }
   },
   mounted () {
-    this.info.tableData.forEach(arr => {
+    this.info && this.info.tableData && this.info.tableData.forEach(arr => {
       for (var i in arr) {
         arr[i] = arr[i] || '-'
       }
@@ -102,13 +96,13 @@ export default {
     .title-style;
     position: relative;
     .bodyCard-btns{
-      width: 80%;
-      height: 100%;
+      /*width: 80%;*/
+      /*height: 100%;*/
       position: absolute;
-      right: 0;
-      top: 0;
-      display: flex;
-      justify-content: flex-end;
+      right: 0px;
+      top: 0px;
+      /*display: flex;*/
+      /*justify-content: flex-end;*/
     }
   }
   .bodyCard-infoBox{

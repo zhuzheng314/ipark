@@ -87,6 +87,16 @@
                         end-placeholder="结束日期">
                       </el-date-picker>
 
+                      <el-date-picker
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'date-time'"
+                        v-model="form[item.key]"
+                        type="datetime"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        placeholder="选择日期时间"
+                        default-time="12:00:00">
+                      </el-date-picker>
+
                       <!-- checkbox -->
                       <el-checkbox-group
                         :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
