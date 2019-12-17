@@ -91,16 +91,23 @@
     </el-card>
 
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建投诉工单"
+      v-if="addVisible"
       :visible.sync="addVisible"
       width="600px"
-      :before-close="handleClose">
+      >
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
         @onCancel="addVisible = false"
         :formList="$formsLabels.complaintForm"
-        v-if="addVisible"
         :options="$store.getters.complaintListOptions"
         :defaultValue="addDefaultValue"
         :itemList="[]"
@@ -110,12 +117,19 @@
     <el-dialog
       title="修改投诉工单"
       :visible.sync="modifyVisible"
+      v-if="modifyVisible"
       width="600px"
-      :before-close="handleClose">
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+      >
       <div>
         <ParkForm
         @onSubmit="fetchModify"
-        v-if="modifyVisible"
         :formList="$formsLabels.complaintForm"
         :options="$store.getters.complaintListOptions"
         :defaultValue="defaultValue"

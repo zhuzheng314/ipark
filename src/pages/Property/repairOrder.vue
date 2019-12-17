@@ -91,7 +91,15 @@
       title="维修工单"
       :visible.sync="addVisible"
       width="600px"
-      :before-close="handleClose">
+      v-if="addVisible"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+    >
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
@@ -107,7 +115,15 @@
       title="修改维修工单"
       :visible.sync="modifyVisible"
       width="600px"
-      :before-close="handleClose">
+      v-if="modifyVisible"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+     >
       <div>
         <ParkForm
         @onSubmit="fetchModify"

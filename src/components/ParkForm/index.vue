@@ -90,6 +90,7 @@
                       <el-date-picker
                         :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                         v-if="item.type === 'date-time'"
+                        style="width: 100%"
                         v-model="form[item.key]"
                         type="datetime"
                         value-format="yyyy-MM-dd HH:mm:ss"

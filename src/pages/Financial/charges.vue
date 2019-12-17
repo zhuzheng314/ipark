@@ -95,16 +95,22 @@
     </el-card>
 
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建费用账单"
       :visible.sync="addVisible"
-      :before-close="handleClose"
+      v-if="addVisible"
       width="600px">
       <div>
         <ParkForm
           @onChange="formActive"
           @onSubmit="fetchAdd"
           @onCancel="() => {this.addVisible = false}"
-          v-if="addVisible"
           :defaultHidden="defaultHidden"
           :formList="expenseForm"
           :options="formOptions"
@@ -118,15 +124,21 @@
       </div>
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改费用账单"
       :visible.sync="modifyVisible"
-      :before-close="handleClose"
+      v-if="modifyVisible"
       width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchModify"
           @onCancel="() => {this.modifyVisible = false}"
-          v-if="modifyVisible"
           :defaultHidden="defaultHidden"
           :formList="expenseForm"
           :options="formOptions"
@@ -170,10 +182,17 @@
     </el-drawer>
     <!-- 收款 -->
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="系统提示"
       :visible.sync="visibleReceipt"
-      width="600px"
-      :before-close="handleClose">
+      v-if="visibleReceipt"
+      width="600px">
       <div class="receipt">
         <span>{{receipt.customer_name}}</span>的<span>{{receipt.type}}</span>费用，在<span class="time">{{receipt.start_ts}}</span>到<span class="time">{{receipt.end_ts}}</span>计费周期内，应收取<span class="money">{{receipt.bill_money}}</span>元，已收取<span class="money">{{receipt.receive_money}}</span>元。
         <p>本次收取金额
@@ -191,10 +210,18 @@
       </span>
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="系统提示"
+      v-if="visibleSettle"
       :visible.sync="visibleSettle"
       width="600px"
-      :before-close="handleClose">
+      >
       <div class="receipt">
         <span>{{receipt.customer_name}}</span>的<span>{{receipt.type}}</span>费用，在<span class="time">{{receipt.start_ts}}</span>到<span class="time">{{receipt.end_ts}}</span>计费周期内，应收取<span class="money">{{receipt.bill_money}}</span>元，已收取<span class="money">{{receipt.receive_money}}</span>元。本次收取金额<span class="money">{{receipt.bill_money - receipt.receive_money}}</span>元。
         <!-- <p>本次收取金额

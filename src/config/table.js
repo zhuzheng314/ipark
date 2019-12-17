@@ -235,7 +235,7 @@ const repairList = [
   },
   {
     prop: 'reserve_ts',
-    label: '发起时间'
+    label: '预约时间'
   },
   {
     prop: 'address',
@@ -267,10 +267,10 @@ const complaintList = [
   },
   {
     prop: 'reserve_ts',
-    label: '发起时间'
+    label: '预约时间'
   },
   {
-    prop: 'adress',
+    prop: 'address',
     label: '地址'
   },
   {

@@ -58,9 +58,17 @@
 
     <el-dialog
       title="添加园区"
+      v-if="addParkShow"
       :visible.sync="addParkShow"
       width="600px"
       :modal-append-to-body="false"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
     >
       <div>
         <ParkForm
@@ -74,9 +82,17 @@
 
     <el-dialog
       title="修改密码"
+      v-if="setPassWordVisible"
       :visible.sync="setPassWordVisible"
       width="500px"
       :modal-append-to-body="false"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
     >
       <div>
         <el-form :model="form">
