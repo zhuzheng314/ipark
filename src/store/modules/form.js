@@ -16,7 +16,8 @@ const form = {
     complaintList: [],
     paymentList: [],
     financialList: [],
-    incomeList: []
+    incomeList: [],
+    account: ''
   },
   getters: {
     // 园区
@@ -183,6 +184,9 @@ const form = {
         return x.value === state.activePark.domain_id
       })
     },
+    // buildTreeWithCustomer (state, getters) {
+
+    // },
     // 合同
     contractListOptions: (state, getters) => {
       return {
@@ -281,11 +285,13 @@ const form = {
         type: dictionary.state.dictionaryType['charge_type'],
         customer_id: state.customerList,
         record_room: getters.buildTreeWithDisabled
-
       }
     }
   },
   mutations: {
+    commitAccount (state, account) {
+      state.account = account
+    },
     commitParkList (state, list) {
       state.parkList = list
     },
@@ -337,6 +343,12 @@ const form = {
     }
   },
   actions: {
+    getAccount ({ commit }, data) {
+      return request.post(baseUrl + api.account, {}).then(res => {
+        console.log(res)
+        commit('commitAccount', res)
+      })
+    },
     getParkList ({ commit }, data) {
       return request.post(baseUrl + api.park.get_list, {
         ...data

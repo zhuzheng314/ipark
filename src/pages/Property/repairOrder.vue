@@ -364,6 +364,7 @@ export default {
       this.$https.post(this.$urls.repair.modify, params).then((res) => {
         if (res.code === 1000) {
           this.$message.success('修改成功')
+          this.fetchList()
           this.modifyVisible = false
         } else {
           this.$message.error('修改失败')
