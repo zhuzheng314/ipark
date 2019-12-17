@@ -102,13 +102,23 @@
       </GTable>
     </el-card>
 
-    <el-dialog title="新建费用账单" :visible.sync="addVisible" :before-close="handleClose" width="600px">
+    <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+      title="新建费用账单"
+      :visible.sync="addVisible"
+      v-if="addVisible"
+      width="600px">
       <div>
         <ParkForm
           @onChange="formActive"
           @onSubmit="fetchAdd"
           @onCancel="() => {this.addVisible = false}"
-          v-if="addVisible"
           :defaultHidden="defaultHidden"
           :formList="expenseForm"
           :options="{
@@ -125,16 +135,21 @@
       </div>
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改费用账单"
       :visible.sync="modifyVisible"
-      :before-close="handleClose"
-      width="600px"
-    >
+      v-if="modifyVisible"
+      width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchModify"
           @onCancel="() => {this.modifyVisible = false}"
-          v-if="modifyVisible"
           :defaultHidden="defaultHidden"
           :formList="expenseForm"
           :options="{
@@ -203,11 +218,17 @@
     </el-drawer>
     <!-- 收款 -->
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="系统提示"
       :visible.sync="visibleReceipt"
-      width="600px"
-      :before-close="handleClose"
-    >
+      v-if="visibleReceipt"
+      width="600px">
       <div class="receipt">
         <span>{{receipt.customer_name}}</span>的
         <span>{{receipt.type}}</span>费用，在
@@ -225,7 +246,19 @@
         <el-button type="primary" @click="fetchReceipt">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="系统提示" :visible.sync="visibleSettle" width="600px" :before-close="handleClose">
+    <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+      title="系统提示"
+      v-if="visibleSettle"
+      :visible.sync="visibleSettle"
+      width="600px"
+      >
       <div class="receipt">
         <span>{{receipt.customer_name}}</span>的
         <span>{{receipt.type}}</span>费用，在

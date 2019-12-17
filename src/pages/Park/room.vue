@@ -175,13 +175,13 @@
           .catch(_ => {});
         }"
       title="添加房间"
+      v-if="addRoomShow"
       :visible.sync="addRoomShow"
       width="600px"
     >
       <div>
         <ParkForm
           ref="addRoomForm"
-          v-if="addRoomShow"
           @onCancel="() => {this.addRoomShow = false}"
           @onSubmit="fetchAddRoom"
           :formList="$formsLabels.addRoomForm"
@@ -212,13 +212,13 @@
           .catch(_ => {});
         }"
       title="修改房间信息"
+      v-if="modifyShow"
       :visible.sync="modifyShow"
       destroy-on-close
       width="600px">
       <div>
         <ParkForm
           ref="addRoomForm"
-          v-if="modifyShow"
           @onCancel="modifyShow = false"
           @onSubmit="fetchModifyRoom"
           :formList="$formsLabels.addRoomForm"
@@ -251,12 +251,12 @@
           })
           .catch(_ => {});
         }"
+      v-if="addContractVisible"
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
         @onSubmit="fetchAddContract"
         @onCancel="() => {this.addContractVisible = false}"
-        v-if="addContractVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
         :default-value="{}"

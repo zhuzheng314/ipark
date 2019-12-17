@@ -75,14 +75,21 @@
 
     <el-dialog
       title="新建费用列支"
+      v-if="addVisible"
       :visible.sync="addVisible"
       width="600px"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
     >
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
         @onCancel="addVisible = false"
-        v-if="addVisible"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
         :defaultValue="{}"
@@ -92,14 +99,21 @@
     </el-dialog>
     <el-dialog
       title="修改费用列支"
+      v-if="modifyVisible"
       :visible.sync="modifyVisible"
       width="600px"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
     >
       <div>
         <ParkForm
         @onSubmit="fetchModify"
         @onCancel="modifyVisible = false"
-        v-if="modifyVisible"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
         :defaultValue="defaultValue"

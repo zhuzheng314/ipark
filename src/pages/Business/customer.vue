@@ -120,13 +120,13 @@
           .catch(_ => {});
         }"
       title="新建客户"
+      v-if="addVisible"
       :visible.sync="addVisible"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
         @onCancel="() => {this.addVisible = false}"
-        v-if="addVisible"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"
         :defaultValue="{}"
@@ -144,12 +144,12 @@
           .catch(_ => {});
         }"
       title="修改客户"
+      v-if="modifyVisible"
       :visible.sync="modifyVisible"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
-        v-if="modifyVisible"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"
         :defaultValue="defaultValue"
@@ -170,12 +170,12 @@
       top="10px"
       width="950px"
       style="overflow-y: scroll"
+      v-if="addContractVisible"
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
         @onSubmit="fetchAddContract"
         @onCancel="() => {this.addContractVisible = false}"
-        v-if="addContractVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
         :default-value="{}"

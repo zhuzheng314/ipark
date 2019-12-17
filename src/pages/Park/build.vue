@@ -44,6 +44,7 @@
           .catch(_ => {});
         }"
       title="添加楼宇"
+      v-if="addShowBuild"
       :visible.sync="addShowBuild"
       width="600px"
     >
@@ -70,6 +71,7 @@
           .catch(_ => {});
         }"
       title="修改楼宇"
+      v-if="editShow"
       :visible.sync="editShow"
       width="600px"
     >

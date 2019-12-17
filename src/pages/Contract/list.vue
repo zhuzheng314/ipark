@@ -81,12 +81,12 @@
           })
           .catch(_ => {});
         }"
+      v-if="addContractVisible"
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
         @onSubmit="fetchAddContract"
         @onCancel="() => {this.addContractVisible = false}"
-        v-if="addContractVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
         :default-value="{}"
@@ -109,6 +109,7 @@
           .catch(_ => {});
         }"
       :destroy-on-close="true"
+      v-if="modifyVisible"
       :visible.sync="modifyVisible">
       <div>
         <ParkForm

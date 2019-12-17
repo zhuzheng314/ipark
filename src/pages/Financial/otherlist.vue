@@ -99,14 +99,21 @@
     </el-card>
 
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="新建房租费用账单"
+      v-if="addVisible"
       :visible.sync="addVisible"
       width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchAdd"
           @onCancel="() => {this.addVisible = false}"
-          v-if="addVisible"
           :formList="$formsLabels.expenseForm"
           :options="formOptions"
           :defaultValue="addDefaultValue"
@@ -115,14 +122,21 @@
       </div>
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改房租费用账单"
+      v-if="modifyVisible"
       :visible.sync="modifyVisible"
       width="600px">
       <div>
         <ParkForm
           @onSubmit="fetchModify"
           @onCancel="() => {this.modifyVisible = false}"
-          v-if="modifyVisible"
           :formList="$formsLabels.expenseForm"
           :options="formOptions"
           :defaultValue="defaultValue"

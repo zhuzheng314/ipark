@@ -66,13 +66,20 @@
 
     <el-dialog
       title="新建收付款账单"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+      v-if="addVisible"
       :visible.sync="addVisible"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
         @onCancel="() => {this.addVisible = false}"
-        v-if="addVisible"
         :formList="$formsLabels.incomeForm"
         :options="$store.getters.incomeListOptions"
         :defaultValue="{}"
@@ -82,13 +89,20 @@
     </el-dialog>
     <el-dialog
       title="修改收付款账单"
+      v-if="modifyVisible"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       :visible.sync="modifyVisible"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
         @onCancel="() => {this.modifyVisible = false}"
-        v-if="modifyVisible"
         :formList="$formsLabels.incomeForm"
         :options="$store.getters.incomeListOptions"
         :defaultValue="defaultValue"

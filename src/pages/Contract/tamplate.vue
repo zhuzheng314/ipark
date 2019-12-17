@@ -61,13 +61,13 @@
           .catch(_ => {});
         }"
       title="新建合同模板"
+      v-if="addVisible"
       :visible.sync="addVisible"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchAdd"
         @onCancel="() => {this.addVisible = false}"
-        v-if="addVisible"
         :formList="$formsLabels.tamplateForm"
         :options="$store.getters.tamplateListOptions"
         :defaultValue="{}"
@@ -84,13 +84,13 @@
           .catch(_ => {});
         }"
       title="修改合同模板"
+      v-if="modifyVisible"
       :visible.sync="modifyVisible"
       width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
         @onCancel="() => {this.modifyVisible = false}"
-        v-if="modifyVisible"
         :formList="$formsLabels.tamplateForm"
         :options="$store.getters.tamplateListOptions"
         :defaultValue="defaultValue"
