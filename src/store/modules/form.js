@@ -280,7 +280,7 @@ const form = {
         // state: dictionary.state.dictionaryType['expense_state'],
         type: dictionary.state.dictionaryType['charge_type'],
         customer_id: state.customerList,
-        charge_room: getters.buildTreeWithDisabled
+        record_room: getters.buildTreeWithDisabled
 
       }
     }

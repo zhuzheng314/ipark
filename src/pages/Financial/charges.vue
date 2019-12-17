@@ -468,7 +468,7 @@ export default {
               type: 'cascader',
               label: '房源信息',
               multiple: true, // 是否多选
-              key: 'charge_room',
+              key: 'record_room',
               rule: [
                 // { required: true, message: '请选择', trigger: 'change' }
               ],
