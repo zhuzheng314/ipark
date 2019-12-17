@@ -17,7 +17,7 @@
               </div>
               <el-row>
                 <el-col
-                  :span="card.itemSpan || 24"
+                  :span="item.span || card.itemSpan || 24"
                   v-for="(item, index) in card.children"
                   :key="item.key + index">
                   <el-form-item
@@ -32,7 +32,6 @@
                       :placeholder="item.placeholder"
                     >
                     </el-input>
-
                     <!-- input-num -->
                     <el-input-number
                       :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
@@ -102,7 +101,7 @@
                     <!-- select -->
                     <el-select
                       :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      style="width: 100%"
+                      :style="{ width: item.showIcon ? '60%':'100%'}"
                       v-if="item.type === 'select'"
                       v-model="form[item.key]"
                       :placeholder="form[item.placeholder]"
@@ -117,12 +116,19 @@
                       >
                       </el-option>
                     </el-select>
+                    <el-link
+                      style="width: 25%"
+                      @click="item.iconMethods(item)"
+                      v-if="item.type === 'select' && item.showIcon"
+                      icon="el-icon-circle-plus-outline"
+                      :underline="false" size="mini" type="primary">新增</el-link>
 
                     <!-- switch -->
                     <el-switch
                       :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
                       v-if="item.type === 'switch'"
-                      v-model="form[item.key]"></el-switch>
+                      v-model="form[item.key]">
+                    </el-switch>
 
                     <!--          cascader-->
                     <el-cascader

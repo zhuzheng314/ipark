@@ -74,6 +74,13 @@
       width="950px"
       style="overflow-y: scroll"
       :style="{height: dialogHeight + 'px'}"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
@@ -94,12 +101,19 @@
       width="950px"
       style="overflow-y: scroll"
       :style="{height: dialogHeight + 'px'}"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
+      :destroy-on-close="true"
       :visible.sync="modifyVisible">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
         @onCancel="() => {this.modifyVisible = false}"
-        v-if="modifyVisible"
         :formList="$formsLabels.addContractForm"
         :options="$store.getters.contractListOptions"
         :default-disabled="{

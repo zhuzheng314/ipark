@@ -2,9 +2,24 @@
   <div class="assetInfo">
     <div v-if="buildId">
       <el-card style="margin-bottom: 10px">
-        <div slot="header" class="clearfix">
-          <el-page-header @back="goBack" :content="buildInfo.name">
-          </el-page-header>
+        <div slot="header">
+          <div style="float: left">
+            <el-page-header @back="goBack" :content="buildInfo.name">
+            </el-page-header>
+          </div>
+          <div style="float: right">
+            <el-button
+              size="small"
+              icon="el-icon-edit"
+              @click="$emit('handleEditBuildClick')"
+            >修改</el-button>
+            <el-button
+              size="small"
+              icon="el-icon-delete"
+              @click="$emit('handleRemoveBuild')"
+            >删除</el-button>
+          </div>
+          <div style="clear: both"></div>
         </div>
         <div class="top-card-wrap">
           <InfoBox
@@ -13,7 +28,6 @@
             :data="item"
           ></InfoBox>
         </div>
-
       </el-card>
 
       <el-card>
@@ -153,6 +167,13 @@
       </el-card>
     </div>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="添加房间"
       :visible.sync="addRoomShow"
       width="600px"
@@ -181,6 +202,13 @@
 
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改房间信息"
       :visible.sync="modifyShow"
       destroy-on-close
@@ -214,6 +242,13 @@
       top="10px"
       width="950px"
       style="overflow-y: scroll"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
@@ -515,17 +550,18 @@ export default {
       this.$router.go(-1) // 后退
     },
     handleStatusClick (data) {
+      console.log(data)
       this.filterStatus = !this.filterStatus
       this.filterData = data
-      // this.filterRoomColorByState()
+      this.filterRoomColorByState()
     },
     filterRoomColorByState (room) {
       if (!room) return 'yellow'
       if (!this.filterStatus) {
-        return this.statusList[room.state].color
+        return this.statusList.find(x => x.code === room.code).color
       } else {
         if (this.filterData.code === room.state) {
-          return this.statusList[room.state].color
+          return this.statusList.find(x => x.code === room.code).color
         } else {
           return '#dcdcdc'
         }
