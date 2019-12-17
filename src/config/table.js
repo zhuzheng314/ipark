@@ -48,8 +48,9 @@ const contractList = [
     label: '合同编号'
   },
   {
-    prop: 'building_name',
-    label: '楼宇名称'
+    prop: 'rooms',
+    label: '楼宇名称',
+    tags: true
   },
   {
     prop: 'customer_name',
@@ -65,7 +66,8 @@ const contractList = [
   },
   {
     prop: 'state',
-    label: '合同状态'
+    label: '合同状态',
+    renderTags: true
   },
   {
     prop: 'receiver',
@@ -103,8 +105,9 @@ const contractTamplate = [
 // 进驻管理
 const applyList = [
   {
-    prop: 'park_name',
-    label: '所属园区'
+    prop: 'rooms',
+    label: '房间号',
+    tags: true
   },
   {
     prop: 'customer_name',
@@ -132,7 +135,8 @@ const applyList = [
   {
     prop: 'state',
     label: '审批状态',
-    sortable: true
+    sortable: true,
+    renderTags: true
   }
 ]
 // 退驻管理
@@ -282,12 +286,9 @@ const complaintList = [
 // 费用催缴
 const paymentList = [
   {
-    prop: 'park',
-    label: '楼宇名称'
-  },
-  {
-    prop: 'park',
-    label: '房间号'
+    prop: 'rooms',
+    label: '房间号',
+    tags: true
   },
   {
     prop: 'customer',
@@ -295,7 +296,8 @@ const paymentList = [
   },
   {
     prop: 'type',
-    label: '费用类型'
+    label: '费用类型',
+    renderTags: true
   },
   {
     prop: 'money',
@@ -412,55 +414,79 @@ const incomeList = [
     label: '跟进人'
   }
 ]
-// 房租费用
+// 费用
 const expenseList = [
-  {
-    prop: 'building_name',
-    label: '楼宇名称'
-  },
-  {
-    prop: 'room_name',
-    label: '房间号'
-  },
+  // {
+  //   prop: 'building_name',
+  //   label: '楼宇名称'
+  // },
+  // {
+  //   prop: 'room_name',
+  //   label: '房间号'
+  // },
   {
     prop: 'customer_name',
     label: '客户名称'
   },
   {
+    prop: 'rooms',
+    label: '房间号',
+    tags: true
+  },
+  {
     prop: 'type',
-    label: '费用类型'
+    label: '费用类型',
+    renderTags: true
+  },
+  {
+    prop: 'start_ts',
+    label: '计费周期开始'
+  },
+  {
+    prop: 'end_ts',
+    label: '计费周期结束'
   },
   {
     prop: 'bill_money',
-    label: '账单金额'
+    label: '应收金额'
   },
   {
     prop: 'receive_money',
     label: '实收金额'
   },
+  // {
+  //   prop: 'invoice_money',
+  //   label: '开票金额'
+  // },
   {
-    prop: 'invoice_money',
-    label: '开票金额'
+    prop: 'contacter',
+    label: '联系人'
   },
   {
-    prop: 'pay_date',
-    label: '应收日期'
-  },
-  {
-    prop: 'pay_cycle',
-    label: '计费周期'
+    prop: 'contact',
+    label: '联系方式'
   },
   {
     prop: 'overdue_day',
     label: '逾期天数'
   },
   {
-    prop: 'receiver',
-    label: '跟进人'
+    prop: 'pay_date',
+    label: '截止日期'
   },
+  // {
+  //   prop: 'receiver',
+  //   label: '跟进人'
+  // },
   {
     prop: 'state',
-    label: '结清状态'
+    label: '结清状态',
+    renderTags: true
+  },
+  {
+    prop: 'e',
+    label: '操作',
+    renderButton: true
   }
 ]
 const tables = {

@@ -16,11 +16,16 @@
           <span v-if="item.renderTags">
             <el-tag size="mini">{{scope.row[item.prop]}}</el-tag>
           </span>
+          <span v-else-if="item.tags">
+            <div v-for="(v,i) in scope.row[item.prop]" :key="(v,i)">
+              <el-tag size="mini">{{v}}</el-tag>
+            </div>
+          </span>
           <span v-else-if="item.renderButton">
             <slot name="renderButton" :slotName="scope.row"></slot>
             <!-- <el-button type="text">下载</el-button> -->
           </span>
-          <span v-else>{{scope.row[item.prop]}}</span>
+          <span v-else>{{scope.row[item.prop] || '-'}}</span>
         </template>
       </el-table-column>
     </el-table>

@@ -81,7 +81,9 @@
           size="small"
           style="width: 180px; margin-right: 15px"
           prefix-icon="el-icon-search"
-          v-model="value3">
+          @change="fetchListSearch"
+          clearable
+          v-model="customer_name">
         </el-input>
 
         <!-- <el-button
@@ -157,24 +159,9 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options1: [],
-      options2: [
-        {
-          value: '选项1',
-          label: '未审批'
-        }, {
-          value: '选项2',
-          label: '审批中'
-        }, {
-          value: '选项3',
-          label: '已通过'
-        }, {
-          value: '选项4',
-          label: '未通过'
-        }
-      ],
       approval_type: '',
       date: [],
+      customer_name: '',
       stackedAreaOptions: {},
       addVisible: false,
       InfoState: false,
@@ -210,7 +197,7 @@ export default {
         info: {
           label: [
             { prop: 'contract_code', label: '合同编号' },
-            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'rooms', label: '楼宇/房间号', tags: true },
             { prop: 'rent_area', label: '租赁面积' },
             { prop: 'contract_start_ts', label: '开始日' },
             { prop: 'contract_end_ts', label: '结束日' },
@@ -272,13 +259,14 @@ export default {
         park_id: this.$store.state.form.activePark.domain_id,
         start_ts: this.date && this.date.length ? this.date[0] : '',
         end_ts: this.date && this.date.length ? this.date[1] : '',
-        company_name: this.company_name
+        customer_name: this.customer_name
       }
       this.$https.post(this.$urls.enter.get_list, params).then((res) => {
         if (res.code === 1000 && res.list.length) {
           let list = res.list
           let params = ['company_type', 'state']
           this.$dictionary.tableData(list, params)
+          this.$utils.getRooms(res.list)
           this.page.total = res.total
           this.tableData = []
           this.tableData = res.list
@@ -314,7 +302,9 @@ export default {
             { name: '电话', value: data.contact || '-' },
             { name: '邮箱', value: data.email || '-' }
           ]
-          this.info_body_table.info.tableData.push({ ...data })
+          let contractList = [{ ...data }]
+          this.$utils.getRooms(contractList)
+          this.info_body_table.info.tableData = contractList
         }
       })
     },

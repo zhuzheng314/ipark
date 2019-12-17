@@ -359,7 +359,7 @@ export default {
         info: {
           label: [
             { prop: 'contract_code', label: '合同编号' },
-            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'rooms', label: '房间号', tags: true },
             { prop: 'rent_area', label: '租赁面积' },
             { prop: 'fee_start_ts', label: '开始日' },
             { prop: 'fee_end_ts', label: '结束日' },
@@ -426,8 +426,6 @@ export default {
       let params = {
         ...data
       }
-      params.room = data.room
-      params.rooms = data.room
       this.$https.post(this.$urls.customer.add, params)
         .then(res => {
           if (res.code === 1000) {
@@ -548,8 +546,9 @@ export default {
         if (res.list.length) {
           let roomList = res.list[0].room
           this.$dictionary.tableData(roomList, ['state'])
-          this.customerInfo_body_2.info.tableData = roomLists
+          this.customerInfo_body_2.info.tableData = roomList
           let contractList = res.list
+          this.$utils.getRooms(contractList)
           this.$dictionary.tableData(contractList, ['state'])
           this.customerInfo_body_table.info.tableData = contractList
         }

@@ -197,11 +197,11 @@ export default {
       }
     },
     axiosAll () {
+      this.$store.dispatch('getDictionaryTree')
       this.$store.dispatch('getParkList', {
         page_no: 1,
         page_size: 9999
       }).then(res => {
-        this.$store.dispatch('getDictionaryTree')
         this.$store.dispatch('getParkTreeList')
         this.$store.dispatch('getContractList')
         this.$store.dispatch('getCustomerList')
@@ -220,8 +220,12 @@ export default {
   },
   created () {
     const activePark = this.$utils.storageGet('activePark')
+    const dictionary = this.$utils.storageGet('dictionary')
     if (activePark) {
       this.$store.commit('commitActivePark', activePark)
+    }
+    if (dictionary) {
+      this.$store.commit('commitDictionaryTree', dictionary)
     }
     this.axiosAll()
   }

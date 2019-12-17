@@ -37,10 +37,9 @@
             style="width: 150px"
             class="mr-10"
             v-model="demand_area"
+            clearable
             placeholder="面积选择"
-            @change="(data) => {
-              this.handleSelect(data, 'area')
-            }">
+            @change="fetchRoomList">
             <el-option
               v-for="item in this.$store.state.dictionary.dictionaryType['demand_area']"
               :key="item.value"
@@ -53,6 +52,8 @@
             style="width: 150px"
             class="mr-10"
             v-model="contract_term"
+            clearable
+            @change="fetchRoomList"
             placeholder="合同期限">
             <el-option
               v-for="item in this.$store.state.dictionary.dictionaryType['contract_term']"
@@ -381,7 +382,6 @@ export default {
       addRoomDefaultValue: {},
       roomParams: {
         area: null
-
       }
     }
   },
@@ -515,8 +515,19 @@ export default {
       })
     },
     handleSelect (data, type) {
-      if (type === 'area') {
-      }
+      // if (type === 'area') {
+
+      // } else if (type === 'end_ts') {
+
+      // }
+      // let params = {
+      //     pid: this.buildId,
+      //     page_no: 1,
+      //     page_size: 20,
+      //     area: this.demand_area,
+      //     end_ts: this.contract_term
+      //   }
+      // this.$store.dispatch('getRoomList', params)
     },
     open (i) {
       if (i === '修改房间') {
@@ -619,7 +630,9 @@ export default {
         let params = {
           pid: this.buildId,
           page_no: 1,
-          page_size: 20
+          page_size: 20,
+          area: this.demand_area,
+          end_ts: this.contract_term
         }
         this.$store.dispatch('getRoomList', params)
       }

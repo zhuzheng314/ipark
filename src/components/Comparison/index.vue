@@ -42,11 +42,11 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .comparison{
-  min-width: 170px;
+  min-width: 168px;
   float: left;
   height: 56px;
   border-right: 2px solid #e6e8ee;
-  margin: 10px 30px 25px 0;
+  margin: 10px 25px 25px 0;
   position: relative;
   .name{
     font-size: 12px;

@@ -9,3 +9,13 @@ export function storageGet (name) {
     return JSON.parse(sessionStorage.getItem(name))
   }
 }
+
+export function getRooms (list) { // 房间名数组
+  list.forEach(v => {
+    v.rooms = []
+    v.room.forEach(room => {
+      v.rooms.push(room.building_name + '/' + room.name)
+    })
+  })
+  return list
+}
