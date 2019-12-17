@@ -607,12 +607,14 @@ export default {
       if (data.key === 'customer_id') {
         console.log(data)
         let customer = this.$store.state.form.customerList
+        let obj = {}
         customer.forEach(v => {
           if (v.id === data.value) {
-            this.addDefaultValue.contacter = v.contacter
-            this.addDefaultValue.contact = v.contact
+            obj.contacter = v.contacter
+            obj.contact = v.contact
           }
         })
+        this.addDefaultValue = obj
         console.log(this.addDefaultValue.contacter)
       }
     },
