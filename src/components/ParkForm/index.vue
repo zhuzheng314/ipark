@@ -16,158 +16,168 @@
                 <span>{{card.title}}</span>
               </div>
               <el-row>
-                <el-col
-                  :span="card.itemSpan || 24"
-                  v-for="(item, index) in card.children"
-                  :key="item.key + index">
-                  <el-form-item
-                    :label="item.label"
-                    :prop="item.key"
+                <div v-for="(item, index) in card.children"
+                     :key="item.key + index">
+                  <el-col
+                    :span="item.span || card.itemSpan || 24"
+                    v-if="!defaultHidden || !(defaultHidden && defaultHidden[item.key])"
                   >
-                    <!-- input -->
-                    <el-input
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'input'"
-                      v-model="form[item.key]"
-                      :placeholder="item.placeholder"
+                    <el-form-item
+                      :label="item.label"
+                      :prop="item.key"
                     >
-                    </el-input>
-
-                    <!-- input-num -->
-                    <el-input-number
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'input-num'"
-                      v-model="form[item.key]"
-                      style="width: 100%"
-                      controls-position="right"
-                    >
-                    </el-input-number>
-
-                    <!-- textarea -->
-                    <el-input
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'textarea'"
-                      type="textarea"
-                      v-model="form[item.key]"
-                      :placeholder="item.placeholder"
-                    >
-                    </el-input>
-
-                    <!-- radio -->
-                    <el-radio-group
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'radio'"
-                      v-model="form[item.key]">
-                      <el-radio
-                        v-for="(subItem, subIndex) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
-                        :key="subItem.label + subIndex"
-                        :label="subItem.label"
+                      <!-- input -->
+                      <el-input
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'input'"
+                        v-model="form[item.key]"
+                        :placeholder="item.placeholder"
                       >
-                      </el-radio>
-                    </el-radio-group>
-
-                    <!--          日期-->
-                    <el-date-picker
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'date-picker'"
-                      :placeholder="item.placeholder"
-                      v-model="form[item.key]"
-                      value-format="yyyy-MM-dd"
-                      style="width: 100%;">
-                    </el-date-picker>
-
-                    <el-date-picker
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'date-picker-range'"
-                      v-model="form[item.key]"
-                      type="daterange"
-                      range-separator="至"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期">
-                    </el-date-picker>
-
-                    <!-- checkbox -->
-                    <el-checkbox-group
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'checkbox'"
-                      v-model="form[item.key]">
-                      <el-checkbox
-                        v-for="(subItem, subIndex) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
-                        :key="subItem.label + subIndex"
-                        :label="subItem.label"
+                      </el-input>
+                      <!-- input-num -->
+                      <el-input-number
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'input-num'"
+                        v-model="form[item.key]"
+                        style="width: 100%"
+                        controls-position="right"
                       >
-                      </el-checkbox>
-                    </el-checkbox-group>
+                      </el-input-number>
 
-                    <!-- select -->
-                    <el-select
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      style="width: 100%"
-                      v-if="item.type === 'select'"
-                      v-model="form[item.key]"
-                      :placeholder="form[item.placeholder]"
-                      :filterable="true"
-                      @change="handleChangeEmit(item, form[item.key])"
-                    >
-                      <el-option
-                        v-for="(subItem) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
-                        :label="subItem.label"
-                        :value="subItem.value"
-                        :key="subItem.value"
+                      <!-- textarea -->
+                      <el-input
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'textarea'"
+                        type="textarea"
+                        v-model="form[item.key]"
+                        :placeholder="item.placeholder"
                       >
-                      </el-option>
-                    </el-select>
+                      </el-input>
 
-                    <!-- switch -->
-                    <el-switch
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-if="item.type === 'switch'"
-                      v-model="form[item.key]"></el-switch>
+                      <!-- radio -->
+                      <el-radio-group
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'radio'"
+                        v-model="form[item.key]">
+                        <el-radio
+                          v-for="(subItem, subIndex) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
+                          :key="subItem.label + subIndex"
+                          :label="subItem.label"
+                        >
+                        </el-radio>
+                      </el-radio-group>
 
-                    <!--          cascader-->
-                    <el-cascader
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      v-model="form[item.key]"
-                      v-if="item.type==='cascader'"
-                      style="width: 300px"
-                      :props="{ multiple: item.multiple, emitPath: false }"
-                      @change="handleChangeEmit(item, form[item.key])"
-                      :options="options && options[item.key] && options[item.key].length ? options[item.key] : item.options"
-                    ></el-cascader>
+                      <!--          日期-->
+                      <el-date-picker
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'date-picker'"
+                        :placeholder="item.placeholder"
+                        v-model="form[item.key]"
+                        value-format="yyyy-MM-dd"
+                        style="width: 100%;">
+                      </el-date-picker>
 
-                    <!--            upload-->
-                    <div :class="(defaultDisabled && defaultDisabled[item.key]) ? '_is-disabled' : ''">
+                      <el-date-picker
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'date-picker-range'"
+                        v-model="form[item.key]"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                      </el-date-picker>
+
+                      <!-- checkbox -->
+                      <el-checkbox-group
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'checkbox'"
+                        v-model="form[item.key]">
+                        <el-checkbox
+                          v-for="(subItem, subIndex) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
+                          :key="subItem.label + subIndex"
+                          :label="subItem.label"
+                        >
+                        </el-checkbox>
+                      </el-checkbox-group>
+
+                      <!-- select -->
+                      <el-select
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        :style="{ width: item.showIcon ? '60%':'100%'}"
+                        v-if="item.type === 'select'"
+                        v-model="form[item.key]"
+                        :placeholder="form[item.placeholder]"
+                        :filterable="true"
+                        @change="handleChangeEmit(item, form[item.key])"
+                      >
+                        <el-option
+                          v-for="(subItem) in options && options[item.key] && options[item.key].length ? options && options[item.key] && options[item.key] : item.options"
+                          :label="subItem.label"
+                          :value="subItem.value"
+                          :key="subItem.value"
+                        >
+                        </el-option>
+                      </el-select>
+                      <el-link
+                        style="width: 25%"
+                        @click="item.iconMethods(item)"
+                        v-if="item.type === 'select' && item.showIcon"
+                        icon="el-icon-circle-plus-outline"
+                        :underline="false" size="mini" type="primary">新增</el-link>
+
+                      <!-- switch -->
+                      <el-switch
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-if="item.type === 'switch'"
+                        v-model="form[item.key]">
+                      </el-switch>
+
+                      <!--          cascader-->
+                      <el-cascader
+                        :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        v-model="form[item.key]"
+                        v-if="item.type==='cascader'"
+                        style="width: 300px"
+                        :props="{ multiple: item.multiple, emitPath: false }"
+                        @change="handleChangeEmit(item, form[item.key])"
+                        :options="options && options[item.key] && options[item.key].length ? options[item.key] : item.options"
+                      ></el-cascader>
+
+                      <!--            upload-->
+                      <div :class="(defaultDisabled && defaultDisabled[item.key]) ? '_is-disabled' : ''">
+                        <el-upload
+                          :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                          :action="$urls.upload"
+                          list-type="picture-card"
+                          ref="picture-card"
+                          :before-upload="handleBeforeUpload"
+                          :on-success="handleUploadImgSuccess"
+                          :on-remove="handleUploadImgRemove"
+                          :fileList="imgFileList"
+                          v-if="item.type === 'upload-img'"
+                          multiple
+                          :limit="3">
+                          <i class="el-icon-plus"></i>
+                          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </el-upload>
+                      </div>
+
                       <el-upload
                         :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
+                        class="upload-demo"
                         :action="$urls.upload"
-                        list-type="picture-card"
-                        ref="picture-card"
-                        :before-upload="handleBeforeUpload"
-                        :on-success="handleUploadImgSuccess"
-                        :on-remove="handleUploadImgRemove"
-                        :fileList="imgFileList"
-                        v-if="item.type === 'upload-img'"
-                        multiple
-                        :limit="3">
-                        <i class="el-icon-plus"></i>
+                        :fileList="fileList"
+                        :on-success="handleUploadFileSuccess"
+                        :on-remove="handleUploadFileRemove"
+                        v-if="item.type === 'upload-file'"
+                        multiple>
+                        <el-button size="small" type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                       </el-upload>
-                    </div>
+                    </el-form-item>
+                  </el-col>
+                </div>
 
-                    <el-upload
-                      :disabled="(defaultDisabled && defaultDisabled[item.key]) || false"
-                      class="upload-demo"
-                      :action="$urls.upload"
-                      :fileList="fileList"
-                      :on-success="handleUploadFileSuccess"
-                      :on-remove="handleUploadFileRemove"
-                      v-if="item.type === 'upload-file'"
-                      multiple>
-                      <el-button size="small" type="primary">点击上传</el-button>
-                      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>
-                  </el-form-item>
-                </el-col>
               </el-row>
             </el-card>
           </el-col>
@@ -193,7 +203,8 @@ export default {
     options: [String, Number, Array, Object],
     defaultValue: [String, Number, Array, Object],
     defaultRules: [String, Number, Array, Object],
-    defaultDisabled: [String, Number, Array, Object]
+    defaultDisabled: [String, Number, Array, Object],
+    defaultHidden: [String, Number, Array, Object]
   },
   computed: {
   },
@@ -344,12 +355,12 @@ export default {
         Object.keys(this.form).forEach(y => {
           if (x === y) {
             this.form[x] = this.defaultValue[x]
-          }
-          if (this.uploadImgKey === y) {
-            this.imgFileList = this.filterFormFileList(this._.cloneDeep(this.defaultValue[y].upload))
-          }
-          if (this.uploadFileKey === y) {
-            this.fileList = this.filterFormFileList(this._.cloneDeep(this.defaultValue[y].upload))
+            if (this.uploadImgKey === y) {
+              this.imgFileList = this.filterFormFileList(this._.cloneDeep(this.defaultValue[y].upload))
+            }
+            if (this.uploadFileKey === y) {
+              this.fileList = this.filterFormFileList(this._.cloneDeep(this.defaultValue[y].upload))
+            }
           }
         })
       })

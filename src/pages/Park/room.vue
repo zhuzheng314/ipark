@@ -2,9 +2,24 @@
   <div class="assetInfo">
     <div v-if="buildId">
       <el-card style="margin-bottom: 10px">
-        <div slot="header" class="clearfix">
-          <el-page-header @back="goBack" :content="buildInfo.name">
-          </el-page-header>
+        <div slot="header">
+          <div style="float: left">
+            <el-page-header @back="goBack" :content="buildInfo.name">
+            </el-page-header>
+          </div>
+          <div style="float: right">
+            <el-button
+              size="small"
+              icon="el-icon-edit"
+              @click="$emit('handleEditBuildClick')"
+            >修改</el-button>
+            <el-button
+              size="small"
+              icon="el-icon-delete"
+              @click="$emit('handleRemoveBuild')"
+            >删除</el-button>
+          </div>
+          <div style="clear: both"></div>
         </div>
         <div class="top-card-wrap">
           <InfoBox
@@ -13,7 +28,6 @@
             :data="item"
           ></InfoBox>
         </div>
-
       </el-card>
 
       <el-card>
@@ -153,6 +167,13 @@
       </el-card>
     </div>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="添加房间"
       :visible.sync="addRoomShow"
       width="600px"
@@ -174,13 +195,22 @@
               }
             ]
           }"
+          :default-hidden="{}"
           :defaultValue="addRoomDefaultValue"
           :itemList="[]">
         </ParkForm>
+        {{addRoomDefaultValue}}
       </div>
 
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改房间信息"
       :visible.sync="modifyShow"
       destroy-on-close
@@ -214,6 +244,13 @@
       top="10px"
       width="950px"
       style="overflow-y: scroll"
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
@@ -362,12 +399,6 @@ export default {
       // this.fetchBuildList()
       this.fetchBuildingInfo()
     },
-    buildId () {
-      this.addRoomDefaultValue = {
-        pid: this.buildId
-      }
-      // this.fetchBuildingInfo()
-    },
     modifyShow () {
       if (!this.modifyShow) {
         this.disabled = {} // 清空修改房间disabled
@@ -515,17 +546,18 @@ export default {
       this.$router.go(-1) // 后退
     },
     handleStatusClick (data) {
+      console.log(data)
       this.filterStatus = !this.filterStatus
       this.filterData = data
-      // this.filterRoomColorByState()
+      this.filterRoomColorByState()
     },
     filterRoomColorByState (room) {
       if (!room) return 'yellow'
       if (!this.filterStatus) {
-        return this.statusList[room.state].color
+        return this.statusList.find(x => x.code === room.code).color
       } else {
         if (this.filterData.code === room.state) {
-          return this.statusList[room.state].color
+          return this.statusList.find(x => x.code === room.code).color
         } else {
           return '#dcdcdc'
         }
@@ -613,40 +645,47 @@ export default {
       this.$https.post(this.$urls.building.info, {
         building_id: buildId
       }).then(res => {
-        let data = res
-        this.buildInfo = data
-        this.infoBoxData = [
-          {
-            type: 0,
-            title: { name: '管理面积', note: '管理的总面积' },
-            value: { value: data.total_area, unit: '㎡', chart: null },
-            subtitle: { name: '总房源数量', value: data.total_rooms, unit: '间' }
-          },
-          {
-            type: 'num',
-            title: { name: '出租率', note: '已出租面积占比' },
-            value: { value: data.rent_rate, unit: '%', chart: Number(data.rent_change_rate) || 0 },
-            subtitle: { name: '本月签约面积', value: data.month_area, unit: '㎡' }
-          },
-          {
-            type: 'num',
-            title: { name: '在租实时均价', note: '出租均价' },
-            value: { value: data.avg_unit_price, unit: '元/㎡·天', chart: Number(data.avg_unit_price_rate) || 0 },
-            subtitle: { name: '本月签约均价', value: data.month_area_avg_price, unit: '元/㎡·天' }
-          },
-          {
-            type: 0,
-            title: { name: '可招商面积', note: '可招商面积' },
-            value: { value: data.rent_area, unit: '㎡', chart: null },
-            subtitle: { name: '可招商房间', value: data.rent_rooms, unit: '间' }
-          },
-          {
-            type: 'chart',
-            title: { name: '当前计租率', note: '当前计租房间数量占比' },
-            value: { value: data.pay_rate, unit: '%', chart: data.pay_rate },
-            subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
+        if (res.code === 1000) {
+          let data = res
+          this.buildInfo = data
+          this.infoBoxData = [
+            {
+              type: 0,
+              title: { name: '管理面积', note: '管理的总面积' },
+              value: { value: data.total_area, unit: '㎡', chart: null },
+              subtitle: { name: '总房源数量', value: data.total_rooms, unit: '间' }
+            },
+            {
+              type: 'num',
+              title: { name: '出租率', note: '已出租面积占比' },
+              value: { value: data.rent_rate, unit: '%', chart: Number(data.rent_change_rate) || 0 },
+              subtitle: { name: '本月签约面积', value: data.month_area, unit: '㎡' }
+            },
+            {
+              type: 'num',
+              title: { name: '在租实时均价', note: '出租均价' },
+              value: { value: data.avg_unit_price, unit: '元/㎡·天', chart: Number(data.avg_unit_price_rate) || 0 },
+              subtitle: { name: '本月签约均价', value: data.month_area_avg_price, unit: '元/㎡·天' }
+            },
+            {
+              type: 0,
+              title: { name: '可招商面积', note: '可招商面积' },
+              value: { value: data.rent_area, unit: '㎡', chart: null },
+              subtitle: { name: '可招商房间', value: data.rent_rooms, unit: '间' }
+            },
+            {
+              type: 'chart',
+              title: { name: '当前计租率', note: '当前计租房间数量占比' },
+              value: { value: data.pay_rate, unit: '%', chart: data.pay_rate },
+              subtitle: { name: '预计全年计租率', value: Number(data.year_pay_rate).toFixed(2) * 100, unit: '%' }
+            }
+          ]
+
+          this.addRoomDefaultValue = {
+            pid: this.buildId,
+            address: res.name
           }
-        ]
+        }
       })
     },
     fetchAddRoom (data) {

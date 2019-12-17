@@ -20,8 +20,8 @@
                 <div class="value">{{item.area}}㎡</div>
               </div>
             </div>
-            <i class="el-icon-edit" @click="handleEditBuildClick(item)"></i>
-            <i class="el-icon-delete" @click="handleRemoveBuild(item)"></i>
+<!--            <i class="el-icon-edit" @click="handleEditBuildClick(item)"></i>-->
+<!--            <i class="el-icon-delete" @click="handleRemoveBuild(item)"></i>-->
           </div>
         </div>
         <div v-else>
@@ -31,9 +31,18 @@
       </div>
     </div>
     <div class="right">
-      <Room :propBuildId="buildId"></Room>
+      <Room :propBuildId="buildId"
+            @handleRemoveBuild="handleRemoveBuild"
+            @handleEditBuildClick="handleEditBuildClick"></Room>
     </div>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="添加楼宇"
       :visible.sync="addShowBuild"
       width="600px"
@@ -51,6 +60,13 @@
       </div>
     </el-dialog>
     <el-dialog
+      :before-close="(done) => {
+         this.$confirm('表单尚未提交确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        }"
       title="修改楼宇"
       :visible.sync="editShow"
       width="600px"
@@ -136,10 +152,10 @@ export default {
     handleAdd () {
       this.addBuildShow = true
     },
-    handleEditBuildClick (park) {
+    handleEditBuildClick (build) {
       this.modifyDefaultValue = {}
       this.$https.post(this.$urls.building.get_info, {
-        domain_id: park.domain_id
+        domain_id: this.buildId
       }).then(res => {
         if (res.code === 1000) {
           this.modifyDefaultValue = res
@@ -209,7 +225,7 @@ export default {
       })
         .then(() => {
           this.$https.post(this.$urls.building.remove, {
-            domain_id: build.domain_id
+            domain_id: this.buildId
           }).then(res => {
             if (res.code === 1000) {
               this.$message.success('删除成功')
