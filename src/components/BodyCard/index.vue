@@ -8,28 +8,35 @@
       </div>
     </div>
     <div v-if="type==1" style="padding: 20px">
-      <div class="bodyCard-infoBox" v-for="(item,i) of data.info" :key="(item,i)">
-        <span class="bodyCard-infoBox-name">{{item.name}}</span>
-        <span>:</span>
-        <el-tag v-if="item.tag">
-          <el-tooltip
-          class="item"
-          effect="dark"
-          :content="item.value"
-          placement="top">
-            <span class="bodyCard-infoBox-value">{{item.value}}</span>
-          </el-tooltip>
-        </el-tag>
-        <el-tooltip v-else class="item" effect="dark" :content="item.value" placement="top">
-          <span class="bodyCard-infoBox-value">{{item.value}}</span>
-        </el-tooltip>
+      <el-row :gutter="20">
+        <el-col :span="8" v-for="(item,i) of data.info" :key="(item,i)">
+          <div class="bodyCard-infoBox">
+            <span class="bodyCard-infoBox-name">{{item.name}}</span>
+            <span>:</span>
+            <el-tag v-if="item.tag">
+              <el-tooltip
+              class="item"
+              effect="dark"
+              :content="item.value"
+              placement="top">
+                <span class="bodyCard-infoBox-value">{{item.value}}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tooltip v-else class="item" effect="dark" :content="item.value" placement="top">
+              <span class="bodyCard-infoBox-value">{{item.value}}</span>
+            </el-tooltip>
 
-      </div>
+          </div>
+        </el-col>
+      </el-row>
     </div>
     <div v-if="type==2" style="padding: 20px">
       <GTable
         :tableLabel="info.label"
         :tableData="info && info.tableData">
+        <template #renderButton="data">
+          <slot name="btns" :slotName="data.slotName"></slot>
+        </template>
       </GTable>
     </div>
     <div v-if="type==3" style="padding: 20px">>
@@ -109,7 +116,7 @@ export default {
     width: 376px;
     height: 40px;
     line-height: 40px;
-    float: left;
+    // float: left;
     box-sizing: border-box;
     padding: 0 16px;
     .ellipsis;

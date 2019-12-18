@@ -174,6 +174,7 @@ const api = {
     get_info: `/assets.charge.get_info`, // 获取财务收入信息
     get_back: `/assets.charge.get_back`
   },
+  // 费用收取
   expense: {
     info: `/assets.d_expense.get_info`, // 获取财务收入统计信息
     add: `/assets.expense.add`, // 添加财务收入
@@ -181,7 +182,8 @@ const api = {
     remove: `/assets.expense.remove`, // 删除财务收入
     get_list: `/assets.expense.get_list`, // 获取财务收入列表
     get_info: `/assets.expense.get_info`, // 获取财务收入信息
-    get_back: `/assets.expense.get_back`
+    get_back: `/assets.expense.get_back`,
+    get_list_bind: `/assets.expense.get_list_bind_previous`
   },
   /* --------------- 字典模块管理 --------------- */
   // 字典类型模块
