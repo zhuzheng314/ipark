@@ -21,3 +21,19 @@ export function getRooms (list) { // 房间名数组
   })
   return list
 }
+
+export function tagState (list, stateList) { // 标签颜色
+  list.forEach(v => {
+    for (let state in stateList) {
+      for (let value in stateList[state]) {
+        if (v[state] === value) {
+          v[state] = {
+            value: v[state],
+            [stateList[state][value]]: true
+          }
+        }
+      }
+    }
+  })
+  return list
+}

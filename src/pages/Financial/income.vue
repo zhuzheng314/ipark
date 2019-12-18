@@ -214,7 +214,7 @@ export default {
             { prop: 'building_name', label: '楼宇' },
             { prop: 'name', label: '房间号' },
             { prop: 'area', label: '面积' },
-            { prop: 'state', label: '房源状态' }
+            { prop: 'state', label: '房源状态', renderTags: true }
           ],
           tableData: []
         }
@@ -366,14 +366,11 @@ export default {
           { name: '状态', value: data.state },
           { name: '周期开始时间', value: data.start_ts },
           { name: '周期结束时间', value: data.end_ts },
-          { name: '备注', value: data.memo ? data.memo : '-' }
+          { name: '备注', value: data.memo }
         ]
-        console.log(data.room)
         if (data.room.length) {
           let roomList = data.room
-          for (let i = 0; i < roomList.length; i++) {
-            roomList[i].state = this.$store.getters.getDicById(roomList[i].state)
-          }
+          this.$dictionary.tableData(roomList, ['state'])
           this.info_body_room.info.tableData = roomList
         }
       })
@@ -400,7 +397,6 @@ export default {
   created () {
     this.fetchInfo()
     this.fetchList()
-    // console.log(this.yearList)
   }
 }
 </script>

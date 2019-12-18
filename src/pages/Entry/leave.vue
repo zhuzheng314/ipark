@@ -305,9 +305,9 @@ export default {
           this.info_info.tableData.push({ ...data })
           // console.log(this.info_info.tableData)
           this.info_body.info = [
-            { name: '联系人', value: data.contacter || '-' },
-            { name: '电话', value: data.contact || '-' },
-            { name: '邮箱', value: data.email || '-' }
+            { name: '联系人', value: data.contacter },
+            { name: '电话', value: data.contact },
+            { name: '邮箱', value: data.email }
           ]
           let contractList = [{ ...data }]
           this.$utils.getRooms(contractList)

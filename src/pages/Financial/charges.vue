@@ -267,14 +267,6 @@
         <span class="money">{{receipt.bill_money}}</span>元，已收取
         <span class="money">{{receipt.receive_money}}</span>元。本次收取金额
         <span class="money">{{receipt.bill_money - receipt.receive_money}}</span>元。
-        <!-- <p>本次收取金额
-        <el-input-number
-        v-model="receiptNum"
-        size="mini"
-        controls-position="right"
-        label="描述文字"
-        >
-        </el-input-number></p>-->
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="visibleSettle = false">取 消</el-button>
@@ -975,6 +967,12 @@ export default {
           list = res.list
           let params = ['state', 'type']
           this.$dictionary.tableData(list, params)
+          let stateList = {
+            state: {
+              '未结清': 'danger'
+            }
+          }
+          this.$utils.tagState(list, stateList)
           this.$utils.getRooms(list)
           this.page.total = res.total
         }
@@ -998,16 +996,18 @@ export default {
         data.type = this.$store.getters.getDicById(data.type)
         this.info_header.title = '客户名称：' + data.customer_name
         this.info_info.tableData.push({ ...data })
+        console.log(data.contract_code)
+
         this.info_body_expense.info = [
-          { name: '费用编号', value: data.expense_code || '-' },
-          { name: '合同编号', value: data.contract_code || '-' },
-          { name: '费用类型', value: data.type || '-' },
-          { name: '账单金额', value: data.bill_money || '-' },
-          { name: '实收金额', value: data.receive_money || '-' },
-          { name: '开票金额', value: data.invoice_money || '-' },
-          { name: '计费周期', value: data.start_ts + '-' + data.end_ts || '-' },
-          { name: '联系人', value: data.contacter || '-' },
-          { name: '联系电话', value: data.contact || '-' }
+          { name: '费用编号', value: data.expense_code },
+          { name: '合同编号', value: data.contract_code },
+          { name: '费用类型', value: data.type },
+          { name: '账单金额', value: data.bill_money },
+          { name: '实收金额', value: data.receive_money },
+          { name: '开票金额', value: data.invoice_money },
+          { name: '计费周期', value: data.start_ts + '-' + data.end_ts },
+          { name: '联系人', value: data.contacter },
+          { name: '联系电话', value: data.contact }
         ]
       })
     },
