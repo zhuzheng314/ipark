@@ -267,14 +267,6 @@
         <span class="money">{{receipt.bill_money}}</span>元，已收取
         <span class="money">{{receipt.receive_money}}</span>元。本次收取金额
         <span class="money">{{receipt.bill_money - receipt.receive_money}}</span>元。
-        <!-- <p>本次收取金额
-        <el-input-number
-        v-model="receiptNum"
-        size="mini"
-        controls-position="right"
-        label="描述文字"
-        >
-        </el-input-number></p>-->
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="visibleSettle = false">取 消</el-button>

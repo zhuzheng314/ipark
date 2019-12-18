@@ -49,7 +49,7 @@ const contractList = [
   },
   {
     prop: 'rooms',
-    label: '楼宇名称',
+    label: '楼宇/房间号',
     tags: true
   },
   {
@@ -286,12 +286,12 @@ const complaintList = [
 // 费用催缴
 const paymentList = [
   {
-    prop: 'rooms',
+    prop: 'room',
     label: '房间号',
-    tags: true
+    renderTags: true
   },
   {
-    prop: 'customer',
+    prop: 'customer_name',
     label: '客户名称'
   },
   {
@@ -312,7 +312,7 @@ const paymentList = [
     label: '跟进人'
   },
   {
-    prop: 'create_ts',
+    prop: 'update_ts',
     label: '最近一次催缴时间'
   }
 ]

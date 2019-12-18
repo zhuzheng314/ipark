@@ -260,7 +260,9 @@ export default {
           label: [
             { prop: 'park_name', label: '园区' },
             { prop: 'building_name', label: '楼宇' },
-            { prop: 'name', label: '房号' }
+            { prop: 'name', label: '房号' },
+            { prop: 'area', label: '面积' },
+            { prop: 'state', label: '房源状态' }
           ],
           tableData: []
         }
@@ -308,7 +310,7 @@ export default {
     },
     contractState (data) {
       this.id = data.contract_code
-      this.fetchGetInfo(this.id)
+      // this.fetchGetInfo(this.id)
       this.contractInfoState = true
       this.contractInfo_header.title = data.customer_name
       this.contractInfo_header.data = data
@@ -448,7 +450,7 @@ export default {
         if (res.code === 1000) {
           this.$message.success('修改成功')
           this.defaultValue = {}
-          this.fetchGetInfo(this.id)
+          // this.fetchGetInfo(this.id)
           this.fetchList()
           this.modifyVisible = false
         } else {
