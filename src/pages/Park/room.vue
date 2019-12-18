@@ -199,7 +199,6 @@
           :defaultValue="addRoomDefaultValue"
           :itemList="[]">
         </ParkForm>
-        {{addRoomDefaultValue}}
       </div>
 
     </el-dialog>
