@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .none{
     width: 100%;
     line-height: inherit;

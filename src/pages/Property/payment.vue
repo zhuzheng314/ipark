@@ -548,7 +548,7 @@ export default {
         expense_code,
         customer_id
       }
-      console.log(params)
+      // console.log(params)
     },
     selectType (data) {
       if (data.value === 413 || data.value === 414 || data.value === 458) {
