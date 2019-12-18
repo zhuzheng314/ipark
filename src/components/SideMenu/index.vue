@@ -51,7 +51,7 @@ export default {
     handleOpen () {
     },
     handleClick () {
-      this.collapse = true
+      // this.collapse = true
     }
   }
 }

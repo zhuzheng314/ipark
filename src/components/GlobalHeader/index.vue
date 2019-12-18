@@ -240,6 +240,13 @@ export default {
     const dictionary = this.$utils.storageGet('dictionary')
     if (activePark) {
       this.$store.commit('commitActivePark', activePark)
+
+      this.$store.dispatch('getAccount')
+      this.$store.dispatch('getDictionaryTree')
+      this.$store.dispatch('getParkTreeList')
+      this.$store.dispatch('getContractList')
+      this.$store.dispatch('getCustomerList')
+      this.$store.dispatch('getContractTamplateList')
     }
     if (dictionary) {
       this.$store.commit('commitDictionaryTree', dictionary)

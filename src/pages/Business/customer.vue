@@ -509,6 +509,7 @@ export default {
           this.tableData = []
         }
       })
+      this.$store.dispatch('getCustomerList')
     },
     fetchListSearch () {
       this.page.page_no = 1
