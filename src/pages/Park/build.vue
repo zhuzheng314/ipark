@@ -237,7 +237,11 @@ export default {
                 page_size: 999 }).then(res => {
               })
             } else {
-              this.$message.warning('删除失败，code:' + res.code)
+              if (res.code === 1101) {
+                this.$message.warning('删除失败，该楼宇下还有房间')
+              } else {
+                this.$message.warning('删除失败，code:' + res.code)
+              }
             }
           })
         })

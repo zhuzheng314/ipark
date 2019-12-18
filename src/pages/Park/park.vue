@@ -431,7 +431,11 @@ export default {
                 page_size: 20 }).then(res => {
               })
             } else {
-              this.$message.warning('删除失败，code:' + res.code)
+              if (res.code === 1101) {
+                this.$message.warning('删除失败，该园区下还有楼宇')
+              } else {
+                this.$message.warning('删除失败，code:' + res.code)
+              }
             }
           })
         })
