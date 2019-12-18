@@ -100,8 +100,8 @@
                   :style="{
                 width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
-                background: filterRoomState(subItem).color }">
-                  <div class="text">{{subItem.name}}</div>
+                background: subItem.state === selectCode || selectCode === '' ? filterRoomState(subItem).color : '#dcdcdc' }">
+                  <div class="text">{{subItem.name}}{{ subItem.state + ',,,'+  selectCode}}</div>
                   <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
                   <div class="sub-text">
                     {{subItem.state === 292 ? subItem.end_ts + '到期' : '-' }}
@@ -135,7 +135,7 @@
           </HeaderCard>
           <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
 
-          <div class="drawer-body" style="height: 600px">
+          <div class="drawer-body" style="height: 600px;">
             <BodyCard type='img' :data="{
               title: '房屋图片',
               ...roomInfo
@@ -286,8 +286,13 @@ export default {
       value: '',
       fakerList: [
       ],
-      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#dcdcdc'],
+      colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#FE5B6B'],
       statusList: [
+        {
+          color: '#dcdcdc',
+          code: '',
+          str: '全部'
+        },
         {
           color: '#57D1E2',
           code: 292,
@@ -309,7 +314,7 @@ export default {
           str: '未分配'
         },
         {
-          color: '#dcdcdc',
+          color: '#626C91',
           code: 432,
           str: '锁定'
         }
@@ -383,7 +388,8 @@ export default {
       addRoomDefaultValue: {},
       roomParams: {
         area: null
-      }
+      },
+      selectCode: ''
     }
   },
   computed: {
@@ -456,6 +462,7 @@ export default {
         if (res.code === 1000) {
           this.handleRoomClick(this.roomInfo)
           this.addContractVisible = false
+          this.fetchRoomList()
           this.$message.success('新增成功')
         } else {
           this.$message.error('新增失败')
@@ -532,6 +539,7 @@ export default {
     handleStatusClick (data) {
       console.log(data)
       this.filterStatus = !this.filterStatus
+      this.selectCode = data.code
       this.filterData = data
       this.filterRoomColorByState()
     },
