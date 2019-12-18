@@ -35,7 +35,7 @@
         </template>
       </GTable>
     </div>
-    <div v-if="type==3" style="padding: 20px">>
+    <div v-if="type==3" style="padding: 20px">
       <div class="bodyCard-text">{{data.info ? data.info : '暂无备注'}}</div>
     </div>
     <div v-if="type==='img'">
