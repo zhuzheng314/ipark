@@ -395,7 +395,7 @@ export default {
         title: '水费信息',
         info: {
           label: [
-            { prop: 'rooms', label: '房间号' },
+            { prop: 'rooms', label: '房间号', tags: true },
             { prop: 'previous_val', label: '期初数' },
             { prop: 'current_val', label: '期末数' },
             { prop: 'create_ts', label: '填单日' },
@@ -409,7 +409,7 @@ export default {
         title: '电费信息',
         info: {
           label: [
-            { prop: 'rooms', label: '房间号' },
+            { prop: 'rooms', label: '房间号', tags: true },
             { prop: 'previous_val', label: '期初数' },
             { prop: 'current_val', label: '期末数' },
             { prop: 'create_ts', label: '填单日' },
@@ -423,7 +423,7 @@ export default {
         title: '煤气费信息',
         info: {
           label: [
-            { prop: 'rooms', label: '房间号' },
+            { prop: 'rooms', label: '房间号', tags: true },
             { prop: 'previous_val', label: '期初数' },
             { prop: 'current_val', label: '期末数' },
             { prop: 'create_ts', label: '填单日' },
@@ -1029,6 +1029,8 @@ export default {
         let listGas = []
         let listLease = []
         let listOther = []
+        let dataList = res.list
+        this.$utils.getRooms(dataList)
         if (res.code === 1000) {
           let data = res.list
           if (data.length) {
