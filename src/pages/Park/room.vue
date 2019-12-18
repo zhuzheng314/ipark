@@ -148,6 +148,7 @@
             <BodyCard type=2 :data="roomInfo_body_table1">
               <template #btn>
                 <el-button
+                  :disabled="roomInfo && roomInfo.state !== 294"
                   :style="{height: '80%',margin: 'auto 8px'}"
                   size="mini"
                   @click="addContract"
