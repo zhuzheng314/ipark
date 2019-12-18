@@ -260,7 +260,9 @@ export default {
           label: [
             { prop: 'park_name', label: '园区' },
             { prop: 'building_name', label: '楼宇' },
-            { prop: 'name', label: '房号' }
+            { prop: 'name', label: '房号' },
+            { prop: 'area', label: '面积' },
+            { prop: 'state', label: '房源状态' }
           ],
           tableData: []
         }
@@ -308,27 +310,27 @@ export default {
     },
     contractState (data) {
       this.id = data.contract_code
-      this.fetchGetInfo(this.id)
+      // this.fetchGetInfo(this.id)
       this.contractInfoState = true
       this.contractInfo_header.title = data.customer_name
       this.contractInfo_header.data = data
       this.contractInfo_body_contract.info = [
-        { name: '合同编号', value: (data.contract_code || '-') },
-        { name: '合同类型', value: (data.contract_type || '-') },
-        { name: '合同状态', value: (data.state || '-') },
-        { name: '合同签订日', value: (data.sign_ts || '-') },
-        { name: '合同起租日', value: (data.start_ts || '-') },
-        { name: '合同失效日', value: (data.end_ts || '-') },
-        { name: '租赁面积', value: (data.rent_area || '-') + '㎡' },
-        { name: '计租时间', value: (data.start_ts || '-') },
-        { name: '结束时间', value: (data.end_ts || '-') },
-        { name: '合同单价', value: (data.unit_price || '-') + '元/㎡·天' },
-        { name: '月租金', value: (data.month_rent || '-') + '元' },
-        { name: '年租金', value: (data.year_rent || '-') + '元' },
-        { name: '付款周期', value: (data.pay_cycle || '-') + '月一付' },
-        { name: '提前收租', value: (data.prepaid || '-') + '月' },
-        { name: '收款日', value: '每月' + (data.pay_date || '-') + '日' },
-        { name: '押金', value: (data.deposit || '-') + '元' }
+        { name: '合同编号', value: data.contract_code },
+        { name: '合同类型', value: data.contract_type },
+        { name: '合同状态', value: data.state },
+        { name: '合同签订日', value: data.sign_ts },
+        { name: '合同起租日', value: data.start_ts },
+        { name: '合同失效日', value: data.end_ts },
+        { name: '租赁面积', value: data.rent_area + '㎡' },
+        { name: '计租时间', value: data.start_ts },
+        { name: '结束时间', value: data.end_ts },
+        { name: '合同单价', value: data.unit_price + '元/㎡·天' },
+        { name: '月租金', value: data.month_rent + '元' },
+        { name: '年租金', value: data.year_rent + '元' },
+        { name: '付款周期', value: data.pay_cycle + '月一付' },
+        { name: '提前收租', value: data.prepaid + '月' },
+        { name: '收款日', value: '每月' + data.pay_date + '日' },
+        { name: '押金', value: data.deposit + '元' }
       ]
       this.contractInfo_body_room.info.tableData = data.room
       this.contractInfo_body1.info = [
@@ -339,19 +341,19 @@ export default {
         { name: '签订人', value: data.customer_name }
       ]
       this.contractInfo_body_property.info = [
-        { name: '管理面积', value: (data.manage_area || '-') + '㎡' },
-        { name: '签订时间', value: (data.property_sign_ts || '-') },
-        { name: '押金', value: (data.property_deposit || '-') + '元' },
-        { name: '合同单价', value: (data.property_unit_price || '-') + '元/㎡·天' },
-        { name: '公摊', value: (data.equal_share || '-') + '元/㎡·天' },
-        { name: '能耗', value: (data.energy_consume || '-') + '元/㎡·天' },
-        { name: '月物业费', value: (data.property_month_rent || '-') + '元' },
-        { name: '年物业费', value: (data.property_year_rent || '-') + '元' },
-        { name: '付款周期', value: (data.property_pay_cycle || '-') + '月一付' },
-        { name: '提前收费', value: (data.property_prepaid || '-') + '月' },
-        { name: '收款日', value: '每月' + (data.property_pay_date || '-') + '日' },
-        { name: '计费时间', value: (data.property_fee_start_ts || '-') },
-        { name: '结束时间', value: (data.property_fee_end_ts || '-') }
+        { name: '管理面积', value: data.manage_area + '㎡' },
+        { name: '签订时间', value: data.property_sign_ts },
+        { name: '押金', value: data.property_deposit + '元' },
+        { name: '合同单价', value: data.property_unit_price + '元/㎡·天' },
+        { name: '公摊', value: data.equal_share + '元/㎡·天' },
+        { name: '能耗', value: data.energy_consume + '元/㎡·天' },
+        { name: '月物业费', value: data.property_month_rent + '元' },
+        { name: '年物业费', value: data.property_year_rent + '元' },
+        { name: '付款周期', value: data.property_pay_cycle + '月一付' },
+        { name: '提前收费', value: data.property_prepaid + '月' },
+        { name: '收款日', value: '每月' + data.property_pay_date + '日' },
+        { name: '计费时间', value: data.property_fee_start_ts },
+        { name: '结束时间', value: data.property_fee_end_ts }
       ]
     },
     open (i) {
@@ -448,7 +450,7 @@ export default {
         if (res.code === 1000) {
           this.$message.success('修改成功')
           this.defaultValue = {}
-          this.fetchGetInfo(this.id)
+          // this.fetchGetInfo(this.id)
           this.fetchList()
           this.modifyVisible = false
         } else {
