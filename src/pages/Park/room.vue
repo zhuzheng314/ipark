@@ -101,7 +101,7 @@
                 width: !showTrueArea ? 'calc(' + 100 / item.children.length + '% - 5px)'
                 : 'calc(' + subItem.area * 100 / item.allArea + '% - 5px)',
                 background: subItem.state === selectCode || selectCode === '' ? filterRoomState(subItem).color : '#dcdcdc' }">
-                  <div class="text">{{subItem.name}}{{ subItem.state + ',,,'+  selectCode}}</div>
+                  <div class="text">{{subItem.name}}</div>
                   <div class="sub-text" style="margin-bottom: 8px">{{subItem.area}}㎡</div>
                   <div class="sub-text">
                     {{subItem.state === 292 ? subItem.end_ts + '到期' : '-' }}
