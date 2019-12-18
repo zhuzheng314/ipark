@@ -426,8 +426,6 @@ export default {
         let data = res
         this.workOrderInfo = res
         data.complaint_state = this.$store.getters.getDicById(data.complaint_state)
-        console.log(data.complaint_state)
-
         this.workOrderInfo_body1.info = [
           { name: '工单类型', value: data.type || '投诉' },
           { name: '发起人', value: data.originator },

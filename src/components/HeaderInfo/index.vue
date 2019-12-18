@@ -8,6 +8,9 @@
         :prop="item.prop"
         :label="item.label"
         :width="1186/data.label.length">
+        <template slot-scope="scope">
+          <span>{{scope.row[item.prop] === null || scope.row[item.prop] === undefined ? '-' : scope.row[item.prop]}}</span>
+        </template>
       </el-table-column>
     </el-table>
   </el-card>

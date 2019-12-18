@@ -869,15 +869,15 @@ export default {
         this.info_header.title = '客户名称：' + data.customer_name
         this.info_info.tableData.push({ ...data })
         this.info_body_expense.info = [
-          { name: '费用编号', value: data.expense_code || '-' },
-          { name: '合同编号', value: data.contract_code || '-' },
-          { name: '费用类型', value: data.type || '-' },
-          { name: '账单金额', value: data.bill_money || '-' },
-          { name: '实收金额', value: data.receive_money || '-' },
-          { name: '开票金额', value: data.invoice_money || '-' },
-          { name: '计费周期', value: data.start_ts + '-' + data.end_ts || '-' },
-          { name: '联系人', value: data.contacter || '-' },
-          { name: '联系电话', value: data.contact || '-' }
+          { name: '费用编号', value: data.expense_code },
+          { name: '合同编号', value: data.contract_code },
+          { name: '费用类型', value: data.type },
+          { name: '账单金额', value: data.bill_money },
+          { name: '实收金额', value: data.receive_money },
+          { name: '开票金额', value: data.invoice_money },
+          { name: '计费周期', value: data.start_ts + '-' + data.end_ts },
+          { name: '联系人', value: data.contacter },
+          { name: '联系电话', value: data.contact }
         ]
       })
     },

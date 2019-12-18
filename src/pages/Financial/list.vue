@@ -380,7 +380,7 @@ export default {
           { name: '周期开始时间', value: data.start_ts },
           { name: '周期结束时间', value: data.end_ts },
           { name: '客户名字', value: data.customer },
-          { name: '备注', value: data.memo ? data.memo : '-' }
+          { name: '备注', value: data.memo }
         ]
         if (data.room.length) {
           let roomList = data.room
