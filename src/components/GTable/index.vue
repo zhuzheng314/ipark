@@ -14,10 +14,10 @@
         :prop="item.prop">
         <template slot-scope="scope">
           <span v-if="item.renderTags">
-            <el-tag v-if="scope.row[item.prop].danger" size="mini" type="danger">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
-            <el-tag v-else-if="scope.row[item.prop].warning" size="mini" type="warning">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
-            <el-tag v-else-if="scope.row[item.prop].info" size="mini" type="info">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
-            <el-tag v-else-if="scope.row[item.prop].success" size="mini" type="success">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
+            <el-tag v-if="scope.row[item.prop] && scope.row[item.prop].danger" size="mini" type="danger">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
+            <el-tag v-else-if="scope.row[item.prop] && scope.row[item.prop].warning" size="mini" type="warning">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
+            <el-tag v-else-if="scope.row[item.prop] && scope.row[item.prop].info" size="mini" type="info">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
+            <el-tag v-else-if="scope.row[item.prop] && scope.row[item.prop].success" size="mini" type="success">{{scope.row[item.prop].value === null || scope.row[item.prop].value === undefined ? '-' : scope.row[item.prop].value}}</el-tag>
             <el-tag v-else size="mini">{{scope.row[item.prop] === null || scope.row[item.prop] === undefined ? '-' : scope.row[item.prop]}}</el-tag>
           </span>
           <span v-else-if="item.tags">

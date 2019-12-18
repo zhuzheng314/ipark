@@ -389,7 +389,6 @@ export default {
       if (this.end_ts) {
         params.end_ts = this.end_ts
       }
-      console.log(params.end_ts)
       this.$https.post(this.$urls.contract.get_list, params).then((res) => {
         this.end_ts = 0
         if (res.code === 1000 && res.list.length) {
@@ -400,6 +399,7 @@ export default {
           this.page.total = res.total
           this.tableData = []
           this.tableData = list
+          console.log(list)
         } else {
           this.page.total = 0
           // this.$message.warning('未找到相关数据')
@@ -488,10 +488,7 @@ export default {
           dateArr.forEach(item => {
             arr.push(res.list[item])
           })
-          console.log(res)
-
           this.barOptions.series[0].data = arr
-
           this.infoList = [
             { name: '合同总数量', unit: '个', value: 0 },
             { name: '合同总金额', unit: '万元', value: 0 },

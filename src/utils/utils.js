@@ -26,7 +26,7 @@ export function tagState (list, stateList) { // 标签颜色
   list.forEach(v => {
     for (let state in stateList) {
       for (let value in stateList[state]) {
-        if (v[state] === value) {
+        if (v && v[state] === value) {
           v[state] = {
             value: v[state],
             [stateList[state][value]]: true
