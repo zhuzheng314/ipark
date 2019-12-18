@@ -879,16 +879,6 @@ const addContractForm = [
       },
       {
         type: 'input',
-        label: '电话',
-        key: 'contact',
-        placeholder: '请输入',
-        rule: [
-          // { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'input',
         label: '纳税人识别号',
         key: 'taxpayer_code',
         placeholder: '请输入',
