@@ -348,6 +348,12 @@ export default {
         let list = res.list
         let params = ['log_type', 'cost_type', 'state']
         this.$dictionary.tableData(list, params)
+        let stateList = {
+          state: {
+            '未缴': 'danger'
+          }
+        }
+        this.$utils.tagState(list, stateList)
         this.page.total = res.total
         this.tableData = []
         this.tableData = res.list

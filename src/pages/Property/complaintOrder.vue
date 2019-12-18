@@ -408,6 +408,12 @@ export default {
         let list = res.list
         let params = ['complaint_state']
         this.$dictionary.tableData(list, params)
+        let stateList = {
+          complaint_state: {
+            '未解决': 'danger'
+          }
+        }
+        this.$utils.tagState(list, stateList)
         this.page.total = res.total
         this.tableData = res.list
       })

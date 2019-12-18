@@ -413,6 +413,12 @@ export default {
         let list = res.list
         let params = ['repair_state']
         this.$dictionary.tableData(list, params)
+        let stateList = {
+          repair_state: {
+            '未解决': 'danger'
+          }
+        }
+        this.$utils.tagState(list, stateList)
         this.page.total = res.total
         this.tableData = []
         this.tableData = res.list

@@ -845,6 +845,12 @@ export default {
           list = res.list
           let params = ['state', 'type']
           this.$dictionary.tableData(list, params)
+          let stateList = {
+            state: {
+              '未结清': 'danger'
+            }
+          }
+          this.$utils.tagState(list, stateList)
           this.$utils.getRooms(list)
           this.page.total = res.total
         }
