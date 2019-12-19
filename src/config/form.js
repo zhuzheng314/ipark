@@ -564,6 +564,7 @@ const addCustomerForm = [
         key: 'email',
         placeholder: '请输入邮箱',
         rule: [
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
           // { required: true, message: '请输入企业名称', trigger: 'blur' },
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]

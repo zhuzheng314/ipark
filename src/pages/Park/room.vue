@@ -289,11 +289,11 @@ export default {
       ],
       colorList: ['#57D1E2', '#46D2A8', '#F1A468', '#626C91', '#FE5B6B'],
       statusList: [
-        {
-          color: '#dcdcdc',
-          code: '',
-          str: '全部'
-        },
+        // {
+        //   color: '#dcdcdc',
+        //   code: '',
+        //   str: '全部'
+        // },
         {
           color: '#57D1E2',
           code: 292,
@@ -538,14 +538,13 @@ export default {
       this.$router.go(-1) // 后退
     },
     handleStatusClick (data) {
-      console.log(data)
       this.filterStatus = !this.filterStatus
-      this.selectCode = data.code
+      this.selectCode === data.code ? this.selectCode = '' : this.selectCode = data.code
       this.filterData = data
       this.filterRoomColorByState()
     },
     filterRoomColorByState (room) {
-      if (!room) return 'yellow'
+      if (!room) return
       if (!this.filterStatus) {
         return this.statusList.find(x => x.code === room.code).color
       } else {
