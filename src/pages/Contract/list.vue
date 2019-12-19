@@ -1,36 +1,5 @@
 <template>
   <div>
-    <el-card style="width: 100%">
-      <el-select  size="small"
-                  clearable
-                  @change="fetchListSearch"
-                  v-model="contract_state" placeholder="合同状态">
-        <el-option
-          v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-
-      <el-input
-        @change="fetchListSearch"
-        clearable
-        placeholder="搜索企业"
-        size="small"
-        style="width: 220px; margin-left: 15px"
-        prefix-icon="el-icon-search"
-        v-model="customer_name">
-      </el-input>
-
-      <el-button
-        style="float: right"
-        type="primary"
-        icon="el-icon-plus"
-        size="small"
-        @click="handleAddContract"
-      >新建合同</el-button>
-    </el-card>
     <el-card style="margin-bottom: 20px">
       <div slot="header" class="clearfix">
         <span>到期监控图</span>
@@ -57,6 +26,35 @@
       </el-row>
     </el-card>
     <el-card>
+      <div slot="header">
+        <el-select  size="small"
+                    clearable
+                    @change="fetchListSearch"
+                    v-model="contract_state" placeholder="合同状态">
+          <el-option
+            v-for="item in this.$store.state.dictionary.dictionaryType['contract_state']"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-input
+          @change="fetchListSearch"
+          clearable
+          placeholder="搜索企业"
+          size="small"
+          style="width: 220px; margin-left: 15px"
+          prefix-icon="el-icon-search"
+          v-model="customer_name">
+        </el-input>
+        <el-button
+          style="float: right"
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="handleAddContract"
+        >新建合同</el-button>
+      </div>
       <GTable
         @row-click="contractState"
         @current-change="handlePageClick"
