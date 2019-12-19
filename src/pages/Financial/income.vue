@@ -20,7 +20,7 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="customer_name"
+          v-model="like"
           clearable
           @change="fetchListSearch">
         </el-input>
@@ -176,7 +176,7 @@ export default {
       ],
       state: '',
       date: '',
-      customer_name: '',
+      like: '',
       addVisible: false,
       InfoState: false,
       modifyVisible: false,
@@ -323,7 +323,7 @@ export default {
         state: this.state,
         start_ts: this.date && this.date.length ? this.date[0] : '',
         end_ts: this.date && this.date.length ? this.date[1] : '',
-        customer_name: this.customer_name
+        like: this.like
       }
 
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
