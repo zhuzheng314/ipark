@@ -1066,7 +1066,7 @@ export default {
   mounted () {
     this.fetchInfo()
     this.fetchList()
-    // console.log(this.yearList)
+    this.$store.dispatch('getParkTreeList')
   }
 }
 </script>
