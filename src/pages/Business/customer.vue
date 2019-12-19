@@ -150,6 +150,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        @onCancel="() => {this.modifyVisible = false}"
         :formList="$formsLabels.addCustomerForm"
         :options="$store.getters.customerListOptions"
         :defaultValue="defaultValue"

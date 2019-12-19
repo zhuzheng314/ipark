@@ -345,12 +345,20 @@ export default {
       }
       this.$https.post(this.$urls.cost.get_list, params).then((res) => {
         // console.log(res)
-        let list = res.list
-        let params = ['log_type', 'cost_type', 'state']
-        this.$dictionary.tableData(list, params)
-        this.page.total = res.total
         this.tableData = []
-        this.tableData = res.list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['log_type', 'cost_type', 'state']
+          this.$dictionary.tableData(list, params)
+          let stateList = {
+            state: {
+              '未缴': 'danger'
+            }
+          }
+          this.$utils.tagState(list, stateList)
+          this.page.total = res.total
+          this.tableData = res.list
+        }
       })
     },
     fetchListSearch () {

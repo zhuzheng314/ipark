@@ -324,7 +324,8 @@ const financialList = [
   },
   {
     prop: 'state',
-    label: '状态'
+    label: '状态',
+    renderTags: true
   },
   {
     prop: 'contract_code',
@@ -343,7 +344,7 @@ const financialList = [
     label: '跟进人'
   },
   {
-    prop: 'log_type',
+    prop: 'customer_name',
     label: '客户'
   },
   {
@@ -356,17 +357,19 @@ const financialList = [
   },
   {
     prop: 'cost_type',
-    label: '费用类型'
+    label: '费用类型',
+    renderTags: true
   }
 ]
 // 财务收入
 const incomeList = [
   {
     prop: 'charge_type',
-    label: '费用类型'
+    label: '费用类型',
+    renderTags: true
   },
   {
-    prop: 'customer',
+    prop: 'customer_name',
     label: '客户名称'
   },
   {
@@ -379,7 +382,8 @@ const incomeList = [
   },
   {
     prop: 'state',
-    label: '缴费状态'
+    label: '缴费状态',
+    renderTags: true
   },
   {
     prop: 'contract_code',
