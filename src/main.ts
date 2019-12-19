@@ -30,7 +30,6 @@ filterFun.funs.forEach((v, k) => {
 })
 
 Vue.component('v-chart', ECharts)
-
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
