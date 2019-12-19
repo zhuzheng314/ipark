@@ -49,6 +49,7 @@ export default {
     box-shadow:0px 3px 8px rgba(0,0,0,0.1);
     padding: 8px;
     color: @white;
+    border: none;
     .el-card__body{
       padding: 0;
     }

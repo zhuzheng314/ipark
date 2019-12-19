@@ -14,10 +14,11 @@ export function storageGet (name) {
   调用：this.$utils.getRooms(list)
     list: Array,原数据
 */
-export function getRooms (list) { // 房间名数组
+export function getRooms (list, param = 'room') { // 房间名数组
   list.forEach(v => {
     v.rooms = []
-    v.room.forEach(room => {
+    v[param].forEach(room => {
+      // console.log(room)
       if (room) {
         v.rooms.push(room.building_name + '/' + room.name)
       }
@@ -57,4 +58,13 @@ export function tagState (list, stateList) { // 标签颜色
     }
   })
   return list
+}
+
+export function dialogHeight () { // 右侧弹窗body高度
+  let dialogHeight = document.querySelector('.el-drawer__body').offsetHeight
+  let headerHeight = document.querySelector('.headerCard').offsetHeight
+  let headerInfoHeight = document.querySelector('.headerInfo') ? document.querySelector('.headerInfo').offsetHeight : 0
+  let bodyHeight = dialogHeight - headerHeight - headerInfoHeight - 10 + 'px'
+  // console.log(dialogHeight, headerHeight, bodyHeight)
+  return bodyHeight
 }

@@ -144,7 +144,7 @@
         </template>
       </HeaderCard>
       <HeaderInfo type=1 :data="info_info"></HeaderInfo>
-      <div class="drawer-body" style="height: 700px;">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type=1 :data="info_body"></BodyCard>
         <BodyCard type=2 :data="info_body_table"></BodyCard>
       </div>
@@ -161,8 +161,18 @@ export default {
     ElCard,
     ParkForm
   },
+  watch: {
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
+    }
+  },
   data () {
     return {
+      bodyHeight: 0,
       tableData: [],
       activeName: 'first',
       yearList: [
@@ -242,11 +252,21 @@ export default {
       this.$https.post(this.$urls.enter.get_leave_info, params).then((res) => {
         if (res.code === 1000) {
           let arr = []
-          let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          // let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          // dateArr.forEach(item => {
+          //   arr.push(res.list[item])
+          // })
+          // this.stackedAreaOptions = this.stackedAreaChart(arr)
+          let dateArr = Object.keys(res.list)
           dateArr.forEach(item => {
-            arr.push(res.list[item])
+            arr.push(
+              {
+                name: item,
+                value: res.list[item]
+              }
+            )
           })
-          this.stackedAreaOptions = this.stackedAreaChart(arr)
+          this.stackedAreaOptions = this.$charts.setAreaOptions(arr)
         }
       })
     },

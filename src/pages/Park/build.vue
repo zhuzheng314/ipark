@@ -210,7 +210,7 @@ export default {
       })
     },
     getBuildId () {
-      console.log('getBuildId')
+      // console.log('getBuildId')
       this.$store.dispatch('getBuildList', {
         pid: this.$store.state.form.activePark.domain_id,
         page_no: 1,

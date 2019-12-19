@@ -154,7 +154,7 @@
         </template>
       </HeaderCard>
       <!-- <HeaderInfo type=1 :data="workOrderInfo_info"></HeaderInfo> -->
-      <div class="drawer-body" style="height: 700px;">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type=1 :data="workOrderInfo_body1"></BodyCard>
         <BodyCard type='img' :data="{
           title: '图片详情',
@@ -176,8 +176,18 @@ export default {
     ElCard,
     ParkForm
   },
+  watch: {
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
+    }
+  },
   data () {
     return {
+      bodyHeight: 0,
       tableData: [],
       activeName: 'first',
       yearList: [

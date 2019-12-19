@@ -189,7 +189,7 @@
         </template>
       </HeaderCard>
       <HeaderInfo type="1" :data="info_info"></HeaderInfo>
-      <div class="drawer-body" style="height: 660px;">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type="1" :data="info_body_expense"></BodyCard>
         <BodyCard type="2" :data="customerInfo_body_table"></BodyCard>
         <BodyCard type="2" :data="info_body_room"></BodyCard>
@@ -293,10 +293,18 @@ export default {
   watch: {
     parkId () {
       this.fetchChargeInfo()
+    },
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
     }
   },
   data () {
     return {
+      bodyHeight: 0,
       formOptions: {},
       tableData: [],
       activeName: 'first',
@@ -937,6 +945,7 @@ export default {
       }
       this.$https.post(this.$urls.expense.get_back, params).then(res => {
         if (res.code === 1000) {
+          this.InfoState = false
           let data = res
           data.value = data.type
           this.selectType(data)
@@ -997,8 +1006,6 @@ export default {
         data.type = this.$store.getters.getDicById(data.type)
         this.info_header.title = '客户名称：' + data.customer_name
         this.info_info.tableData.push({ ...data })
-        console.log(data.contract_code)
-
         this.info_body_expense.info = [
           { name: '费用编号', value: data.expense_code },
           { name: '合同编号', value: data.contract_code },

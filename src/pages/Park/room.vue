@@ -134,8 +134,7 @@
             </template>
           </HeaderCard>
           <HeaderInfo type=1 :data="roomInfo_info"></HeaderInfo>
-
-          <div class="drawer-body" style="height: 600px;">
+          <div class="drawer-body" :style="{height: bodyHeight}">
             <BodyCard type='img' :data="{
               title: '房屋图片',
               ...roomInfo
@@ -280,6 +279,7 @@ export default {
   props: ['propBuildId'],
   data () {
     return {
+      bodyHeight: 0,
       buildId: null,
       showTrueArea: true,
       modifyShow: false,
@@ -408,6 +408,13 @@ export default {
     modifyShow () {
       if (!this.modifyShow) {
         this.disabled = {} // 清空修改房间disabled
+      }
+    },
+    roomInfoState () {
+      if (this.roomInfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
       }
     }
   },

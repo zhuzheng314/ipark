@@ -13,6 +13,7 @@ import Comparison from './Comparison/index.vue'
 import GTable from './GTable'
 import ParkMenu from './ParkMenu'
 import None from './None'
+import Tag from './Tag'
 
 export default (Vue) => {
   Vue.component('BodyCard', BodyCard)
@@ -27,4 +28,5 @@ export default (Vue) => {
   Vue.component('GTable', GTable)
   Vue.component('ParkMenu', ParkMenu)
   Vue.component('None', None)
+  Vue.component('Tag', Tag)
 }

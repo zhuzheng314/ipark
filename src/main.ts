@@ -19,6 +19,7 @@ import { forms } from './config/form'
 import * as _ from 'lodash'
 import * as utils from './utils/utils'
 import * as dictionary from './utils/dictionary'
+import * as charts from './utils/charts'
 
 // 过滤器
 import { FilterFun } from './filters/FilterFun'
@@ -40,6 +41,7 @@ Vue.prototype._ = _
 Vue.prototype.$formsLabels = forms
 Vue.prototype.$utils = utils
 Vue.prototype.$dictionary = dictionary
+Vue.prototype.$charts = charts
 
 registerGlobalComponents(Vue) // 全局注册组件
 

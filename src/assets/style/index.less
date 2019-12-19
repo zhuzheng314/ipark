@@ -37,6 +37,14 @@
   margin-bottom: 10px;
 }
 
+.clear{
+	&:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+}
+
 // 溢出显示...
 .ellipsis{
   overflow: hidden;
@@ -79,11 +87,13 @@
 	}
 	.el-drawer__body{
 		background: #eee;
+		height: 100vh;
+		overflow: hidden;
 	}
 }
 
 // 弹窗body
 .drawer-body{
 	overflow: auto;
-	height: ~"calc(100% - 110px)";
+	padding-bottom: 8px;
 }
