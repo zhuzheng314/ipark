@@ -1,51 +1,5 @@
 <template>
   <div>
-<!--    <el-card style="width: 100%">-->
-<!--      <div>-->
-<!--        <el-select  size="small"-->
-<!--        v-model="value1"-->
-<!--        clearable-->
-<!--        @change="fetchListSearch"-->
-<!--        placeholder="进度阶段">-->
-<!--          <el-option-->
-<!--            v-for="item in this.$store.state.dictionary.dictionaryType['customer_state']"-->
-<!--            :key="item.value"-->
-<!--            :label="item.label"-->
-<!--            :value="item.value">-->
-<!--          </el-option>-->
-<!--        </el-select>-->
-<!--        <el-select  size="small"-->
-<!--        v-model="value2"-->
-<!--        clearable-->
-<!--        style="width: 220px; margin-left: 15px"-->
-<!--        @change="fetchListSearch"-->
-<!--        placeholder="来源渠道">-->
-<!--          <el-option-->
-<!--            v-for="item in this.$store.state.dictionary.dictionaryType['customer_info_source']"-->
-<!--            :key="item.value"-->
-<!--            :label="item.label"-->
-<!--            :value="item.value">-->
-<!--          </el-option>-->
-<!--        </el-select>-->
-
-<!--        <el-input-->
-<!--          placeholder="搜索客户名称"-->
-<!--          size="small"-->
-<!--          style="width: 220px; margin-left: 15px"-->
-<!--          prefix-icon="el-icon-search"-->
-<!--          clearable-->
-<!--          @change="fetchListSearch"-->
-<!--          v-model="value3">-->
-<!--        </el-input>-->
-<!--        <el-button-->
-<!--          style="float: right"-->
-<!--          type="primary"-->
-<!--          icon="el-icon-plus"-->
-<!--          size="small"-->
-<!--          @click="handleAddCustomer"-->
-<!--        >客户</el-button>-->
-<!--      </div>-->
-<!--    </el-card>-->
     <el-card>
       <div>
         <div :key="item.name" v-for="item in infoData" class="simple-item">
@@ -200,10 +154,10 @@
           </div>
         </template>
       </HeaderCard>
-      <div class="drawer-body">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type=1 :data="customerInfo_body_customer"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_rooms"></BodyCard>
-        <BodyCard type=2 :data="customerInfo_body_intention"></BodyCard>
+        <BodyCard type=2 :data="customerInfo_body_demand_room"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_memo"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
           <template #btn>
@@ -229,8 +183,18 @@ export default {
     ElCard,
     ParkForm
   },
+  watch: {
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
+    }
+  },
   data () {
     return {
+      bodyHeight: 0,
       tableData: [],
       activeName: 'first',
       radio: '收款',
@@ -329,12 +293,12 @@ export default {
             { prop: 'building_name', label: '楼宇' },
             { prop: 'name', label: '房间号' },
             { prop: 'area', label: '面积' },
-            { prop: 'state', label: '房源状态' }
+            { prop: 'state', label: '房源状态', renderTags: true }
           ],
           tableData: []
         }
       },
-      customerInfo_body_intention: {
+      customerInfo_body_demand_room: {
         title: '意向房源信息',
         info: {
           label: [
@@ -342,7 +306,7 @@ export default {
             { prop: 'building_name', label: '楼宇' },
             { prop: 'name', label: '房间号' },
             { prop: 'area', label: '面积' },
-            { prop: 'state', label: '房源状态' }
+            { prop: 'state', label: '房源状态', renderTags: true }
           ],
           tableData: []
         }
@@ -361,7 +325,7 @@ export default {
             { prop: 'fee_start_ts', label: '开始日' },
             { prop: 'fee_end_ts', label: '结束日' },
             { prop: 'unit_price', label: '合同单价' },
-            { prop: 'state', label: '状态' },
+            { prop: 'state', label: '状态', renderTags: true },
             { prop: 'contacter', label: '联系人' },
             { prop: 'contact', label: '联系人电话' }
           ],
@@ -518,21 +482,25 @@ export default {
       }
       this.$https.post(this.$urls.customer.get_info, params).then((res) => {
         // console.log(res);
-        this.customerInfo_body_intention.info.tableData = []
-        let data = res
-        this.customerInfo_header.title = data.name
-        this.customerInfo_body_customer.info = [
-          { name: '名称', value: data.name },
-          { name: '来访时间', value: data.create_ts },
-          { name: '客户状态', value: this.$store.getters.getDicById(data.state) },
-          { name: '渠道', value: this.$store.getters.getDicById(data.info_source) },
-          { name: '需求面积段', value: this.$store.getters.getDicById(data.demand_area) },
-          { name: '需求工位段', value: this.$store.getters.getDicById(data.work_station) },
-          { name: '行业', value: this.$store.getters.getDicById(data.status) },
-          { name: '预计签约时间', value: data.demand_ts },
-          { name: '跟进人', value: data.receiver }
-        ]
-        this.customerInfo_body_memo.info = data.memo
+        this.customerInfo_body_demand_room.info.tableData = []
+        if (res.code === 1000) {
+          let data = res
+          this.customerInfo_header.title = data.name
+          this.customerInfo_body_customer.info = [
+            { name: '名称', value: data.name },
+            { name: '来访时间', value: data.create_ts },
+            { name: '客户状态', value: this.$store.getters.getDicById(data.state) },
+            { name: '渠道', value: this.$store.getters.getDicById(data.info_source) },
+            { name: '需求面积段', value: this.$store.getters.getDicById(data.demand_area) },
+            { name: '需求工位段', value: this.$store.getters.getDicById(data.work_station) },
+            { name: '行业', value: this.$store.getters.getDicById(data.status) },
+            { name: '预计签约时间', value: data.demand_ts },
+            { name: '跟进人', value: data.receiver }
+          ]
+          this.customerInfo_body_memo.info = data.memo
+          let demandRoomList = []
+          this.customerInfo_body_demand_room.info.tableData = data.demand_room
+        }
       })
       this.$https.post(this.$urls.contract.get_list, {
         park_id: this.$store.state.form.activePark.domain_id,
@@ -543,7 +511,12 @@ export default {
         this.customerInfo_body_rooms.info.tableData = []
         this.customerInfo_body_table.info.tableData = []
         if (res.list.length) {
-          let roomList = res.list[0].room
+          let roomList = []
+          res.list.forEach(x => {
+            x.room.forEach(y => {
+              roomList.push(y)
+            })
+          })
           this.$dictionary.tableData(roomList, ['state'])
           this.customerInfo_body_rooms.info.tableData = roomList
           let contractList = res.list
@@ -576,6 +549,8 @@ export default {
   created () {
     this.fetchInfo()
     this.fetchList()
+    // this.$utils.dialogHeight()
+    // console.log(document.querySelector('.el-drawer__body'))
   }
 }
 </script>
@@ -586,6 +561,8 @@ export default {
     margin-bottom: 20px;
   }
   .drawer-body{
-    // height: ~"calc(100% - 110px)";
+    overflow: auto;
+    padding: 0 0 20px 0;
+    // border: 1px solid #f00;
   }
 </style>

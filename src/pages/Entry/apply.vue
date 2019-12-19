@@ -127,7 +127,7 @@
         </template>
       </HeaderCard>
       <HeaderInfo type=1 :data="info_info"></HeaderInfo>
-      <div class="drawer-body" style="height: 700px;">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type=1 :data="info_body"></BodyCard>
         <BodyCard type=2 :data="info_body_table"></BodyCard>
       </div>
@@ -146,6 +146,7 @@ export default {
   },
   data () {
     return {
+      bodyHeight: 0,
       tableData: [],
       activeName: 'first',
       yearList: [
@@ -226,6 +227,13 @@ export default {
     }
   },
   watch: {
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
+    }
   },
   methods: {
     handleAddContract () {

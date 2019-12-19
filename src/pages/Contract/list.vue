@@ -132,7 +132,7 @@
     <el-drawer
       title="合同详情"
       custom-class="drawer-r"
-      :visible.sync="contractInfoState"
+      :visible.sync="InfoState"
       size="1186px"
       direction="rtl">
       <HeaderCard :data="contractInfo_header">
@@ -158,7 +158,7 @@
           </div>
         </template>
       </HeaderCard>
-      <div class="drawer-body" style="height: 700px;">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type=1 :data="contractInfo_body1"></BodyCard>
         <BodyCard type=2 :data="contractInfo_body_room"></BodyCard>
         <BodyCard type=1 :data="contractInfo_body_contract"></BodyCard>
@@ -178,8 +178,18 @@ export default {
   components: {
     // AddContract
   },
+  watch: {
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
+    }
+  },
   data () {
     return {
+      bodyHeight: 0,
       tableData: [],
       activeName: 'first',
       dialogHeight: '',
@@ -217,7 +227,7 @@ export default {
       customer_name: '',
       addContractVisible: false,
       modifyVisible: false,
-      contractInfoState: false,
+      InfoState: false,
       id: '',
       contractInfo_header: {
         title: '-',
@@ -294,7 +304,7 @@ export default {
     contractState (data) {
       this.id = data.contract_code
       // this.fetchGetInfo(this.id)
-      this.contractInfoState = true
+      this.InfoState = true
       this.contractInfo_header.title = data.customer_name
       this.contractInfo_header.data = data
       this.contractInfo_body_contract.info = [
@@ -341,7 +351,7 @@ export default {
     },
     open (i) {
       if (i === '编辑') {
-        this.contractInfoState = false
+        this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -420,7 +430,7 @@ export default {
         this.$https.post(this.$urls.contract.remove, params).then((res) => {
           if (res.code === 1000) {
             this.fetchList()
-            this.contractInfoState = false
+            this.InfoState = false
             this.$message.success('删除成功')
           } else {
             this.$message.error('删除失败')

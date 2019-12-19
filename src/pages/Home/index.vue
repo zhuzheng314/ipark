@@ -4,29 +4,34 @@
       <Statistic v-for="(item,i) in statistic" :key="(item,i)" :data="item"></Statistic>
     </div>
     <div>
-      <el-row :gutter="24">
+      <el-row :gutter="16">
         <el-col :span="12">
           <el-card class="chartBox">
+            <div class="title">园区总产值<span>197084</span>元</div>
             <v-chart :options="columnOptions"></v-chart>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="chartBox">
+            <div class="title">本月合同<span>18</span>个</div>
             <v-chart :options="areaOptions1"></v-chart>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="chartBox">
+            <div class="title">本月企业入驻<span>85</span>个</div>
             <v-chart :options="areaOptions2"></v-chart>
           </el-card>
         </el-col>
         <el-col :span="12">
           <el-card class="chartBox">
+            <div class="title">本月收入<span>29299</span>元，费用<span>1998</span>元</div>
             <v-chart :options="lineOptions"></v-chart>
           </el-card>
         </el-col>
         <el-col :span="12">
           <el-card class="chartBox">
+            <div class="title">本月工单总数<span>29299</span>个</div>
             <el-row style="height: 100%;">
               <el-col :span="8" style="height: 100%;">
                 <v-chart :options="gaugeOptions"></v-chart>
@@ -151,8 +156,8 @@ export default {
               { name: '8月', value: 5 },
               { name: '9月', value: 1 },
               { name: '10月', value: 6 },
-              { name: '11月', value: 5 },
-              { name: '12月', value: 2 }
+              { name: '11月', value: 0 },
+              { name: '12月', value: 0 }
             ]
             let areaName = '合同数'
             this.areaOptions1 = this.$charts.setAreaOptions(areaData, areaName)
@@ -194,9 +199,21 @@ export default {
   .chartBox {
     height: 300px;
     margin-top: 16px;
+    position: relative;
     /deep/ .el-card__body {
       padding: 0;
       height: 100%;
+    }
+  }
+  .title {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    color: @text-color;
+    span{
+      font-size: 16px;
+      color: @green;
+      margin: 0 4px;
     }
   }
 }

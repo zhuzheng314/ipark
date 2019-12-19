@@ -17,7 +17,6 @@
         <el-tooltip v-else class="item" effect="dark" :content="item.value" placement="top">
           <span class="bodyCard-infoBox-value">{{item.value === null || item.value === undefined ? '-' : item.value}}</span>
         </el-tooltip>
-
       </div>
     </div>
     <div v-if="type==2" style="padding: 20px">

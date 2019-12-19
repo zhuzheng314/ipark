@@ -189,7 +189,7 @@
         </template>
       </HeaderCard>
       <HeaderInfo type="1" :data="info_info"></HeaderInfo>
-      <div class="drawer-body" style="height: 660px;">
+      <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type="1" :data="info_body_expense"></BodyCard>
         <BodyCard type="2" :data="customerInfo_body_table"></BodyCard>
         <BodyCard type="2" :data="info_body_room"></BodyCard>
@@ -293,10 +293,18 @@ export default {
   watch: {
     parkId () {
       this.fetchChargeInfo()
+    },
+    InfoState () {
+      if (this.InfoState) {
+        this.$nextTick(() => {
+          this.bodyHeight = this.$utils.dialogHeight()
+        })
+      }
     }
   },
   data () {
     return {
+      bodyHeight: 0,
       formOptions: {},
       tableData: [],
       activeName: 'first',
