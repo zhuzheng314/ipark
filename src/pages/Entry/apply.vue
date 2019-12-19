@@ -497,6 +497,7 @@ export default {
   created () {
     this.fetchInfo()
     this.fetchList()
+    this.$store.dispatch('getCustomerList')
   }
 }
 </script>

@@ -153,7 +153,7 @@
               【签订时间{{data.slotName.property_sign_ts}}。管理面积{{data.slotName.manage_area}}㎡。物业费单价{{data.slotName.property_unit_price}}元/㎡·天。{{data.slotName.property_pay_cycle}}月一付，提前{{data.slotName.property_prepaid}}个月{{data.slotName.property_pay_date}}号收物业费。】
             </p>
             <p>
-              <span>最新备注：{{data.slotName.demo || '暂无备注'}}</span>
+              <span>最新备注：{{data.slotName.memo || '暂无备注'}}</span>
             </p>
           </div>
         </template>

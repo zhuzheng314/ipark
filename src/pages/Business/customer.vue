@@ -322,8 +322,8 @@ export default {
             { prop: 'contract_code', label: '合同编号' },
             { prop: 'rooms', label: '房间号', tags: true },
             { prop: 'rent_area', label: '租赁面积' },
-            { prop: 'fee_start_ts', label: '开始日' },
-            { prop: 'fee_end_ts', label: '结束日' },
+            { prop: 'start_ts', label: '开始日' },
+            { prop: 'end_ts', label: '结束日' },
             { prop: 'unit_price', label: '合同单价' },
             { prop: 'state', label: '状态', renderTags: true },
             { prop: 'contacter', label: '联系人' },
@@ -379,9 +379,6 @@ export default {
       if (i === '删除') {
         this.fetchRemove(this.id)
       }
-    },
-    test (page) {
-      console.log(page)
     },
     fetchAdd (data) { // 添加客户
       let params = {

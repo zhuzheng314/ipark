@@ -482,6 +482,7 @@ export default {
   created () {
     this.fetchList()
     this.fetchInfo()
+    this.$store.dispatch('getParkTreeList')
   }
 }
 </script>
