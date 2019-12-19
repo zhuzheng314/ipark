@@ -1,13 +1,15 @@
 <template>
   <div>
     <el-card style="width: 100%">
+      <div>
+        <div :key="item.name" v-for="item in infoData" class="simple-item">
+          <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+        </div>
+      </div>
+
+    </el-card>
+    <el-card>
       <div slot="header">
-
-        <!-- <el-radio-group v-model="listType" size="small">
-          <el-radio-button label="top">收款</el-radio-button>
-          <el-radio-button label="right">付款</el-radio-button>
-        </el-radio-group> -->
-
         <el-select
           style="width: 220px;"
           size="small"
@@ -54,14 +56,6 @@
           @click="handleAddContract"
         >添加账单</el-button>
       </div>
-      <div>
-        <div :key="item.name" v-for="item in infoData" class="simple-item">
-          <Comparison :type="item.type" :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
-        </div>
-      </div>
-
-    </el-card>
-    <el-card>
       <GTable
         @row-click="financialState"
         @current-change="handlePageClick"
