@@ -151,7 +151,7 @@ const form = {
             }
           }
           if (item.path.split('.').length === 4) {
-            if (item.state === 292) {
+            if (item.state !== 294) {
               disabled = true
             }
           }

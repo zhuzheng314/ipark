@@ -577,6 +577,7 @@ export default {
         .post(this.$urls.park.get_tree_list, {
           page_size: 999,
           page_no: 1,
+          park_id: this.$store.state.form.activePark.domain_id,
           customer_id: data
         })
         .then(res => {

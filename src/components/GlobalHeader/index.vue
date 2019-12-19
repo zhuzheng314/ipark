@@ -24,16 +24,28 @@
 
     <div class="right">
       <div class="item">
-        <el-badge style="margin-right: 10px" :value="2" class="item">
+        <el-badge style="margin-right: 10px" :value="msgList.length || 0" class="item">
           <el-popover
             placement="bottom-end"
-            width="200"
+            width="260"
             trigger="click"
           >
-            <div class="message">
-              <div class="noMsg" style="text-align: center;height: 180px;padding-top: 20px;">
-                  <None type="message"></None>
+            <div class="global-header-message">
+              <div v-if="msgList.length" class="global-header-message-wrap" @click="handleMsgClick">
+                <div class="item" v-for="(item, index) in msgList" :key="'msgitem' + index">
+                  <div class="top">
+                    <div class="left">{{item.customer_name}}</div>
+                    <div class="right">
+                      <el-tag type="danger" size="mini">已逾期</el-tag>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    类型：{{ $store.getters.getDicById(item.type) }} 逾期天数：{{item.overdue_day}}
+                  </div>
+                </div>
+                <div class="btn">查看更多</div>
               </div>
+              <None v-else style="height: 200px; padding-top: 50px" type="message"></None>
             </div>
             <i class="el-icon-bell g-handle" slot="reference"></i>
           </el-popover>
@@ -52,7 +64,7 @@
         </el-dropdown>
       </div>
       <div class="item">
-        <i class="el-icon-full-screen g-handle"></i>
+        <i @click="handleFullScreen" class="el-icon-full-screen g-handle"></i>
       </div>
     </div>
 
@@ -73,7 +85,9 @@
       <div>
         <ParkForm
           ref="tt"
+          @onCancel="() => {this.addParkShow = false}"
           :formList="$formsLabels.addParkForm"
+          :options="$store.getters.addParkOptions"
           @onSubmit="handleAddPark"
           :itemList="[]">
         </ParkForm>
@@ -118,7 +132,7 @@
 
 <script>
 import { Component, Prop, Vue } from 'vue-property-decorator'
-// import EllipsisText from 'vue-ellipsis-text'
+import screenfull from 'screenfull'
 import md5 from 'md5'
 export default {
   name: 'GlobalHeader',
@@ -154,7 +168,14 @@ export default {
       value: '',
       parkName: '请选择园区',
       addParkShow: false,
-      setPassWordVisible: false
+      setPassWordVisible: false,
+      isFullscreen: false,
+      msgList: []
+    }
+  },
+  watch: {
+    '$store.state.form.activePark.domain_id' (val) {
+      this.fetchMsgList()
     }
   },
   methods: {
@@ -166,6 +187,9 @@ export default {
         window.location.reload()
       }
     },
+    handleMsgClick () {
+      this.$router.push('/property/payment')
+    },
     handleAddPark (data) {
       this.$https.post(this.$urls.park.add, {
         ...data
@@ -175,7 +199,7 @@ export default {
             page_size: 20 }).then(res => {
           })
           this.$message.success('新增园区成功')
-          this.addShow = false
+          this.addParkShow = false
         }
       })
     },
@@ -186,6 +210,32 @@ export default {
       if (command === 'loginOut') {
         this.$store.commit('loginOut')
       }
+    },
+    handleFullScreen () {
+      if (!screenfull.isEnabled) {
+        this.$message({
+          message: 'you browser can not work',
+          type: 'warning'
+        })
+        return false
+      }
+      screenfull.toggle()
+    },
+    fetchMsgList () {
+      // 获取财房租费用列表
+      let params = {
+        park_id: this.$store.state.form.activePark.domain_id,
+        page_no: 1,
+        page_size: 999,
+        is_overdue: true
+      }
+      this.$https.post(this.$urls.expense.get_list, params).then(res => {
+        if (res.code === 1000) {
+          this.msgList = res.list
+        } else {
+          this.msgList = []
+        }
+      })
     },
     setPassWord () {
       if (!this.passwordForm.password1) {
@@ -214,7 +264,6 @@ export default {
     },
     axiosAll () {
       this.$store.dispatch('getAccount')
-      this.$store.dispatch('getDictionaryTree')
       this.$store.dispatch('getParkList', {
         page_no: 1,
         page_size: 9999
@@ -223,6 +272,7 @@ export default {
         this.$store.dispatch('getContractList')
         this.$store.dispatch('getCustomerList')
         this.$store.dispatch('getContractTamplateList')
+        this.fetchMsgList()
       })
     }
   },
@@ -240,22 +290,62 @@ export default {
     const dictionary = this.$utils.storageGet('dictionary')
     if (activePark) {
       this.$store.commit('commitActivePark', activePark)
-
       this.$store.dispatch('getAccount')
       this.$store.dispatch('getDictionaryTree')
       this.$store.dispatch('getParkTreeList')
       this.$store.dispatch('getContractList')
       this.$store.dispatch('getCustomerList')
       this.$store.dispatch('getContractTamplateList')
+      this.fetchMsgList()
     }
     if (dictionary) {
       this.$store.commit('commitDictionaryTree', dictionary)
+    } else {
+      this.$store.dispatch('getDictionaryTree')
     }
     this.axiosAll()
   }
 }
 </script>
 
+<style lang="less" >
+  .global-header-message{
+    cursor: pointer;
+    &-wrap{
+      width: 100%;
+      position: relative;
+      padding-bottom: 30px;
+      .item{
+        border-bottom: 1px solid #e8e8e8;
+        padding: 5px 0;
+        .top{
+          padding-bottom: 5px;
+          display: flex;
+          justify-content: space-between;
+          .left{
+            font-size: 14px;
+            color: rgba(0,0,0,.65);
+          }
+          .right{
+          }
+        }
+        .bottom{
+          font-size: 12px;
+          color: rgba(0,0,0,.45);
+        }
+      }
+      .btn{
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        bottom: 0;
+        text-align: center;
+        color: #358DD8;
+        padding: 10px 0 0;
+      }
+    }
+  }
+</style>
 <style lang="less" scoped>
 @import '../../assets/style/index.less';
 .g-header{
