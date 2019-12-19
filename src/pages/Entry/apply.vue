@@ -1,14 +1,22 @@
 <template>
   <div>
+    <el-card style="margin-bottom: 20px">
+      <div slot="header" class="clearfix">
+        <span>进驻监控图</span>
+      </div>
+      <div class="chart">
+        <v-chart style="width:100%;height: 300px;" :options="stackedAreaOptions"></v-chart>
+      </div>
+    </el-card>
     <el-card>
-      <div>
+      <div slot="header">
         <el-select
-        size="small"
-        style="width: 180px; margin-right: 15px"
-        v-model="approval_type"
-        @change="fetchListSearch"
-        clearable
-        placeholder="审批状态">
+          size="small"
+          style="width: 180px; margin-right: 15px"
+          v-model="approval_type"
+          @change="fetchListSearch"
+          clearable
+          placeholder="审批状态">
           <el-option
             v-for="item in this.$store.state.dictionary.dictionaryType['approval_type']"
             :key="item.value"
@@ -45,16 +53,6 @@
           @click="handleAddContract"
         >新增</el-button>
       </div>
-    </el-card>
-    <el-card style="margin-bottom: 20px">
-      <div slot="header" class="clearfix">
-        <span>进驻监控图</span>
-      </div>
-      <div class="chart">
-        <v-chart style="width:100%;height: 300px;" :options="stackedAreaOptions"></v-chart>
-      </div>
-    </el-card>
-    <el-card>
       <GTable
         @row-click="tenantsState"
         @current-change="handlePageClick"
