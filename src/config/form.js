@@ -216,33 +216,6 @@ const addParkForm = [
     ]
   }
 ]
-const addParkForm1 = [
-  {
-    title: '园区信息',
-    children: [
-      {
-        type: 'input',
-        label: '园区名称',
-        key: 'name',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' },
-          { validator: validateParkName, trigger: ['blur', 'change'] }
-        ]
-      },
-      {
-        type: 'upload-img',
-        label: '园区图片',
-        key: 'attached',
-        placeholder: '请输入',
-        rule: [
-          // { required: true, message: '该项为必填', trigger: 'blur' },
-          // { validator: validateUpload, trigger: ['blur', 'change'] }
-        ]
-      }
-    ]
-  }
-]
 // 添加楼宇
 const addBuildForm = [
   {
@@ -346,7 +319,7 @@ const addRoomForm = [
         ]
       },
       {
-        type: 'input',
+        type: 'input-num',
         label: '面积',
         key: 'area',
         placeholder: '请输入',
