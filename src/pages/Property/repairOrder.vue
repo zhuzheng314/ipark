@@ -127,6 +127,7 @@
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        @onCancel="() => {this.modifyVisible = false}"
         :formList="$formsLabels.repairForm"
         :itemList="[]"
         :options="$store.getters.repairListOptions"

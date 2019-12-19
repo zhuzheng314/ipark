@@ -113,13 +113,14 @@
           })
           .catch(_ => {});
         }"
-      title="修改进驻"
+      title="修改退驻"
       v-if="modifyVisible"
       :visible.sync="modifyVisible"
       width="800px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
+        @onCancel="() => {this.modifyVisible = false}"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"
         :defaultValue="defaultValue"
