@@ -1,6 +1,16 @@
 <template>
   <div>
     <el-card>
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in infoData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"
+        ></Comparison>
+      </div>
+    </el-card>
+    <el-card>
       <div slot="header">
         <el-select
           size="small"
@@ -74,16 +84,6 @@
           @click="handleAdd"
         >新增费用</el-button>
       </div>
-      <div>
-        <Comparison
-          :type="item.type"
-          :key="item.name"
-          v-for="item in infoData"
-          :data="{name: item.name, value: item.value, chart: item.chart}"
-        ></Comparison>
-      </div>
-    </el-card>
-    <el-card>
       <GTable
         @row-click="financialState"
         @current-change="handlePageClick"

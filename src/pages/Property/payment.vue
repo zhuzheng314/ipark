@@ -1,6 +1,16 @@
 <template>
   <div>
     <el-card>
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in infoData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"
+        ></Comparison>
+      </div>
+    </el-card>
+    <el-card>
       <div slot="header">
         <el-select
           size="small"
@@ -36,36 +46,6 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-        <!-- <el-select
-          size="small"
-          style="margin-left: 15px"
-          v-model="overdue"
-          clearable
-          @change="fetchListSearch"
-          placeholder="是否逾期"
-        >
-          <el-option
-            v-for="item in is_overdue"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select> -->
-        <!-- <el-select
-          size="small"
-          style="margin-left: 15px"
-          v-model="expense_state"
-          clearable
-          @change="fetchListSearch"
-          placeholder="结清状态"
-        >
-          <el-option
-            v-for="item in this.$store.state.dictionary.dictionaryType['expense_state']"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select> -->
         <el-button
           style="float: right"
           type="primary"
@@ -74,16 +54,6 @@
           @click="handleAdd"
         >新增费用</el-button>
       </div>
-      <div>
-        <Comparison
-          :type="item.type"
-          :key="item.name"
-          v-for="item in infoData"
-          :data="{name: item.name, value: item.value, chart: item.chart}"
-        ></Comparison>
-      </div>
-    </el-card>
-    <el-card>
       <GTable
         @row-click="financialState"
         @current-change="handlePageClick"

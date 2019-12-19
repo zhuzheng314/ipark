@@ -1,13 +1,22 @@
 <template>
   <div>
     <el-card>
-      <div slot="header">
+      <div>
+        <Comparison
+          :type="item.type"
+          :key="item.name"
+          v-for="item in infoData"
+          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
+      </div>
 
+    </el-card>
+    <el-card>
+      <div slot="header">
         <el-select  size="small"
-        v-model="state"
-        clearable
-        @change="fetchListSearch"
-        placeholder="缴费状态">
+                    v-model="state"
+                    clearable
+                    @change="fetchListSearch"
+                    placeholder="缴费状态">
           <el-option
             v-for="item in this.$store.state.dictionary.dictionaryType['cost_state']"
             :key="item.value"
@@ -43,16 +52,6 @@
           @click="handleAddContract"
         >添加账单</el-button>
       </div>
-      <div>
-        <Comparison
-          :type="item.type"
-          :key="item.name"
-          v-for="item in infoData"
-          :data="{name: item.name, value: item.value, chart: item.chart}"></Comparison>
-      </div>
-
-    </el-card>
-    <el-card>
       <GTable
         @row-click="financialState"
         @current-change="handlePageClick"
