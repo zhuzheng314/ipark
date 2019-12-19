@@ -85,7 +85,9 @@
       <div>
         <ParkForm
           ref="tt"
+          @onCancel="() => {this.addParkShow = false}"
           :formList="$formsLabels.addParkForm"
+          :options="$store.getters.addParkOptions"
           @onSubmit="handleAddPark"
           :itemList="[]">
         </ParkForm>
@@ -171,6 +173,11 @@ export default {
       msgList: []
     }
   },
+  watch: {
+    '$store.state.form.activePark.domain_id' (val) {
+      this.fetchMsgList()
+    }
+  },
   methods: {
     handleSelectPark (item) {
       if (item === 'add') {
@@ -192,7 +199,7 @@ export default {
             page_size: 20 }).then(res => {
           })
           this.$message.success('新增园区成功')
-          this.addShow = false
+          this.addParkShow = false
         }
       })
     },
@@ -225,6 +232,8 @@ export default {
       this.$https.post(this.$urls.expense.get_list, params).then(res => {
         if (res.code === 1000) {
           this.msgList = res.list
+        } else {
+          this.msgList = []
         }
       })
     },
@@ -255,7 +264,6 @@ export default {
     },
     axiosAll () {
       this.$store.dispatch('getAccount')
-      this.$store.dispatch('getDictionaryTree')
       this.$store.dispatch('getParkList', {
         page_no: 1,
         page_size: 9999
@@ -282,7 +290,6 @@ export default {
     const dictionary = this.$utils.storageGet('dictionary')
     if (activePark) {
       this.$store.commit('commitActivePark', activePark)
-
       this.$store.dispatch('getAccount')
       this.$store.dispatch('getDictionaryTree')
       this.$store.dispatch('getParkTreeList')
@@ -293,6 +300,8 @@ export default {
     }
     if (dictionary) {
       this.$store.commit('commitDictionaryTree', dictionary)
+    } else {
+      this.$store.dispatch('getDictionaryTree')
     }
     this.axiosAll()
   }
