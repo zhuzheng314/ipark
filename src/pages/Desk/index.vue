@@ -1,6 +1,6 @@
 <template>
   <div class="g-desk">
-    <div style="width: 100%">
+    <div class="clear" style="width: 100%">
       <Statistic v-for="(item,i) in statistic" :key="(item,i)" :data="item"></Statistic>
     </div>
     <el-row :gutter="24">
@@ -221,6 +221,7 @@ export default {
     return {
       statistic: [],
       park_value: '',
+      enter_firm: '',
       service_total: '',
       value: '',
       tax_total: '',

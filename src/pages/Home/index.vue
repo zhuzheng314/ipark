@@ -1,6 +1,6 @@
 <template>
   <div class="g-desk">
-    <div style="width: 100%">
+    <div class="clear" style="width: 100%">
       <Statistic v-for="(item,i) in statistic" :key="(item,i)" :data="item"></Statistic>
     </div>
     <div>
@@ -56,65 +56,7 @@ export default {
       areaOptions1: {},
       areaOptions2: {},
       lineOptions: {},
-      gaugeOptions: {},
-      publicOptions: {
-        // 颜色
-        color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
-        grid: {
-          // 表距离边框距离
-          left: '40px',
-          right: '20px',
-          top: '40px',
-          bottom: '40px'
-        },
-        legend: {
-          // 图例
-          right: '40px',
-          top: '8px',
-          itemWidth: 30,
-          height: 12,
-          borderRadius: 10,
-          textStyle: {
-            // 文字
-            color: '#999999',
-            fontSize: 14
-          },
-          itemGap: 16
-        },
-        xAxis: {
-          // x轴
-          // type: 'category',
-          axisLine: {
-            // 轴线
-            lineStyle: {
-              type: 'dashed',
-              color: '#C0C4CC'
-            }
-          },
-          axisTick: {
-            // 刻度线
-            show: false
-          }
-        },
-        yAxis: {
-          // y轴
-          axisLine: {
-            show: false,
-            lineStyle: {
-              color: '#C0C4CC'
-            }
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            lineStyle: {
-              type: 'dashed'
-            }
-          }
-        },
-        barWidth: '12' // bar宽度
-      }
+      gaugeOptions: {}
     }
   },
   mounted () {
@@ -128,212 +70,6 @@ export default {
       })
   },
   methods: {
-    // 多组柱状图
-    setColumnOptions (data) {
-      let productData = ['product', '租金', '物业费', '其他']
-      let colorList = [
-        ['#85C3FE', '#358DD7'],
-        ['#A0A7E6', '#977EFE'],
-        ['#70DFDC', '#54BAB8']
-      ]
-      // let options = { ...this.publicOptions }
-      let options = JSON.parse(JSON.stringify(this.publicOptions))
-      options.tooltip = {
-        trigger: 'item',
-        formatter: params => {
-          let { seriesName, name, value, componentIndex } = params
-          return `${name} <br/> ${seriesName}: ${value[componentIndex + 1]}`
-        }
-      }
-      options.dataset = {
-        // 数据
-        source: [productData, ...data]
-      }
-
-      options.xAxis.type = 'category' // 类型
-      options.series = []
-      for (let i = 0; i < productData.length - 1; i++) {
-        options.series.push({
-          type: 'bar',
-          itemStyle: {
-            barBorderRadius: 10,
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                // 渐变颜色
-                { offset: 0, color: colorList[i][0] },
-                { offset: 1, color: colorList[i][1] }
-              ],
-              globalCoord: false // 缺省为 false
-            }
-          }
-        })
-      }
-      return options
-    },
-    // 面积图
-    setAreaOptions (data) {
-      let axis = []
-      let value = []
-      data.forEach(v => {
-        axis.push(v.name)
-        value.push(v.value)
-      })
-      // let options = { ...this.publicOptions }
-      let options = JSON.parse(JSON.stringify(this.publicOptions))
-      options.xAxis.type = 'category'
-      options.xAxis.data = axis
-      options.xAxis.boundaryGap = false
-      options.series = {
-        name: '合同数',
-        data: value,
-        type: 'line',
-        color: '#7191FE',
-        smooth: true,
-        areaStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              { offset: 0, color: '#4FB0FD' },
-              { offset: 1, color: '#fff' }
-            ],
-            global: false // 缺省为 false
-          }
-        }
-      }
-      return options
-    },
-    // 曲线图
-    setLineOptions (data) {
-      let axis = data.axis
-      let value = data.data
-      // let options = { ...this.publicOptions }
-      let options = JSON.parse(JSON.stringify(this.publicOptions))
-      options.xAxis.type = 'category'
-      options.xAxis.boundaryGap = false
-      options.xAxis.data = axis
-      options.series = [
-        {
-          name: '合同数1',
-          data: value[0],
-          type: 'line',
-          color: '#7191FE',
-          smooth: true
-        },
-        {
-          name: '合同数2',
-          data: value[1],
-          type: 'line',
-          color: '#B671BB',
-          smooth: true
-        }
-      ]
-      return options
-    },
-    // 仪表盘
-    setGaugeOptions (data) {
-      // let options = { ...this.publicOptions }
-      let options = JSON.parse(JSON.stringify(this.publicOptions))
-      let color = {
-        type: 'linear',
-        x: 0,
-        y: 0,
-        x2: 0,
-        y2: 1,
-        colorStops: [
-          // 渐变颜色
-          { offset: 0, color: '#358DD7' },
-          { offset: 1, color: '#85C3FE' }
-        ]
-      }
-      options.xAxis.show = false
-      options.series = [
-        {
-          type: 'gauge',
-          radius: '62.5%',
-          startAngle: '225',
-          endAngle: '-45',
-          pointer: {
-            show: false
-          },
-          detail: {
-            show: false
-          },
-          data: [
-            { value: 1 }
-          ],
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: [[1, 'rgba(175, 175, 175, 0.3)']],
-              width: 4,
-              opacity: 1
-            }
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            show: true,
-            length: 20,
-            lineStyle: {
-              color: '#051932',
-              width: 0,
-              type: 'solid'
-            }
-          },
-          axisLabel: {
-            show: false
-          }
-        },
-        {
-          type: 'gauge',
-          radius: '65%',
-          axisTick: { show: false }, // 小刻度
-          splitLine: {
-            lineStyle: {
-              color: '#14B2FF',
-              width: 0
-            },
-            length: 10
-          }, // 分隔线
-          pointer: { show: false }, // 指针
-          axisLabel: { show: false }, // 标签
-          axisLine: {
-            // 表盘
-            show: true,
-            lineStyle: {
-              width: 10,
-              color: [[data.value * 0.01, color], [1, 'rgba(0,0,0,0)']]
-            }
-          },
-          title: {
-            // 标题
-            offsetCenter: [0, '30%'],
-            fontSize: 16,
-            color: '#666'
-          },
-          detail: {
-            // 数值
-            formatter: '{value}%',
-            color: '#358DD7',
-            offsetCenter: [0, '0%'],
-            fontSize: 32
-          },
-          data: [{ value: data.value, name: data.name }]
-        }
-      ]
-
-      return options
-    },
     fetchGetInfo () {
       this.$https
         .post(this.$urls.desk.get_info, {
@@ -408,7 +144,8 @@ export default {
               ['十一月', 8, 2, 7],
               ['十二月', 5, 4, 9]
             ]
-            this.columnOptions = this.setColumnOptions(columnData)
+            let productData = ['product', '租金', '物业费', '其他']
+            this.columnOptions = this.$charts.setColumnOptions(productData, columnData)
             let areaData = [
               { name: '7月', value: 3 },
               { name: '8月', value: 5 },
@@ -417,8 +154,9 @@ export default {
               { name: '11月', value: 5 },
               { name: '12月', value: 2 }
             ]
-            this.areaOptions1 = this.setAreaOptions(areaData)
-            this.areaOptions2 = this.setAreaOptions(areaData)
+            let areaName = '合同数'
+            this.areaOptions1 = this.$charts.setAreaOptions(areaData, areaName)
+            this.areaOptions2 = this.$charts.setAreaOptions(areaData, areaName)
             let lineData = {
               axis: ['7月', '8月', '9月', '10月', '11月', '12月'],
               data: [
@@ -426,26 +164,8 @@ export default {
                 [5, 3, 7, 4, 6, 3]
               ]
             }
-            // [
-            //   [
-            //     { name: '7月', value: 3 },
-            //     { name: '8月', value: 5 },
-            //     { name: '9月', value: 1 },
-            //     { name: '10月', value: 6 },
-            //     { name: '11月', value: 5 },
-            //     { name: '12月', value: 2 }
-            //   ],
-            //   [
-            //     { name: '7月', value: 4 },
-            //     { name: '8月', value: 6 },
-            //     { name: '9月', value: 2 },
-            //     { name: '10月', value: 7 },
-            //     { name: '11月', value: 6 },
-            //     { name: '12月', value: 3 }
-            //   ],
-            // ]
-            this.lineOptions = this.setLineOptions(lineData)
-            this.gaugeOptions = this.setGaugeOptions({
+            this.lineOptions = this.$charts.setLineOptions(lineData, ['合同数1', '合同数2'])
+            this.gaugeOptions = this.$charts.setGaugeOptions({
               name: '完成度',
               value: 55
             })

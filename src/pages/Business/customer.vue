@@ -201,8 +201,10 @@
         </template>
       </HeaderCard>
       <div class="drawer-body">
-        <BodyCard type=1 :data="customerInfo_body_1"></BodyCard>
-        <BodyCard type=2 :data="customerInfo_body_2"></BodyCard>
+        <BodyCard type=1 :data="customerInfo_body_customer"></BodyCard>
+        <BodyCard type=2 :data="customerInfo_body_rooms"></BodyCard>
+        <BodyCard type=2 :data="customerInfo_body_intention"></BodyCard>
+        <BodyCard type=2 :data="customerInfo_body_memo"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
           <template #btn>
             <el-button
@@ -212,7 +214,7 @@
             >发起合同</el-button>
           </template>
         </BodyCard>
-        <BodyCard type=3 :data="customerInfo_body_3"></BodyCard>
+        <BodyCard type=3 :data="customerInfo_body_memo"></BodyCard>
       </div>
     </el-drawer>
   </div>
@@ -235,25 +237,6 @@ export default {
       yearList: [
       ],
       infoData: [
-      ],
-      options1: this.$store.getters.getDicInfoByCode('customer_state'),
-      options2: [
-        {
-          value: 0,
-          label: '全部'
-        }, {
-          value: 1,
-          label: '广告媒体'
-        }, {
-          value: 2,
-          label: '中介'
-        }, {
-          value: 3,
-          label: '客户自访'
-        }, {
-          value: 4,
-          label: '其他'
-        }
       ],
       customer_state: '',
       customer_info_source: '',
@@ -324,7 +307,7 @@ export default {
           }
         ]
       },
-      customerInfo_body_1: {
+      customerInfo_body_customer: {
         title: '客户信息',
         info: [
           { name: '名称', value: '-' },
@@ -338,7 +321,7 @@ export default {
           { name: '跟进人', value: '-' }
         ]
       },
-      customerInfo_body_2: {
+      customerInfo_body_rooms: {
         title: '房源信息',
         info: {
           label: [
@@ -351,7 +334,20 @@ export default {
           tableData: []
         }
       },
-      customerInfo_body_3: {
+      customerInfo_body_intention: {
+        title: '意向房源信息',
+        info: {
+          label: [
+            { prop: 'park_name', label: '所属园区' },
+            { prop: 'building_name', label: '楼宇' },
+            { prop: 'name', label: '房间号' },
+            { prop: 'area', label: '面积' },
+            { prop: 'state', label: '房源状态' }
+          ],
+          tableData: []
+        }
+      },
+      customerInfo_body_memo: {
         title: '备注',
         info: ''
       },
@@ -522,9 +518,10 @@ export default {
       }
       this.$https.post(this.$urls.customer.get_info, params).then((res) => {
         // console.log(res);
+        this.customerInfo_body_intention.info.tableData = []
         let data = res
         this.customerInfo_header.title = data.name
-        this.customerInfo_body_1.info = [
+        this.customerInfo_body_customer.info = [
           { name: '名称', value: data.name },
           { name: '来访时间', value: data.create_ts },
           { name: '客户状态', value: this.$store.getters.getDicById(data.state) },
@@ -535,7 +532,7 @@ export default {
           { name: '预计签约时间', value: data.demand_ts },
           { name: '跟进人', value: data.receiver }
         ]
-        this.customerInfo_body_3.info = data.memo
+        this.customerInfo_body_memo.info = data.memo
       })
       this.$https.post(this.$urls.contract.get_list, {
         park_id: this.$store.state.form.activePark.domain_id,
@@ -543,12 +540,12 @@ export default {
         page_size: 999,
         customer_id: this.id
       }).then(res => {
-        this.customerInfo_body_2.info.tableData = []
+        this.customerInfo_body_rooms.info.tableData = []
         this.customerInfo_body_table.info.tableData = []
         if (res.list.length) {
           let roomList = res.list[0].room
           this.$dictionary.tableData(roomList, ['state'])
-          this.customerInfo_body_2.info.tableData = roomList
+          this.customerInfo_body_rooms.info.tableData = roomList
           let contractList = res.list
           this.$utils.getRooms(contractList)
           this.$dictionary.tableData(contractList, ['state'])

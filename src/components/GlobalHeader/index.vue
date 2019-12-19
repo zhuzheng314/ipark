@@ -95,7 +95,7 @@
         }"
     >
       <div>
-        <el-form :model="form">
+        <el-form :model="passwordForm">
           <el-form-item label="当前密码" label-width="80px">
             <el-input v-model="passwordForm.password1" show-password type="password"></el-input>
           </el-form-item>
@@ -127,30 +127,11 @@ export default {
   },
   data () {
     return {
-      form: '',
       passwordForm: {
         password1: '',
         password2: '',
         password3: ''
       },
-      options: [
-        {
-          value: '选项1',
-          label: '梦想小镇'
-        },
-        {
-          value: '选项1',
-          label: '西港发展中心'
-        },
-        {
-          value: '选项1',
-          label: '海创园'
-        },
-        {
-          value: '选项1',
-          label: '人工智能小镇'
-        }
-      ],
       value: '',
       parkName: '请选择园区',
       addParkShow: false,

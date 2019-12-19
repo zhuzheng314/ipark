@@ -11,15 +11,9 @@
       <div class="bodyCard-infoBox" v-for="(item,i) of data.info" :key="(item,i)">
         <span class="bodyCard-infoBox-name">{{item.name}}</span>
         <span>:</span>
-        <el-tag v-if="item.tag">
-          <el-tooltip
-          class="item"
-          effect="dark"
-          :content="item.value"
-          placement="top">
-            <span class="bodyCard-infoBox-value">{{item.value === null || item.value === undefined ? '-' : item.value}}</span>
-          </el-tooltip>
-        </el-tag>
+        <span class="bodyCard-infoBox-value" v-if="item.tag">
+          <Tag :data="item.value"></Tag>
+        </span>
         <el-tooltip v-else class="item" effect="dark" :content="item.value" placement="top">
           <span class="bodyCard-infoBox-value">{{item.value === null || item.value === undefined ? '-' : item.value}}</span>
         </el-tooltip>
@@ -124,6 +118,7 @@ export default {
       margin-left: 5px;
       font-size: 14px;
       color: @text-color-light;
+      display: inline-block;
     }
   }
   .bodyCard-text{

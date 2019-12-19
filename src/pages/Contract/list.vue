@@ -185,48 +185,34 @@ export default {
       dialogHeight: '',
       yearList: [
       ],
-      barOptions: {
-        color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} 个'
-        },
-        grid: {
-          top: '20px',
-          left: '50px',
-          right: '20px',
-          bottom: '20px'
-        },
-        xAxis: {
-          type: 'category',
-          data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-          name: '到期数量',
-          data: [],
-          type: 'bar',
-          barWidth: 20
-        }]
-      },
+      barOptions: {},
+      // barOptions: {
+      //   color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
+      //   tooltip: {
+      //     trigger: 'item',
+      //     formatter: '{a} <br/>{b}: {c} 个'
+      //   },
+      //   grid: {
+      //     top: '20px',
+      //     left: '50px',
+      //     right: '20px',
+      //     bottom: '20px'
+      //   },
+      //   xAxis: {
+      //     type: 'category',
+      //     data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+      //   },
+      //   yAxis: {
+      //     type: 'value'
+      //   },
+      //   series: [{
+      //     name: '到期数量',
+      //     data: [],
+      //     type: 'bar',
+      //     barWidth: 20
+      //   }]
+      // },
       infoList: [],
-      options: [
-        {
-          value: '选项1',
-          label: '签订'
-        }, {
-          value: '选项2',
-          label: '执行'
-        }, {
-          value: '选项3',
-          label: '到期'
-        }, {
-          value: '选项4',
-          label: '到期未处理'
-        }
-      ],
       contract_state: '',
       customer_name: '',
       addContractVisible: false,
@@ -302,7 +288,6 @@ export default {
       this.end_ts = event.dataIndex + 1
       this.fetchList()
     },
-
     handleAddContract () {
       this.addContractVisible = true
     },
@@ -315,7 +300,7 @@ export default {
       this.contractInfo_body_contract.info = [
         { name: '合同编号', value: data.contract_code },
         { name: '合同类型', value: data.contract_type },
-        { name: '合同状态', value: data.state },
+        { name: '合同状态', value: data.state, tag: true },
         { name: '合同签订日', value: data.sign_ts },
         { name: '合同起租日', value: data.start_ts },
         { name: '合同失效日', value: data.end_ts },
@@ -394,10 +379,15 @@ export default {
           let params = ['state', 'trade', 'charge_type', 'tenancy_divide', 'contract_type']
           this.$dictionary.tableData(list, params)
           this.$utils.getRooms(list)
+          let stateList = {
+            state: {
+              '到期未处理': 'danger'
+            }
+          }
+          this.$utils.tagState(list, stateList)
           this.page.total = res.total
           this.tableData = []
           this.tableData = list
-          console.log(list)
         } else {
           this.page.total = 0
           // this.$message.warning('未找到相关数据')
@@ -448,7 +438,7 @@ export default {
         if (res.code === 1000) {
           this.$message.success('修改成功')
           this.defaultValue = {}
-          // this.fetchGetInfo(this.id)
+          this.fetchGetInfo(this.id)
           this.fetchList()
           this.modifyVisible = false
         } else {
@@ -482,11 +472,23 @@ export default {
       this.$https.post(this.$urls.contract.info, params).then(res => {
         if (res.code === 1000) {
           let arr = []
-          let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          // let dateArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+          let dateArr = Object.keys(res.list)
+          // dateArr.forEach(item => {
+          //   arr.push(res.list[item])
+          // })
+          // this.barOptions.series[0].data = arr
+          // console.log(arr)
           dateArr.forEach(item => {
-            arr.push(res.list[item])
+            arr.push(
+              {
+                name: item,
+                value: res.list[item]
+              }
+            )
           })
-          this.barOptions.series[0].data = arr
+          let barName = '到期数量'
+          this.barOptions = this.$charts.setBarOptions(arr, barName)
           this.infoList = [
             { name: '合同总数量', unit: '个', value: 0 },
             { name: '合同总金额', unit: '万元', value: 0 },

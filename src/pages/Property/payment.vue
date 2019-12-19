@@ -785,6 +785,7 @@ export default {
       }
       this.$https.post(this.$urls.expense.get_back, params).then(res => {
         if (res.code === 1000) {
+          this.InfoState = false
           let data = res
           data.value = data.type
           this.selectType(data)
