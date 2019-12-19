@@ -4,12 +4,12 @@
       <div slot="header">
 
         <el-select  size="small"
-        v-model="value1"
+        v-model="state"
         clearable
-        @change="fetchChargeList"
+        @change="fetchListSearch"
         placeholder="缴费状态">
           <el-option
-            v-for="item in this.$store.state.dictionary.dictionaryType['charge_state']"
+            v-for="item in this.$store.state.dictionary.dictionaryType['cost_state']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -20,18 +20,18 @@
           size="small"
           style="width: 220px; margin-left: 15px"
           prefix-icon="el-icon-search"
-          v-model="value2"
+          v-model="customer_name"
           clearable
-          @change="fetchChargeList">
+          @change="fetchListSearch">
         </el-input>
         <el-date-picker
-          v-model="value3"
+          v-model="date"
           size="small"
           style="margin-left: 15px"
           type="daterange"
           range-separator="至"
           clearable
-          @change="fetchChargeList"
+          @change="fetchListSearch"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
@@ -174,9 +174,9 @@ export default {
           label: '未缴费'
         }
       ],
-      value1: '',
-      value2: '',
-      value3: '',
+      state: '',
+      date: '',
+      customer_name: '',
       addVisible: false,
       InfoState: false,
       modifyVisible: false,
@@ -319,27 +319,29 @@ export default {
     fetchList () { // 获取财务收入列表
       let params = {
         park_id: this.$store.state.form.activePark.domain_id,
-        ...this.page
-        // state: this.value1,
-        // like: this.value2,
-        // date: this.value3
+        ...this.page,
+        state: this.state,
+        start_ts: this.date && this.date.length ? this.date[0] : '',
+        end_ts: this.date && this.date.length ? this.date[1] : '',
+        customer_name: this.customer_name
       }
-      // console.log(params)
 
       this.$https.post(this.$urls.charge.get_list, params).then((res) => {
         // console.log(res)
-        let list = res.list
-        let params = ['charge_type', 'state']
-        this.$dictionary.tableData(list, params)
-        let stateList = {
-          state: {
-            '未缴': 'danger'
-          }
-        }
-        this.$utils.tagState(list, stateList)
-        this.page.total = res.total
         this.tableData = []
-        this.tableData = res.list
+        if (res.code === 1000 && res.list.length) {
+          let list = res.list
+          let params = ['charge_type', 'state']
+          this.$dictionary.tableData(list, params)
+          let stateList = {
+            state: {
+              '未缴': 'danger'
+            }
+          }
+          this.$utils.tagState(list, stateList)
+          this.page.total = res.total
+          this.tableData = res.list
+        }
       })
     },
     fetchListSearch () {

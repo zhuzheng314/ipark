@@ -344,7 +344,7 @@ const financialList = [
     label: '跟进人'
   },
   {
-    prop: 'log_type',
+    prop: 'customer_name',
     label: '客户'
   },
   {
@@ -369,7 +369,7 @@ const incomeList = [
     renderTags: true
   },
   {
-    prop: 'customer',
+    prop: 'customer_name',
     label: '客户名称'
   },
   {
