@@ -238,7 +238,7 @@
         <span class="money">{{receipt.receive_money}}</span>元。
         <p>
           本次收取金额
-          <el-input-number v-model="receiptNum" size="mini" controls-position="right" label="描述文字"></el-input-number>
+          <el-input-number :max="receipt.bill_money - receipt.receive_money" v-model="receiptNum" size="mini" controls-position="right" label="描述文字"></el-input-number>
         </p>
       </div>
       <span slot="footer" class="dialog-footer">
