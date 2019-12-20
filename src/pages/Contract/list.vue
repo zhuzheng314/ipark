@@ -231,7 +231,7 @@ export default {
             { prop: 'building_name', label: '楼宇' },
             { prop: 'name', label: '房号' },
             { prop: 'area', label: '面积' },
-            { prop: 'state', label: '房源状态' }
+            { prop: 'state', label: '房源状态', renderTags: true }
           ],
           tableData: []
         }
@@ -291,6 +291,7 @@ export default {
       this.addContractVisible = true
     },
     contractState (data) {
+      console.log(data)
       this.id = data.contract_code
       // this.fetchGetInfo(this.id)
       this.InfoState = true
@@ -314,6 +315,7 @@ export default {
         { name: '收款日', value: '每月' + data.pay_date + '日' },
         { name: '押金', value: data.deposit + '元' }
       ]
+      this.$dictionary.tableData(data.room, ['state'])
       this.contractInfo_body_room.info.tableData = data.room
       this.contractInfo_body1.info = [
         { name: '企业', value: data.customer_name },
@@ -334,8 +336,7 @@ export default {
         { name: '付款周期', value: data.property_pay_cycle + '月一付' },
         { name: '提前收费', value: data.property_prepaid + '月' },
         { name: '收款日', value: '每月' + data.property_pay_date + '日' },
-        { name: '计费时间', value: data.property_fee_start_ts },
-        { name: '结束时间', value: data.property_fee_end_ts }
+        { name: '计费时间', value: data.property_fee_start_ts }
       ]
     },
     open (i) {
