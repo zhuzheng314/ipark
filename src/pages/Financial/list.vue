@@ -86,7 +86,12 @@
         @onCancel="addVisible = false"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
-        :defaultValue="{}"
+        :defaultValue="{
+          log_type: 315
+        }"
+        :default-disabled="{
+          log_type: true
+        }"
         :itemList="[]"
         ></ParkForm>
       </div>
