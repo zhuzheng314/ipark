@@ -45,13 +45,13 @@
           v-model="customer_name">
         </el-input>
 
-        <!-- <el-button
+        <el-button
           style="float: right;"
           type="primary"
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >新增</el-button> -->
+        >新增</el-button>
       </div>
       <GTable
         @row-click="tenantsState"
@@ -120,9 +120,11 @@
       direction="rtl">
       <HeaderCard :data="info_header">
         <template #headerCardBtns>
-          <div class="btnBox" v-for="(item,i) in info_header.button" :key="(item,i)" @click="open(item.name)">
-            <i class="iconfont" v-html="item.icon"></i>
-            <span class="headerCard-btn-name">{{item.name}}</span>
+          <div v-for="(item,i) in info_header.button" :key="(item,i)">
+            <div class="btnBox" v-if="item.name!=='进驻' || (item.name==='进驻' && state==='未进驻')" :style="{display: item.name==='进驻' && state!=='未进驻' ? 'none' : 'block'}" @click="open(item.name)">
+              <i class="iconfont" v-html="item.icon"></i>
+              <span class="headerCard-btn-name">{{item.name}}</span>
+            </div>
           </div>
         </template>
       </HeaderCard>
@@ -263,7 +265,7 @@ export default {
       }
       if (i === '编辑') {
         this.InfoState = false
-        this.fetchGetBack()
+        this.$utils.timeOut(this.fetchGetBack)
       }
       if (i === '删除') {
         this.fetchRemove(this.id)

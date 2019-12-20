@@ -355,7 +355,9 @@ export default {
       })
       this.defaultValueContract = {
         ...obj,
-        customer_id: this.id
+        customer_id: this.id,
+        state: 328, // 新增合同默认状态[签订]
+        contract_type: 1 // 新增合同默认合同类型[房租]
       }
       this.addContractVisible = true
     },
@@ -385,7 +387,7 @@ export default {
     open (i) {
       if (i === '编辑') {
         this.InfoState = false
-        this.fetchGetBack()
+        this.$utils.timeOut(this.fetchGetBack)
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -507,9 +509,11 @@ export default {
             { name: '跟进人', value: data.receiver }
           ]
           this.customerInfo_body_memo.info = data.memo
-          let demandRoomList = data.demand_room
-          this.$dictionary.tableData(demandRoomList, ['state'])
-          this.customerInfo_body_demand_room.info.tableData = demandRoomList
+          if (data.demand_room && data.demand_room.length) {
+            let demandRoomList = data.demand_room
+            this.$dictionary.tableData(demandRoomList, ['state'])
+            this.customerInfo_body_demand_room.info.tableData = demandRoomList
+          }
         }
       })
       this.$https.post(this.$urls.contract.get_list, {

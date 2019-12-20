@@ -272,9 +272,9 @@ export default {
     },
     handleClose () { },
     open (i) {
-      if (i === '退驻') {
-        // this.InfoState = false
-        this.fetchGetBack()
+      if (i === '编辑') {
+        this.InfoState = false
+        this.$utils.timeOut(this.fetchGetBack)
       }
       if (i === '删除') {
         this.fetchRemove(this.id)

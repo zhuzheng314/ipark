@@ -474,7 +474,9 @@ export default {
     },
     addContract () { // 打开添加合同表单
       this.defaultValueContract = {
-        room: [this.roomInfo.domain_id]
+        room: [this.roomInfo.domain_id],
+        contract_type: 1, // 新增合同默认合同类型[房租]
+        state: 328 // 新增合同默认状态[签订]
       }
       this.addContractVisible = true
     },
@@ -547,14 +549,16 @@ export default {
     open (i) {
       if (i === '修改房间') {
         this.roomInfoState = false
-        this.fetchRoomInfo().then(res => {
-          if (res.code === 1000) {
-            this.defaultValue = res
-            if (res.state === 292) { // 房间在租时，状态不可改变
-              this.disabled.state = true
+        this.$utils.timeOut(() => {
+          this.fetchRoomInfo().then(res => {
+            if (res.code === 1000) {
+              this.defaultValue = res
+              if (res.state === 292) { // 房间在租时，状态不可改变
+                this.disabled.state = true
+              }
+              this.modifyShow = true
             }
-            this.modifyShow = true
-          }
+          })
         })
       }
       if (i === '删除') {

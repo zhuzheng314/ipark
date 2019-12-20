@@ -86,7 +86,12 @@
         @onCancel="addVisible = false"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
-        :defaultValue="{}"
+        :defaultValue="{
+          log_type: 315
+        }"
+        :default-disabled="{
+          log_type: true
+        }"
         :itemList="[]"
         ></ParkForm>
       </div>
@@ -262,7 +267,7 @@ export default {
     open (i) {
       if (i === '编辑') {
         this.InfoState = false
-        this.fetchGetBack()
+        this.$utils.timeOut(this.fetchGetBack)
       }
       if (i === '删除') {
         this.fetchRemove(this.id)
@@ -329,8 +334,8 @@ export default {
             { typeSelect: 'pay', name: `应付(${res.need_pay_num}笔)`, value: res.need_pay, chart: res.need_pay_rate, type: 'arrow' },
             { typeSelect: 'pay', name: '已付', value: res.pay, chart: res.pay_rate, type: 'arrow' },
             { typeSelect: 'pay', name: `未付(${res.un_pay_num}笔)`, value: res.un_pay, chart: res.un_pay_rate, type: 'arrow' },
-            { typeSelect: 'receive', name: `应收(${res.need_receive_num}笔)`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
-            { typeSelect: 'receive', name: '已收', value: res.receive, chart: res.receive_rate, type: 'arrow' },
+            // { typeSelect: 'receive', name: `应收(${res.need_receive_num}笔)`, value: res.need_receive, chart: res.need_receive_rate, type: 'arrow' },
+            // { typeSelect: 'receive', name: '已收', value: res.receive, chart: res.receive_rate, type: 'arrow' },
             { typeSelect: 'receive', name: `未缴(${res.un_receive_num}笔)`, value: res.un_receive, chart: res.un_receive_rate, type: 'arrow' }
           ]
         }
