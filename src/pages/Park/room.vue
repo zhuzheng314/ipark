@@ -548,14 +548,16 @@ export default {
     open (i) {
       if (i === '修改房间') {
         this.roomInfoState = false
-        this.fetchRoomInfo().then(res => {
-          if (res.code === 1000) {
-            this.defaultValue = res
-            if (res.state === 292) { // 房间在租时，状态不可改变
-              this.disabled.state = true
+        this.$utils.timeOut(() => {
+          this.fetchRoomInfo().then(res => {
+            if (res.code === 1000) {
+              this.defaultValue = res
+              if (res.state === 292) { // 房间在租时，状态不可改变
+                this.disabled.state = true
+              }
+              this.modifyShow = true
             }
-            this.modifyShow = true
-          }
+          })
         })
       }
       if (i === '删除') {

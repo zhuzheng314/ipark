@@ -205,7 +205,7 @@
         </BodyCard>
         <BodyCard type="2" :data="info_body_gas">
           <template #btns="data">
-            <el-button type="text" @click="fetchGetBack(data.slotName.expense_code)" >编辑</el-button>
+            <el-button type="text" @click="fetchGetBack(data.slotName.expense_code)">编辑</el-button>
           </template>
         </BodyCard>
         <BodyCard type="2" :data="info_body_lease">
@@ -953,7 +953,9 @@ export default {
           this.formOptions = {}
           this.buildTreeWithCustomer(data.customer_id)
           this.defaultValue = data
-          this.modifyVisible = true
+          this.$utils.timeOut(() => {
+            this.modifyVisible = true
+          })
         } else {
           this.$message.error('获取信息失败')
         }

@@ -651,7 +651,7 @@ export default {
     open (i) {
       if (i === '编辑') {
         this.InfoState = false
-        this.fetchGetBack()
+        this.$utils.timeOut(this.fetchGetBack)
       }
       if (i === '删除') {
         this.fetchRemove(this.id)

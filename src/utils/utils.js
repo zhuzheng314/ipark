@@ -68,3 +68,10 @@ export function dialogHeight () { // 右侧弹窗body高度
   // console.log(dialogHeight, headerHeight, bodyHeight)
   return bodyHeight
 }
+
+// this.$utils.timeOut(this.fetchGetBack)
+export function timeOut (fn, time = 500) { // 延时器
+  setTimeout(() => {
+    fn()
+  }, time)
+}
