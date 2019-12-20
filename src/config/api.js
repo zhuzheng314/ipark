@@ -92,7 +92,8 @@ const api = {
     get_list: `/assets.contract.get_list`, // 获取合同列表
     get_info: `/assets.contract.get_info`, // 获取合同信息
     get_list_by_room: `/assets.contract.get_list_by_room`, // 通过房间id获取合同列表
-    get_back: `/assets.contract.get_back`
+    get_back: `/assets.contract.get_back`,
+    get_month_info: `/assets.d_contract.get_month_info`
   },
   // 合同模板
   template: {
