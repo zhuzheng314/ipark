@@ -254,6 +254,7 @@
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
+        @onChange="formActive"
         @onSubmit="fetchAddContract"
         @onCancel="() => {this.addContractVisible = false}"
         :formList="$formsLabels.addContractForm"
@@ -419,6 +420,20 @@ export default {
     }
   },
   methods: {
+    formActive (data) {
+      if (data.key === 'customer_id') {
+        let customer = this.$store.state.form.customerList
+        let obj = {}
+        customer.forEach(v => {
+          if (v.id === data.value) {
+            obj.contacter = v.contacter
+            obj.contact = v.contact
+            obj.email = v.email
+          }
+        })
+        this.defaultValueContract = { ...this.defaultValueContract, ...obj }
+      }
+    },
     validateRoomAdd (rule, value, callback) {
       console.log('add')
       return this.$store.dispatch(
