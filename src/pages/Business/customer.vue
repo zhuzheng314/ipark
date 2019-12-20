@@ -367,6 +367,7 @@ export default {
         if (res.code === 1000) {
           this.fetchGetInfo(this.id)
           this.addContractVisible = false
+          this.$store.dispatch('getParkTreeList')
           this.$message.success('新增成功')
         } else {
           this.$message.error('新增失败')
