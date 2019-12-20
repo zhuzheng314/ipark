@@ -318,7 +318,6 @@ export default {
       .btn{
         position: absolute;
         width: 100%;
-        text-align: center;
         bottom: 0;
         text-align: center;
         color: #358DD8;
