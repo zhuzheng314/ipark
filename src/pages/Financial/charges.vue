@@ -95,8 +95,8 @@
       >
         <template #renderButton="data">
           <span>
-            <el-button type="text" @click.stop="handleReceipt(data.slotName)">收款</el-button>
-            <el-button type="text" @click.stop="handleSettle(data.slotName)">结清</el-button>
+            <el-button type="text" @click.stop="handleReceipt(data.slotName)" :disabled="data.slotName && data.slotName.state === '已结清' ? true : false">收款</el-button>
+            <el-button type="text" @click.stop="handleSettle(data.slotName)"  :disabled="data.slotName && data.slotName.state === '已结清' ? true : false">结清</el-button>
           </span>
         </template>
       </GTable>
@@ -205,7 +205,7 @@
         </BodyCard>
         <BodyCard type="2" :data="info_body_gas">
           <template #btns="data">
-            <el-button type="text" @click="fetchGetBack(data.slotName.expense_code)">编辑</el-button>
+            <el-button type="text" @click="fetchGetBack(data.slotName.expense_code)" >编辑</el-button>
           </template>
         </BodyCard>
         <BodyCard type="2" :data="info_body_lease">

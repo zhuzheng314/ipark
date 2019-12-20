@@ -344,7 +344,17 @@ export default {
   },
   methods: {
     addContract () { // 打开添加合同表单
+      let customer = this.$store.state.form.customerList
+      let obj = {}
+      customer.forEach(v => {
+        if (v.id === this.id) {
+          obj.contacter = v.contacter
+          obj.contact = v.contact
+          obj.email = v.email
+        }
+      })
       this.defaultValueContract = {
+        ...obj,
         customer_id: this.id
       }
       this.addContractVisible = true
@@ -496,8 +506,9 @@ export default {
             { name: '跟进人', value: data.receiver }
           ]
           this.customerInfo_body_memo.info = data.memo
-          let demandRoomList = []
-          this.customerInfo_body_demand_room.info.tableData = data.demand_room
+          let demandRoomList = data.demand_room
+          this.$dictionary.tableData(demandRoomList, ['state'])
+          this.customerInfo_body_demand_room.info.tableData = demandRoomList
         }
       })
       this.$https.post(this.$urls.contract.get_list, {

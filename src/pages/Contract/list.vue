@@ -83,6 +83,7 @@
       :visible.sync="addContractVisible">
       <div>
         <ParkForm
+        @onChange="formActive"
         @onSubmit="fetchAddContract"
         @onCancel="() => {this.addContractVisible = false}"
         :formList="$formsLabels.addContractForm"
@@ -196,32 +197,6 @@ export default {
       yearList: [
       ],
       barOptions: {},
-      // barOptions: {
-      //   color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
-      //   tooltip: {
-      //     trigger: 'item',
-      //     formatter: '{a} <br/>{b}: {c} 个'
-      //   },
-      //   grid: {
-      //     top: '20px',
-      //     left: '50px',
-      //     right: '20px',
-      //     bottom: '20px'
-      //   },
-      //   xAxis: {
-      //     type: 'category',
-      //     data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-      //   },
-      //   yAxis: {
-      //     type: 'value'
-      //   },
-      //   series: [{
-      //     name: '到期数量',
-      //     data: [],
-      //     type: 'bar',
-      //     barWidth: 20
-      //   }]
-      // },
       infoList: [],
       contract_state: '',
       customer_name: '',
@@ -294,6 +269,20 @@ export default {
     }
   },
   methods: {
+    formActive (data) {
+      if (data.key === 'customer_id') {
+        let customer = this.$store.state.form.customerList
+        let obj = {}
+        customer.forEach(v => {
+          if (v.id === data.value) {
+            obj.contacter = v.contacter
+            obj.contact = v.contact
+            obj.email = v.email
+          }
+        })
+        this.addDefaultValue = { ...this.addDefaultValue, ...obj }
+      }
+    },
     endContract (event, instance, echarts) {
       this.end_ts = event.dataIndex + 1
       this.fetchList()
