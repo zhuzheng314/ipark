@@ -2005,22 +2005,22 @@ const complaintForm = [
         ]
       }
     ]
-  },
-  {
-    title: '房源信息',
-    children: [
-      {
-        type: 'cascader',
-        label: '房源信息',
-        key: 'domain_id',
-        multiple: false, // 是否多选
-        rule: [
-          // { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: []
-      }
-    ]
   }
+  // {
+  //   title: '房源信息',
+  //   children: [
+  //     {
+  //       type: 'cascader',
+  //       label: '房源信息',
+  //       key: 'domain_id',
+  //       multiple: false, // 是否多选
+  //       rule: [
+  //         // { required: true, message: '请选择', trigger: 'change' }
+  //       ],
+  //       options: []
+  //     }
+  //   ]
+  // }
 ]
 // 费用催缴
 const paymentForm = [
