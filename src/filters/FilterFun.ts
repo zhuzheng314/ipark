@@ -5,6 +5,7 @@ export class FilterFun {
     this.funs.set('Percent', this.Percent)
     this.funs.set('NumOrFalse', this.NumOrFalse)
     this.funs.set('StringStr', this.StringStr)
+    this.funs.set('NumRound', this.NumRound)
   }
   // 数字格式
   NumFormat (value: any, n = 0): any {
@@ -51,6 +52,19 @@ export class FilterFun {
       }
     } else {
       return value
+    }
+  }
+
+  // 四舍五入
+  NumRound (value: any): any {
+    if (!value) {
+      if (value === 0) {
+        return 0
+      } else {
+        return '-'
+      }
+    } else {
+      return Math.round(value)
     }
   }
 

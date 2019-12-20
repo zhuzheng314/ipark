@@ -278,6 +278,7 @@ export default {
             obj.contacter = v.contacter
             obj.contact = v.contact
             obj.email = v.email
+            obj.trade = v.status
           }
         })
         this.addDefaultValue = { ...this.addDefaultValue, ...obj }
@@ -291,7 +292,6 @@ export default {
       this.addContractVisible = true
     },
     contractState (data) {
-      console.log(data)
       this.id = data.contract_code
       // this.fetchGetInfo(this.id)
       this.InfoState = true
@@ -326,7 +326,7 @@ export default {
       ]
       this.contractInfo_body_property.info = [
         { name: '管理面积', value: data.manage_area + '㎡' },
-        { name: '签订时间', value: data.property_sign_ts },
+        { name: '签订时间', value: data.sign_ts },
         { name: '押金', value: data.property_deposit + '元' },
         { name: '合同单价', value: data.property_unit_price + '元/㎡·天' },
         { name: '公摊', value: data.equal_share + '元/㎡·天' },

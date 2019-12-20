@@ -669,6 +669,7 @@ export default {
           if (v.id === data.value) {
             obj.contacter = v.contacter
             obj.contact = v.contact
+            obj.trade = v.status
           }
         })
         this.addDefaultValue = { ...this.addDefaultValue, ...obj }
