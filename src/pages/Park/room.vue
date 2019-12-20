@@ -474,7 +474,9 @@ export default {
     },
     addContract () { // 打开添加合同表单
       this.defaultValueContract = {
-        room: [this.roomInfo.domain_id]
+        room: [this.roomInfo.domain_id],
+        contract_type: 1, // 新增合同默认合同类型[房租]
+        state: 328 // 新增合同默认状态[签订]
       }
       this.addContractVisible = true
     },
