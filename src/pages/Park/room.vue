@@ -489,6 +489,7 @@ export default {
           this.handleRoomClick(this.roomInfo)
           this.addContractVisible = false
           this.fetchRoomList()
+          this.$store.dispatch('getParkTreeList')
           this.$message.success('新增成功')
         } else {
           this.$message.error('新增失败')
