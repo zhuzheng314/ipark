@@ -32,7 +32,7 @@
     </div>
     <div class="infoBox-subtitle">
       <span>{{data.subtitle.name}}</span>
-      <span>:{{Number(data.subtitle.value) | NumOrFalse}}</span>
+      <span>:{{Number(data.subtitle.value) | NumOrFalse | NumRound}}</span>
       <span>{{data.subtitle.unit}}</span>
 
     </div>

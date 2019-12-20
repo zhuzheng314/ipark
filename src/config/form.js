@@ -1446,24 +1446,17 @@ const applyForm = [
           { required: true, message: '该项为必填', trigger: 'blur' }
         ]
       },
-      {
-        type: 'select',
-        label: '进驻状态',
-        key: 'state',
-        placeholder: '请选择进驻状态',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'change' }
-        ],
-        options: [
-          // {
-          //   label: '未进驻',
-          //   value: 1
-          // }, {
-          //   label: '已进驻',
-          //   value: 2
-          // }
-        ]
-      },
+      // {
+      //   type: 'select',
+      //   label: '进驻状态',
+      //   key: 'state',
+      //   placeholder: '请选择进驻状态',
+      //   rule: [
+      //     { required: true, message: '该项为必填', trigger: 'change' }
+      //   ],
+      //   options: [
+      //   ]
+      // },
       {
         type: 'textarea',
         label: '备注',

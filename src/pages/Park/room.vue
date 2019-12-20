@@ -353,10 +353,10 @@ export default {
         info: {
           label: [
             { prop: 'contract_code', label: '合同编号' },
-            { prop: 'room', label: '楼宇/房间号' },
+            { prop: 'room', label: '楼层/房间号', renderTags: true },
             { prop: 'rent_area', label: '租赁面积' },
-            { prop: 'fee_start_ts', label: '开始日' },
-            { prop: 'fee_end_ts', label: '结束日' },
+            { prop: 'start_ts', label: '开始日' },
+            { prop: 'end_ts', label: '结束日' },
             { prop: 'unit_price', label: '合同单价' },
             { prop: 'state', label: '状态' },
             { prop: 'contacter', label: '联系人' },
@@ -420,7 +420,7 @@ export default {
     }
   },
   methods: {
-    formActive (data) {
+    formActive (data) { // 选择客户
       if (data.key === 'customer_id') {
         let customer = this.$store.state.form.customerList
         let obj = {}
@@ -429,6 +429,7 @@ export default {
             obj.contacter = v.contacter
             obj.contact = v.contact
             obj.email = v.email
+            obj.trade = v.status
           }
         })
         this.defaultValueContract = { ...this.defaultValueContract, ...obj }
@@ -504,6 +505,7 @@ export default {
     //   this.roomInfo_header.title = id.index + '楼00' + id.subIndex + '室'
     // },
     handleRoomClick (room) {
+      // console.log(room)
       this.roomInfoState = true
       this.roomInfo = room
       this.fetchRoomInfo().then(res => {
@@ -526,7 +528,9 @@ export default {
         if (res.code === 1000) {
           let contractList = res.list
           this.$dictionary.tableData(contractList, ['state'])
-          // console.log(contractList)
+          contractList.forEach(v => {
+            v.room = room.floor + '-' + room.name
+          })
           this.roomInfo_body_table1.info.tableData = contractList
         }
       })

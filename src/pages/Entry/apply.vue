@@ -45,13 +45,13 @@
           v-model="customer_name">
         </el-input>
 
-        <el-button
+        <!-- <el-button
           style="float: right;"
           type="primary"
           icon="el-icon-plus"
           size="small"
           @click="handleAddContract"
-        >新增</el-button>
+        >新增</el-button> -->
       </div>
       <GTable
         @row-click="tenantsState"
@@ -82,7 +82,7 @@
         @onCancel="() => {this.addVisible = false}"
         :formList="$formsLabels.applyForm"
         :options="$store.getters.applyListOptions"
-        :defaultValue="{}"
+        :defaultValue="addDefaultValue"
         :itemList="[]"
         ></ParkForm>
       </div>
@@ -151,22 +151,6 @@ export default {
       activeName: 'first',
       yearList: [
       ],
-      options1: [ ],
-      options2: [
-        {
-          value: 1,
-          label: '未审批'
-        }, {
-          value: 2,
-          label: '审批中'
-        }, {
-          value: 3,
-          label: '已通过'
-        }, {
-          value: 4,
-          label: '未通过'
-        }
-      ],
       approval_type: '',
       date: [],
       customer_name: '',
@@ -177,6 +161,10 @@ export default {
       info_header: {
         title: '-',
         button: [
+          {
+            name: '进驻',
+            icon: '&#xe606;'
+          },
           {
             name: '编辑',
             icon: '&#xe62a;'
@@ -223,7 +211,8 @@ export default {
         total: 0,
         page_size: 5
       },
-      id: ''
+      id: '',
+      state: ''
     }
   },
   watch: {
@@ -246,6 +235,32 @@ export default {
     },
     handleClose () { },
     open (i) {
+      if (i === '进驻') {
+        if (this.state) {
+          if (this.state === '已进驻') {
+            this.$message.error('该企业已进驻')
+          } else if (this.state === '已退驻') {
+            this.$message.error('该企业已退驻')
+          } else {
+            this.$confirm('此操作将入驻该企业, 是否继续?', '提示', {
+              distinguishCancelAndClose: true,
+              confirmButtonText: '确定',
+              cancelButtonText: '取消'
+            }).then(() => {
+              this.$https.post(this.$urls.enter.modify, {
+                contract_code: this.id,
+                state: 322
+              }).then(res => {
+                if (res.code === 1000) {
+                  this.fetchList()
+                  this.InfoState = false
+                  this.$message.success('该企业已成功进驻')
+                }
+              })
+            })
+          }
+        }
+      }
       if (i === '编辑') {
         this.InfoState = false
         this.fetchGetBack()
@@ -365,7 +380,8 @@ export default {
     },
     fetchAdd (data) { // 添加进驻
       let params = {
-        ...data
+        ...data,
+        state: 322 // 进驻状态
       }
       this.$https.post(this.$urls.enter.add, params)
         .then(res => {
@@ -435,7 +451,14 @@ export default {
           this.$utils.getRooms(list)
           this.page.total = res.total
           this.tableData = []
-          this.tableData = res.list
+          let stateList = {
+            state: {
+              '已进驻': 'success',
+              '已退驻': 'danger'
+            }
+          }
+          this.$utils.tagState(list, stateList)
+          this.tableData = list
         } else {
           this.page.total = 0
           // this.$message.warning('未找到相关数据')
@@ -460,6 +483,7 @@ export default {
           let data = res
           data.state = this.$store.getters.getDicById(data.state)
           data.contract_state = this.$store.getters.getDicById(data.contract_state)
+          this.state = data.state
           this.info_header.title = data.customer_name
           this.info_info.tableData.push({ ...data })
           // console.log(this.info_info.tableData)
