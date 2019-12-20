@@ -1416,7 +1416,7 @@ const applyForm = [
   {
     title: '基本信息',
     span: 24,
-    minHeight: 450,
+    // minHeight: 450,
     children: [
       {
         type: 'select',
@@ -1475,7 +1475,7 @@ const leaveForm = [
   {
     title: '客户信息',
     span: 12,
-    minHeight: 450,
+    // minHeight: 450,
     children: [
       {
         type: 'input',
