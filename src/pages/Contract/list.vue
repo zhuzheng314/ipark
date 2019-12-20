@@ -495,7 +495,6 @@ export default {
       this.$https.post(this.$urls.contract.get_month_info, params).then(res => {
         if (res.code === 1000) {
           let data = res.list
-          console.log(res)
           this.infoList = [
             { name: '合同总数量', unit: '个', value: data.total_contract },
             { name: '合同总金额', unit: '万元', value: data.total_money },
