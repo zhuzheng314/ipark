@@ -188,8 +188,8 @@ export default {
         title: '-',
         button: [
           {
-            name: '编辑',
-            icon: '&#xe62a;'
+            name: '退驻',
+            icon: '&#xe7d1;'
           },
           {
             name: '删除',
@@ -272,8 +272,8 @@ export default {
     },
     handleClose () { },
     open (i) {
-      if (i === '编辑') {
-        this.InfoState = false
+      if (i === '退驻') {
+        // this.InfoState = false
         this.fetchGetBack()
       }
       if (i === '删除') {
@@ -336,31 +336,53 @@ export default {
         }
       })
     },
-    fetchModify (data) { // 修改退驻
-      let params = {
-        ...data,
-        contract_code: this.id
-      }
-      this.$https.post(this.$urls.enter.modify, params).then((res) => {
-        if (res.code === 1000) {
-          this.$message.success('修改成功')
-          this.defaultValue = {}
-          this.fetchList()
-          this.modifyVisible = false
-        } else {
-          this.$message.error('修改失败')
-        }
-      })
-    },
-    fetchGetBack () {
+    // fetchModify (data) { // 修改退驻
+    //   let params = {
+    //     ...data,
+    //     contract_code: this.id
+    //   }
+    //   this.$https.post(this.$urls.enter.modify, params).then((res) => {
+    //     if (res.code === 1000) {
+    //       this.$message.success('修改成功')
+    //       this.defaultValue = {}
+    //       this.fetchList()
+    //       this.modifyVisible = false
+    //     } else {
+    //       this.$message.error('修改失败')
+    //     }
+    //   })
+    // },
+    fetchGetBack () { // 退驻
       let params = {
         contract_code: this.id
       }
       this.$https.post(this.$urls.enter.get_back, params).then(res => {
         if (res.code === 1000) {
-          let data = res
-          this.defaultValue = data
-          this.modifyVisible = true
+          this.defaultValue = res
+          if (res.state === 323) {
+            this.$message('该企业已退驻,请勿重复操作')
+            return
+          }
+          this.$confirm('此操作将提前终止合同，请确认尾款是否已经缴清', '提示', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(() => {
+            let params = {
+              contract_code: this.id,
+              state: 323
+            }
+            this.$https.post(this.$urls.enter.modify, params).then((res) => {
+              this.InfoState = false
+              if (res.code === 1000) {
+                this.$message.success('退驻成功')
+                this.defaultValue = {}
+                this.fetchList()
+              } else {
+                this.$message.error('退驻失败')
+              }
+            })
+          })
         } else {
           this.$message.error('获取信息失败')
         }
