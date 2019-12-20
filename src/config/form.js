@@ -694,7 +694,11 @@ const addContractForm = [
         showIcon: true,
         iconName: '',
         iconMethods: () => {
-          window.open('/#/business/customer')
+          if (window.location.href.includes('localhost')) {
+            window.open('/#/business/customer')
+          } else {
+            window.open('/ipark/#/business/customer')
+          }
         },
         rule: [
           { required: true, message: '该项为必填', trigger: 'change' }

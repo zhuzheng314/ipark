@@ -517,6 +517,7 @@ export default {
       xAxisData.push(v.name)
       seriesData.push(v.value)
     })
+    this.$store.dispatch('getParkTreeList')
     this.fetchList()
   }
 }
