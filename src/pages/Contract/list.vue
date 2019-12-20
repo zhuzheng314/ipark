@@ -466,7 +466,7 @@ export default {
       this.page.page_no = num
       this.fetchList()
     },
-    fetchInfo () {
+    fetchInfo () { // 统计信息
       let params = {
         park_id: this.$store.state.form.activePark.domain_id
       }
@@ -490,11 +490,17 @@ export default {
           })
           let barName = '到期数量'
           this.barOptions = this.$charts.setBarOptions(arr, barName)
+        }
+      })
+      this.$https.post(this.$urls.contract.get_month_info, params).then(res => {
+        if (res.code === 1000) {
+          let data = res.list
+          console.log(res)
           this.infoList = [
-            { name: '合同总数量', unit: '个', value: 0 },
-            { name: '合同总金额', unit: '万元', value: 0 },
-            { name: '本月新增数量', unit: '个', value: 0 },
-            { name: '本月到期合同', unit: '个', value: 0 }
+            { name: '合同总数量', unit: '个', value: data.total_contract },
+            { name: '合同总金额', unit: '万元', value: data.total_money },
+            { name: '本月新增数量', unit: '个', value: data.increase },
+            { name: '本月到期合同', unit: '个', value: data.expire }
           ]
         }
       })
