@@ -231,7 +231,7 @@ export default {
             { prop: 'building_name', label: '楼宇' },
             { prop: 'name', label: '房号' },
             { prop: 'area', label: '面积' },
-            { prop: 'state', label: '房源状态' }
+            { prop: 'state', label: '房源状态', renderTags: true }
           ],
           tableData: []
         }
@@ -278,6 +278,7 @@ export default {
             obj.contacter = v.contacter
             obj.contact = v.contact
             obj.email = v.email
+            obj.trade = v.status
           }
         })
         this.addDefaultValue = { ...this.addDefaultValue, ...obj }
@@ -314,6 +315,7 @@ export default {
         { name: '收款日', value: '每月' + data.pay_date + '日' },
         { name: '押金', value: data.deposit + '元' }
       ]
+      this.$dictionary.tableData(data.room, ['state'])
       this.contractInfo_body_room.info.tableData = data.room
       this.contractInfo_body1.info = [
         { name: '企业', value: data.customer_name },
@@ -324,7 +326,7 @@ export default {
       ]
       this.contractInfo_body_property.info = [
         { name: '管理面积', value: data.manage_area + '㎡' },
-        { name: '签订时间', value: data.property_sign_ts },
+        { name: '签订时间', value: data.sign_ts },
         { name: '押金', value: data.property_deposit + '元' },
         { name: '合同单价', value: data.property_unit_price + '元/㎡·天' },
         { name: '公摊', value: data.equal_share + '元/㎡·天' },
@@ -334,8 +336,7 @@ export default {
         { name: '付款周期', value: data.property_pay_cycle + '月一付' },
         { name: '提前收费', value: data.property_prepaid + '月' },
         { name: '收款日', value: '每月' + data.property_pay_date + '日' },
-        { name: '计费时间', value: data.property_fee_start_ts },
-        { name: '结束时间', value: data.property_fee_end_ts }
+        { name: '计费时间', value: data.property_fee_start_ts }
       ]
     },
     open (i) {

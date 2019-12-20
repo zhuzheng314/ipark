@@ -417,6 +417,7 @@ export default {
         }
         this.$https.post(this.$urls.customer.remove, params).then((res) => {
           if (res.code === 1000) {
+            this.page.page_no = 1
             this.fetchList()
             this.InfoState = false
             this.$message.success('删除成功')
