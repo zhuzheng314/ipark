@@ -272,7 +272,7 @@ export default {
     },
     handleClose () { },
     open (i) {
-      if (i === '编辑') {
+      if (i === '退驻') {
         this.InfoState = false
         this.$utils.timeOut(this.fetchGetBack)
       }

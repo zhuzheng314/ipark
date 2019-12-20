@@ -98,7 +98,7 @@
           })
           .catch(_ => {});
         }"
-      width="800px">
+      width="600px">
       <div>
         <ParkForm
         @onSubmit="fetchModify"
@@ -524,6 +524,7 @@ export default {
     this.fetchInfo()
     this.fetchList()
     this.$store.dispatch('getCustomerList')
+    this.$store.dispatch('getContractList')
   }
 }
 </script>

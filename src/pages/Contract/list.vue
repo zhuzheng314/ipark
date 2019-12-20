@@ -358,6 +358,7 @@ export default {
           this.addContractVisible = false
           this.$message.success('新增成功')
           this.$store.dispatch('getParkTreeList')
+          this.$store.dispatch('getContractList')
         } else {
           this.$message.error('新增失败')
         }
