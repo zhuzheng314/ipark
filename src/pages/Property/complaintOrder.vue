@@ -1,39 +1,6 @@
 <template>
   <div>
     <el-card style="width: 100%">
-<!--      <div slot="header">-->
-<!--        <el-select-->
-<!--        size="small"-->
-<!--        v-model="value1"-->
-<!--        clearable-->
-<!--        @change="fetchListSearch"-->
-<!--        placeholder="工单状态">-->
-<!--          <el-option-->
-<!--            v-for="item in this.$store.state.dictionary.dictionaryType['work_state']"-->
-<!--            :key="item.value"-->
-<!--            :label="item.label"-->
-<!--            :value="item.value">-->
-<!--          </el-option>-->
-<!--        </el-select>-->
-
-<!--        <el-input-->
-<!--          placeholder="搜索工单"-->
-<!--          clearable-->
-<!--          @change="fetchListSearch"-->
-<!--          size="small"-->
-<!--          style="width: 220px; margin-left: 15px"-->
-<!--          prefix-icon="el-icon-search"-->
-<!--          v-model="value2">-->
-<!--        </el-input>-->
-
-<!--        <el-button-->
-<!--          style="float: right"-->
-<!--          type="primary"-->
-<!--          icon="el-icon-plus"-->
-<!--          size="small"-->
-<!--          @click="handleAddContract"-->
-<!--        >投诉</el-button>-->
-<!--      </div>-->
       <div>
         <div>
           <Comparison
@@ -279,12 +246,16 @@ export default {
         title: '投诉工单',
         button: [
           {
+            name: '完成',
+            icon: '&#xe7d1;'
+          },
+          {
             name: '编辑',
             icon: '&#xe62a;'
           },
           {
             name: '删除',
-            icon: '&#xe7d1;'
+            icon: '&#xe64a;'
           }
         ]
       },
@@ -335,6 +306,10 @@ export default {
       this.InfoState = true
     },
     open (i) {
+      if (i === '完成') {
+        // this.InfoState = false
+        this.fetchFinish()
+      }
       if (i === '编辑') {
         this.InfoState = false
         this.$utils.timeOut(this.fetchGetBack)
@@ -345,9 +320,9 @@ export default {
     },
     fetchAdd (data) { // 添加投诉工单
       let params = {
-        ...data
+        ...data,
+        domain_id: this.$store.state.form.activePark.domain_id
       }
-      // params.domain_id = params.domain_id[0]
       this.$https.post(this.$urls.complaint.add, params)
         .then(res => {
           if (res.code === 1000) {
@@ -382,11 +357,13 @@ export default {
     fetchModify (data) { // 修改投诉工单
       let params = {
         ...data,
-        complaint_code: this.id
+        complaint_code: this.id,
+        domain_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.complaint.modify, params).then((res) => {
         if (res.code === 1000) {
           this.$message.success('修改成功')
+          this.fetchList()
           this.modifyVisible = false
         } else {
           this.$message.error('修改失败')
@@ -469,6 +446,40 @@ export default {
           let data = res
           this.defaultValue = data
           this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
+    },
+    fetchFinish () {
+      let params = {
+        complaint_code: this.id
+      }
+      this.$https.post(this.$urls.complaint.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.$confirm('该工单已解决?', '提示', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(() => {
+            let params = {
+              ...data,
+              complaint_code: this.id,
+              domain_id: this.$store.state.form.activePark.domain_id,
+              complaint_state: 314
+            }
+            this.$https.post(this.$urls.complaint.modify, params).then((res) => {
+              if (res.code === 1000) {
+                this.$message.success('操作成功')
+                this.fetchList()
+                this.modifyVisible = false
+                this.InfoState = false
+              } else {
+                this.$message.error('操作失败')
+              }
+            })
+          })
         } else {
           this.$message.error('获取信息失败')
         }

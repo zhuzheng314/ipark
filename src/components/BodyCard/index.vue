@@ -15,7 +15,7 @@
           <Tag :data="item.value"></Tag>
         </span>
         <el-tooltip v-else class="item" effect="dark" :content="item.value" placement="top">
-          <span class="bodyCard-infoBox-value">{{item.value === null || item.value === undefined ? '-' : item.value}}</span>
+          <span class="bodyCard-infoBox-value">{{item.value | StringStr(25)}}</span>
         </el-tooltip>
       </div>
     </div>
