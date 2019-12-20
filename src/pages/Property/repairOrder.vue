@@ -273,12 +273,16 @@ export default {
         title: '维修工单',
         button: [
           {
+            name: '完成',
+            icon: '&#xe7d1;'
+          },
+          {
             name: '编辑',
             icon: '&#xe62a;'
           },
           {
             name: '删除',
-            icon: '&#xe7d1;',
+            icon: '&#xe64a;',
             function: 'click1'
           }
         ],
@@ -338,6 +342,9 @@ export default {
       this.InfoState = true
     },
     open (i) {
+      if (i === '完成') {
+        this.fetchFinish()
+      }
       if (i === '编辑') {
         this.InfoState = false
         this.$utils.timeOut(this.fetchGetBack)
@@ -474,6 +481,38 @@ export default {
           this.defaultValue = data
           // this.defaultValue.customer_id = 10
           this.modifyVisible = true
+        } else {
+          this.$message.error('获取信息失败')
+        }
+      })
+    },
+    fetchFinish () {
+      let params = {
+        repair_code: this.id
+      }
+      this.$https.post(this.$urls.repair.get_back, params).then(res => {
+        if (res.code === 1000) {
+          let data = res
+          this.$confirm('该工单已解决?', '提示', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(() => {
+            let params = {
+              ...data,
+              repair_code: this.id,
+              repair_state: 314
+            }
+            this.$https.post(this.$urls.repair.modify, params).then((res) => {
+              if (res.code === 1000) {
+                this.$message.success('操作成功')
+                this.fetchList()
+                this.InfoState = false
+              } else {
+                this.$message.error('操作失败')
+              }
+            })
+          })
         } else {
           this.$message.error('获取信息失败')
         }
