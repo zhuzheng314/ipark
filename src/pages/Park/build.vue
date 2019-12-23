@@ -14,7 +14,8 @@
                :key="index + 'leftcard'"
                v-for="(item, index) in $store.state.form.buildList">
             <div class="inner" @click="handleBuildClick(index, item)">
-              <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
+              <img v-if="item.attached && item.attached.upload" class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
+              <None v-else class="pic" type="pic"></None>
               <div class="cont">
                 <div class="title">{{item.name | StringStr(6) }}</div>
                 <div class="value">{{item.area}}㎡</div>

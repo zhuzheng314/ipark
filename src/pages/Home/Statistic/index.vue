@@ -41,11 +41,24 @@ export default {
 <style lang="less" scoped>
 @import '../../../assets/style/index.less';
 .statistic{
-  /deep/ .statistic-card{
-    float: left;
-    margin-right: 16px;
-    width: 234px;
-    height: 132px;
+  // flex-grow: 1;
+  width: ~"calc((100% - 96px) / 5)";
+  padding: 0 12px;
+  &:first-child {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
+  }
+  /deep/ .statistic-card {
+    box-sizing: border-box;
+    // float: left;
+    // margin-right: 16px;
+    // width: 234px;
+    // margin: 0 12px;
+    height: 160px;
+    // width: 100%;
+    // width: ~"calc(20% - 26px)";
     box-shadow:0px 3px 8px rgba(0,0,0,0.1);
     padding: 8px;
     color: @white;
@@ -54,7 +67,7 @@ export default {
       padding: 0;
     }
     .content{
-      height: 104px;
+      height: 110px;
       width: 100%;
       position: relative;
       i{

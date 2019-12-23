@@ -1,6 +1,6 @@
 <template>
   <div class="g-desk">
-    <div class="clear" style="width: 100%">
+    <div class="clear g-desk-header">
       <Statistic v-for="(item,i) in statistic" :key="(item,i)" :data="item"></Statistic>
     </div>
     <el-row :gutter="24">
@@ -543,6 +543,11 @@ export default {
 }
 .g-desk {
   position: relative;
+  .g-desk-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
   /deep/ .box-card.statistic {
     width: 100%;
     & > .el-card__body {
