@@ -1107,7 +1107,7 @@ const addContractForm = [
         key: 'month_rent',
         placeholder: '请输入',
         rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
+          // { required: true, message: '该项为必填', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
@@ -1290,16 +1290,16 @@ const addContractForm = [
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
-      {
-        type: 'input-num',
-        label: '提前收费(月)',
-        key: 'property_prepaid',
-        placeholder: '提前几个月收物业费',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
+      // {
+      //   type: 'input-num',
+      //   label: '提前收费(月)',
+      //   key: 'property_prepaid',
+      //   placeholder: '提前几个月收物业费',
+      //   rule: [
+      //     { required: true, message: '该项为必填', trigger: 'blur' }
+      //     // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //   ]
+      // },
       {
         type: 'input-num',
         label: '每月收款日',
@@ -1432,24 +1432,24 @@ const applyForm = [
         ],
         options: []
       },
-      {
-        type: 'date-picker',
-        label: '开始时间',
-        key: 'start_ts',
-        placeholder: '请选择开始时间',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'date-picker',
-        label: '结束时间',
-        key: 'end_ts',
-        placeholder: '请选择结束时间',
-        rule: [
-          { required: true, message: '该项为必填', trigger: 'blur' }
-        ]
-      },
+      // {
+      //   type: 'date-picker',
+      //   label: '开始时间',
+      //   key: 'start_ts',
+      //   placeholder: '请选择开始时间',
+      //   rule: [
+      //     { required: true, message: '该项为必填', trigger: 'blur' }
+      //   ]
+      // },
+      // {
+      //   type: 'date-picker',
+      //   label: '结束时间',
+      //   key: 'end_ts',
+      //   placeholder: '请选择结束时间',
+      //   rule: [
+      //     { required: true, message: '该项为必填', trigger: 'blur' }
+      //   ]
+      // },
       // {
       //   type: 'select',
       //   label: '进驻状态',
@@ -2137,6 +2137,17 @@ const financialForm = [
     children: [
       {
         type: 'select',
+        label: '费用类型',
+        key: 'cost_type',
+        placeholder: '请输入',
+        rule: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        options: [
+        ]
+      },
+      {
+        type: 'select',
         label: '关联合同',
         key: 'contract_code',
         placeholder: '请输入',
@@ -2156,10 +2167,20 @@ const financialForm = [
         ],
         options: []
       },
+      // {
+      //   type: 'input',
+      //   label: '付款方',
+      //   key: 'payer',
+      //   placeholder: '请输入',
+      //   rule: [
+      //     { required: true, message: '请输入', trigger: 'blur' }
+      //     // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+      //   ]
+      // },
       {
         type: 'input',
-        label: '付款方',
-        key: 'payer',
+        label: '收款方',
+        key: 'gather',
         placeholder: '请输入',
         rule: [
           { required: true, message: '请输入', trigger: 'blur' }
@@ -2176,13 +2197,16 @@ const financialForm = [
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         options: [
-          // {
-          //   label: '收款',
-          //   value: 1
-          // }, {
-          //   label: '付款',
-          //   value: 2
-          // }
+        ]
+      },
+      {
+        type: 'date-time',
+        label: '支付日期',
+        key: 'pay_ts',
+        placeholder: '请选择',
+        rule: [
+          { required: true, message: '请选择', trigger: 'blur' }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       },
       {
@@ -2244,24 +2268,6 @@ const financialForm = [
         rule: [
           { required: true, message: '请选择', trigger: 'blur' }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      {
-        type: 'select',
-        label: '费用类型',
-        key: 'cost_type',
-        placeholder: '请输入',
-        rule: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        options: [
-          // {
-          //   label: '水费',
-          //   value: 1
-          // }, {
-          //   label: '电费',
-          //   value: 2
-          // }
         ]
       },
       // {

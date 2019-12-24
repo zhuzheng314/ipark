@@ -157,8 +157,7 @@
       <div class="drawer-body" :style="{height: bodyHeight}">
         <BodyCard type=1 :data="customerInfo_body_customer"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_rooms"></BodyCard>
-        <BodyCard type=2 :data="customerInfo_body_demand_room"></BodyCard>
-        <BodyCard type=2 :data="customerInfo_body_memo"></BodyCard>
+        <BodyCard type=2 :data="customerInfo_body_demand_room" v-show="hasDemandRoom"></BodyCard>
         <BodyCard type=2 :data="customerInfo_body_table">
           <template #btn>
             <el-button
@@ -194,6 +193,7 @@ export default {
   },
   data () {
     return {
+      hasDemandRoom: true, // 有无意向房源
       bodyHeight: 0,
       tableData: [],
       activeName: 'first',
@@ -524,7 +524,9 @@ export default {
       }).then(res => {
         this.customerInfo_body_rooms.info.tableData = []
         this.customerInfo_body_table.info.tableData = []
+        this.hasDemandRoom = true
         if (res.list.length) {
+          this.hasDemandRoom = false
           let roomList = []
           res.list.forEach(x => {
             x.room.forEach(y => {

@@ -90,7 +90,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.expenseList"
+        :tableLabel="expenseList"
         :tableData="tableData"
       >
         <template #renderButton="data">
@@ -229,7 +229,7 @@
       :visible.sync="visibleReceipt"
       v-if="visibleReceipt"
       width="600px">
-      <div class="receipt">
+      <div class="receipt" v-if="receipt.type !== '其他'">
         <span>{{receipt.customer_name}}</span>的
         <span>{{receipt.type}}</span>费用，在
         <span class="time">{{receipt.start_ts}}</span>到
@@ -238,7 +238,16 @@
         <span class="money">{{receipt.receive_money}}</span>元。
         <p>
           本次收取金额
-          <el-input-number :max="receipt.bill_money - receipt.receive_money" v-model="receiptNum" size="mini" controls-position="right" label="描述文字"></el-input-number>
+          <el-input-number v-model="receiptNum" size="mini" controls-position="right" label="请输入收取金额"></el-input-number>
+        </p>
+      </div>
+      <div class="receipt" v-else>
+        <span>{{receipt.payer}}</span>的费用，应收取
+        <span class="money">{{receipt.bill_money}}</span>元，已收取
+        <span class="money">{{receipt.receive_money}}</span>元。
+        <p>
+          本次收取金额
+          <el-input-number v-model="receiptNum" size="mini" controls-position="right" label="请输入收取金额"></el-input-number>
         </p>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -259,19 +268,26 @@
       :visible.sync="visibleSettle"
       width="600px"
       >
-      <div class="receipt">
+      <div class="receipt" v-if="receipt.type !== '其他'">
         <span>{{receipt.customer_name}}</span>的
         <span>{{receipt.type}}</span>费用，在
         <span class="time">{{receipt.start_ts}}</span>到
         <span class="time">{{receipt.end_ts}}</span>计费周期内，应收取
         <span class="money">{{receipt.bill_money}}</span>元，已收取
         <span class="money">{{receipt.receive_money}}</span>元。本次收取金额
-        <span class="money">{{receipt.bill_money - receipt.receive_money}}</span>元。
+        <span class="money">
+          <el-input-number v-model="receiptNum" size="mini" :controls=false label="请输入收取金额"></el-input-number>
+        </span>元。
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="visibleSettle = false">取 消</el-button>
-        <el-button type="primary" @click="fetchSettle">确 定</el-button>
-      </span>
+      <div class="receipt" v-else>
+        <span>{{receipt.payer}}</span>的费用，应收取
+        <span class="money">{{receipt.bill_money}}</span>元，已收取
+        <span class="money">{{receipt.receive_money}}</span>元。
+        本次收取金额
+        <span class="money">
+          <el-input-number v-model="receiptNum" size="mini" :controls=false label="请输入收取金额"></el-input-number>
+        </span>元。
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -304,6 +320,7 @@ export default {
   },
   data () {
     return {
+      expenseList: this.$tableLabels.expenseList,
       bodyHeight: 0,
       formOptions: {},
       tableData: [],
@@ -492,6 +509,16 @@ export default {
               options: []
             },
             {
+              type: 'input',
+              label: '付款方',
+              key: 'payer',
+              placeholder: '请输入',
+              rule: [
+                // { required: true, message: '该项为必填', trigger: 'blur' }
+                // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+              ]
+            },
+            {
               type: 'select',
               label: '客户名称',
               key: 'customer_id',
@@ -630,7 +657,8 @@ export default {
         this.defaultHidden = {
           rental: true,
           memo: true,
-          generate_ts: true
+          generate_ts: true,
+          payer: true
         }
       } else if (data.value === 450 || data.value === 451) {
         // 房租 物业
@@ -639,7 +667,8 @@ export default {
           memo: true,
           generate_ts: true,
           previous_val: true,
-          current_val: true
+          current_val: true,
+          payer: true
         }
       } else if (data.value === 453) {
         // 租赁
@@ -647,14 +676,21 @@ export default {
           memo: true,
           generate_ts: true,
           previous_val: true,
-          current_val: true
+          current_val: true,
+          payer: true
         }
       } else if (data.value === 456) {
         // 其他
         this.defaultHidden = {
           rental: true,
           previous_val: true,
-          current_val: true
+          current_val: true,
+          customer_id: true,
+          contacter: true,
+          contact: true,
+          start_ts: true,
+          end_ts: true,
+          record_room: true
         }
       }
     },
@@ -730,6 +766,7 @@ export default {
       this.receipt = {}
       this.visibleSettle = true
       this.receipt = data
+      this.receiptNum = this.receipt.bill_money - this.receipt.receive_money
     },
     fetchReceipt () {
       let receipt = this.receipt
@@ -752,7 +789,8 @@ export default {
       let receipt = this.receipt
       let params = {
         expense_code: receipt.expense_code,
-        receive_money: receipt.bill_money
+        receive_money: receipt.receive_money + this.receiptNum,
+        state: 440
       }
       this.$https.post(this.$urls.expense.modify, params).then(res => {
         this.receiptNum = 0
@@ -775,30 +813,32 @@ export default {
       this.addVisible = true
     },
     financialState (data) {
-      this.id = data.expense_code
-      this.$https
-        .post(this.$urls.contract.get_list, {
-          park_id: this.$store.state.form.activePark.domain_id,
-          page_no: 1,
-          page_size: 999,
-          customer_id: data.customer_id
-        })
-        .then(res => {
-          this.info_body_room.info.tableData = []
-          this.customerInfo_body_table.info.tableData = []
-          if (res.list.length) {
-            let roomList = res.list[0].room
-            this.$dictionary.tableData(roomList, ['state'])
-            this.info_body_room.info.tableData = roomList
-            let contractList = res.list
-            this.$utils.getRooms(contractList)
-            this.$dictionary.tableData(contractList, ['state'])
-            this.customerInfo_body_table.info.tableData = contractList
-          }
-        })
-      this.fetchGetInfo(this.id)
-      this.fetchGetInfoType(data.customer_id)
-      this.InfoState = true
+      if (data.type !== '其他') {
+        this.id = data.expense_code
+        this.$https
+          .post(this.$urls.contract.get_list, {
+            park_id: this.$store.state.form.activePark.domain_id,
+            page_no: 1,
+            page_size: 999,
+            customer_id: data.customer_id
+          })
+          .then(res => {
+            this.info_body_room.info.tableData = []
+            this.customerInfo_body_table.info.tableData = []
+            if (res.list.length) {
+              let roomList = res.list[0].room
+              this.$dictionary.tableData(roomList, ['state'])
+              this.info_body_room.info.tableData = roomList
+              let contractList = res.list
+              this.$utils.getRooms(contractList)
+              this.$dictionary.tableData(contractList, ['state'])
+              this.customerInfo_body_table.info.tableData = contractList
+            }
+          })
+        this.fetchGetInfo(this.id)
+        this.fetchGetInfoType(data.customer_id)
+        this.InfoState = true
+      }
     },
     open (i) {
       if (i === '编辑') {
@@ -813,6 +853,7 @@ export default {
       // 添加房租费用
       let params = {
         ...data,
+        park_id: this.$store.state.form.activePark.domain_id,
         receive_money: 0,
         state: 441
       }
@@ -993,6 +1034,52 @@ export default {
       })
     },
     fetchListSearch () {
+      if (this.charge_type === 456) {
+        this.expenseList = [
+          {
+            prop: 'type',
+            label: '费用类型',
+            renderTags: true
+          },
+          {
+            prop: 'payer',
+            label: '付款方',
+            renderTags: true
+          },
+          {
+            prop: 'bill_money',
+            label: '应收金额'
+          },
+          {
+            prop: 'receive_money',
+            label: '实收金额'
+          },
+          {
+            prop: 'overdue_day',
+            label: '逾期天数'
+          },
+          {
+            prop: 'pay_date',
+            label: '截止日期'
+          },
+          {
+            prop: 'state',
+            label: '结清状态',
+            renderTags: true
+          },
+          {
+            prop: 'memo',
+            label: '内容'
+          },
+          {
+            prop: 'e',
+            label: '操作',
+            renderButton: true
+          }
+        ]
+      } else {
+        this.expenseList = this.$tableLabels.expenseList
+      }
       this.page.page_no = 1
       this.fetchList()
     },

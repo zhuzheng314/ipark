@@ -13,7 +13,8 @@
                :class="{ active: item.domain_id === $store.state.form.activePark.domain_id}"
                :key="index + 'leftcard'" v-for="(item, index) in $store.state.form.parkList">
             <div class="inner" @click="handleParkClick(index, item)">
-              <img class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
+              <img v-if="item.attached && item.attached.upload" class="pic" :src="$urls.fileUrl + (item.attached && item.attached.upload && item.attached.upload[0] && item.attached.upload[0].url)">
+              <None v-else class="pic" type="pic"></None>
               <div class="cont">
                 <div class="title">{{item.name | StringStr(6) }}</div>
                 <div class="value">{{item.cover_area || '-'}}㎡</div>
@@ -121,7 +122,8 @@
               label="楼宇名称">
               <template  slot-scope="scope">
                 <div class="tablecard">
-                  <img class="img" :src="$urls.fileUrl + (scope.row.attached && scope.row.attached.upload && scope.row.attached.upload[0] && scope.row.attached.upload[0].url)">
+                  <img v-if="scope.row.attached && scope.row.attached.upload" class="img" :src="$urls.fileUrl + (scope.row.attached && scope.row.attached.upload && scope.row.attached.upload[0] && scope.row.attached.upload[0].url)">
+                  <None v-else class="img" type="pic"></None>
                   <div class="right">
                     <div class="name">{{scope.row.name }}</div>
                     <div class="value">建筑面积：{{scope.row.area}}㎡</div>
@@ -717,7 +719,7 @@ export default {
         height: 62px;
         float: left;
         margin-right: 10px;
-        border: 1px solid #dcdcdc;
+        // border: 1px solid #dcdcdc;
       }
       .right{
         .name{

@@ -59,10 +59,10 @@
                     clearable
                     placeholder="审批状态">
           <el-option
-            v-for="item in this.$store.state.dictionary.dictionaryType['approval_type']"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in $store.state.dictionary.dictionaryType['approval_type']"
+            :key="item && item.value"
+            :label="item && item.label"
+            :value="item && item.value">
           </el-option>
         </el-select>
 

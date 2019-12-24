@@ -4,7 +4,7 @@ let publicOptions = {
   color: ['#4a8fcd', '#639ed5', '#8ebde6', '#37add0'],
   grid: {
     // 表距离边框距离
-    left: '40px',
+    left: '55px',
     right: '20px',
     top: '40px',
     bottom: '40px'
@@ -107,7 +107,7 @@ export function setBarOptions (data, name) {
 }
 
 // 多组柱状图
-export function setColumnOptions (productData, data) {
+export function setColumnOptions (data, productData) {
   let colorList = [
     ['#85C3FE', '#358DD7'],
     ['#A0A7E6', '#977EFE'],

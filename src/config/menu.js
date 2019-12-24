@@ -126,11 +126,11 @@ const menuList = [
       {
         name: '费用列支',
         path: '/financial/list'
-      },
-      {
-        name: '财务收入',
-        path: '/financial/income'
       }
+      // {
+      //   name: '财务收入',
+      //   path: '/financial/income'
+      // }
     ]
   }
 ]
