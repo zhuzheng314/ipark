@@ -20,7 +20,7 @@ import * as _ from 'lodash'
 import * as utils from './utils/utils'
 import * as dictionary from './utils/dictionary'
 import * as charts from './utils/charts'
-
+import dataV from '@jiaminghi/data-view'
 // 过滤器
 import { FilterFun } from './filters/FilterFun'
 
@@ -32,6 +32,7 @@ filterFun.funs.forEach((v, k) => {
 
 Vue.component('v-chart', ECharts)
 Vue.use(ElementUI)
+Vue.use(dataV)
 Vue.config.productionTip = false
 
 Vue.prototype.$https = axios
