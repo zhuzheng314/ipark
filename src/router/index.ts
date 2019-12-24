@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import BasicLayout from '@/layouts/BasicLayout/index.vue'
+import BlankLayout from '@/layouts/BlankLayout/index.vue'
 
 import Home from '@/pages/Home/index.vue' // 首页
 import Overview from '@/pages/Overview/index.vue' // 概览页
@@ -36,6 +37,9 @@ import Approval from '@/pages/Entry/approval.vue' // 进驻审批
 import Test from '@/pages/test/index.vue' // 测试
 import Api from '@/pages/test/api.vue' // 测试
 import Form from '@/pages/test/form.vue' // 测试
+
+import BigScreen from '@/pages/BigScreen/index.vue' // 大屏首页
+import BigScreen2 from '@/pages/BigScreen/index2.vue' // 大屏首页
 
 Vue.use(VueRouter)
 
@@ -269,6 +273,23 @@ const routes = [
         path: 'form',
         name: 'form',
         component: Form
+      }
+    ]
+  },
+  {
+    path: '/bigScreen', // 测试
+    redirect: '',
+    component: BlankLayout,
+    children: [
+      {
+        path: 'index',
+        name: 'BigScreenIndex',
+        component: BigScreen
+      },
+      {
+        path: 'test2',
+        name: 'test2',
+        component: BigScreen2
       }
     ]
   }

@@ -180,7 +180,7 @@ export default {
       ],
       infoData: [
       ],
-      listType: 'top',
+      listType: 'index.vue',
       options: [
         {
           value: 0,
