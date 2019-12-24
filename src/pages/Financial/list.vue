@@ -13,12 +13,12 @@
         <el-select
           style="width: 220px;"
           size="small"
-          v-model="value1"
+          v-model="cost_type"
           clearable
           @change="fetchListSearch"
-          placeholder="列支方向">
+          placeholder="费用类型">
           <el-option
-            v-for="item in this.$store.state.dictionary.dictionaryType['cost_log_type']"
+            v-for="item in this.$store.state.dictionary.dictionaryType['charge_type']"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -62,7 +62,7 @@
         @prev-click="handlePageClick"
         @next-click="handlePageClick"
         :page="page"
-        :tableLabel="$tableLabels.financialList"
+        :tableLabel="financialList"
         :tableData="tableData">
       </GTable>
     </el-card>
@@ -82,8 +82,10 @@
     >
       <div>
         <ParkForm
+        @onChange="formActive"
         @onSubmit="fetchAdd"
         @onCancel="addVisible = false"
+        :defaultHidden="defaultHidden"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
         :defaultValue="{
@@ -113,6 +115,7 @@
         <ParkForm
         @onSubmit="fetchModify"
         @onCancel="modifyVisible = false"
+        :defaultHidden="defaultHidden"
         :formList="$formsLabels.financialForm"
         :options="$store.getters.financialListOptions"
         :defaultValue="defaultValue"
@@ -172,6 +175,7 @@ export default {
   },
   data () {
     return {
+      financialList: this.$tableLabels.financialList,
       bodyHeight: 0,
       tableData: [],
       activeName: 'first',
@@ -180,27 +184,8 @@ export default {
       ],
       infoData: [
       ],
-      listType: 'index.vue',
-      options: [
-        {
-          value: 0,
-          label: '收款'
-        }, {
-          value: 1,
-          label: '付款'
-        }
-      ],
-      options1: [
-        {
-          value: 0,
-          label: '已缴'
-        },
-        {
-          value: 1,
-          label: '未缴'
-        }
-      ],
-      value1: '',
+      listType: 'top',
+      cost_type: '',
       value2: '',
       value3: '',
       addVisible: false,
@@ -246,6 +231,7 @@ export default {
         }
       },
       defaultValue: {},
+      defaultHidden: {},
       page: {
         page_no: 1,
         total: 0,
@@ -255,13 +241,40 @@ export default {
     }
   },
   methods: {
+    selectType (data) {
+      if (data.value === 456) { // 其他
+        this.defaultHidden = {
+          contract_code: true,
+          customer_id: true,
+          start_ts: true,
+          end_ts: true
+        }
+      } else if (data.value === 450) {
+        this.defaultHidden = {
+          gather: true
+        }
+      } else {
+        this.defaultHidden = {
+          gather: true,
+          contract_code: true
+        }
+      }
+    },
+    formActive (data) {
+      if (data.key === 'cost_type') {
+        this.selectType(data)
+      }
+    },
     handleAddContract () {
+      this.defaultHidden = {}
       this.addVisible = true
     },
     financialState (data) { // 显示列支详情
-      this.id = data.id
-      this.fetchGetInfo(this.id)
-      this.InfoState = true
+      if (data.cost_type !== '其他') {
+        this.id = data.id
+        this.fetchGetInfo(this.id)
+        this.InfoState = true
+      }
     },
     handleClose () { },
     open (i) {
@@ -275,7 +288,8 @@ export default {
     },
     fetchAdd (data) { // 添加费用列支
       let params = {
-        ...data
+        ...data,
+        park_id: this.$store.state.form.activePark.domain_id
       }
       this.$https.post(this.$urls.cost.add, params)
         .then(res => {
@@ -343,7 +357,7 @@ export default {
     },
     fetchList () { // 获取费用列支列表
       let search = {
-        log_type: this.value1,
+        cost_type: this.cost_type,
         state: this.value2,
         like: this.value3
       }
@@ -371,6 +385,38 @@ export default {
       })
     },
     fetchListSearch () {
+      if (this.cost_type === 456) {
+        this.financialList = [
+          {
+            prop: 'state',
+            label: '状态',
+            renderTags: true
+          },
+          {
+            prop: 'gather',
+            label: '收款方'
+          },
+          {
+            prop: 'receiver',
+            label: '跟进人'
+          },
+          {
+            prop: 'cost',
+            label: '金额'
+          },
+          {
+            prop: 'create_ts',
+            label: '时间'
+          },
+          {
+            prop: 'cost_type',
+            label: '费用类型',
+            renderTags: true
+          }
+        ]
+      } else {
+        this.financialList = this.$tableLabels.financialList
+      }
       this.page.page_no = 1
       this.fetchList()
     },
@@ -413,6 +459,8 @@ export default {
       this.$https.post(this.$urls.cost.get_back, params).then(res => {
         if (res.code === 1000) {
           let data = res
+          data.value = data.cost_type
+          this.selectType(data)
           this.defaultValue = data
           this.modifyVisible = true
         } else {
